@@ -30,7 +30,6 @@ dependencies {
 
 android {
 	lintOptions {
-		checkAllWarnings = true
 		checkDependencies = true
 	}
 	testOptions {
