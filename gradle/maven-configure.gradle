@@ -1,0 +1,19 @@
+project.afterEvaluate {
+	if (!project.hasProperty('release')) { // -Prelease to build a release version
+		version += '-SNAPSHOT'
+	}
+}
+
+apply plugin: 'maven-publish'
+publishing {
+	repositories {
+		mavenLocal {
+			if (System.getProperty("user.name") == "TWiStEr") {
+				url = file("p:\\repos\\maven").toURI()
+			}
+		}
+	}
+}
+tasks.withType(GenerateModuleMetadata) {
+	enabled = false
+}
