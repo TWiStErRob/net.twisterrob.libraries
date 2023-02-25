@@ -1,5 +1,5 @@
 // Substitutions for project
-configurations.all { Configuration config ->
+configurations.configureEach { Configuration config ->
 	config.resolutionStrategy.dependencySubstitution.all { DependencySubstitution dependency ->
 		if (dependency.requested instanceof ModuleComponentSelector
 				&& dependency.requested.group == "net.twisterrob.lib") {
@@ -24,7 +24,7 @@ configurations.all { Configuration config ->
 }
 
 // Substitutions for Hamcrest
-configurations.all { Configuration config ->
+configurations.configureEach { Configuration config ->
 	config.resolutionStrategy { ResolutionStrategy strategy ->
 		strategy.dependencySubstitution {
 			substitute(module("org.hamcrest:hamcrest-core"))
@@ -36,7 +36,7 @@ configurations.all { Configuration config ->
 }
 
 // Resolve dependency conflicts
-configurations.all { Configuration config ->
+configurations.configureEach { Configuration config ->
 	config.resolutionStrategy {
 		// use latest version, hamcrest-junit refers to 4.12
 		force("junit:junit:${VERSION_JUNIT}")

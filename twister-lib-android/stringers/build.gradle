@@ -35,7 +35,7 @@ android {
 	}
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	it.options.compilerArgs += [
 			// Ignore these, Stringers are using the internals for better experience, cannot be @SuppressWarning'd :(
 			"-Xlint:-auxiliaryclass",
