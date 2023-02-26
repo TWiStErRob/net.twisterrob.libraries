@@ -52,8 +52,8 @@ jobs:
           --continue
           build
 
-      - name: "Build & Verify twister-lib-android."
-        working-directory: ./twister-lib-android
+      - name: "Build & Verify twister-lib-java."
+        working-directory: ./twister-lib-java
         run: >
           ./gradlew
           --no-daemon
@@ -61,8 +61,8 @@ jobs:
           --continue
           build
 
-      - name: "Build & Verify twister-lib-java."
-        working-directory: ./twister-lib-java
+      - name: "Build & Verify twister-lib-android."
+        working-directory: ./twister-lib-android
         run: >
           ./gradlew
           --no-daemon
