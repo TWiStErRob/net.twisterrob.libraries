@@ -142,7 +142,7 @@ jobs:
           path: |
             ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/
 
-      - name: "Publish 'Instrumentation Results' check suite."
+      - name: "Publish 'Instrumentation Results ${{ matrix.android-api }}' check suite."
         if: success() || failure()
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         with:
