@@ -131,12 +131,8 @@ jobs:
           arch: ${{ matrix.android-api >= 21 && 'x86_64' || 'x86' }}
           working-directory: ./twister-lib-android
           script: |
-            adb devices
-            ./gradlew \
-              --no-daemon \
-              --continue \
-              --stacktrace \
-              connectedCheck
+            adb devices -l
+            ./gradlew --no-daemon --continue --stacktrace connectedCheck
 
       - name: "Upload 'Instrumentation Test Results ${{ matrix.android-api }}' artifact."
         if: success() || failure()
