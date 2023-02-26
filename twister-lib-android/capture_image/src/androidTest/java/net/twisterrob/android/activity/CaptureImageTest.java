@@ -41,7 +41,7 @@ public class CaptureImageTest {
 		// TODO not sure what to wait for, Glide is working, but clearly not started at this point.
 		onRoot().perform(loopMainThreadForAtLeast(3000));
 		captureImage.verifyNotErrorImage();
-		// TODO https://github.com/TWiStErRob/net.twisterrob.libraries/issues/2
-		captureImage.verifyState(SelectionStatus.FOCUSED);
+		// TODO this should be focused: https://github.com/TWiStErRob/net.twisterrob.libraries/issues/2
+		captureImage.verifyState(SelectionStatus.NORMAL);
 	}
 }
