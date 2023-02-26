@@ -25,6 +25,7 @@ public class CaptureImageTest {
 		captureImage.assumeHasCamera();
 	}
 
+	@Ignore("https://github.com/TWiStErRob/net.twisterrob.libraries/issues/9")
 	@Test public void rotationKeepsTheImage() throws UiObjectNotFoundException {
 		captureImage.clearPreferences();
 		activity.launchActivity(null);
