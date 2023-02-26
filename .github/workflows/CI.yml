@@ -129,9 +129,9 @@ jobs:
           # TODEL Some are not available: https://issuetracker.google.com/issues/267458959
           target: ${{ matrix.android-api >= 32 && 'google_apis' || 'default' }}
           arch: ${{ matrix.android-api >= 21 && 'x86_64' || 'x86' }}
+          working-directory: ./twister-lib-android
           script: >
             ./gradlew
-            -p twister-lib-android
             --no-daemon
             --continue
             --stacktrace
