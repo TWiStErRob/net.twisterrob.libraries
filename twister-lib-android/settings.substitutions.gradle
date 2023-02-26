@@ -1,9 +1,19 @@
 /*
- * To use this file include the build in the project's settings.gradle like this:
+ * To use this file add the following code to the project's settings.
+ * 
+ * settings.gradle:
  * ```
  * includeBuild("path/to/twister-lib-android") { build ->
- *  name = "twister-libs-android"
+ *  build.name = "twister-libs-android"
  * 	apply from: new File(build.projectDir, "settings.substitutions.gradle"), to: build
+ * }
+ * ```
+ *
+ * settings.gradle.kts:
+ * ```
+ * includeBuild("../twister-lib-android") {
+ *  name = "twister-libs-android"
+ * 	apply(from = projectDir.resolve("settings.substitutions.gradle"), to = this)
  * }
  * ```
  */
