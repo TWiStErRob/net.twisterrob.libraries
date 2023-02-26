@@ -17,7 +17,7 @@ subprojects { Project project ->
 	project.repositories {
 		google()
 		mavenCentral()
-		//noinspection JcenterRepositoryObsolete
+		//noinspection JcenterRepositoryObsolete https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
 		jcenter {
 			content {
 				includeModule("com.rarepebble", "colorpicker")
@@ -26,7 +26,6 @@ subprojects { Project project ->
 	}
 	project.configurations.configureEach {
 		if (it.name == 'lintClassPath') return
-//		it.resolutionStrategy.failOnVersionConflict()
 	}
 	project.apply from: rootProject.file("gradle/substitutions.gradle"), to: project
 
