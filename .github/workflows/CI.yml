@@ -130,12 +130,13 @@ jobs:
           target: ${{ matrix.android-api >= 32 && 'google_apis' || 'default' }}
           arch: ${{ matrix.android-api >= 21 && 'x86_64' || 'x86' }}
           working-directory: ./twister-lib-android
-          script: >
-            ./gradlew
-            --no-daemon
-            --continue
-            --stacktrace
-            connectedCheck
+          script: |
+            adb devices
+            ./gradlew \
+              --no-daemon \
+              --continue \
+              --stacktrace \
+              connectedCheck
 
       - name: "Upload 'Instrumentation Test Results ${{ matrix.android-api }}' artifact."
         if: success() || failure()
