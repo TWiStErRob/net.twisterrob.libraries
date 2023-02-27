@@ -1,13 +1,2 @@
-/target
-/build
-/bin
-/.gradle
-/.classpath
-/.project
-/.settings
-/*.iml
-/.idea
-/*.ipr
-/*.iws
-/local.properties
-/.project
+# No source code in grouping folders.
+/*/src/

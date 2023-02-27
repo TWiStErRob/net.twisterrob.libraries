@@ -85,17 +85,25 @@ public class CaptureImageActivityActor extends ActivityActor {
 
 	@SuppressWarnings("deprecation")
 	public void assumeHasCamera() {
-		assumeThat(android.hardware.Camera.getNumberOfCameras(), greaterThan(0));
+		assumeThat(
+				"Device has a camera",
+				android.hardware.Camera.getNumberOfCameras(),
+				greaterThan(0)
+		);
 	}
 
 	@SuppressWarnings("deprecation")
 	public void assumeCameraHasFlash() {
 		android.hardware.Camera camera = android.hardware.Camera.open(0);
 		try {
-			assumeThat(camera.getParameters().getSupportedFlashModes(), hasItems(
-					android.hardware.Camera.Parameters.FLASH_MODE_ON,
-					android.hardware.Camera.Parameters.FLASH_MODE_OFF
-			));
+			assumeThat(
+					"Camera has a flash",
+					camera.getParameters().getSupportedFlashModes(),
+					hasItems(
+							android.hardware.Camera.Parameters.FLASH_MODE_ON,
+							android.hardware.Camera.Parameters.FLASH_MODE_OFF
+					)
+			);
 		} finally {
 			camera.release();
 		}

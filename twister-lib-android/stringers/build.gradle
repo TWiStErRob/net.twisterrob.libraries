@@ -2,7 +2,7 @@ group = 'net.twisterrob'
 version = '1.0'
 
 apply plugin: 'net.twisterrob.android-library'
-apply from: resources.text.fromInsecureUri("http://localhost/maven/configure.gradle")
+apply from: rootProject.file("../gradle/maven-configure.gradle")
 
 dependencies {
 	compileOnly "androidx.appcompat:appcompat:${VERSION_ANDROIDX_APPCOMPAT}"
@@ -35,7 +35,7 @@ android {
 	}
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	it.options.compilerArgs += [
 			// Ignore these, Stringers are using the internals for better experience, cannot be @SuppressWarning'd :(
 			"-Xlint:-auxiliaryclass",

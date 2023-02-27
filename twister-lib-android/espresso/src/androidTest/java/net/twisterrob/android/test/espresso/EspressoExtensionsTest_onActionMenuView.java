@@ -5,6 +5,7 @@ import java.lang.reflect.*;
 import javax.inject.Provider;
 
 import org.junit.*;
+import org.junit.Ignore;
 import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 
@@ -81,6 +82,7 @@ public class EspressoExtensionsTest_onActionMenuView {
 		}
 	}
 
+	@Ignore("https://github.com/TWiStErRob/net.twisterrob.libraries/issues/3")
 	@Test public void testOversleepWithId() throws Exception {
 		verifyOversleepProtection(new ThrowingRunnable() {
 			@Override public void run() {
@@ -90,6 +92,8 @@ public class EspressoExtensionsTest_onActionMenuView {
 			}
 		});
 	}
+
+	@Ignore("https://github.com/TWiStErRob/net.twisterrob.libraries/issues/3")
 	@Test public void testOversleepWithText() throws Exception {
 		verifyOversleepProtection(new ThrowingRunnable() {
 			@Override public void run() {

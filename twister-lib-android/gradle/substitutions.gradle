@@ -1,5 +1,5 @@
 // Substitutions for project
-configurations.all { Configuration config ->
+configurations.configureEach { Configuration config ->
 	config.resolutionStrategy.dependencySubstitution.all { DependencySubstitution dependency ->
 		if (dependency.requested instanceof ModuleComponentSelector
 				&& dependency.requested.group == "net.twisterrob.lib") {
@@ -37,7 +37,7 @@ configurations.all { Configuration config ->
 //}
 
 // Substitutions for Guava on Android
-configurations.all { Configuration config ->
+configurations.configureEach { Configuration config ->
 	if (!config.name.startsWith("androidTest") && !config.name.startsWith("debugAndroidTest")) return
 	config.resolutionStrategy { ResolutionStrategy strategy ->
 		strategy.dependencySubstitution {
@@ -55,7 +55,7 @@ configurations.all { Configuration config ->
 }
 
 // Substitutions for Mockito on Android
-configurations.all { Configuration config ->
+configurations.configureEach { Configuration config ->
 	if (!config.name.startsWith("androidTest") && !config.name.startsWith("debugAndroidTest")) return
 	config.resolutionStrategy { ResolutionStrategy strategy ->
 		// 1.9.10 (powermock 2.0.7) vs 1.10.5 (mockito 3.3.3)
@@ -74,7 +74,7 @@ configurations.all { Configuration config ->
 }
 
 // Substitutions for Hamcrest
-configurations.all { Configuration config ->
+configurations.configureEach { Configuration config ->
 	config.resolutionStrategy { ResolutionStrategy strategy ->
 		strategy.dependencySubstitution {
 			substitute(module("org.hamcrest:hamcrest-core"))
@@ -87,7 +87,7 @@ configurations.all { Configuration config ->
 
 // TODO is this right to be on bottom?
 // Resolve dependency conflicts
-configurations.all { Configuration config ->
+configurations.configureEach { Configuration config ->
 	config.resolutionStrategy {
 		// use latest version, hamcrest-junit refers to 4.12
 		force("junit:junit:${VERSION_JUNIT}")
