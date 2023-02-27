@@ -8,7 +8,6 @@ import org.slf4j.*;
 
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.*;
 import android.os.Build.*;
 import android.os.*;
 import android.os.StrictMode.ThreadPolicy;
@@ -23,6 +22,7 @@ import androidx.test.internal.runner.RunnerArgs;
 
 import net.twisterrob.android.test.junit.internal.DexPathListReflection;
 import net.twisterrob.java.exceptions.StackTrace;
+import net.twisterrob.java.utils.ReflectionTools;
 import net.twisterrob.java.utils.StringTools;
 
 public class AndroidJUnitRunner extends androidx.test.runner.AndroidJUnitRunner {
@@ -178,6 +178,10 @@ public class AndroidJUnitRunner extends androidx.test.runner.AndroidJUnitRunner 
 			while (cause.getCause() != null) {
 				cause = cause.getCause();
 			}
+			// We have to use reflection, because when a NoMatchingViewException is created with
+			// a Builder, the builder.cause is passed to the parent class, even if it's null.
+			// Do it for every exception because there might be other similar ones.
+			ReflectionTools.enableInitCause(cause);
 			cause.initCause(new StackTrace("View interaction was initiated here"));
 			return error;
 		}
