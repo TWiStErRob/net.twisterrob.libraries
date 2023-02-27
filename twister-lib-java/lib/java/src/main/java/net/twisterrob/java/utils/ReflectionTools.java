@@ -187,6 +187,22 @@ public class ReflectionTools {
 		}
 	}
 
+	/**
+	 * Reset a {@link Throwable}'s cause to itself.
+	 * This will trigger the ability to call {@link Throwable#initCause(Throwable)}.
+	 * This is necessary because some subclasses of {@link Throwable} (e.g. {@code NoMatchingViewException})
+	 * call {@link Throwable#Throwable(String, Throwable)} with a {@code null} cause.
+	 *
+	 * @see <a href="https://github.com/ota4j-team/opentest4j/issues/70">StackOverflow</a>
+	 */
+	public static void enableInitCause(Throwable ex) {
+		if (ex.getCause() != null) {
+			throw new IllegalArgumentException(
+					"Cannot enable initCause() on a Throwable with a cause", ex);
+		}
+		clearCause(ex);
+	}
+
 	public static Throwable clearCause(Throwable exception) {
 		set(exception, "cause", exception);
 		return exception;
