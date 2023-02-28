@@ -63,8 +63,14 @@ public class ActivityActor {
 	}
 	public void close() {
 		Espresso.pressBack();
+		// Wait for the result of the back-press.
+		// This is necessary in case the next statement executed is not an Espresso-synchronized statement.
+		Espresso.onIdle();
 	}
 	public void closeToKill() {
 		Espresso.pressBackUnconditionally();
+		// Wait for the result of the back-press.
+		// This is necessary in case the next statement executed is not an Espresso-synchronized statement.
+		Espresso.onIdle();
 	}
 }
