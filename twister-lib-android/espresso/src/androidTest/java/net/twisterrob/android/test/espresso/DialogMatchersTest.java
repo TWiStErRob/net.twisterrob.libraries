@@ -177,15 +177,16 @@ public class DialogMatchersTest {
 	}
 
 	@CheckResult
-	private @NonNull androidx.appcompat.app.AlertDialog displayAppCompatAlertDialog(
-			final boolean positive, 
+	private static @NonNull androidx.appcompat.app.AlertDialog displayAppCompatAlertDialog(
+			final @NonNull Context context, 
+			final boolean positive,
 			final boolean negative,
 			final boolean neutral,
 			final boolean cancellable
 	) {
 		return InstrumentationExtensions.callOnMainIfNecessary(new Callable<androidx.appcompat.app.AlertDialog>() {
 			@Override public androidx.appcompat.app.AlertDialog call() {
-				return showAppCompatAlertDialog(activity.getActivity(), positive, negative, neutral, cancellable);
+				return showAppCompatAlertDialog(context, positive, negative, neutral, cancellable);
 			}
 		});
 	}
@@ -194,8 +195,9 @@ public class DialogMatchersTest {
 	@Test(timeout = DIALOG_TIMEOUT)
 	public void testDialogIsDisplayedForAppCompatAlert(
 			final boolean positive, final boolean negative, final boolean neutral, final boolean cancellable) {
-		androidx.appcompat.app.AlertDialog dialog =
-				displayAppCompatAlertDialog(positive, negative, neutral, cancellable);
+		androidx.appcompat.app.AlertDialog dialog = displayAppCompatAlertDialog(
+				activity.getActivity(), positive, negative, neutral, cancellable
+		);
 
 		try {
 			assertDialogIsDisplayed_withTimeout();
@@ -208,8 +210,9 @@ public class DialogMatchersTest {
 	@Test(timeout = DIALOG_TIMEOUT)
 	public void testDialogIsDisplayedForAppCompatAlert_fail(
 			final boolean positive, final boolean negative, final boolean neutral, final boolean cancellable) {
-		androidx.appcompat.app.AlertDialog dialog =
-				displayAppCompatAlertDialog(positive, negative, neutral, cancellable);
+		androidx.appcompat.app.AlertDialog dialog = displayAppCompatAlertDialog(
+				activity.getActivity(), positive, negative, neutral, cancellable
+		);
 
 		try {
 			Throwable expectedFailure = assertThrows(AssertionError.class, new ThrowingRunnable() {
@@ -224,7 +227,8 @@ public class DialogMatchersTest {
 	}
 
 	@CheckResult
-	private @NonNull android.app.AlertDialog displayAndroidAlertDialog(
+	private static @NonNull android.app.AlertDialog displayAndroidAlertDialog(
+			final @NonNull Context context,
 			final boolean positive,
 			final boolean negative,
 			final boolean neutral,
@@ -232,7 +236,7 @@ public class DialogMatchersTest {
 	) {
 		return InstrumentationExtensions.callOnMainIfNecessary(new Callable<android.app.AlertDialog>() {
 			@Override public android.app.AlertDialog call() {
-				return showAndroidAlertDialog(activity.getActivity(), positive, negative, neutral, cancellable);
+				return showAndroidAlertDialog(context, positive, negative, neutral, cancellable);
 			}
 		});
 	}
@@ -241,8 +245,9 @@ public class DialogMatchersTest {
 	@Test(timeout = DIALOG_TIMEOUT)
 	public void testDialogIsDisplayedForAndroidAlert(
 			final boolean positive, final boolean negative, final boolean neutral, final boolean cancellable) {
-		android.app.AlertDialog dialog =
-				displayAndroidAlertDialog(positive, negative, neutral, cancellable);
+		android.app.AlertDialog dialog = displayAndroidAlertDialog(
+				activity.getActivity(), positive, negative, neutral, cancellable
+		);
 
 		try {
 			assertDialogIsDisplayed_withTimeout();
@@ -255,8 +260,9 @@ public class DialogMatchersTest {
 	@Test(timeout = DIALOG_TIMEOUT)
 	public void testDialogIsDisplayedForAndroidAlert_fail(
 			final boolean positive, final boolean negative, final boolean neutral, final boolean cancellable) {
-		android.app.AlertDialog dialog =
-				displayAndroidAlertDialog(positive, negative, neutral, cancellable);
+		android.app.AlertDialog dialog = displayAndroidAlertDialog(
+				activity.getActivity(), positive, negative, neutral, cancellable
+		);
 
 		try {
 			Throwable expectedFailure = assertThrows(AssertionError.class, new ThrowingRunnable() {
