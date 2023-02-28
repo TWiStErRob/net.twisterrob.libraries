@@ -52,9 +52,9 @@ public class DialogMatchersTest {
 
 	/**
 	 * Some matchers should decide quickly about existence of views, use this as their timeout.
-	 * GitHub Actions macos-12 runner timed out a few times with 2 seconds.
+	 * GitHub Actions macos-12 runner timed out a few times with 2 seconds and with 5 seconds too.
 	 */
-	static final long DECISION_TIMEOUT = 5000;
+	static final long DECISION_TIMEOUT = 10000;
 
 	private static final String POTENTIAL_DIALOGS = "potential dialogs";
 	private static final String POTENTIAL_DIALOGS_NAME =
