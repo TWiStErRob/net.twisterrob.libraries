@@ -45,15 +45,16 @@ public class DialogMatchersTest {
 	static final long ESPRESSO_BACKOFF_TIMEOUT = 60000 + 10000;
 
 	/**
-	 * Something is really wrong if it takes more than 6 seconds to show and dismiss a dialog.
-	 * It takes 1.3 seconds on average with a few ~3 second outliers on an x86 emulator on a x64 i7-29630QM machine. 
+	 * Something is really wrong if it takes more than a few seconds to show and dismiss a dialog.
+	 * It takes 1.3 seconds on average with a few ~3 second outliers on an x86 emulator on a x64 i7-29630QM machine.
 	 */
-	static final long DIALOG_TIMEOUT = 6000;
+	static final long DIALOG_TIMEOUT = 10000;
 
 	/**
 	 * Some matchers should decide quickly about existence of views, use this as their timeout.
+	 * GitHub Actions macos-12 runner timed out a few times with 2 seconds.
 	 */
-	static final long DECISION_TIMEOUT = 2000;
+	static final long DECISION_TIMEOUT = 5000;
 
 	private static final String POTENTIAL_DIALOGS = "potential dialogs";
 	private static final String POTENTIAL_DIALOGS_NAME =
