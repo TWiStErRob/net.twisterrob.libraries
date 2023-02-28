@@ -16,8 +16,7 @@ jobs:
       # actions/checkout
       contents: read
     steps:
-      - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
-        uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
 
       - name: "Validate Gradle Wrapper JARs."
         uses: gradle/wrapper-validation-action@v1
@@ -34,14 +33,7 @@ jobs:
       # EnricoMi/publish-unit-test-result-action -> https://github.com/EnricoMi/publish-unit-test-result-action#permissions
       checks: write
     steps:
-      - name: "Set up JDK 8."
-        uses: actions/setup-java@v3
-        with:
-          java-version: 8
-          distribution: zulu
-
-      - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
-        uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
 
       - name: "Build & Verify project."
         working-directory: .
@@ -113,14 +105,7 @@ jobs:
           # A stable version for now.
           - 21
     steps:
-      - name: "Set up JDK 8."
-        uses: actions/setup-java@v3
-        with:
-          java-version: 8
-          distribution: zulu
-
-      - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
-        uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
 
       - name: "Run Instrumentation Tests."
         uses: ./.github/actions/android-instrumentation
