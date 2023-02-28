@@ -23,18 +23,26 @@ runs:
       id: emu
       shell: sh
       run: |
+        # This is the main input, just alias it for consistent usage.
         echo "api-level=${{ inputs.android-version }}" \
-            | tee --append "$GITHUB_OUTPUT"
+            | tee -a "$GITHUB_OUTPUT"
+        
         # TODEL Some are not available: https://issuetracker.google.com/issues/267458959
         echo "target=${{ inputs.android-version >= 32 && 'google_apis' || 'default' }}" \
-            | tee --append "$GITHUB_OUTPUT"
+            | tee -a "$GITHUB_OUTPUT"
+        
+        # Some older APIs don't have x86_64 images, if we go low enough even x86 is a luxury.
         echo "arch=${{ inputs.android-version >= 21 && 'x86_64' || 'x86' }}"  \
-            | tee --append "$GITHUB_OUTPUT"
+            | tee -a "$GITHUB_OUTPUT"
+        
+        # Use an explicit profile, which one doesn't really matter, but the
+        # default emulator profile is definitely not feasible because it has very strange hardware.
         echo "profile=pixel" \
-            | tee --append "$GITHUB_OUTPUT"
+            | tee -a "$GITHUB_OUTPUT"
+        
         # Default: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
         echo "emulator-options=-no-window -gpu swiftshader_indirect -noaudio -no-boot-anim" \
-            | tee --append "$GITHUB_OUTPUT"
+            | tee -a "$GITHUB_OUTPUT"
 
     - name: "Cache AVD images."
       uses: actions/cache@v3
