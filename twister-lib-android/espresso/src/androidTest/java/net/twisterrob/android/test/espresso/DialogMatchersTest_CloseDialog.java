@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import androidx.annotation.UiThread;
+import androidx.test.espresso.Espresso;
 
 import net.twisterrob.android.test.junit.InstrumentationExtensions;
 import net.twisterrob.test.junit.AndroidJUnit4WithParametersRunnerFactory;
@@ -46,6 +47,7 @@ public abstract class DialogMatchersTest_CloseDialog {
 			}
 		} finally {
 			dismiss.run();
+			Espresso.onIdle();
 		}
 	}
 

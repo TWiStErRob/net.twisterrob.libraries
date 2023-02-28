@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.base.RootViewPicker;
 import junitparams.*;
 import junitparams.naming.TestCaseName;
@@ -215,6 +216,7 @@ public class DialogMatchersTest {
 			assertDialogIsDisplayed_withTimeout();
 		} finally {
 			dialog.dismiss();
+			Espresso.onIdle();
 		}
 	}
 	@Parameters(named = POTENTIAL_DIALOGS)
@@ -236,6 +238,7 @@ public class DialogMatchersTest {
 			assertThat(expectedFailure, DIALOG_EXISTED_MATCHER);
 		} finally {
 			dialog.dismiss();
+			Espresso.onIdle();
 		}
 	}
 
@@ -266,6 +269,7 @@ public class DialogMatchersTest {
 			assertDialogIsDisplayed_withTimeout();
 		} finally {
 			dialog.dismiss();
+			Espresso.onIdle();
 		}
 	}
 	@Parameters(named = POTENTIAL_DIALOGS)
@@ -287,6 +291,7 @@ public class DialogMatchersTest {
 			assertThat(expectedFailure, DIALOG_EXISTED_MATCHER);
 		} finally {
 			dialog.dismiss();
+			Espresso.onIdle();
 		}
 	}
 
