@@ -107,13 +107,7 @@ runs:
         name: 'Instrumentation Test Results ${{ inputs.android-version }}'
         path: |
           ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/
-
-    - name: "Upload 'Instrumentation Test Results ${{ inputs.android-version }}' artifact."
-      if: success() || failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: 'Instrumentation Test Results ${{ inputs.android-version }}'
-        path: |
+          ${{ github.workspace }}/**/build/reports/androidTests/connected/flavors/debugAndroidTest/
           ${{ github.workspace }}/emulator.log
           ${{ github.workspace }}/emulator-startup.log
 
