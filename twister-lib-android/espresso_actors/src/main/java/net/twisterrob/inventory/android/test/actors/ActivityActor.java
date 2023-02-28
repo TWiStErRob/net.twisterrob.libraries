@@ -42,10 +42,14 @@ public class ActivityActor {
 		assertClosing(activityClass);
 	}
 	public void assertClosing(Activity activity) {
+		// Synchronize with Espresso in case there's something going on.
+		Espresso.onIdle();
 		assertThat(activity, instanceOf(activityClass));
 		assertThat(activity, isFinishing());
 	}
 	protected <T extends Activity> void assertClosing(Class<T> activityType) {
+		// Synchronize with Espresso in case there's something going on.
+		Espresso.onIdle();
 		// there may be other activities still not fully destroyed, so let's loop
 		for (T activity : getActivitiesByType(activityType)) {
 			assertThat(activity, isFinishing());
