@@ -126,9 +126,9 @@ public class ToastIdlingResourceTest {
 	@Test public void testBecomesIdleRightAfterToastDisappears() throws InterruptedException {
 		showToastAndStartWaitingForIdle();
 		assertFalse(callback.hasTransitionedToIdle());
-		Thread.sleep(SHORT_DELAY - 500);
+		Thread.sleep(SHORT_DELAY / 2);
 		assertFalse(callback.hasTransitionedToIdle());
-		Thread.sleep(500);
+		Thread.sleep(SHORT_DELAY / 2);
 		assertTrue(callback.hasTransitionedToIdle());
 	}
 
