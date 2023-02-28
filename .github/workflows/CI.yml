@@ -122,33 +122,7 @@ jobs:
       - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
         uses: actions/checkout@v3
 
-      - name: "Run Instrumentation Tests on emulator."
-        uses: reactivecircus/android-emulator-runner@v2
+      - name: "Run Instrumentation Tests."
+        uses: ./.github/actions/android-instrumentation
         with:
-          api-level: ${{ matrix.android-api }}
-          # TODEL Some are not available: https://issuetracker.google.com/issues/267458959
-          target: ${{ matrix.android-api >= 32 && 'google_apis' || 'default' }}
-          arch: ${{ matrix.android-api >= 21 && 'x86_64' || 'x86' }}
-          profile: pixel
-          working-directory: ./twister-lib-android
-          script: |
-            adb devices -l
-            ./gradlew --no-daemon --continue --stacktrace connectedCheck
-
-      - name: "Upload 'Instrumentation Test Results ${{ matrix.android-api }}' artifact."
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: 'Instrumentation Test Results ${{ matrix.android-api }}'
-          path: |
-            ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/
-
-      - name: "Publish 'Instrumentation Results ${{ matrix.android-api }}' check suite."
-        if: success() || failure()
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        with:
-          check_name: '🔔 Test: Instrumentation Results ${{ matrix.android-api }}'
-          comment_mode: off
-          report_individual_runs: true
-          test_changes_limit: 0
-          junit_files: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/TEST-*.xml
+          android-version: ${{ matrix.android-api }}

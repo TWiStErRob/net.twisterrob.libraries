@@ -1,0 +1,49 @@
+name: "Run Instrumentation Tests"
+description: "Builds maven artifacts and creates the local snapshots."
+
+inputs:
+  android-version:
+    description: "Android API level to use for the device running the test."
+    required: true
+  gradle-tasks:
+    description: "What tasks to run in Gradle."
+    required: false
+    default: 'connectedCheck'
+  gradle-flags:
+    description: "Which command line flags to pass to Gradle."
+    required: false
+    default: '--continue --stacktrace --no-daemon'
+
+runs:
+  using: composite
+  steps:
+    - name: "Run Instrumentation Tests on emulator."
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ inputs.android-version }}
+        # TODEL Some are not available: https://issuetracker.google.com/issues/267458959
+        target: ${{ inputs.android-version >= 32 && 'google_apis' || 'default' }}
+        arch: ${{ inputs.android-version >= 21 && 'x86_64' || 'x86' }}
+        profile: pixel
+        working-directory: ./twister-lib-android
+        script: |
+          adb devices -l
+          ./gradlew --no-daemon --continue --stacktrace connectedCheck
+
+    - name: "Upload 'Instrumentation Test Results ${{ inputs.android-version }}' artifact."
+      if: success() || failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: 'Instrumentation Test Results ${{ inputs.android-version }}'
+        path: |
+          ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/
+
+    - name: "Publish 'Instrumentation Results ${{ inputs.android-version }}' check suite."
+      if: success() || failure()
+      uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      with:
+        check_name: '🔔 Test: Instrumentation Results ${{ inputs.android-version }}'
+        comment_mode: off
+        report_individual_runs: true
+        test_changes_limit: 0
+        junit_files: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/TEST-*.xml
