@@ -19,14 +19,50 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: "Calculate emulator parameters."
+      id: emu
+      shell: sh
+      run: |
+        echo "api-level=${{ inputs.android-version }}" \
+            | tee --append "$GITHUB_OUTPUT"
+        # TODEL Some are not available: https://issuetracker.google.com/issues/267458959
+        echo "target=${{ inputs.android-version >= 32 && 'google_apis' || 'default' }}" \
+            | tee --append "$GITHUB_OUTPUT"
+        echo "arch=${{ inputs.android-version >= 21 && 'x86_64' || 'x86' }}"  \
+            | tee --append "$GITHUB_OUTPUT"
+        echo "profile=pixel" \
+            | tee --append "$GITHUB_OUTPUT"
+        # Default: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+        echo "emulator-options=-no-window -gpu swiftshader_indirect -noaudio -no-boot-anim" \
+            | tee --append "$GITHUB_OUTPUT"
+
+    - name: "Cache AVD images."
+      uses: actions/cache@v3
+      id: avd-cache
+      with:
+        path: |
+          ~/.android/avd/
+        key: avd-android-${{ steps.emu.outputs.api-level }};${{ steps.emu.outputs.target }};${{ steps.emu.outputs.arch }}-${{ steps.emu.outputs.profile }}
+
+    - name: "Run emulator to generate AVD."
+      if: steps.avd-cache.outputs.cache-hit != 'true'
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ steps.emu.outputs.api-level }}
+        target: ${{ steps.emu.outputs.target }}
+        arch: ${{ steps.emu.outputs.arch }}
+        profile: ${{ steps.emu.outputs.profile }}
+        emulator-options: ${{ steps.emu.outputs.emulator-options }} -no-snapshot-load
+        script: echo "Generated AVD snapshot for caching."
+
     - name: "Run Instrumentation Tests on emulator."
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: ${{ inputs.android-version }}
-        # TODEL Some are not available: https://issuetracker.google.com/issues/267458959
-        target: ${{ inputs.android-version >= 32 && 'google_apis' || 'default' }}
-        arch: ${{ inputs.android-version >= 21 && 'x86_64' || 'x86' }}
-        profile: pixel
+        api-level: ${{ steps.emu.outputs.api-level }}
+        target: ${{ steps.emu.outputs.target }}
+        arch: ${{ steps.emu.outputs.arch }}
+        profile: ${{ steps.emu.outputs.profile }}
+        emulator-options: ${{ steps.emu.outputs.emulator-options }} -no-snapshot-save
         script: |
           # List current devices
           adb devices -l
