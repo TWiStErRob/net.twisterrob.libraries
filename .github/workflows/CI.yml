@@ -126,3 +126,4 @@ jobs:
         uses: ./.github/actions/android-instrumentation
         with:
           android-version: ${{ matrix.android-api }}
+          gradle-flags: '--project-dir twister-lib-android'

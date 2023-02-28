@@ -10,9 +10,11 @@ inputs:
     required: false
     default: 'connectedCheck'
   gradle-flags:
-    description: "Which command line flags to pass to Gradle."
+    description: |
+      Which command line flags to pass to Gradle.
+      '--continue --stacktrace --no-daemon' are hardcoded and cannot be changed.
     required: false
-    default: '--continue --stacktrace --no-daemon'
+    default: ''
 
 runs:
   using: composite
@@ -25,10 +27,9 @@ runs:
         target: ${{ inputs.android-version >= 32 && 'google_apis' || 'default' }}
         arch: ${{ inputs.android-version >= 21 && 'x86_64' || 'x86' }}
         profile: pixel
-        working-directory: ./twister-lib-android
         script: |
           adb devices -l
-          ./gradlew --no-daemon --continue --stacktrace connectedCheck
+          ./gradlew --continue --stacktrace --no-daemon ${{ inputs.gradle-flags }} ${{ inputs.gradle-tasks }}
 
     - name: "Upload 'Instrumentation Test Results ${{ inputs.android-version }}' artifact."
       if: success() || failure()
