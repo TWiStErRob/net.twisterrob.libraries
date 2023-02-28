@@ -8,6 +8,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import androidx.test.espresso.Espresso;
 
@@ -60,7 +61,7 @@ public abstract class DialogMatchersTest_CloseDialog {
 	}
 
 	@UiThread
-	protected abstract Runnable showDialog();
+	protected abstract @NonNull Runnable showDialog();
 
 	public DialogMatchersTest_CloseDialog(
 			boolean positive, boolean negative, boolean neutral, boolean cancellable,

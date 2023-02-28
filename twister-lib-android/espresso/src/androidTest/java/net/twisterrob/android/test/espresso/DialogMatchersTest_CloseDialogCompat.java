@@ -2,6 +2,7 @@ package net.twisterrob.android.test.espresso;
 
 import org.junit.Rule;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import net.twisterrob.android.test.junit.TestPackageIntentRule;
@@ -18,7 +19,7 @@ public class DialogMatchersTest_CloseDialogCompat extends DialogMatchersTest_Clo
 		super(positive, negative, neutral, cancellable, expectedClosed);
 	}
 
-	@Override protected Runnable showDialog() {
+	@Override protected @NonNull Runnable showDialog() {
 		final AlertDialog dialog = DialogMatchersTest.showAppCompatAlertDialog(
 				activity.getActivity(), positive, negative, neutral, cancellable
 		);
