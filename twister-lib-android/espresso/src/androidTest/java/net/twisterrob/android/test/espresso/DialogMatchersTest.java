@@ -15,10 +15,17 @@ import static org.junit.Assert.*;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.base.RootViewPicker;
 import junitparams.*;
 import junitparams.naming.TestCaseName;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.*;
 
 import net.twisterrob.android.test.junit.*;
@@ -66,6 +73,14 @@ public class DialogMatchersTest {
 	@SuppressWarnings("deprecation")
 	@Rule public final androidx.test.rule.ActivityTestRule<TestActivityCompat> activity =
 			new TestPackageIntentRule<>(TestActivityCompat.class);
+	
+	@Before
+	public void verifyPreconditions() {
+		// Ensure the activity is finished loading, because otherwise the roots might be racing for focus.
+		onView(withText(TestActivityCompat.class.getSimpleName())).check(matches(isDisplayed()));
+		// No dialog show be leaked from a previous test.
+		assertNoDialogIsDisplayed();
+	}
 
 	private void assertDialogIsDisplayed_withTimeout() {
 		assertTimeout(DECISION_TIMEOUT, TimeUnit.MILLISECONDS, new Runnable() {
@@ -174,11 +189,17 @@ public class DialogMatchersTest {
 		}
 	}
 
-	private void displayAppCompatAlertDialog(final boolean positive, final boolean negative, final boolean neutral,
-			final boolean cancellable) {
-		InstrumentationExtensions.runOnMainIfNecessary(new Runnable() {
-			@Override public void run() {
-				showAppCompatAlertDialog(activity.getActivity(), positive, negative, neutral, cancellable);
+	@CheckResult
+	private static @NonNull androidx.appcompat.app.AlertDialog displayAppCompatAlertDialog(
+			final @NonNull Context context, 
+			final boolean positive,
+			final boolean negative,
+			final boolean neutral,
+			final boolean cancellable
+	) {
+		return InstrumentationExtensions.callOnMainIfNecessary(new Callable<androidx.appcompat.app.AlertDialog>() {
+			@Override public androidx.appcompat.app.AlertDialog call() {
+				return showAppCompatAlertDialog(context, positive, negative, neutral, cancellable);
 			}
 		});
 	}
@@ -187,30 +208,51 @@ public class DialogMatchersTest {
 	@Test(timeout = DIALOG_TIMEOUT)
 	public void testDialogIsDisplayedForAppCompatAlert(
 			final boolean positive, final boolean negative, final boolean neutral, final boolean cancellable) {
-		displayAppCompatAlertDialog(positive, negative, neutral, cancellable);
+		androidx.appcompat.app.AlertDialog dialog = displayAppCompatAlertDialog(
+				activity.getActivity(), positive, negative, neutral, cancellable
+		);
 
-		assertDialogIsDisplayed_withTimeout();
+		try {
+			assertDialogIsDisplayed_withTimeout();
+		} finally {
+			dialog.dismiss();
+			Espresso.onIdle();
+		}
 	}
 	@Parameters(named = POTENTIAL_DIALOGS)
 	@TestCaseName(POTENTIAL_DIALOGS_NAME)
 	@Test(timeout = DIALOG_TIMEOUT)
 	public void testDialogIsDisplayedForAppCompatAlert_fail(
 			final boolean positive, final boolean negative, final boolean neutral, final boolean cancellable) {
-		displayAppCompatAlertDialog(positive, negative, neutral, cancellable);
+		androidx.appcompat.app.AlertDialog dialog = displayAppCompatAlertDialog(
+				activity.getActivity(), positive, negative, neutral, cancellable
+		);
 
-		Throwable expectedFailure = assertThrows(AssertionError.class, new ThrowingRunnable() {
-			@Override public void run() {
-				assertNoDialogIsDisplayed_withTimeout();
-			}
-		});
-		assertThat(expectedFailure, DIALOG_EXISTED_MATCHER);
+		try {
+			assertDialogIsDisplayed(); // precondition
+			Throwable expectedFailure = assertThrows(AssertionError.class, new ThrowingRunnable() {
+				@Override public void run() {
+					assertNoDialogIsDisplayed_withTimeout();
+				}
+			});
+			assertThat(expectedFailure, DIALOG_EXISTED_MATCHER);
+		} finally {
+			dialog.dismiss();
+			Espresso.onIdle();
+		}
 	}
 
-	private void displayAndroidAlertDialog(final boolean positive, final boolean negative, final boolean neutral,
-			final boolean cancellable) {
-		InstrumentationExtensions.runOnMainIfNecessary(new Runnable() {
-			@Override public void run() {
-				showAndroidAlertDialog(activity.getActivity(), positive, negative, neutral, cancellable);
+	@CheckResult
+	private static @NonNull android.app.AlertDialog displayAndroidAlertDialog(
+			final @NonNull Context context,
+			final boolean positive,
+			final boolean negative,
+			final boolean neutral,
+			final boolean cancellable
+	) {
+		return InstrumentationExtensions.callOnMainIfNecessary(new Callable<android.app.AlertDialog>() {
+			@Override public android.app.AlertDialog call() {
+				return showAndroidAlertDialog(context, positive, negative, neutral, cancellable);
 			}
 		});
 	}
@@ -219,23 +261,38 @@ public class DialogMatchersTest {
 	@Test(timeout = DIALOG_TIMEOUT)
 	public void testDialogIsDisplayedForAndroidAlert(
 			final boolean positive, final boolean negative, final boolean neutral, final boolean cancellable) {
-		displayAndroidAlertDialog(positive, negative, neutral, cancellable);
+		android.app.AlertDialog dialog = displayAndroidAlertDialog(
+				activity.getActivity(), positive, negative, neutral, cancellable
+		);
 
-		assertDialogIsDisplayed_withTimeout();
+		try {
+			assertDialogIsDisplayed_withTimeout();
+		} finally {
+			dialog.dismiss();
+			Espresso.onIdle();
+		}
 	}
 	@Parameters(named = POTENTIAL_DIALOGS)
 	@TestCaseName(POTENTIAL_DIALOGS_NAME)
 	@Test(timeout = DIALOG_TIMEOUT)
 	public void testDialogIsDisplayedForAndroidAlert_fail(
 			final boolean positive, final boolean negative, final boolean neutral, final boolean cancellable) {
-		displayAndroidAlertDialog(positive, negative, neutral, cancellable);
+		android.app.AlertDialog dialog = displayAndroidAlertDialog(
+				activity.getActivity(), positive, negative, neutral, cancellable
+		);
 
-		Throwable expectedFailure = assertThrows(AssertionError.class, new ThrowingRunnable() {
-			@Override public void run() {
-				assertNoDialogIsDisplayed_withTimeout();
-			}
-		});
-		assertThat(expectedFailure, DIALOG_EXISTED_MATCHER);
+		try {
+			assertDialogIsDisplayed(); // precondition
+			Throwable expectedFailure = assertThrows(AssertionError.class, new ThrowingRunnable() {
+				@Override public void run() {
+					assertNoDialogIsDisplayed_withTimeout();
+				}
+			});
+			assertThat(expectedFailure, DIALOG_EXISTED_MATCHER);
+		} finally {
+			dialog.dismiss();
+			Espresso.onIdle();
+		}
 	}
 
 	@NamedParameters(POTENTIAL_DIALOGS)
@@ -260,7 +317,8 @@ public class DialogMatchersTest {
 		};
 	}
 
-	static void showAppCompatAlertDialog(
+	@CheckResult
+	static @NonNull androidx.appcompat.app.AlertDialog showAppCompatAlertDialog(
 			Context context, boolean positive, boolean negative, boolean neutral, boolean cancellable) {
 		androidx.appcompat.app.AlertDialog.Builder builder =
 				new androidx.appcompat.app.AlertDialog.Builder(context);
@@ -274,10 +332,11 @@ public class DialogMatchersTest {
 			builder.setNeutralButton("neutral", null);
 		}
 		builder.setCancelable(cancellable);
-		builder.show();
+		return builder.show();
 	}
 
-	static void showAndroidAlertDialog(
+	@CheckResult
+	static @NonNull android.app.AlertDialog showAndroidAlertDialog(
 			Context context, boolean positive, boolean negative, boolean neutral, boolean cancellable) {
 		android.app.AlertDialog.Builder builder =
 				new android.app.AlertDialog.Builder(context);
@@ -291,6 +350,6 @@ public class DialogMatchersTest {
 			builder.setNeutralButton("neutral", null);
 		}
 		builder.setCancelable(cancellable);
-		builder.show();
+		return builder.show();
 	}
 }

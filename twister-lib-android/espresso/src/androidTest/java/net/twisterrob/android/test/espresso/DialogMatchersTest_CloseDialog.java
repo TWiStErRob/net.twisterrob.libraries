@@ -1,13 +1,16 @@
 package net.twisterrob.android.test.espresso;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
+import androidx.test.espresso.Espresso;
 
 import net.twisterrob.android.test.junit.InstrumentationExtensions;
 import net.twisterrob.test.junit.AndroidJUnit4WithParametersRunnerFactory;
@@ -29,18 +32,23 @@ public abstract class DialogMatchersTest_CloseDialog {
 	}
 
 	@Test(timeout = DialogMatchersTest.DIALOG_TIMEOUT) public void test() {
-		InstrumentationExtensions.runOnMain(new Runnable() {
-			@Override public void run() {
-				showDialog();
+		Runnable dismiss = InstrumentationExtensions.callOnMain(new Callable<Runnable>() {
+			@Override public Runnable call() {
+				return showDialog();
 			}
 		});
 
-		attemptCloseDialog_withTimeout();
+		try {
+			attemptCloseDialog_withTimeout();
 
-		if (expectedClosed) {
-			assertNoDialogIsDisplayed();
-		} else {
-			assertDialogIsDisplayed();
+			if (expectedClosed) {
+				assertNoDialogIsDisplayed();
+			} else {
+				assertDialogIsDisplayed();
+			}
+		} finally {
+			dismiss.run();
+			Espresso.onIdle();
 		}
 	}
 
@@ -53,7 +61,7 @@ public abstract class DialogMatchersTest_CloseDialog {
 	}
 
 	@UiThread
-	protected abstract void showDialog();
+	protected abstract @NonNull Runnable showDialog();
 
 	public DialogMatchersTest_CloseDialog(
 			boolean positive, boolean negative, boolean neutral, boolean cancellable,
