@@ -21,6 +21,10 @@ import androidx.test.espresso.base.RootViewPicker;
 import junitparams.*;
 import junitparams.naming.TestCaseName;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.*;
 
 import net.twisterrob.android.test.junit.*;
@@ -68,6 +72,14 @@ public class DialogMatchersTest {
 	@SuppressWarnings("deprecation")
 	@Rule public final androidx.test.rule.ActivityTestRule<TestActivityCompat> activity =
 			new TestPackageIntentRule<>(TestActivityCompat.class);
+	
+	@Before
+	public void verifyPreconditions() {
+		// Ensure the activity is finished loading, because otherwise the roots might be racing for focus.
+		onView(withText(TestActivityCompat.class.getSimpleName())).check(matches(isDisplayed()));
+		// No dialog show be leaked from a previous test.
+		assertNoDialogIsDisplayed();
+	}
 
 	private void assertDialogIsDisplayed_withTimeout() {
 		assertTimeout(DECISION_TIMEOUT, TimeUnit.MILLISECONDS, new Runnable() {
@@ -215,6 +227,7 @@ public class DialogMatchersTest {
 		);
 
 		try {
+			assertDialogIsDisplayed(); // precondition
 			Throwable expectedFailure = assertThrows(AssertionError.class, new ThrowingRunnable() {
 				@Override public void run() {
 					assertNoDialogIsDisplayed_withTimeout();
@@ -265,6 +278,7 @@ public class DialogMatchersTest {
 		);
 
 		try {
+			assertDialogIsDisplayed(); // precondition
 			Throwable expectedFailure = assertThrows(AssertionError.class, new ThrowingRunnable() {
 				@Override public void run() {
 					assertNoDialogIsDisplayed_withTimeout();
