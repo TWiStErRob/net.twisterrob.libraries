@@ -1,6 +1,7 @@
 package net.twisterrob.libraries.build
 
 import net.twisterrob.libraries.build.dsl.android
+import net.twisterrob.libraries.build.dsl.namespace
 
 repositories {
 	google()
@@ -11,12 +12,7 @@ apply(from = rootProject.file("gradle/substitutions.gradle"), to = project)
 
 @Suppress("UnstableApiUsage")
 android {
-	val subpackage = project.path
-		.removePrefix(":")
-		.replace(":", ".")
-		.replace("-test_helpers", ".test_helpers")
-	namespace = "net.twisterrob.android.${subpackage}"
-
+	namespace = project.namespace
 	compileSdk = 28
 	defaultConfig {
 		minSdk = 14
