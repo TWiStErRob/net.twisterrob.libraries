@@ -1,7 +1,7 @@
 package net.twisterrob.libraries.build
 
 import net.twisterrob.libraries.build.dsl.android
-import net.twisterrob.libraries.build.dsl.namespace
+import net.twisterrob.libraries.build.dsl.autoNamespace
 
 repositories {
 	google()
@@ -12,7 +12,7 @@ apply(from = rootProject.file("gradle/substitutions.gradle"), to = project)
 
 @Suppress("UnstableApiUsage")
 android {
-	namespace = project.namespace
+	namespace = project.autoNamespace
 	compileSdk = 28
 	defaultConfig {
 		minSdk = 14

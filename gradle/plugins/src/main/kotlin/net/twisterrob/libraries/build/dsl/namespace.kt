@@ -2,7 +2,7 @@ package net.twisterrob.libraries.build.dsl
 
 import org.gradle.api.Project
 
-internal val Project.namespace: String
+internal val Project.autoNamespace: String
 	get() = this
 		.path
 		.removePrefix(":")
