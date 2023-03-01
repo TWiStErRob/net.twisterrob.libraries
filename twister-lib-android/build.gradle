@@ -13,37 +13,8 @@ buildscript {
 }
 
 subprojects { Project project ->
-	project.repositories {
-		google()
-		mavenCentral()
-	}
-	project.configurations.configureEach {
-		if (it.name == 'lintClassPath') return
-	}
-	project.apply from: rootProject.file("gradle/substitutions.gradle"), to: project
-
-	project.plugins.withId("net.twisterrob.android-library") {
-		project.android.buildFeatures.buildConfig = false
-		project.android.twisterrob.decorateBuildConfig = false
-	}
-	project.afterEvaluate {
-		project.android.compileSdkVersion = 28
-		project.android.defaultConfig.minSdkVersion = 14
-		project.android.lintOptions.warningsAsErrors = true
-		project.android.lintOptions.checkAllWarnings = true
-		project.android.lintOptions.lintConfig = rootProject.file("config/lint/lint.xml")
-		project.android.lintOptions.baseline rootProject.file("config/lint/lint-baseline-${project.name}.xml")
-
-		//noinspection UnnecessaryQualifiedReference,GrDeprecatedAPIUsage REPORT cannot replace with new interface, missing methods
-		com.android.build.gradle.api.AndroidSourceSet androidTest = project.android.sourceSets.androidTest
-		if (androidTest.java.sourceFiles.empty) {
-			logger.info "Disabling AndroidTest tasks in ${project.path} as it has no sources in ${androidTest.java.srcDirs}"
-			project.tasks.configureEach { task ->
-				if (task.name.contains("AndroidTest")) {
-					task.enabled = false
-				}
-			}
-		}
+	plugins.withId("net.twisterrob.android-library") {
+		android.twisterrob.decorateBuildConfig = false
 	}
 }
 
