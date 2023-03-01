@@ -35,6 +35,7 @@ dependencies {
 	implementation "androidx.multidex:multidex:${VERSION_ANDROIDX_MULTIDEX}"
 
 	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
+	implementation "androidx.preference:preference:${VERSION_ANDROIDX_PREFERENCE}"
 	implementation "androidx.recyclerview:recyclerview:${VERSION_ANDROIDX_RECYCLERVIEW}"
 
 	androidTestImplementation 'pl.pragmatists:JUnitParams:1.1.1'
