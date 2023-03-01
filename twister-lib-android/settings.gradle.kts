@@ -38,13 +38,9 @@ includeBuild("../twister-lib-java") {
 }
 
 fun Settings.includeWithTestHelpers(modulePath: String) {
-	val contractModulePath = "${modulePath}-test_helpers"
-
 	include(modulePath)
-	val module = project(modulePath)
-
-	include(contractModulePath)
-	val contractModule = project(contractModulePath)
-
-	contractModule.projectDir = module.projectDir.resolve("test_helpers")
+	val testHelpersModulePath = "${modulePath}-test_helpers"
+	include(testHelpersModulePath)
+	val testHelpersModule = project(testHelpersModulePath)
+	testHelpersModule.projectDir = project(modulePath).projectDir.resolve("test_helpers")
 }

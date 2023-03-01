@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-	compileOnly "net.twisterrob.lib:twister-lib-android-about"
 	implementation "net.twisterrob.lib:twister-lib-android-espresso"
 	implementation "net.twisterrob.lib:twister-lib-android-espresso_actors"
 }

@@ -10,5 +10,4 @@ dependencies {
 	implementation "androidx.appcompat:appcompat:${VERSION_ANDROIDX_APPCOMPAT}"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_actors"
-	androidTestImplementation "net.twisterrob.lib:twister-lib-android-about-test_helpers"
 }
