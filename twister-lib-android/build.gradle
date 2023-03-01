@@ -17,8 +17,9 @@ subprojects { Project project ->
 	project.repositories {
 		google()
 		mavenCentral()
-		//noinspection JcenterRepositoryObsolete https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
-		jcenter {
+		maven { // jcenter() deprecated https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
+			name = "jcenter"
+			setUrl("https://jcenter.bintray.com/")
 			content {
 				includeModule("com.rarepebble", "colorpicker")
 			}
