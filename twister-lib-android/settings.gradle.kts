@@ -44,3 +44,11 @@ fun Settings.includeWithTestHelpers(modulePath: String) {
 	val testHelpersModule = project(testHelpersModulePath)
 	testHelpersModule.projectDir = project(modulePath).projectDir.resolve("test_helpers")
 }
+
+dependencyResolutionManagement {
+	versionCatalogs {
+		create(defaultLibrariesExtensionName.get()) {
+			from(files("../gradle/libs.versions.toml"))
+		}
+	}
+}

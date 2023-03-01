@@ -19,3 +19,11 @@ include(":lib:java_desktop")
 include(":lib:junit4")
 include(":lib:hamcrest")
 include(":lib:mockito")
+
+dependencyResolutionManagement {
+	versionCatalogs {
+		create(defaultLibrariesExtensionName.get()) {
+			from(files("../gradle/libs.versions.toml"))
+		}
+	}
+}
