@@ -1,8 +1,6 @@
-group = 'net.twisterrob'
-version = '1.0'
-
-apply plugin: 'net.twisterrob.android-library'
-apply from: rootProject.file("../gradle/maven-configure.gradle")
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
 
 dependencies {
 	implementation "net.twisterrob.lib:twister-lib-android-espresso"
@@ -16,10 +14,4 @@ dependencies {
 	implementation "com.google.guava:guava:27.0.1-android"
 	// Call to Glide.with(Context) doesn't compile without seeing Glide.with(androidx.Fragment)
 	implementation "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
-}
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
 }

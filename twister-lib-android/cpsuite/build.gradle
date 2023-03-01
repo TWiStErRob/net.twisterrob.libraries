@@ -1,8 +1,6 @@
-group = 'net.twisterrob'
-version = '1.0'
-
-apply plugin: 'net.twisterrob.android-library'
-apply from: rootProject.file("../gradle/maven-configure.gradle")
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
 
 dependencies {
 	implementation ("io.takari.junit:takari-cpsuite:1.2.7") {
@@ -11,12 +9,6 @@ dependencies {
 	implementation "junit:junit:${VERSION_JUNIT}"
 	implementation "androidx.test:runner:${VERSION_ESPRESSO_RUNNER}"
 	implementation "androidx.test.ext:junit:${VERSION_ESPRESSO_JUNIT}"
-}
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
 }
 
 dependencies.components {

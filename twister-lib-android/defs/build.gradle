@@ -1,8 +1,6 @@
-group = 'net.twisterrob'
-version = '1.0'
-
-apply plugin: 'net.twisterrob.android-library'
-apply from: rootProject.file("../gradle/maven-configure.gradle")
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
 
 dependencies {
 	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
@@ -16,10 +14,4 @@ dependencies {
 	testImplementation "net.twisterrob.lib:twister-lib-hamcrest"
 	testImplementation "net.twisterrob.lib:twister-lib-junit4"
 	testImplementation "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
-}
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
 }

@@ -1,17 +1,8 @@
-group = 'net.twisterrob'
-version = '1.0'
-
-apply plugin: 'net.twisterrob.android-library'
-apply from: rootProject.file("../gradle/maven-configure.gradle")
-
-dependencies {
-	compileOnly "net.twisterrob.lib:twister-lib-android-about"
-	implementation "net.twisterrob.lib:twister-lib-android-espresso"
-	implementation "net.twisterrob.lib:twister-lib-android-espresso_actors"
+plugins {
+	id("net.twisterrob.libraries.android.test-helpers")
 }
 
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
+dependencies {
+	implementation "net.twisterrob.lib:twister-lib-android-espresso"
+	implementation "net.twisterrob.lib:twister-lib-android-espresso_actors"
 }

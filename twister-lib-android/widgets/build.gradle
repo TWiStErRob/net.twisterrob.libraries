@@ -1,16 +1,8 @@
-group = 'net.twisterrob'
-version = '1.0'
-
-apply plugin: 'net.twisterrob.android-library'
-apply from: rootProject.file("../gradle/maven-configure.gradle")
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
 
 dependencies {
 	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
 	compileOnly "androidx.drawerlayout:drawerlayout:${VERSION_ANDROIDX_DRAWERLAYOUT}"
-}
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
 }

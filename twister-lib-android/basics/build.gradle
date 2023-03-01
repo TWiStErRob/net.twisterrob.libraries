@@ -1,8 +1,6 @@
-group = 'net.twisterrob'
-version = '1.0'
-
-apply plugin: 'net.twisterrob.android-library'
-apply from: rootProject.file("../gradle/maven-configure.gradle")
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
 
 dependencies {
 
@@ -11,10 +9,4 @@ dependencies {
 	api "net.twisterrob.lib:twister-lib-android-defs"
 	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
 	compileOnly "androidx.swiperefreshlayout:swiperefreshlayout:${VERSION_ANDROIDX_SWIPEREFRESHLAYOUT}"
-}
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
 }

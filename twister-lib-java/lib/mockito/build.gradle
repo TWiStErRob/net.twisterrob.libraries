@@ -1,3 +1,7 @@
+plugins {
+	id("net.twisterrob.libraries.java.library")
+}
+
 dependencies {
 	api "org.mockito:mockito-core:${VERSION_MOCKITO}"
 	implementation "net.twisterrob.lib:twister-lib-java"

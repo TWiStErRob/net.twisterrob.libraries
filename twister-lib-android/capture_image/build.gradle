@@ -1,8 +1,6 @@
-group = 'net.twisterrob'
-version = '1.0'
-
-apply plugin: 'net.twisterrob.android-library'
-apply from: rootProject.file("../gradle/maven-configure.gradle")
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
 
 dependencies {
 	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
@@ -14,25 +12,7 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
-	androidTestImplementation("net.twisterrob.lib:twister-lib-android-capture_image-test_helpers") {
-		// TODO figure out how to have test-helpers with transitive dependencies, but no including self
-		// Program type already present: net.twisterrob.android.activity.CaptureImage*
-		// Caused by: com.android.builder.dexing.DexArchiveMergerException: Error while merging dex archives:
-		transitive = false
-		androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_actors"
-		androidTestImplementation "net.twisterrob.lib:twister-lib-android-uiautomator"
-		androidTestImplementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
-	}
+	androidTestImplementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_glide3"
-}
-
-android {
-	defaultConfig {
-		multiDexEnabled true
-		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-	}
-	lintOptions {
-		tasks.lint.enabled = false
-	}
 }

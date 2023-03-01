@@ -1,3 +1,7 @@
+plugins {
+	id("net.twisterrob.libraries.java.library")
+}
+
 dependencies {
 	api "junit:junit:${VERSION_JUNIT}"
 	implementation "net.twisterrob.lib:twister-lib-java"

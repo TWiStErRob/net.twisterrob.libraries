@@ -24,7 +24,7 @@ public class Matchers {
 
 	@SafeVarargs
 	public static <T> ExactlyOneOf<T> exactlyOneOf(Matcher<? super T>... matchers) {
-		return exactlyOneOf(Arrays.asList(matchers));
+		return Matchers.<T>exactlyOneOf(Arrays.asList(matchers));
 	}
 
 	@SafeVarargs

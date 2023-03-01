@@ -1,8 +1,6 @@
-group = 'net.twisterrob'
-version = '1.0'
-
-apply plugin: 'net.twisterrob.android-library'
-apply from: rootProject.file("../gradle/maven-configure.gradle")
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
 
 dependencies {
 	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
@@ -12,14 +10,4 @@ dependencies {
 	implementation "androidx.appcompat:appcompat:${VERSION_ANDROIDX_APPCOMPAT}"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_actors"
-	androidTestImplementation "net.twisterrob.lib:twister-lib-android-about-test_helpers"
-}
-
-android {
-	defaultConfig {
-		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-	}
-	lintOptions {
-		tasks.lint.enabled = false
-	}
 }
