@@ -149,8 +149,16 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: 'Instrumentation Test Results ${{ matrix.android-api }}'
+          # 1: AGP 7.4 HTML, 2: AGP 7.4 XML, 3: AGP 7.4 binary results, 4: AGP 7.4 details
+          # 5: Exclude names with colon: https://issuetracker.google.com/issues/223643506
           path: |
-            ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/
+            ${{ github.workspace }}/**/build/reports/androidTests/connected/
+            ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/TEST-*.xml
+            ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/test-result.pb
+            ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/*/
+            !**/*:*
+          # AGP 4.1 XML: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/
+          # AGP 4.1 HTML: ${{ github.workspace }}/**/build/reports/androidTests/connected/flavors/debugAndroidTest/
 
       - name: "Publish 'Instrumentation Results ${{ matrix.android-api }}' check suite."
         if: success() || failure()
@@ -160,4 +168,5 @@ jobs:
           comment_mode: off
           report_individual_runs: true
           test_changes_limit: 0
-          junit_files: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/TEST-*.xml
+          junit_files: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/TEST-*.xml
+          # AGP 4.1: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/TEST-*.xml
