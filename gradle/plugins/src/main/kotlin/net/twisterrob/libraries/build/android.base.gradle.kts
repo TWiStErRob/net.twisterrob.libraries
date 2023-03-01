@@ -1,6 +1,7 @@
 package net.twisterrob.libraries.build
 
 import net.twisterrob.libraries.build.dsl.android
+import net.twisterrob.libraries.build.dsl.autoNamespace
 
 repositories {
 	google()
@@ -11,6 +12,7 @@ apply(from = rootProject.file("gradle/substitutions.gradle"), to = project)
 
 @Suppress("UnstableApiUsage")
 android {
+	namespace = project.autoNamespace
 	compileSdk = 28
 	defaultConfig {
 		minSdk = 14
@@ -18,11 +20,11 @@ android {
 	buildFeatures {
 		buildConfig = false
 	}
-	lintOptions {
-		isWarningsAsErrors = true
-		isCheckAllWarnings = true
+	lint {
+		warningsAsErrors = true
+		checkAllWarnings = true
 		lintConfig = rootProject.file("config/lint/lint.xml")
-		baselineFile = rootProject.file("config/lint/lint-baseline-${project.name}.xml")
+		baseline = rootProject.file("config/lint/lint-baseline-${project.name}.xml")
 	}
 	afterEvaluate {
 		sourceSets.named("androidTest").configure androidTest@{

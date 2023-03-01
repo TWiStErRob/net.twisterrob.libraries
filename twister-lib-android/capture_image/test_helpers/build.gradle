@@ -5,6 +5,17 @@ plugins {
 dependencies {
 	api "net.twisterrob.lib:twister-lib-android-espresso_actors"
 	api "net.twisterrob.lib:twister-lib-android-uiautomator"
+	// TODEL this shouldn't be here, because all the dependencies are visible correctly.
+	// REPORT AGP 7.4/Gradle 7.6
+	// androidx:core comes transitively with api() from espresso_actors -> espresso.
+	// And this should be enough 
+	// > error: cannot access ActivityCompat
+	// > CameraPreview preview = activity.findViewById(R.id.preview);
+	// >                                  ^
+	// > class file for androidx.core.app.ActivityCompat not found
+	// Adding :core itself doesn't help in any capacity (compileOnly/implementation/api),
+	// not here, not in :capture_image.
+	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
 }

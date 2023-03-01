@@ -2,6 +2,8 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
+android.namespace = "net.twisterrob.android.test.uiautomator"
+
 dependencies {
 	// UI Automator @SdkSuppress(minSdkVersion = VERSION_CODES.JELLY_BEAN_MR2)
 	api "androidx.test.uiautomator:uiautomator:${VERSION_ESPRESSO_UIAUTOMATOR}"

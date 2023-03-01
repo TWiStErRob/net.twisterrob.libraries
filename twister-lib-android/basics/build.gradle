@@ -2,8 +2,9 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
-dependencies {
+android.namespace = "net.twisterrob.android.core"
 
+dependencies {
 	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
 	api "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
 	api "net.twisterrob.lib:twister-lib-android-defs"
