@@ -11,6 +11,12 @@ apply(from = rootProject.file("gradle/substitutions.gradle"), to = project)
 
 @Suppress("UnstableApiUsage")
 android {
+	val subpackage = project.path
+		.removePrefix(":")
+		.replace(":", ".")
+		.replace("-test_helpers", ".test_helpers")
+	namespace = "net.twisterrob.android.${subpackage}"
+
 	compileSdk = 28
 	defaultConfig {
 		minSdk = 14

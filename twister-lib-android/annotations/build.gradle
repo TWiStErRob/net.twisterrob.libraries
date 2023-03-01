@@ -2,6 +2,8 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
+android.namespace = "net.twisterrob.android.annotation"
+
 dependencies {
 	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
 }

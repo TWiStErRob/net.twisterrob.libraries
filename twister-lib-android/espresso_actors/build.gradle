@@ -2,6 +2,8 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
+android.namespace = "net.twisterrob.android.test.espresso.actors"
+
 dependencies {
 	api "net.twisterrob.lib:twister-lib-android-espresso"
 }
