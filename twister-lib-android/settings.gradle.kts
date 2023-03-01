@@ -1,5 +1,9 @@
 rootProject.name = "twister-libs-android"
 
+pluginManagement {
+	includeBuild("../gradle/plugins")
+}
+
 include(":")
 
 include(":monolith")
