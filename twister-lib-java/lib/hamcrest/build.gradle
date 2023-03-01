@@ -1,3 +1,7 @@
+plugins {
+	id("net.twisterrob.libraries.java.library")
+}
+
 dependencies {
 	api "org.hamcrest:java-hamcrest:${VERSION_HAMCREST}"
 

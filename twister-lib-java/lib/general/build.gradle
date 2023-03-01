@@ -1,3 +1,7 @@
+plugins {
+	id("net.twisterrob.libraries.java.library")
+}
+
 dependencies {
 	// TODO remove all dependencies of this project and use specific modules
 	api 'net.twisterrob.lib:twister-lib-core'
