@@ -1,5 +1,6 @@
 plugins {
 	`kotlin-dsl`
+	alias(libs.plugins.detekt)
 }
 
 dependencies {
@@ -24,4 +25,9 @@ tasks.withType<ValidatePlugins>().configureEach {
 	ignoreFailures.set(false)
 	failOnWarning.set(true)
 	enableStricterValidation.set(true)
+}
+
+detekt {
+	allRules = true
+	parallel = true
 }

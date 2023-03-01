@@ -43,6 +43,15 @@ jobs:
       - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
         uses: actions/checkout@v3
 
+      - name: "Build & Verify plugins."
+        working-directory: ./gradle/plugins
+        run: >
+          ./gradlew
+          --no-daemon
+          --stacktrace
+          --continue
+          build
+
       - name: "Build & Verify project."
         working-directory: .
         run: >
