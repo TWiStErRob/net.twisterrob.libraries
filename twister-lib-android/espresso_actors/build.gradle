@@ -2,9 +2,6 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
-group = 'net.twisterrob'
-version = '1.0'
-
 dependencies {
 	api "net.twisterrob.lib:twister-lib-android-espresso"
 }

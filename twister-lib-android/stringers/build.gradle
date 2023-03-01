@@ -2,9 +2,6 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
-group = 'net.twisterrob'
-version = '1.0'
-
 dependencies {
 	compileOnly "androidx.appcompat:appcompat:${VERSION_ANDROIDX_APPCOMPAT}"
 	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"

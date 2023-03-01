@@ -4,10 +4,12 @@ plugins {
 	id("org.gradle.maven-publish")
 }
 
-project.afterEvaluate {
-	if (!project.hasProperty("release")) { // -Prelease to build a release version
-		version = "${version}-SNAPSHOT"
-	}
+group = "net.twisterrob"
+version = "1.0"
+
+// -Prelease to build a release version
+if (!project.hasProperty("release")) {
+	version = "${version}-SNAPSHOT"
 }
 
 publishing {

@@ -2,9 +2,6 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
-group = 'net.twisterrob'
-version = '1.0'
-
 dependencies {
 	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"

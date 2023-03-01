@@ -2,9 +2,6 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
-group = 'net.twisterrob'
-version = '1.0'
-
 dependencies {
 	implementation ("io.takari.junit:takari-cpsuite:1.2.7") {
 		exclude group: 'junit'
