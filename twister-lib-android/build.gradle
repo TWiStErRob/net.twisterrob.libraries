@@ -3,7 +3,6 @@ buildscript {
 		//maven { name = "sonatype1"; setUrl("https://s01.oss.sonatype.org/service/local/repositories/nettwisterrob-1009/content/") }
 		google()
 		mavenCentral()
-		maven { name = "Gradle libs (for Kotlin-DSL)"; url = "https://repo.gradle.org/gradle/libs-releases-local/" }
 	}
 	dependencies {
 		configurations.named("classpath") { resolutionStrategy.cacheChangingModulesFor(0, "seconds") } // -SNAPSHOT
@@ -17,12 +16,6 @@ subprojects { Project project ->
 	project.repositories {
 		google()
 		mavenCentral()
-		//noinspection JcenterRepositoryObsolete https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
-		jcenter {
-			content {
-				includeModule("com.rarepebble", "colorpicker")
-			}
-		}
 	}
 	project.configurations.configureEach {
 		if (it.name == 'lintClassPath') return

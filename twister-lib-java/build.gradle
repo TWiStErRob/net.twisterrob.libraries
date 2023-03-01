@@ -2,7 +2,6 @@ buildscript {
 	repositories {
 		google()
 		mavenCentral()
-		maven { name = "Gradle libs (for Kotlin-DSL)"; url = "https://repo.gradle.org/gradle/libs-releases-local/" }
 	}
 	dependencies {
 		configurations.named("classpath") { resolutionStrategy.cacheChangingModulesFor(0, "seconds") } // -SNAPSHOT

@@ -15,8 +15,10 @@
 		<ignore regexp="R\.(.+)\.menu_widget_(.+)" />
 	</issue>
 	<issue id="DuplicateStrings">
-		<!-- Ignore duplicate strings in .gradle\caches\transforms-2\files-2.1\...\res\values-*\*.xml -->
-		<ignore path="*/caches/transforms-*/files-*" />
+		<!-- Ignore duplicate strings in .gradle\caches\transforms-2\files-2.1\...\res\values-*\*.xml (Gradle 6.7) -->
+		<ignore path="*/caches/transforms-2/files-*" />
+		<!-- Ignore duplicate strings in .gradle/caches/transforms-3/<hash>/transformed/<artifact-version>/res/values-*/*.xml (Gradle 7.6) -->
+		<ignore path="*/caches/transforms-3/*/transformed/*" />
 	</issue>
 	<issue id="UnknownNullness" severity="ignore">
 		<!-- too many to fix yet -->
