@@ -1,29 +1,7 @@
-buildscript {
-	repositories {
-		//maven { name = "sonatype1"; setUrl("https://s01.oss.sonatype.org/service/local/repositories/nettwisterrob-1009/content/") }
-		google()
-		mavenCentral()
-	}
-	dependencies {
-		configurations.named("classpath") { resolutionStrategy.cacheChangingModulesFor(0, "seconds") } // -SNAPSHOT
-		classpath "net.twisterrob.gradle:twister-convention-plugins:${VERSION_TWISTER_GRADLE}"
-		classpath "net.twisterrob.gradle:twister-quality:${VERSION_TWISTER_QUALITY}"
-		classpath("com.android.tools.build:gradle:4.1.3")
-	}
-}
-
-tasks.register("clean", Delete.class) { clean ->
-	clean.delete project.buildDir
-}
-
-tasks.register("cleanFull") { cleanFull ->
-	// subprojects*.tasks*.named("clean") is not available at this point
-	cleanFull.dependsOn(subprojects.collect { "${it.path}:clean" })
-	cleanFull.dependsOn(tasks.named("clean"))
+plugins {
+	id("net.twisterrob.libraries.root")
 }
 
 tasks.register("connectedCheck").configure { connectedCheck ->
 	connectedCheck.dependsOn(subprojects.collect { "${it.path}:connectedCheck" })
 }
-
-apply plugin: 'net.twisterrob.quality'
