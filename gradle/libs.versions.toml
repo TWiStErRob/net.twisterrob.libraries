@@ -7,10 +7,14 @@ agp = "7.4.2"
 twisterrob = "0.15"
 detekt = "1.22.0"
 
+jsr305 = "3.0.2"
+
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 twisterrob-quality = { module = "net.twisterrob.gradle:twister-quality", version.ref = "twisterrob" }
 twisterrob-android = { module = "net.twisterrob.gradle:twister-convention-plugins", version.ref = "twisterrob" }
+
+jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
 
 [bundles]
 
