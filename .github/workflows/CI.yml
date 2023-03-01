@@ -27,7 +27,7 @@ jobs:
     name: "🔨 Build & Verify"
     needs: validate
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     permissions:
       # actions/checkout
       contents: read
