@@ -12,12 +12,6 @@ buildscript {
 	}
 }
 
-subprojects { Project project ->
-	plugins.withId("net.twisterrob.android-library") {
-		android.twisterrob.decorateBuildConfig = false
-	}
-}
-
 tasks.register("clean", Delete.class) { clean ->
 	clean.delete project.buildDir
 }
