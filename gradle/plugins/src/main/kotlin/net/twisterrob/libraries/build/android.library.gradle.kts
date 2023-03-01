@@ -4,4 +4,8 @@ plugins {
 	id("net.twisterrob.android-library")
 }
 
-android.twisterrob.isDecorateBuildConfig = false
+android {
+	twisterrob {
+		isDecorateBuildConfig = false
+	}
+}
