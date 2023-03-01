@@ -26,10 +26,3 @@ dependencies {
 }
 
 android.testOptions.unitTests.includeAndroidResources = true
-
-tasks.withType(JavaCompile).configureEach {
-	it.options.compilerArgs += [
-			// Ignore these, Stringers are using the internals for better experience, cannot be @SuppressWarning'd :(
-			"-Xlint:-auxiliaryclass",
-	]
-}

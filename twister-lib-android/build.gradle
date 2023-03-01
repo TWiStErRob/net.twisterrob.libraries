@@ -22,13 +22,8 @@ tasks.register("cleanFull") { cleanFull ->
 	cleanFull.dependsOn(tasks.named("clean"))
 }
 
-tasks.register("connectedCheck").configure {
-	dependsOn(subprojects.collect { "${it.path}:connectedCheck" })
+tasks.register("connectedCheck").configure { connectedCheck ->
+	connectedCheck.dependsOn(subprojects.collect { "${it.path}:connectedCheck" })
 }
-
-evaluationDependsOnChildren() // TODO somehow remove this: use build service as dex limiter in ColorFilters!
-allprojects \
-	.collectMany { it.tasks.withType(com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask) } \
-	.inject { prev, curr -> curr.configure { it.mustRunAfter prev }; return prev }
 
 apply plugin: 'net.twisterrob.quality'

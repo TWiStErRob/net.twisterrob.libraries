@@ -39,11 +39,4 @@ dependencies {
 	apply from: "${rootDir}/gradle/testCompile.gradle", to: project
 }
 
-android {
-	lintOptions {
-		checkDependencies = true
-	}
-	testOptions {
-		unitTests.returnDefaultValues = true
-	}
-}
+android.lintOptions.checkDependencies = true
