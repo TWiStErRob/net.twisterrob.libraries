@@ -47,9 +47,6 @@ dependencies {
 }
 
 android {
-	defaultConfig {
-		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-	}
 	lintOptions {
 		tasks.lint.enabled = false
 	}
