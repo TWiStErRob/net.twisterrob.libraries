@@ -14,9 +14,3 @@ dependencies {
 	compileOnly "com.google.android.material:material:${VERSION_ANDROIDX_MATERIAL}"
 	compileOnly "androidx.recyclerview:recyclerview:${VERSION_ANDROIDX_RECYCLERVIEW}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}

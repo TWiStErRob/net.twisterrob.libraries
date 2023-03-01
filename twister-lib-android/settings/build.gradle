@@ -7,9 +7,3 @@ dependencies {
 	api "androidx.preference:preference:${VERSION_ANDROIDX_PREFERENCE}"
 	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}

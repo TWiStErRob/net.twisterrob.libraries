@@ -18,9 +18,3 @@ dependencies {
 	compileOnly "androidx.appcompat:appcompat:${VERSION_ANDROIDX_APPCOMPAT}"
 	compileOnly "androidx.recyclerview:recyclerview:${VERSION_ANDROIDX_RECYCLERVIEW}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}

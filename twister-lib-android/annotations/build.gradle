@@ -5,9 +5,3 @@ plugins {
 dependencies {
 	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}

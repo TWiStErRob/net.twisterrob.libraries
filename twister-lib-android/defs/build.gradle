@@ -15,9 +15,3 @@ dependencies {
 	testImplementation "net.twisterrob.lib:twister-lib-junit4"
 	testImplementation "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}

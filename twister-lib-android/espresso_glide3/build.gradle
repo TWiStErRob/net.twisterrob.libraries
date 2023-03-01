@@ -15,9 +15,3 @@ dependencies {
 	// Call to Glide.with(Context) doesn't compile without seeing Glide.with(androidx.Fragment)
 	implementation "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}

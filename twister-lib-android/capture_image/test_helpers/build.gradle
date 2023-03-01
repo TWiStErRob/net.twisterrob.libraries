@@ -9,9 +9,3 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}

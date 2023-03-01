@@ -42,9 +42,3 @@ dependencies {
 
 	testImplementation "org.mockito:mockito-core:${VERSION_MOCKITO}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}

@@ -10,9 +10,3 @@ dependencies {
 	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
 	compileOnly "androidx.swiperefreshlayout:swiperefreshlayout:${VERSION_ANDROIDX_SWIPEREFRESHLAYOUT}"
 }
-
-android {
-	lintOptions {
-		tasks.lint.enabled = false
-	}
-}
