@@ -18,11 +18,11 @@ android {
 	buildFeatures {
 		buildConfig = false
 	}
-	lintOptions {
-		isWarningsAsErrors = true
-		isCheckAllWarnings = true
+	lint {
+		warningsAsErrors = true
+		checkAllWarnings = true
 		lintConfig = rootProject.file("config/lint/lint.xml")
-		baselineFile = rootProject.file("config/lint/lint-baseline-${project.name}.xml")
+		baseline = rootProject.file("config/lint/lint-baseline-${project.name}.xml")
 	}
 	afterEvaluate {
 		sourceSets.named("androidTest").configure androidTest@{
