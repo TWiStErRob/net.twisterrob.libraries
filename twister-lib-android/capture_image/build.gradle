@@ -15,4 +15,5 @@ dependencies {
 	androidTestImplementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_glide3"
+	androidTestImplementation "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
 }
