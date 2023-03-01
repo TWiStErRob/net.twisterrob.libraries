@@ -3,7 +3,6 @@ buildscript {
 		//maven { name = "sonatype1"; setUrl("https://s01.oss.sonatype.org/service/local/repositories/nettwisterrob-1009/content/") }
 		google()
 		mavenCentral()
-		maven { name = "Gradle libs (for Kotlin-DSL)"; url = "https://repo.gradle.org/gradle/libs-releases-local/" }
 	}
 	dependencies {
 		configurations.named("classpath") { resolutionStrategy.cacheChangingModulesFor(0, "seconds") } // -SNAPSHOT
