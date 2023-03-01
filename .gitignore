@@ -6,7 +6,10 @@
 
 # Gradle
 .gradle
-build/
+/build/
+/*/build/
+/*/*/build/
+/*/*/*/build/
 
 # Other
 local.properties
