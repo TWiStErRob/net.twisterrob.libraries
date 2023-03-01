@@ -3,9 +3,6 @@ plugins {
 }
 
 dependencies {
-	compileOnly(gradleApi())
-	implementation(libs.kotlin.gradle)
-	implementation(libs.kotlin.detekt)
 	implementation(libs.android.gradle)
 	implementation(libs.twisterrob.quality)
 	implementation(libs.twisterrob.android)
