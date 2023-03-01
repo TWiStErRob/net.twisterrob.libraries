@@ -1,4 +1,7 @@
-apply plugin: 'net.twisterrob.android-library'
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
+
 apply from: rootProject.file("../gradle/maven-configure.gradle")
 
 repositories {

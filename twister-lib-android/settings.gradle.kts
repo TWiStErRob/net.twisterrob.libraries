@@ -2,6 +2,10 @@ rootProject.name = "twister-libs-android"
 
 pluginManagement {
 	includeBuild("../gradle/plugins")
+	repositories {
+		google()
+		mavenCentral()
+	}
 }
 
 include(":")
