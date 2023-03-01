@@ -45,7 +45,7 @@ jobs:
           # AGP's com.android.SdkConstants.CURRENT_BUILD_TOOLS_VERSION
           # https://github.com/TWiStErRob/net.twisterrob.gradle/blob/v0.15/plugin/base/src/main/kotlin/net/twisterrob/gradle/android/Versions.kt#L28
           echo android --install "build-tools;32.0.0"
-          android --install "build-tools;32.0.0"
+          ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install "build-tools;32.0.0"
           # Patch AGP 4.x v SDK Build Tools 31/32 incompatibility: https://stackoverflow.com/a/68430992/253468
           # Installed Build Tools revision 32.0.0 is corrupted. Remove and install again using the SDK Manager.
           # Build-tool 32.0.0 is missing DX at /usr/local/lib/android/sdk/build-tools/32.0.0/dx
