@@ -2,8 +2,6 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
-apply from: rootProject.file("../gradle/maven-configure.gradle")
-
 repositories {
 	maven { // jcenter() deprecated https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
 		name = "jcenter"

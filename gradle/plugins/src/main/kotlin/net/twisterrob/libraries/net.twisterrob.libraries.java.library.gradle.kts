@@ -1,4 +1,5 @@
 plugins {
+	id("net.twisterrob.libraries.build.publishing")
 	id("net.twisterrob.java-library")
 }
 
@@ -11,7 +12,6 @@ configurations.configureEach {
 //		this.resolutionStrategy.failOnVersionConflict()
 }
 
-apply(from = rootProject.file("../gradle/maven-configure.gradle"))
 apply(from = rootProject.file("gradle/substitutions.gradle"))
 
 dependencies {
