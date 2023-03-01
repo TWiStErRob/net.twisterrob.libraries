@@ -1,4 +1,5 @@
 [versions]
+project = "1.0"
 java = "1.8"
 
 agp = "7.4.2"
