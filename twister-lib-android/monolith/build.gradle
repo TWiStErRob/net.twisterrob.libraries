@@ -1,6 +1,16 @@
 apply plugin: 'net.twisterrob.android-library'
 apply from: rootProject.file("../gradle/maven-configure.gradle")
 
+repositories {
+	maven { // jcenter() deprecated https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
+		name = "jcenter"
+		setUrl("https://jcenter.bintray.com/")
+		content {
+			includeModule("com.rarepebble", "colorpicker")
+		}
+	}
+}
+
 dependencies {
 	configurations.named("implementation") { resolutionStrategy.cacheChangingModulesFor(0, "seconds") } // -SNAPSHOT
 	implementation 'net.twisterrob.lib:twister-lib-general'
@@ -23,7 +33,7 @@ dependencies {
 
 	// 2.4.+ is required for API 28+
 	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
-	implementation 'com.rarepebble:colorpicker:2.4.2'
+	compileOnly 'com.rarepebble:colorpicker:2.4.2'
 
 	apply from: "${rootDir}/gradle/testCompile.gradle", to: project
 }
