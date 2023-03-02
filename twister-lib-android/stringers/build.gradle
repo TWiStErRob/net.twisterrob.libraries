@@ -16,8 +16,8 @@ dependencies {
 	compileOnly "net.twisterrob.lib:twister-lib-android-annotations"
 	compileOnly "net.twisterrob.lib:twister-lib-core"
 
-	testImplementation "junit:junit:${VERSION_JUNIT}"
-	testImplementation "org.mockito:mockito-core:${VERSION_MOCKITO}"
+	testImplementation(libs.test.junit)
+	testImplementation(libs.test.mockito)
 	testImplementation "org.robolectric:robolectric:${VERSION_ROBOLECTRIC}"
 	testImplementation "androidx.test.ext:junit:${VERSION_ESPRESSO_JUNIT}"
 	testImplementation "androidx.fragment:fragment-testing:${VERSION_ANDROIDX_FRAGMENT}"

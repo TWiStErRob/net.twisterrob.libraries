@@ -8,7 +8,7 @@ dependencies {
 	implementation ("io.takari.junit:takari-cpsuite:1.2.7") {
 		exclude group: 'junit'
 	}
-	implementation "junit:junit:${VERSION_JUNIT}"
+	implementation(libs.test.junit)
 	implementation "androidx.test:runner:${VERSION_ESPRESSO_RUNNER}"
 	implementation "androidx.test.ext:junit:${VERSION_ESPRESSO_JUNIT}"
 }

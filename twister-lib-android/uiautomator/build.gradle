@@ -8,7 +8,7 @@ dependencies {
 	// UI Automator @SdkSuppress(minSdkVersion = VERSION_CODES.JELLY_BEAN_MR2)
 	api "androidx.test.uiautomator:uiautomator:${VERSION_ESPRESSO_UIAUTOMATOR}"
 	implementation(libs.slf4j.api)
-	implementation "org.hamcrest:hamcrest-junit:${VERSION_HAMCREST}"
+	implementation(libs.test.hamcrest.junit)
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	implementation "net.twisterrob.lib:twister-lib-android-espresso"
 	implementation "net.twisterrob.lib:twister-lib-android-annotations"

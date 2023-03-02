@@ -10,6 +10,14 @@ detekt = "1.22.0"
 jsr305 = "3.0.2"
 slf4j = "1.7.30"
 
+test-junit="4.13.1"
+test-mockito="3.3.3"
+test-powermock="2.0.7"
+# Use this instead of 1.3
+# If `hamcrest-1.3` appears in the dependency list, check if it's excluded from all usages.
+test-hamcrest="2.0.0.0"
+
+
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 twisterrob-quality = { module = "net.twisterrob.gradle:twister-quality", version.ref = "twisterrob" }
@@ -19,7 +27,34 @@ jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
+test-junit = { module = "junit:junit", version.ref = "test-junit" }
+
+test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }
+test-hamcrest-junit = { module = "org.hamcrest:hamcrest-junit", version.ref = "test-hamcrest" }
+# Deprecated ones, exist for reference only.
+test-hamcrest-core = { module = "org.hamcrest:hamcrest-core" }
+test-hamcrest-library = { module = "org.hamcrest:hamcrest-library" }
+
+test-mockito = { module = "org.mockito:mockito-core", version.ref = "test-mockito" }
+test-mockito-android = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
+
+test-powermock-mockito2 = { module = "org.powermock:powermock-api-mockito2", version.ref = "test-powermock" }
+test-powermock-junit4 = { module = "org.powermock:powermock-module-junit4", version.ref = "test-powermock" }
+test-powermock-junit4Rule = { module = "org.powermock:powermock-module-junit4-rule", version.ref = "test-powermock" }
+test-powermock-junit4Agent = { module = "org.powermock:powermock-module-junit4-rule-agent", version.ref = "test-powermock" }
+test-powermock-xstream = { module = "org.powermock:powermock-classloading-xstream", version.ref = "test-powermock" }
+
+
 [bundles]
+test-powermock = [
+    "test-powermock-mockito2",
+    "test-powermock-junit4",
+    "test-powermock-junit4Rule",
+    # Contains duplicate PowerMockRule which messes things up, do not enable.
+    #"test-powermock-junit4Agent",
+    "test-powermock-xstream",
+]
+
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

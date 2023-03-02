@@ -34,14 +34,14 @@ dependencies {
 //			.grep { it.group.startsWith("androidx.") }
 //			.each { androidTestImplementation it.displayName }
 
-		androidTestImplementation "junit:junit:${VERSION_JUNIT}"
+		androidTestImplementation(libs.test.junit)
 		androidTestImplementation 'pl.pragmatists:JUnitParams:1.1.1'
 		androidTestImplementation "net.twisterrob.lib:twister-lib-hamcrest"
 		androidTestImplementation "net.twisterrob.lib:twister-lib-mockito"
-		androidTestImplementation "org.mockito:mockito-android:${VERSION_MOCKITO}"
+		androidTestImplementation(libs.test.mockito.android)
 		androidTestImplementation "net.twisterrob.lib:twister-lib-junit4"
 		androidTestImplementation "net.twisterrob.lib:twister-lib-test"
-		androidTestImplementation "org.hamcrest:hamcrest-junit:${VERSION_HAMCREST}"
+		androidTestImplementation(libs.test.hamcrest.junit)
 		androidTestImplementation ('com.shazam:shazamcrest:0.11') { // assertThat(*, sameBeanAs(*))
 			exclude group: 'junit'
 			exclude module: 'guava'

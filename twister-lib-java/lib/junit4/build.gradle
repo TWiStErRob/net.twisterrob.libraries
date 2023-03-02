@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-	api "junit:junit:${VERSION_JUNIT}"
+	api(libs.test.junit)
 	implementation "net.twisterrob.lib:twister-lib-java"
-	implementation "org.hamcrest:hamcrest-junit:${VERSION_HAMCREST}"
+	implementation(libs.test.hamcrest.junit)
 }

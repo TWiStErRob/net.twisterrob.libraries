@@ -10,7 +10,7 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-junit4"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-junit4"
 	api "net.twisterrob.lib:twister-lib-hamcrest"
-	implementation "org.hamcrest:hamcrest-junit:${VERSION_HAMCREST}"
+	implementation(libs.test.hamcrest.junit)
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	implementation "net.twisterrob.lib:twister-lib-android-logging"
@@ -43,5 +43,5 @@ dependencies {
 	androidTestImplementation 'pl.pragmatists:JUnitParams:1.1.1'
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 
-	testImplementation "org.mockito:mockito-core:${VERSION_MOCKITO}"
+	testImplementation(libs.test.mockito)
 }
