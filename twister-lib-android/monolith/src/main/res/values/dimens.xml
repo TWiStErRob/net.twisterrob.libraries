@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+	<!-- lint:UnusedResources They're meant to be used in consuming apps. -->
+
 	<!-- Material Design Grid unit -->
 	<dimen name="unit_quarter">2dp</dimen>
 	<dimen name="unit_half">4dp</dimen>
