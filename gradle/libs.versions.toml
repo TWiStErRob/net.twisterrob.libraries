@@ -1,3 +1,7 @@
+[plugins]
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+
+
 [versions]
 project = "1.0"
 java = "1.8"
@@ -10,6 +14,7 @@ detekt = "1.22.0"
 jsr305 = "3.0.2"
 jbrAnn = "18.0.0"
 slf4j = "1.7.30"
+guava-jre = "27.0.1-jre"
 
 # https://developer.android.com/jetpack/androidx/releases/annotation
 androidx-annotation="1.1.0"
@@ -55,14 +60,16 @@ test-powermock="2.0.7"
 # Use this instead of 1.3
 # If `hamcrest-1.3` appears in the dependency list, check if it's excluded from all usages.
 test-hamcrest="2.0.0.0"
+test-shazamcrest="0.11"
 
 test-android-dexmaker="1.0"
+test-android-classpath = "1.2.7"
 
 # TODEL SVGWorkarounds on > 1.4
 # TODEL :glide3 consumer.pro on > 1.4
-svg = "1.4"
-glide3 = "3.8.0"
-guava-android = "27.0.1-android"
+android-svg = "1.4"
+android-glide3 = "3.8.0"
+android-guava = "27.0.1-android"
 android-lrucache = "2.0.2"
 android-colorpicker = "2.4.2"
 
@@ -75,14 +82,16 @@ annotations-jetbrains = { module = "org.jetbrains:annotations", version.ref = "j
 annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+guava-jre = { module = "com.google.guava:guava", version.ref = "guava-jre" }
 
-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "glide3" }
-androidSVG = { module = "com.caverock:androidsvg", version.ref = "svg" }
-guava-android = { module = "com.google.guava:guava", version.ref = "guava-android" }
+android-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide3" }
+android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" }
+android-guava = { module = "com.google.guava:guava", version.ref = "android-guava" }
 android-lrucache = { module = "com.jakewharton:disklrucache", version.ref = "android-lrucache" }
 android-colorpicker = { module = "com.rarepebble:colorpicker", version.ref = "android-colorpicker" }
+
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
-androidx-annotation_experimental = { module = "androidx.annotation:annotation-experimental", version.ref = "androidx-annotation_experimental" }
+androidx-annotationExperimental = { module = "androidx.annotation:annotation-experimental", version.ref = "androidx-annotation_experimental" }
 androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidx-fragment" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
@@ -116,15 +125,14 @@ androidx-test-robolectric-multidex = { module = "org.robolectric:shadows-multide
 test-junit = { module = "junit:junit", version.ref = "test-junit" }
 test-params = { module = "pl.pragmatists:JUnitParams", version.ref = "test-params" }
 test-gwen = { module = "com.shazam:gwen", version.ref = "test-gwen" }
+test-mockito = { module = "org.mockito:mockito-core", version.ref = "test-mockito" }
 
 test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }
 test-hamcrest-junit = { module = "org.hamcrest:hamcrest-junit", version.ref = "test-hamcrest" }
 # Deprecated ones, exist for reference only.
 test-hamcrest-core = { module = "org.hamcrest:hamcrest-core" }
 test-hamcrest-library = { module = "org.hamcrest:hamcrest-library" }
-
-test-mockito = { module = "org.mockito:mockito-core", version.ref = "test-mockito" }
-test-mockito-android = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
+test-shazamcrest = { module = "com.shazam:shazamcrest", version.ref = "test-shazamcrest" }
 
 test-powermock-mockito2 = { module = "org.powermock:powermock-api-mockito2", version.ref = "test-powermock" }
 test-powermock-junit4 = { module = "org.powermock:powermock-module-junit4", version.ref = "test-powermock" }
@@ -132,19 +140,7 @@ test-powermock-junit4Rule = { module = "org.powermock:powermock-module-junit4-ru
 test-powermock-junit4Agent = { module = "org.powermock:powermock-module-junit4-rule-agent", version.ref = "test-powermock" }
 test-powermock-xstream = { module = "org.powermock:powermock-classloading-xstream", version.ref = "test-powermock" }
 
+test-android-mockito = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
 test-android-dexmaker = { module = "com.google.dexmaker:dexmaker", version.ref = "test-android-dexmaker" }
 test-android-dexmaker-mockito = { module = "com.google.dexmaker:dexmaker-mockito", version.ref = "test-android-dexmaker" }
-
-[bundles]
-test-powermock = [
-    "test-powermock-mockito2",
-    "test-powermock-junit4",
-    "test-powermock-junit4Rule",
-    # Contains duplicate PowerMockRule which messes things up, do not enable.
-    #"test-powermock-junit4Agent",
-    "test-powermock-xstream",
-]
-
-
-[plugins]
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+test-android-classpath = { module = "io.takari.junit:takari-cpsuite", version.ref = "test-android-classpath" }

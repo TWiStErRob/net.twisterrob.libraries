@@ -100,7 +100,7 @@ configurations.configureEach { Configuration config ->
 		// 1.9.10 (powermock 2.0.7) vs 1.10.5 (mockito 3.3.3)
 		force "net.bytebuddy:byte-buddy-agent:1.10.5"
 		// 17.0 (shazamcrest 0.11, bumped in next release) vs 27.0.1-jre (robolectric 4.3.1)
-		force("com.google.guava:guava:27.0.1-jre")
+		force(libs.guava.jre)
 		// Robolectric has inconsistent internal dependencies (4.3.1): 1.0.4, 1.4.2, 1.5.15
 		force("org.codehaus.plexus:plexus-utils:1.5.15")
 		// 2.0.1 (Espresso 3.0.1) vs 3.0.2 (latest)

@@ -27,7 +27,7 @@ dependencies {
 	implementation(libs.androidx.cardview)
 	implementation(libs.androidx.recyclerview)
 	implementation(libs.androidx.material)
-	implementation(libs.androidx.annotation.experimental)
+	implementation(libs.androidx.annotationExperimental)
 
 	//implementation(libs.androidx.palette)
 

@@ -5,12 +5,17 @@ dependencies {
 	testImplementation "net.twisterrob.lib:twister-lib-junit4"
 	testImplementation "net.twisterrob.lib:twister-lib-test"
 	testImplementation(libs.test.hamcrest.junit)
-	testImplementation ('com.shazam:shazamcrest:0.11') { // assertThat(*, sameBeanAs(*))
+	testImplementation(libs.test.shazamcrest) { // assertThat(*, sameBeanAs(*))
 		exclude group: 'junit'
 		exclude module: 'guava'
 	}
 	testImplementation(libs.test.mockito)
-	testImplementation(libs.bundles.test.powermock)
+	testImplementation(libs.test.powermock.mockito2)
+	testImplementation(libs.test.powermock.junit4)
+	testImplementation(libs.test.powermock.junit4Rule)
+	// Contains duplicate PowerMockRule which messes things up, do not enable.
+	testImplementation(libs.test.powermock.junit4Agent)
+	testImplementation(libs.test.powermock.xstream)
 	testImplementation(libs.test.gwen) // Gwen.given, Gwen.when, Gwen.then
 	testRuntimeOnly(libs.slf4j.simple)
 	testImplementation(libs.test.params)

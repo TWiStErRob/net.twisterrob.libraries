@@ -10,10 +10,10 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-hamcrest"
 	implementation(libs.androidx.test.espresso.core)
 	implementation(libs.androidx.test.espresso.idle)
-	implementation(libs.glide3)
+	implementation(libs.android.glide3)
 	implementation(libs.androidx.test.junit)
 	implementation(libs.slf4j.api)
-	implementation(libs.guava.android)
+	implementation(libs.android.guava)
 	// Call to Glide.with(Context) doesn't compile without seeing Glide.with(androidx.Fragment)
 	implementation(libs.androidx.fragment)
 }

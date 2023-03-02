@@ -38,11 +38,11 @@ dependencies {
 		androidTestImplementation(libs.test.params)
 		androidTestImplementation "net.twisterrob.lib:twister-lib-hamcrest"
 		androidTestImplementation "net.twisterrob.lib:twister-lib-mockito"
-		androidTestImplementation(libs.test.mockito.android)
+		androidTestImplementation(libs.test.android.mockito)
 		androidTestImplementation "net.twisterrob.lib:twister-lib-junit4"
 		androidTestImplementation "net.twisterrob.lib:twister-lib-test"
 		androidTestImplementation(libs.test.hamcrest.junit)
-		androidTestImplementation ('com.shazam:shazamcrest:0.11') { // assertThat(*, sameBeanAs(*))
+		androidTestImplementation(libs.test.shazamcrest) { // assertThat(*, sameBeanAs(*))
 			exclude group: 'junit'
 			exclude module: 'guava'
 			exclude group: 'org.json', module: 'json'
