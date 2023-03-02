@@ -51,6 +51,7 @@ public @interface GravityFlag {
 		 * Strive for the simplest possible form, so redundancy may give the same result.
 		 */
 		@DebugHelper
+		@SuppressLint("WrongConstant") // REPORT FLAG_LIST_ false positives.
 		public static @NonNull String toString(@GravityFlag int gravity) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("0x").append(Integer.toHexString(gravity));
@@ -99,6 +100,7 @@ public @interface GravityFlag {
 			return f;
 		}
 
+		@SuppressLint("WrongConstant") // REPORT FLAG_LIST_ false positives.
 		private static @GravityFlag int handleFlag(StringBuilder sb,
 				@GravityFlag int flags, @GravityFlag int flag, String flagName) {
 			if ((flags & flag) == flag) {

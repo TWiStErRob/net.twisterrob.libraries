@@ -33,6 +33,7 @@ import net.twisterrob.java.annotations.DebugHelper;
 @Retention(RetentionPolicy.SOURCE)
 @Target({FIELD, LOCAL_VARIABLE, PARAMETER, METHOD})
 public @interface Density {
+	@SuppressLint("WrongConstant") // REPORT false positive on FORMAT in static { }.
 	class Converter {
 		private static final DecimalFormat FORMAT = new DecimalFormat("#.###");
 

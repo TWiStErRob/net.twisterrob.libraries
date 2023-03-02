@@ -10,8 +10,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 
-	private static final int NORMAL_PACKAGE = 0;
-
 	private final String packageName;
 
 	public HasInstalledPackage(String packageName) {
@@ -25,9 +23,9 @@ public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 	@Override protected boolean matchesSafely(Context context, Description mismatchDescription) {
 		PackageInfo info;
 		try {
-			info = context.getPackageManager().getPackageInfo(packageName, NORMAL_PACKAGE);
+			info = context.getPackageManager().getPackageInfo(packageName, 0);
 		} catch (NameNotFoundException e) {
-			Iterable<PackageInfo> packages = context.getPackageManager().getInstalledPackages(NORMAL_PACKAGE);
+			Iterable<PackageInfo> packages = context.getPackageManager().getInstalledPackages(0);
 			Collection<String> packageNames = new ArrayList<>();
 			for (PackageInfo aPackage : packages) {
 				packageNames.add(aPackage.packageName);
