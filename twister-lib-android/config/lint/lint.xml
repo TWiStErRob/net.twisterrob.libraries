@@ -20,6 +20,9 @@
 		<!-- Ignore duplicate strings in .gradle/caches/transforms-3/<hash>/transformed/<artifact-version>/res/values-*/*.xml (Gradle 7.6) -->
 		<ignore path="*/caches/transforms-3/*/transformed/*" />
 	</issue>
+	<issue id="StringFormatTrivial" severity="ignore">
+		<!-- Don't care, they are usually error formatting. -->
+	</issue>
 	<issue id="UnknownNullness" severity="ignore">
 		<!-- too many to fix yet -->
 	</issue>
