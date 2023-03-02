@@ -17,5 +17,5 @@ dependencies {
 	// not here, not in :capture_image.
 	compileOnly(libs.androidx.fragment)
 	implementation "net.twisterrob.lib:twister-lib-java"
-	implementation(libs.androidx.test.espresso.intents)
+	implementation(libs.test.androidx.espressoIntents)
 }

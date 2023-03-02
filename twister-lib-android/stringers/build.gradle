@@ -18,10 +18,10 @@ dependencies {
 
 	testImplementation(libs.test.junit)
 	testImplementation(libs.test.mockito)
-	testImplementation(libs.androidx.test.robolectric)
-	testImplementation(libs.androidx.test.junit)
-	testImplementation(libs.androidx.test.fragment)
-	testImplementation(libs.androidx.test.core)
+	testImplementation(libs.test.android.robolectric)
+	testImplementation(libs.test.androidx.junit)
+	testImplementation(libs.test.androidx.fragment)
+	testImplementation(libs.test.androidx.core)
 	testImplementation(libs.androidx.material)
 }
 

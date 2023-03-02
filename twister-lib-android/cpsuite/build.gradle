@@ -9,8 +9,8 @@ dependencies {
 		exclude group: 'junit'
 	}
 	implementation(libs.test.junit)
-	implementation(libs.androidx.test.runner)
-	implementation(libs.androidx.test.junit)
+	implementation(libs.test.androidx.runner)
+	implementation(libs.test.androidx.junit)
 }
 
 dependencies.components {
