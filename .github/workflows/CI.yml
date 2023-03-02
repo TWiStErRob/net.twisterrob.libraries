@@ -79,6 +79,7 @@ jobs:
           --continue
           build
           lint
+          violationCountFile
           violationReportConsole
           violationReportHtml
 
