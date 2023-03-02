@@ -40,7 +40,7 @@ dependencies {
 	implementation(libs.androidx.preference)
 	implementation(libs.androidx.recyclerview)
 
-	androidTestImplementation 'pl.pragmatists:JUnitParams:1.1.1'
+	androidTestImplementation(libs.test.params)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 
 	testImplementation(libs.test.mockito)

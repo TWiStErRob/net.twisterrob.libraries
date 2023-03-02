@@ -11,7 +11,7 @@ dependencies {
 	}
 	testImplementation(libs.test.mockito)
 	testImplementation(libs.bundles.test.powermock)
-	testImplementation 'com.shazam:gwen:1.0.2' // Gwen.given, Gwen.when, Gwen.then
+	testImplementation(libs.test.gwen) // Gwen.given, Gwen.when, Gwen.then
 	testRuntimeOnly(libs.slf4j.simple)
-	testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
+	testImplementation(libs.test.params)
 }

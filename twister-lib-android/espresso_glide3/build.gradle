@@ -13,7 +13,7 @@ dependencies {
 	implementation(libs.glide3)
 	implementation(libs.androidx.test.junit)
 	implementation(libs.slf4j.api)
-	implementation "com.google.guava:guava:27.0.1-android"
+	implementation(libs.guava.android)
 	// Call to Glide.with(Context) doesn't compile without seeing Glide.with(androidx.Fragment)
 	implementation(libs.androidx.fragment)
 }

@@ -35,7 +35,7 @@ dependencies {
 //			.each { androidTestImplementation it.displayName }
 
 		androidTestImplementation(libs.test.junit)
-		androidTestImplementation 'pl.pragmatists:JUnitParams:1.1.1'
+		androidTestImplementation(libs.test.params)
 		androidTestImplementation "net.twisterrob.lib:twister-lib-hamcrest"
 		androidTestImplementation "net.twisterrob.lib:twister-lib-mockito"
 		androidTestImplementation(libs.test.mockito.android)
@@ -47,8 +47,8 @@ dependencies {
 			exclude module: 'guava'
 			exclude group: 'org.json', module: 'json'
 		}
-//		androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.0'
-//		androidTestImplementation 'com.google.dexmaker:dexmaker:1.0'
+//		androidTestImplementation(libs.test.android.dexmaker.mockito)
+//		androidTestImplementation(libs.test.android.dexmaker)
 		// Android JUnit Runner
 		androidTestImplementation(libs.androidx.test.runner)
 		androidTestImplementation(libs.androidx.test.junit)
