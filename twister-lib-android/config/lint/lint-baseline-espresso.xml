@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="5" by="lint 4.1.3" client="gradle" variant="all" version="4.1.3">
+<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all" version="7.4.2">
+
+    <issue
+        id="QueryPermissionsNeeded"
+        message="Consider adding a `&lt;queries>` declaration to your manifest when calling this \&#xA;method; see https://g.co/dev/packagevisibility for details"
+        errorLine1="    return getApplicationContext().getPackageManager().queryIntentActivities(intent, flags);"
+        errorLine2="                                                       ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/net/twisterrob/android/test/matchers/AndroidMatchers.java"
+            line="88"
+            column="56"/>
+    </issue>
 
 </issues>
