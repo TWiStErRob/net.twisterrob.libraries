@@ -41,7 +41,6 @@ import net.twisterrob.java.io.IOTools;
  * This class holds our bitmap caches (memory and disk).
  * @deprecated use Glide
  */
-@SuppressLint("ObsoleteSdkInt")
 @Deprecated @SuppressWarnings("deprecation")
 public class ImageCache {
 	private static final String TAG = "ImageCache";

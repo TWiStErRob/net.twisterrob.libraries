@@ -26,6 +26,9 @@
 	<issue id="SyntheticAccessor" severity="ignore">
 		<!-- too many to fix yet -->
 	</issue>
+	<issue id="ObsoleteSdkInt" severity="ignore">
+		<!-- Keeping historical code for documentation purposes for now. -->
+	</issue>
 	<issue id="NewerVersionAvailable">
 		<!-- It's complex to find matching versions of PowerMock / Robolectric and Mockito. -->
 		<ignore regexp="^A newer version of org.mockito:mockito-core" />

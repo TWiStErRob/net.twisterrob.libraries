@@ -26,7 +26,6 @@ import net.twisterrob.java.annotations.DebugHelper;
 import static net.twisterrob.android.utils.tools.DatabaseTools.*;
 
 @RequiresApi(VERSION_CODES.GINGERBREAD_MR1)
-@SuppressLint("ObsoleteSdkInt")
 public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {
 	private static final Logger LOG = LoggerFactory.getLogger(DatabaseOpenHelper.class);
 	private static final String DB_SCHEMA_FILE = "%s.schema.sql";

@@ -13,39 +13,6 @@
     </issue>
 
     <issue
-        id="ObsoleteSdkInt"
-        message="Unnecessary; SDK_INT is never &lt; 14"
-        errorLine1="  if (VERSION.SDK_INT &lt; VERSION_CODES.HONEYCOMB) {"
-        errorLine2="      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\java\net\twisterrob\android\view\CameraPreview.java"
-            line="62"
-            column="7"/>
-    </issue>
-
-    <issue
-        id="ObsoleteSdkInt"
-        message="Unnecessary; SDK_INT is always >= 14"
-        errorLine1="    if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\java\net\twisterrob\android\activity\CaptureImage.java"
-            line="168"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="ObsoleteSdkInt"
-        message="Unnecessary; SDK_INT is always >= 14"
-        errorLine1="  if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB_MR1) {"
-        errorLine2="      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\java\net\twisterrob\android\utils\tools\ImageTools.java"
-            line="533"
-            column="7"/>
-    </issue>
-
-    <issue
         id="RtlEnabled"
         message="The project references RTL attributes, but does not explicitly enable or disable RTL support with `android:supportsRtl` in the manifest">
         <location
