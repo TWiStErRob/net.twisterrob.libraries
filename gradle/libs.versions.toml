@@ -58,6 +58,8 @@ test-params = "1.1.1"
 test-gwen = "1.0.2"
 test-mockito = "3.3.3"
 test-powermock = "2.0.7"
+test-objenesis = "3.0.1"
+test-bytebuddy = "1.10.5"
 # Use this instead of 1.3
 # If `hamcrest-1.3` appears in the dependency list, check if it's excluded from all usages.
 test-hamcrest = "2.0.0.0"
@@ -66,6 +68,8 @@ test-shazamcrest = "0.11"
 test-android-dexmaker = "1.0"
 test-android-classpath = "1.2.7"
 test-android-robolectric = "4.4"
+test-android-plexus = "1.5.15"
+test-android-objenesis = "2.6"
 
 # https://developer.android.com/jetpack/androidx/releases/test
 test-androidx-espresso = "3.3.0"
@@ -112,6 +116,8 @@ test-android-dexmaker-mockito = { module = "com.google.dexmaker:dexmaker-mockito
 test-android-classpath = { module = "io.takari.junit:takari-cpsuite", version.ref = "test-android-classpath" }
 test-android-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-android-robolectric" }
 test-android-robolectricMultidex = { module = "org.robolectric:shadows-multidex", version.ref = "test-android-robolectric" }
+test-android-robolectricPlexus = { module = "org.codehaus.plexus:plexus-utils", version.ref = "test-android-plexus" }
+test-android-objenesis = { module = "org.objenesis:objenesis", version.ref = "test-android-objenesis" }
 
 test-androidx-fragment = { module = "androidx.fragment:fragment-testing", version.ref = "androidx-fragment" }
 test-androidx-core = { module = "androidx.test:core", version.ref = "test-androidx-runner" }
@@ -133,6 +139,9 @@ test-junit = { module = "junit:junit", version.ref = "test-junit" }
 test-params = { module = "pl.pragmatists:JUnitParams", version.ref = "test-params" }
 test-gwen = { module = "com.shazam:gwen", version.ref = "test-gwen" }
 test-mockito = { module = "org.mockito:mockito-core", version.ref = "test-mockito" }
+test-objenesis = { module = "org.objenesis:objenesis", version.ref = "test-objenesis" }
+test-bytebuddy = { module = "net.bytebuddy:byte-buddy", version.ref = "test-bytebuddy" }
+test-bytebuddyAgent = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "test-bytebuddy" }
 
 test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }
 test-hamcrest-junit = { module = "org.hamcrest:hamcrest-junit", version.ref = "test-hamcrest" }
