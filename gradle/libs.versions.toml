@@ -91,7 +91,7 @@ android-lrucache = { module = "com.jakewharton:disklrucache", version.ref = "and
 android-colorpicker = { module = "com.rarepebble:colorpicker", version.ref = "android-colorpicker" }
 
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
-androidx-annotationExperimental = { module = "androidx.annotation:annotation-experimental", version.ref = "androidx-annotation_experimental" }
+androidx-annotationExperimental = { module = "androidx.annotation:annotation-experimental", version.ref = "androidx-annotationExperimental" }
 androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidx-fragment" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
