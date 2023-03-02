@@ -104,6 +104,6 @@ configurations.configureEach { Configuration config ->
 		// Robolectric has inconsistent internal dependencies (4.3.1): 1.0.4, 1.4.2, 1.5.15
 		force("org.codehaus.plexus:plexus-utils:1.5.15")
 		// 2.0.1 (Espresso 3.0.1) vs 3.0.2 (latest)
-		force("com.google.code.findbugs:jsr305:3.0.2")
+		force(libs.annotations.jsr305)
 	}
 }

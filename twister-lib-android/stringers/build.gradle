@@ -12,7 +12,7 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-stringer"
 	implementation 'net.twisterrob.lib:twister-lib-android-basics'
 	implementation "net.twisterrob.lib:twister-lib-android-defs"
-	compileOnly(libs.jsr305)
+	compileOnly(libs.annotations.jsr305)
 	compileOnly "net.twisterrob.lib:twister-lib-android-annotations"
 	compileOnly "net.twisterrob.lib:twister-lib-core"
 

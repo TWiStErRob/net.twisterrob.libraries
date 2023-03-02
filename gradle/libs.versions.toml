@@ -8,6 +8,7 @@ twisterrob = "0.15"
 detekt = "1.22.0"
 
 jsr305 = "3.0.2"
+jbrAnn = "18.0.0"
 slf4j = "1.7.30"
 
 test-junit="4.13.1"
@@ -27,7 +28,8 @@ android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp
 twisterrob-quality = { module = "net.twisterrob.gradle:twister-quality", version.ref = "twisterrob" }
 twisterrob-android = { module = "net.twisterrob.gradle:twister-convention-plugins", version.ref = "twisterrob" }
 
-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
+annotations-jetbrains = { module = "org.jetbrains:annotations", version.ref = "jbrAnn" }
+annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 

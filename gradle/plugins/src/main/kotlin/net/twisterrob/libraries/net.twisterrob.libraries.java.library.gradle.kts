@@ -23,5 +23,5 @@ dependencies {
 	api(libs.slf4j.api)
 	testImplementation(libs.slf4j.simple)
 	// TODO change to implementation (first step: exclude in Android)
-	api(libs.jsr305)
+	api(libs.annotations.jsr305)
 }
