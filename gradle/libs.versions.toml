@@ -20,6 +20,7 @@ test-hamcrest="2.0.0.0"
 # TODEL SVGWorkarounds on > 1.4
 # TODEL :glide3 consumer.pro on > 1.4
 svg = "1.4"
+glide3 = "3.8.0"
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -30,6 +31,7 @@ jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
+glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "glide3" }
 androidSVG = { module = "com.caverock:androidsvg", version.ref = "svg" }
 
 test-junit = { module = "junit:junit", version.ref = "test-junit" }

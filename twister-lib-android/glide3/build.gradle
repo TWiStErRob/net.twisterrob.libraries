@@ -5,7 +5,7 @@ plugins {
 dependencies {
 	implementation(libs.slf4j.api)
 
-	api "com.github.bumptech.glide:glide:${VERSION_GLIDE}"
+	api(libs.glide3)
 
 	implementation(libs.androidSVG)
 
