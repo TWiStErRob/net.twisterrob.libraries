@@ -1,5 +1,6 @@
 package net.twisterrob.android.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,7 @@ public abstract class WrappingAdapter<VH extends RecyclerView.ViewHolder> extend
 	}
 
 	protected class NotifyingObserver extends RecyclerView.AdapterDataObserver {
+		@SuppressLint("NotifyDataSetChanged") // We don't know why it's changed, so just notify all.
 		@Override public void onChanged() {
 			notifyDataSetChanged();
 		}

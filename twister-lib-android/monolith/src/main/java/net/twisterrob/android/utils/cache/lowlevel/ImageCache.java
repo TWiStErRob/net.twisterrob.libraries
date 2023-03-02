@@ -41,7 +41,6 @@ import net.twisterrob.java.io.IOTools;
  * This class holds our bitmap caches (memory and disk).
  * @deprecated use Glide
  */
-@SuppressLint("ObsoleteSdkInt")
 @Deprecated @SuppressWarnings("deprecation")
 public class ImageCache {
 	private static final String TAG = "ImageCache";
@@ -514,6 +513,7 @@ public class ImageCache {
 	 * @return The space available in bytes
 	 */
 	@TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
+	@SuppressLint("UsableSpace")
 	@SuppressWarnings("deprecation")
 	public static long getUsableSpace(final File path) {
 		if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {

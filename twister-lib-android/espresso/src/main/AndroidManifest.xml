@@ -1,10 +1,18 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	>
 
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-	<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />
+
+	<!-- See net.twisterrob.android.test.SystemAnimations. -->
+	<uses-permission
+		android:name="android.permission.SET_ANIMATION_SCALE"
+		tools:ignore="ProtectedPermissions"
+		>
+		<!-- lint:ProtectedPermissions Keeping it for documentation purposes. -->
+	</uses-permission>
 
 	<application>
 

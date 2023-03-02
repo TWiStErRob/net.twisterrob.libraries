@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.xmlpull.v1.*;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.*;
@@ -905,6 +906,7 @@ public class Adapters {
 			super.changeCursor(c);
 		}
 
+		@SuppressLint("StaticFieldLeak")
 		class QueryTask extends AsyncTask<Void, Void, Cursor> {
 			@SuppressWarnings("deprecation")
 			@Override protected Cursor doInBackground(Void... params) {

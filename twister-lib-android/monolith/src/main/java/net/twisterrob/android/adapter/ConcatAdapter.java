@@ -2,6 +2,7 @@ package net.twisterrob.android.adapter;
 
 import java.util.*;
 
+import android.annotation.SuppressLint;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
@@ -129,6 +130,7 @@ public class ConcatAdapter extends Adapter<ViewHolder> {
 			this.wrapped = wrapped;
 		}
 
+		@SuppressLint("NotifyDataSetChanged") // We don't know why it's changed, so just notify all.
 		@Override public void onChanged() {
 			notifyDataSetChanged();
 		}

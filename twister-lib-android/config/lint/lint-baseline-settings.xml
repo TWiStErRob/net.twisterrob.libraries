@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="5" by="lint 4.1.3" client="gradle" variant="all" version="4.1.3">
+<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all" version="7.4.2">
 
     <issue
         id="QueryPermissionsNeeded"
@@ -7,8 +7,30 @@
         errorLine1="  List&lt;ResolveInfo> intents = pm.queryIntentActivities(getIntent(), 0);"
         errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\net\twisterrob\android\settings\view\ExternalIntentPreference.java"
+            file="src/main/java/net/twisterrob/android/settings/view/ExternalIntentPreference.java"
             line="34"
+            column="34"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@layout/preference_material` is marked as private in androidx.preference:preference:1.1.1"
+        errorLine1="  &lt;item name=&quot;android:layout&quot;>@layout/preference_material&lt;/item>"
+        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/preference_number_picker_style.xml"
+            line="6"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="PrivateResource"
+        message="The resource `@bool/config_materialPreferenceIconSpaceReserved` is marked as private in androidx.preference:preference:1.1.1"
+        errorLine1="  &lt;item name=&quot;iconSpaceReserved&quot;>@bool/config_materialPreferenceIconSpaceReserved&lt;/item>"
+        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/preference_number_picker_style.xml"
+            line="10"
             column="34"/>
     </issue>
 

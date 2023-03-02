@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge />
+<merge
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:ignore="UnusedResources"
+	>
+	<!-- lint:UnusedResources This is meant to be used by consuming apps. -->
+</merge>

@@ -34,6 +34,10 @@ public class AboutActivity extends ListActivity {
 
 	private CharSequence[] licenseContents;
 
+	@SuppressLint(
+			// about_licenses_title exists in inc_about_header which is attached to the ListView in activity_about.
+			"MissingInflatedId"
+	)
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);

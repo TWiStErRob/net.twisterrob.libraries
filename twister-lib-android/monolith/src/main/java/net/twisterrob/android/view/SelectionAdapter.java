@@ -2,6 +2,7 @@ package net.twisterrob.android.view;
 
 import java.util.*;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build.*;
 import android.util.SparseBooleanArray;
@@ -85,6 +86,7 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 		notifyItemRangeChanged(positionStart, itemCount);
 	}
 
+	@SuppressLint("NotifyDataSetChanged") // The selection is likely non-contiguous, notify to refresh everything. 
 	public void clearSelections() {
 		selectedItems.clear();
 		notifyDataSetChanged();
@@ -104,6 +106,7 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 		return items;
 	}
 
+	@SuppressLint("NotifyDataSetChanged") // The selection is likely non-contiguous, notify to refresh everything. 
 	public void setSelectedItems(@NonNull Collection<Integer> positions) {
 		selectedItems.clear();
 		for (int position : positions) {

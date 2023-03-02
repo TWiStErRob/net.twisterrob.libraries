@@ -1,5 +1,7 @@
 package net.twisterrob.android.test.automators;
 
+import java.util.Locale;
+
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.widget.TextView;
 
@@ -77,7 +79,7 @@ public class GoogleDriveAutomator {
 	public static String selectFolder() throws NameNotFoundException {
 		return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "dialog_select", "Select")
 		                            // this looks risky, consider android:button1
-		                            .toUpperCase();
+		                            .toUpperCase(Locale.getDefault());
 	}
 
 	/**
@@ -86,7 +88,7 @@ public class GoogleDriveAutomator {
 	public static String save() throws NameNotFoundException {
 		return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "upload_shared_item_confirm", "Save")
 		                            // this looks risky, consider android:button1
-		                            .toUpperCase();
+		                            .toUpperCase(Locale.getDefault());
 	}
 
 	/**

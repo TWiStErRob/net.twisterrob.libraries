@@ -1,5 +1,6 @@
 package net.twisterrob.android.adapter;
 
+import android.annotation.SuppressLint;
 import android.database.*;
 import android.os.Handler;
 import android.widget.*;
@@ -147,6 +148,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
 	 * If the given new Cursor is the same instance is the previously set
 	 * Cursor, null is also returned.
 	 */
+	@SuppressLint("NotifyDataSetChanged") // Everything is changed, so notify all.
 	public @Nullable Cursor swapCursor(@Nullable Cursor newCursor) {
 		if (newCursor == mCursor) {
 			return null;
@@ -288,6 +290,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
 	}
 
 	private class MyDataSetObserver extends DataSetObserver {
+		@SuppressLint("NotifyDataSetChanged") // We don't know why it's changed, so just notify all.
 		@Override public void onChanged() {
 			mDataValid = true;
 			notifyDataSetChanged();

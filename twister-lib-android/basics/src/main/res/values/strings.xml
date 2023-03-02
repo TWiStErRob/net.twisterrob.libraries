@@ -1,10 +1,12 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+	<!-- lint:UnusedResources This is meant to be used by consuming apps. -->
 	<!--suppress CheckTagEmptyBody -->
-	<string name="empty"></string>
+	<string name="empty" tools:ignore="UnusedResources"></string>
 
 	<!-- Placeholder for resource merging trick.
          The build will replace users of these with some real value from the app module.
          See https://developer.android.com/studio/write/add-resources.html#resource_merging -->
-	<string name="merged_resource" translatable="false">SHOULD BE REPLACED</string>
+	<string name="merged_resource" translatable="false" tools:ignore="UnusedResources">SHOULD BE REPLACED</string>
 
 </resources>

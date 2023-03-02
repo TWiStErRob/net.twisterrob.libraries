@@ -32,7 +32,7 @@ public class DeviceUnlocker {
 	})
 	@SuppressWarnings("deprecation")
 	public void wakeUpWithDisabledKeyguard() {
-		KeyguardManager.KeyguardLock kl = keyguardManager.newKeyguardLock("Keyguard off for Test");
+		KeyguardManager.KeyguardLock kl = keyguardManager.newKeyguardLock("net.twisterrob::keyguard_off_for_test");
 		kl.disableKeyguard();
 		try {
 			wakeUp();
@@ -45,9 +45,9 @@ public class DeviceUnlocker {
 	@SuppressWarnings("deprecation")
 	public void wakeUp() {
 		int flags = PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE;
-		WakeLock wakeLock = powerManager.newWakeLock(flags, "Wake up for Test");
+		WakeLock wakeLock = powerManager.newWakeLock(flags, "net.twisterrob::wake_up_for_test");
 		try {
-			wakeLock.acquire();
+			wakeLock.acquire(1000L /* 1 second */);
 		} finally {
 			wakeLock.release();
 		}

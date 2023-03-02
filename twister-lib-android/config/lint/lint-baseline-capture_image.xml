@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="5" by="lint 4.1.3" client="gradle" variant="all" version="4.1.3">
+<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all" version="7.4.2">
 
     <issue
         id="ScopedStorage"
@@ -7,79 +7,9 @@
         errorLine1=" &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; />"
         errorLine2="                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\AndroidManifest.xml"
-            line="10"
+            file="src/main/AndroidManifest.xml"
+            line="9"
             column="33"/>
-    </issue>
-
-    <issue
-        id="StringFormatCount"
-        message="Inconsistent number of arguments in formatting string `image__choose_external__intent_label_pick`; found both 0 and 1"
-        errorLine1=" &lt;string name=&quot;image__choose_external__intent_label_pick&quot;>&lt;xliff:g id=&quot;app&quot; example=&quot;Photos&quot;>%1$s&lt;/xliff:g> &lt;font color=&quot;#CCCCCC&quot;>(select)&lt;/font>&lt;/string>"
-        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\values\strings.xml"
-            line="5"
-            column="2"/>
-        <location
-            file="src\main\res\values-v29\strings.xml"
-            line="5"
-            column="2"/>
-    </issue>
-
-    <issue
-        id="StringFormatCount"
-        message="Inconsistent number of arguments in formatting string `image__choose_external__intent_label_take`; found both 0 and 1"
-        errorLine1=" &lt;string name=&quot;image__choose_external__intent_label_take&quot;>&lt;xliff:g id=&quot;app&quot; example=&quot;Camera&quot;>%1$s&lt;/xliff:g> &lt;font color=&quot;#CCCCCC&quot;>(capture)&lt;/font>&lt;/string>"
-        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\values\strings.xml"
-            line="6"
-            column="2"/>
-        <location
-            file="src\main\res\values-v29\strings.xml"
-            line="7"
-            column="2"/>
-    </issue>
-
-    <issue
-        id="ObsoleteSdkInt"
-        message="Unnecessary; SDK_INT is never &lt; 14"
-        errorLine1="  if (VERSION.SDK_INT &lt; VERSION_CODES.HONEYCOMB) {"
-        errorLine2="      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\java\net\twisterrob\android\view\CameraPreview.java"
-            line="62"
-            column="7"/>
-    </issue>
-
-    <issue
-        id="ObsoleteSdkInt"
-        message="Unnecessary; SDK_INT is always >= 14"
-        errorLine1="    if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\java\net\twisterrob\android\activity\CaptureImage.java"
-            line="168"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="ObsoleteSdkInt"
-        message="Unnecessary; SDK_INT is always >= 14"
-        errorLine1="  if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB_MR1) {"
-        errorLine2="      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\java\net\twisterrob\android\utils\tools\ImageTools.java"
-            line="533"
-            column="7"/>
-    </issue>
-
-    <issue
-        id="RtlEnabled"
-        message="The project references RTL attributes, but does not explicitly enable or disable RTL support with `android:supportsRtl` in the manifest">
-        <location
-            file="src\main\AndroidManifest.xml"/>
     </issue>
 
 </issues>

@@ -24,9 +24,19 @@ import net.twisterrob.java.annotations.DebugHelper;
 @Target({FIELD, LOCAL_VARIABLE, PARAMETER, METHOD})
 public @interface ConfigurationDensityDpi {
 	class Converter {
+		/**
+		 * @see Configuration#DENSITY_DPI_ANY which is @hide
+		 */
+		@SuppressWarnings("JavadocReference")
 		private static final int DENSITY_DPI_ANY = 0xfffe;
+
+		/**
+		 * @see Configuration#DENSITY_DPI_NONE which is @hide
+		 */
+		@SuppressWarnings("JavadocReference")
 		private static final int DENSITY_DPI_NONE = 0xffff;
-		@SuppressLint("SwitchIntDef")
+
+		@SuppressLint({"SwitchIntDef", "WrongConstant"})
 		@DebugHelper
 		public static String toString(@ConfigurationDensityDpi int dpi) {
 			switch (dpi) {

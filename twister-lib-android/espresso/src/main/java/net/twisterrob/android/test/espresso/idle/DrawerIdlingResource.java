@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import org.hamcrest.Matcher;
 import org.slf4j.*;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.*;
 
@@ -44,10 +45,20 @@ public class DrawerIdlingResource extends AsyncIdlingResource {
 		}
 	}
 
-	public DrawerIdlingResource(@NonNull ViewProvider drawerProvider, int drawerGravity) {
+	public DrawerIdlingResource(int drawerGravity, @NonNull ViewProvider drawerProvider) {
 		this.drawerProvider = drawerProvider;
 		this.drawerGravity = drawerGravity;
 	}
+
+	/**
+	 * @deprecated use {@link #DrawerIdlingResource(int, ViewProvider)} instead.
+	 */
+	@Deprecated
+	@SuppressLint("LambdaLast")
+	public DrawerIdlingResource(@NonNull ViewProvider drawerProvider, int drawerGravity) {
+		this(drawerGravity, drawerProvider);
+	}
+
 	@Override public String getName() {
 		return GravityFlag.Converter.toString(drawerGravity) + " drawer";
 	}
@@ -120,9 +131,21 @@ public class DrawerIdlingResource extends AsyncIdlingResource {
 	 * @see TopDrawer
 	 * @see ActivityRuleDrawer
 	 * @see ActivityRuleDrawerById
+	 * @deprecated use {@link #rule(int, ViewProvider)} instead.
 	 */
+	@Deprecated
+	@SuppressLint("LambdaLast")
 	public static IdlingResourceRule rule(ViewProvider drawerProvider, @GravityFlag int gravity) {
-		return new IdlingResourceRule(new DrawerIdlingResource(drawerProvider, gravity));
+		return new IdlingResourceRule(new DrawerIdlingResource(gravity, drawerProvider));
+	}
+
+	/**
+	 * @see TopDrawer
+	 * @see ActivityRuleDrawer
+	 * @see ActivityRuleDrawerById
+	 */
+	public static IdlingResourceRule rule(@GravityFlag int gravity, ViewProvider drawerProvider) {
+		return new IdlingResourceRule(new DrawerIdlingResource(gravity, drawerProvider));
 	}
 
 	public static class TopDrawer implements ViewProvider {

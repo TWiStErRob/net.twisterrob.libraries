@@ -7,6 +7,7 @@ import org.slf4j.*;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -41,6 +42,8 @@ import androidx.annotation.RequiresPermission;
  * @see <a href="https://product.reverb.com/2015/06/06/disabling-animations-in-espresso-for-android-testing/">Disabling Animations</a>
  * @see <a href="https://gist.github.com/danielgomezrico/9371a79a7222a156ddad">Gist</a>
  */
+@SuppressWarnings("JavaReflectionMemberAccess")
+@SuppressLint({"DiscouragedPrivateApi", "PrivateApi", "SoonBlockedPrivateApi"}) // This class is meant to hack around.
 public class SystemAnimations {
 	private static final Logger LOG = LoggerFactory.getLogger(SystemAnimations.class);
 	private static final String ANIMATION_PERMISSION = Manifest.permission.SET_ANIMATION_SCALE;
@@ -165,7 +168,8 @@ public class SystemAnimations {
 		}
 	}
 
-	public void setScales(float... currentScales) {
+	@SuppressWarnings("MethodCanBeVariableArityMethod") // Contradicts lint:KotlinPropertyAccess.
+	public void setScales(float[] currentScales) {
 		if (canSetAnimationScales) {
 			try {
 				setAnimationScales.invoke(windowManager, new Object[] {currentScales});
