@@ -40,6 +40,13 @@ androidx-preference="1.1.1"
 # https://github.com/material-components/material-components-android/releases
 androidx-material="1.2.1"
 
+androidx-test-robolectric="4.4"
+# https://developer.android.com/jetpack/androidx/releases/test
+androidx-test-espresso="3.3.0"
+androidx-test-runner="1.3.0"
+androidx-test-junit="1.1.2"
+androidx-test-uiautomator="2.2.0"
+
 test-junit="4.13.1"
 test-mockito="3.3.3"
 test-powermock="2.0.7"
@@ -51,6 +58,7 @@ test-hamcrest="2.0.0.0"
 # TODEL :glide3 consumer.pro on > 1.4
 svg = "1.4"
 glide3 = "3.8.0"
+
 
 [libraries]
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -80,6 +88,22 @@ androidx-preference = { module = "androidx.preference:preference", version.ref =
 androidx-material = { module = "com.google.android.material:material", version.ref = "androidx-material" }
 
 androidx-test-fragment = { module = "androidx.fragment:fragment-testing", version.ref = "androidx-fragment" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
+androidx-test-espresso-idle = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "androidx-test-espresso" }
+androidx-test-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "androidx-test-espresso" }
+androidx-test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-test-espresso" }
+androidx-test-espresso-web = { module = "androidx.test.espresso:espresso-web", version.ref = "androidx-test-espresso" }
+androidx-test-espresso-accessibility = { module = "androidx.test.espresso:espresso-accessibility", version.ref = "androidx-test-espresso" }
+androidx-test-espresso-concurrent = { module = "androidx.test.espresso:espresso-concurrent", version.ref = "androidx-test-espresso" }
+androidx-test-espresso-net = { module = "androidx.test.espresso:espresso-net", version.ref = "androidx-test-espresso" }
+
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
+androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-runner" }
+androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-junit" }
+androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-test-uiautomator" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-runner" }
+androidx-test-robolectric = { module = "org.robolectric:robolectric", version.ref = "androidx-test-robolectric" }
+androidx-test-robolectric-multidex = { module = "org.robolectric:shadows-multidex", version.ref = "androidx-test-robolectric" }
 
 test-junit = { module = "junit:junit", version.ref = "test-junit" }
 

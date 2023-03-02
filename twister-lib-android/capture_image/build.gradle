@@ -12,7 +12,7 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
-	androidTestImplementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
+	androidTestImplementation(libs.androidx.test.espresso.intents)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_glide3"
 	androidTestImplementation(libs.androidx.fragment)

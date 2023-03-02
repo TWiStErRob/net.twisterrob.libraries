@@ -8,10 +8,10 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-android-espresso"
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "net.twisterrob.lib:twister-lib-hamcrest"
-	implementation "androidx.test.espresso:espresso-core:${VERSION_ESPRESSO}"
-	implementation "androidx.test.espresso:espresso-idling-resource:${VERSION_ESPRESSO}"
+	implementation(libs.androidx.test.espresso.core)
+	implementation(libs.androidx.test.espresso.idle)
 	implementation(libs.glide3)
-	implementation "androidx.test.ext:junit:${VERSION_ESPRESSO_JUNIT}"
+	implementation(libs.androidx.test.junit)
 	implementation(libs.slf4j.api)
 	implementation "com.google.guava:guava:27.0.1-android"
 	// Call to Glide.with(Context) doesn't compile without seeing Glide.with(androidx.Fragment)

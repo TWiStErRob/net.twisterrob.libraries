@@ -21,9 +21,9 @@ dependencies {
 	configurations.testRuntimeOnly.exclude module: 'twister-lib-android-slf4j'
 
 	if (isAndroid) {
-		testImplementation "org.robolectric:robolectric:${VERSION_ROBOLECTRIC}"
-		testImplementation "org.robolectric:shadows-multidex:${VERSION_ROBOLECTRIC}"
-		testImplementation "androidx.test:core:${VERSION_ESPRESSO_RUNNER}"
+		testImplementation(libs.androidx.test.robolectric)
+		testImplementation(libs.androidx.test.robolectric.multidex)
+		testImplementation(libs.androidx.test.core)
 
 //	configurations
 //			.compile
@@ -50,14 +50,14 @@ dependencies {
 //		androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.0'
 //		androidTestImplementation 'com.google.dexmaker:dexmaker:1.0'
 		// Android JUnit Runner
-		androidTestImplementation "androidx.test:runner:${VERSION_ESPRESSO_RUNNER}"
-		androidTestImplementation "androidx.test.ext:junit:${VERSION_ESPRESSO_JUNIT}"
-		androidTestImplementation "androidx.test:rules:${VERSION_ESPRESSO_RUNNER}"
+		androidTestImplementation(libs.androidx.test.runner)
+		androidTestImplementation(libs.androidx.test.junit)
+		androidTestImplementation(libs.androidx.test.rules)
 
 		// Espresso core
-		androidTestImplementation "androidx.test.espresso:espresso-core:${VERSION_ESPRESSO}"
+		androidTestImplementation(libs.androidx.test.espresso.core)
 		// Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-		androidTestImplementation "androidx.test.espresso:espresso-contrib:${VERSION_ESPRESSO}"
+		androidTestImplementation(libs.androidx.test.espresso.contrib)
 		// Make sure to bump the version coming transitively from Espresso to the one used by the project.
 		// Resolves
 		// > :processDebugAndroidTestManifest
@@ -67,19 +67,19 @@ dependencies {
 		androidTestImplementation(libs.androidx.material)
 		// Espresso-accessibility for automatic checking (not used yet)
 		// TODO AccessibilityChecks.enable()
-		//androidTestImplementation "androidx.test.espresso:espresso-accessibility:${VERSION_ESPRESSO}"
+		//androidTestImplementation(libs.androidx.test.espresso.accessibility)
 		// disable web for now, because it has some conflicting Guava classes (https://issuetracker.google.com/issues/37063389)
 		// Espresso-web for WebView support (not used yet)
-		//androidTestImplementation "androidx.test.espresso:espresso-web:${VERSION_ESPRESSO}"
+		//androidTestImplementation(libs.androidx.test.espresso.web)
 		// Espresso-intents for capturing Intents and mocking onActivityResult
-		androidTestImplementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
+		androidTestImplementation(libs.androidx.test.espresso.intents)
 		// Espresso-idling-resource for synchronization with background jobs
-		androidTestImplementation "androidx.test.espresso:espresso-idling-resource:${VERSION_ESPRESSO}"
+		androidTestImplementation(libs.androidx.test.espresso.idle)
 		// CONSIDER using these with Glide
-		//androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:${VERSION_ESPRESSO}"
-		//androidTestImplementation "androidx.test.espresso.idling:idling-net:${VERSION_ESPRESSO}"
+		//androidTestImplementation(libs.androidx.test.espresso.concurrent)
+		//androidTestImplementation(libs.androidx.test.espresso.net)
 
 		// UI Automator @SdkSuppress(minSdkVersion = VERSION_CODES.JELLY_BEAN_MR2)
-		androidTestImplementation "androidx.test.uiautomator:uiautomator:${VERSION_ESPRESSO_UIAUTOMATOR}"
+		androidTestImplementation(libs.androidx.test.uiautomator)
 	}
 }
