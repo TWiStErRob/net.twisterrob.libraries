@@ -9,19 +9,21 @@ import static org.junit.Assert.*;
 
 import static androidx.test.core.app.ApplicationProvider.*;
 
+import static net.twisterrob.android.test.matchers.HasInstalledPackage.hasInstalledPackage;
+
 public class HasInstalledPackageTest {
 
 	@Test public void missingPackageFails() {
 		AssertionError ex = assertThrows(AssertionError.class, new ThrowingRunnable() {
 			@Override public void run() {
-				assertThat(getApplicationContext(), new HasInstalledPackage("not.existing.package"));
+				assertThat(getApplicationContext(), hasInstalledPackage("not.existing.package"));
 			}
 		});
 		assertThat(ex.getMessage(), containsString("not.existing.package"));
 	}
 
 	@Test public void existingPackagePasses() {
-		assertThat(getApplicationContext(), new HasInstalledPackage("android"));
+		assertThat(getApplicationContext(), hasInstalledPackage("android"));
 		// no exception
 	}
 }
