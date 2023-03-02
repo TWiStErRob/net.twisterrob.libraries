@@ -17,6 +17,6 @@ dependencies {
 	//testImplementation "org.powermock:powermock-module-junit4-rule-agent:${VERSION_POWERMOCK}"
 	testImplementation "org.powermock:powermock-classloading-xstream:${VERSION_POWERMOCK}"
 	testImplementation 'com.shazam:gwen:1.0.2' // Gwen.given, Gwen.when, Gwen.then
-	testRuntimeOnly "org.slf4j:slf4j-simple:${VERSION_SLF4J}"
+	testRuntimeOnly(libs.slf4j.simple)
 	testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
 }

@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
+	implementation(libs.slf4j.api)
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"

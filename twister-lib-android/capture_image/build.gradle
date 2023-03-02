@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
+	implementation(libs.slf4j.api)
 	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
 	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
 	implementation "androidx.exifinterface:exifinterface:${VERSION_ANDROIDX_EXIF}"

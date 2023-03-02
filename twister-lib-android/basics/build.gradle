@@ -5,7 +5,7 @@ plugins {
 android.namespace = "net.twisterrob.android.core"
 
 dependencies {
-	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
+	implementation(libs.slf4j.api)
 	api "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
 	api "net.twisterrob.lib:twister-lib-android-defs"
 	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
