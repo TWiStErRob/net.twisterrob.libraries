@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <issues format="5" by="lint 4.1.3" client="gradle" variant="all" version="4.1.3">
 
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
-        errorLine1="                              .toUpperCase();"
-        errorLine2="                               ~~~~~~~~~~~">
-        <location
-            file="src\main\java\net\twisterrob\android\test\automators\GoogleDriveAutomator.java"
-            line="80"
-            column="32"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `toUpperCase(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`."
-        errorLine1="                              .toUpperCase();"
-        errorLine2="                               ~~~~~~~~~~~">
-        <location
-            file="src\main\java\net\twisterrob\android\test\automators\GoogleDriveAutomator.java"
-            line="89"
-            column="32"/>
-    </issue>
-
 </issues>
