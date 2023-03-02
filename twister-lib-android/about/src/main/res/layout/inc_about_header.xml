@@ -10,11 +10,13 @@
 	<TextView
 		style="?android:listSeparatorTextViewStyle"
 		android:text="@string/about_application_title"
+		tools:ignore="RequiredSize"
 		/>
 	<include layout="@layout/inc_about_app" />
 	<TextView
 		android:id="@+id/about_licenses_title"
 		style="?android:listSeparatorTextViewStyle"
 		android:text="@string/about_licenses_title"
+		tools:ignore="RequiredSize"
 		/>
 </LinearLayout>

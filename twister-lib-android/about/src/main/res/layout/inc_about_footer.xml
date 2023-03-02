@@ -12,6 +12,7 @@
 		android:id="@+id/about_faq_title"
 		style="?android:listSeparatorTextViewStyle"
 		android:text="@string/about_faq_title"
+		tools:ignore="RequiredSize"
 		/>
 	<TextView
 		android:id="@+id/about_faq"
@@ -30,6 +31,7 @@
 		android:id="@+id/about_help_title"
 		style="?android:listSeparatorTextViewStyle"
 		android:text="@string/about_help_title"
+		tools:ignore="RequiredSize"
 		/>
 	<TextView
 		android:id="@+id/about_help"
@@ -48,6 +50,7 @@
 		android:id="@+id/about_tips_title"
 		style="?android:listSeparatorTextViewStyle"
 		android:text="@string/about_tips_title"
+		tools:ignore="RequiredSize"
 		/>
 	<TextView
 		android:id="@+id/about_tips"
