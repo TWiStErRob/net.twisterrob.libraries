@@ -14,7 +14,7 @@ dependencies {
 	testImplementation(libs.test.powermock.junit4)
 	testImplementation(libs.test.powermock.junit4Rule)
 	// Contains duplicate PowerMockRule which messes things up, do not enable.
-	testImplementation(libs.test.powermock.junit4Agent)
+	//testImplementation(libs.test.powermock.junit4Agent)
 	testImplementation(libs.test.powermock.xstream)
 	testImplementation(libs.test.gwen) // Gwen.given, Gwen.when, Gwen.then
 	testRuntimeOnly(libs.slf4j.simple)
