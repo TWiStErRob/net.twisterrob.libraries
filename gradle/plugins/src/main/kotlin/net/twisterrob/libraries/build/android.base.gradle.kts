@@ -23,8 +23,8 @@ android {
 	lint {
 		warningsAsErrors = true
 		checkAllWarnings = true
-		lintConfig = rootProject.file("config/lint/lint.xml")
-		baseline = rootProject.file("config/lint/lint-baseline-${project.name}.xml")
+		lintConfig = rootProject.file("twister-lib-android/config/lint/lint.xml")
+		baseline = rootProject.file("twister-lib-android/config/lint/lint-baseline-${project.name}.xml")
 	}
 	afterEvaluate {
 		sourceSets.named("androidTest").configure androidTest@{
