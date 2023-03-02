@@ -165,7 +165,8 @@ public class SystemAnimations {
 		}
 	}
 
-	public void setScales(float... currentScales) {
+	@SuppressWarnings("MethodCanBeVariableArityMethod") // Contradicts lint:KotlinPropertyAccess.
+	public void setScales(float[] currentScales) {
 		if (canSetAnimationScales) {
 			try {
 				setAnimationScales.invoke(windowManager, new Object[] {currentScales});
