@@ -14,7 +14,7 @@ configurations.configureEach {
 //		this.resolutionStrategy.failOnVersionConflict()
 }
 
-apply(from = rootProject.file("twister-lib-java/gradle/substitutions.gradle"))
+apply(from = rootProject.file("gradle/substitutions.gradle"))
 
 dependencies {
 	//noinspection ForeignDelegate it's confusing but works.
