@@ -7,7 +7,7 @@ dependencies {
 
 	api "com.github.bumptech.glide:glide:${VERSION_GLIDE}"
 
-	implementation("com.caverock:androidsvg:${VERSION_ANDROIDSVG}")
+	implementation(libs.androidSVG)
 
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	compileOnly "net.twisterrob.lib:twister-lib-core"
