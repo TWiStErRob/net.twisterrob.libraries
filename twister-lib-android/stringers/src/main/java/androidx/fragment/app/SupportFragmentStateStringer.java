@@ -12,7 +12,7 @@ import net.twisterrob.java.utils.tostring.stringers.DefaultStringer;
 
 public class SupportFragmentStateStringer extends Stringer<FragmentState> {
 	@Override public void toString(@NonNull ToStringAppender append, FragmentState state) {
-	  	append.identity(state.mWho, DefaultStringer.shortenPackageNames(state.mClassName));
+		append.identity(state.mWho, DefaultStringer.shortenPackageNames(state.mClassName));
 		append.beginPropertyGroup(null);
 		{
 			appendIdentity(append, state);
