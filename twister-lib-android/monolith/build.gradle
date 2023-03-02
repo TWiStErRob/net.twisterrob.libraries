@@ -37,7 +37,7 @@ dependencies {
 	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
 	compileOnly(libs.android.colorpicker)
 
-	apply from: "${rootDir}/gradle/testCompile.gradle", to: project
+	apply from: "${rootDir}/twister-lib-android/gradle/testCompile.gradle", to: project
 }
 
 android.lintOptions.checkDependencies = true

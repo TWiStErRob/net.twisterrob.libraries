@@ -14,11 +14,11 @@ configurations.configureEach {
 //		this.resolutionStrategy.failOnVersionConflict()
 }
 
-apply(from = rootProject.file("gradle/substitutions.gradle"))
+apply(from = rootProject.file("twister-lib-java/gradle/substitutions.gradle"))
 
 dependencies {
 	//noinspection ForeignDelegate it's confusing but works.
-	apply(from = rootProject.file("gradle/testCompile.gradle"), to = project)
+	apply(from = rootProject.file("twister-lib-java/gradle/testCompile.gradle"), to = project)
 
 	api(libs.slf4j.api)
 	testImplementation(libs.slf4j.simple)

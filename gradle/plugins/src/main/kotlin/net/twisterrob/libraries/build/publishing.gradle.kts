@@ -28,4 +28,12 @@ tasks.withType<GenerateModuleMetadata>().configureEach {
 	enabled = false
 }
 
-apply(from = rootProject.file("gradle/substitutions.gradle"), to = project)
+plugins.withId("net.twisterrob.libraries.android.library") {
+	apply(from = rootProject.file("twister-lib-android/gradle/substitutions.gradle"), to = project)
+}
+plugins.withId("net.twisterrob.libraries.android.test-helpers") {
+	apply(from = rootProject.file("twister-lib-android/gradle/substitutions.gradle"), to = project)
+}
+plugins.withId("net.twisterrob.libraries.java.library") {
+	apply(from = rootProject.file("twister-lib-java/gradle/substitutions.gradle"), to = project)
+}

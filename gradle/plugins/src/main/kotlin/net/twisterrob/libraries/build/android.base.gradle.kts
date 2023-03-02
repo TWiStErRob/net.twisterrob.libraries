@@ -8,7 +8,7 @@ repositories {
 	mavenCentral()
 }
 
-apply(from = rootProject.file("gradle/substitutions.gradle"), to = project)
+apply(from = rootProject.file("twister-lib-android/gradle/substitutions.gradle"), to = project)
 
 @Suppress("UnstableApiUsage")
 android {
