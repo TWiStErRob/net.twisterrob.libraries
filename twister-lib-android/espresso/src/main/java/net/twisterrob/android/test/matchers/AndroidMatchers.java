@@ -55,6 +55,9 @@ public class AndroidMatchers {
 		return new NamedMatcher<>("contains word '" + word + "'",
 				matchesPattern("^.*\\b" + Pattern.quote(word) + "\\b.*$"));
 	}
+
+	// TODO replace with android.Manifest.permission.QUERY_ALL_PACKAGES
+	@RequiresPermission("android.permission.QUERY_ALL_PACKAGES")
 	public static @NonNull Matcher<Context> hasPackageInstalled(@NonNull String packageName) {
 		return new HasInstalledPackage(packageName);
 	}
