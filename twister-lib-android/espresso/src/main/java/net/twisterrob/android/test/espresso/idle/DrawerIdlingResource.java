@@ -131,7 +131,10 @@ public class DrawerIdlingResource extends AsyncIdlingResource {
 	 * @see TopDrawer
 	 * @see ActivityRuleDrawer
 	 * @see ActivityRuleDrawerById
+	 * @deprecated use {@link #rule(int, ViewProvider)} instead.
 	 */
+	@Deprecated
+	@SuppressLint("LambdaLast")
 	public static IdlingResourceRule rule(ViewProvider drawerProvider, @GravityFlag int gravity) {
 		return new IdlingResourceRule(new DrawerIdlingResource(gravity, drawerProvider));
 	}
