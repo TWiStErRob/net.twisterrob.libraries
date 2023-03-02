@@ -513,6 +513,7 @@ public class ImageCache {
 	 * @return The space available in bytes
 	 */
 	@TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
+	@SuppressLint("UsableSpace")
 	@SuppressWarnings("deprecation")
 	public static long getUsableSpace(final File path) {
 		if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {
