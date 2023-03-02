@@ -5,5 +5,5 @@ plugins {
 android.namespace = "net.twisterrob.android.annotation"
 
 dependencies {
-	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
+	implementation(libs.androidx.annotation)
 }

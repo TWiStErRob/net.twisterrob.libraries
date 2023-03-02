@@ -3,10 +3,10 @@ plugins {
 }
 
 dependencies {
-	compileOnly "androidx.appcompat:appcompat:${VERSION_ANDROIDX_APPCOMPAT}"
-	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
-	compileOnly "androidx.recyclerview:recyclerview:${VERSION_ANDROIDX_RECYCLERVIEW}"
-	compileOnly "com.google.android.material:material:${VERSION_ANDROIDX_MATERIAL}"
+	compileOnly(libs.androidx.appcompat)
+	compileOnly(libs.androidx.fragment)
+	compileOnly(libs.androidx.recyclerview)
+	compileOnly(libs.androidx.material)
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "net.twisterrob.lib:twister-lib-collect"
 	implementation "net.twisterrob.lib:twister-lib-stringer"
@@ -20,9 +20,9 @@ dependencies {
 	testImplementation(libs.test.mockito)
 	testImplementation "org.robolectric:robolectric:${VERSION_ROBOLECTRIC}"
 	testImplementation "androidx.test.ext:junit:${VERSION_ESPRESSO_JUNIT}"
-	testImplementation "androidx.fragment:fragment-testing:${VERSION_ANDROIDX_FRAGMENT}"
+	testImplementation(libs.androidx.test.fragment)
 	testImplementation "androidx.test:core:${VERSION_ESPRESSO_RUNNER}"
-	testImplementation "com.google.android.material:material:${VERSION_ANDROIDX_MATERIAL}"
+	testImplementation(libs.androidx.material)
 }
 
 android.testOptions.unitTests.includeAndroidResources = true

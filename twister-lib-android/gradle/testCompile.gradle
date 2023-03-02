@@ -64,7 +64,7 @@ dependencies {
 		// > [androidx.vectordrawable:vectordrawable-animated:1.0.0]
 		// > P:\caches\gradle\caches\transforms-2\files-2.1\54c0e3e3a1f93b71f3e9e8caba1f6095\vectordrawable-animated-1.0.0\AndroidManifest.xml
 		// > Warning: Package name 'androidx.vectordrawable' used in: androidx.vectordrawable:vectordrawable-animated:1.0.0, androidx.vectordrawable:vectordrawable:1.0.0.
-		androidTestImplementation "com.google.android.material:material:${VERSION_ANDROIDX_MATERIAL}"
+		androidTestImplementation(libs.androidx.material)
 		// Espresso-accessibility for automatic checking (not used yet)
 		// TODO AccessibilityChecks.enable()
 		//androidTestImplementation "androidx.test.espresso:espresso-accessibility:${VERSION_ESPRESSO}"

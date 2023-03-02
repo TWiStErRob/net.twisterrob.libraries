@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
-	api "androidx.preference:preference:${VERSION_ANDROIDX_PREFERENCE}"
+	implementation(libs.androidx.annotation)
+	api(libs.androidx.preference)
 	implementation(libs.slf4j.api)
 }

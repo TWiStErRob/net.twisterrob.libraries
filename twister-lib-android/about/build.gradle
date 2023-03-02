@@ -6,8 +6,8 @@ dependencies {
 	implementation(libs.slf4j.api)
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	implementation "net.twisterrob.lib:twister-lib-java"
-	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
-	implementation "androidx.appcompat:appcompat:${VERSION_ANDROIDX_APPCOMPAT}"
+	implementation(libs.androidx.annotation)
+	implementation(libs.androidx.appcompat)
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_actors"
 }

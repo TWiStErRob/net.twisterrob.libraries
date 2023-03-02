@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
-	compileOnly "androidx.drawerlayout:drawerlayout:${VERSION_ANDROIDX_DRAWERLAYOUT}"
+	implementation(libs.androidx.annotation)
+	compileOnly(libs.androidx.drawerlayout)
 }

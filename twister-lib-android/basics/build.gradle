@@ -6,8 +6,8 @@ android.namespace = "net.twisterrob.android.core"
 
 dependencies {
 	implementation(libs.slf4j.api)
-	api "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
+	api(libs.androidx.annotation)
 	api "net.twisterrob.lib:twister-lib-android-defs"
-	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
-	compileOnly "androidx.swiperefreshlayout:swiperefreshlayout:${VERSION_ANDROIDX_SWIPEREFRESHLAYOUT}"
+	compileOnly(libs.androidx.fragment)
+	compileOnly(libs.androidx.swiperefreshlayout)
 }
