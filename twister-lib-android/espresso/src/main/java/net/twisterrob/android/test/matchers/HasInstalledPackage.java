@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 
 public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
@@ -17,12 +16,10 @@ public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 	private final String packageName;
 
 	/**
-	 * @deprecated Use {@link #hasInstalledPackage(String)} instead.
+	 * @see AndroidMatchers#hasPackageInstalled(String)
 	 */
 	// TODO replace with android.Manifest.permission.QUERY_ALL_PACKAGES
 	@RequiresPermission("android.permission.QUERY_ALL_PACKAGES")
-	@Deprecated
-	@SuppressWarnings("DeprecatedIsStillUsed")
 	public HasInstalledPackage(String packageName) {
 		this.packageName = packageName;
 	}
@@ -55,11 +52,5 @@ public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 		}
 
 		return true;
-	}
-
-	// TODO replace with android.Manifest.permission.QUERY_ALL_PACKAGES
-	@RequiresPermission("android.permission.QUERY_ALL_PACKAGES")
-	public static @NonNull Matcher<Context> hasInstalledPackage(String packageName) {
-		return new HasInstalledPackage(packageName);
 	}
 }

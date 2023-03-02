@@ -15,8 +15,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 import androidx.annotation.NonNull;
 
-import static net.twisterrob.android.test.matchers.HasInstalledPackage.hasInstalledPackage;
-
 public class HasInstalledPackageTest {
 
 	// mocked unit test because pm disable is system-level
@@ -25,7 +23,7 @@ public class HasInstalledPackageTest {
 		when(context.getPackageManager().getPackageInfo(anyString(), anyInt())).thenReturn(createDisabled());
 		AssertionError ex = assertThrows(AssertionError.class, new ThrowingRunnable() {
 			@Override public void run() {
-				assertThat(context, hasInstalledPackage("existing.package"));
+				assertThat(context, new HasInstalledPackage("existing.package"));
 			}
 		});
 		assertThat(ex.getMessage(), allOf(
