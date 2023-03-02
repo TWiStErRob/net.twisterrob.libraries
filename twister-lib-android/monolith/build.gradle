@@ -15,7 +15,6 @@ repositories {
 }
 
 dependencies {
-	configurations.named("implementation") { resolutionStrategy.cacheChangingModulesFor(0, "seconds") } // -SNAPSHOT
 	implementation 'net.twisterrob.lib:twister-lib-general'
 	implementation 'net.twisterrob.lib:twister-lib-android-defs'
 	implementation 'net.twisterrob.lib:twister-lib-android-logging'
