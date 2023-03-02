@@ -3,6 +3,7 @@ package net.twisterrob.android.utils.tools;
 import java.lang.reflect.Field;
 import java.util.*;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.database.*;
 import android.database.MatrixCursor.RowBuilder;
@@ -352,7 +353,9 @@ public /*static*/ abstract class DatabaseTools {
 				cursor = ((CursorWrapper)cursor).getWrappedCursor();
 			} else {
 				try {
+					// REPORT False positive, this is only triggered in historical contexts.
 					@SuppressWarnings("JavaReflectionMemberAccess") 
+					@SuppressLint("DiscouragedPrivateApi")
 					Field mCursor = CursorWrapper.class.getDeclaredField("mCursor");
 					mCursor.setAccessible(true);
 					cursor = (Cursor)mCursor.get(cursor);
