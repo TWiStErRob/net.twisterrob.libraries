@@ -78,13 +78,35 @@ jobs:
           --stacktrace
           --continue
           build
+          lint
+          violationReportConsole
+          violationReportHtml
 
-      - name: "Upload 'Lint Results' artifact."
+      - name: "Upload 'Lint Results HTMLs' artifact."
         if: success() || failure()
         uses: actions/upload-artifact@v3
         with:
-          name: 'Lint Results'
-          path: ${{ github.workspace }}/**/build/reports/lint-results*.html
+          name: 'Lint Results HTMLs'
+          path: ${{ github.workspace }}/twister-lib-android/**/build/reports/lint-results*.html
+
+      - name: "Upload 'Lint Merged Results' artifact."
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'Lint Merged Results'
+          path: ${{ github.workspace }}/twister-lib-android/build/reports/violations.*
+
+      - name: "Fail if there are violations."
+        if: success() || failure()
+        run: |
+          count=$(cat "${{ github.workspace }}/twister-lib-android/build/reports/violations.count")
+          if [[ "$count" != "0" ]]; then
+            echo "::error file=twister-lib-android/config/lint/lint.xml,title=Android Lint::There were $count violations."
+            exit 1
+          else
+            echo "No violations found."
+            exit 0
+          fi
 
       - name: "Upload 'Unit Test Results' artifact."
         if: success() || failure()
