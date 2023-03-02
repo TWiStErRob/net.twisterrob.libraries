@@ -13,36 +13,6 @@
     </issue>
 
     <issue
-        id="StringFormatCount"
-        message="Inconsistent number of arguments in formatting string `image__choose_external__intent_label_pick`; found both 0 and 1"
-        errorLine1=" &lt;string name=&quot;image__choose_external__intent_label_pick&quot;>&lt;xliff:g id=&quot;app&quot; example=&quot;Photos&quot;>%1$s&lt;/xliff:g> &lt;font color=&quot;#CCCCCC&quot;>(select)&lt;/font>&lt;/string>"
-        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\values\strings.xml"
-            line="5"
-            column="2"/>
-        <location
-            file="src\main\res\values-v29\strings.xml"
-            line="5"
-            column="2"/>
-    </issue>
-
-    <issue
-        id="StringFormatCount"
-        message="Inconsistent number of arguments in formatting string `image__choose_external__intent_label_take`; found both 0 and 1"
-        errorLine1=" &lt;string name=&quot;image__choose_external__intent_label_take&quot;>&lt;xliff:g id=&quot;app&quot; example=&quot;Camera&quot;>%1$s&lt;/xliff:g> &lt;font color=&quot;#CCCCCC&quot;>(capture)&lt;/font>&lt;/string>"
-        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\values\strings.xml"
-            line="6"
-            column="2"/>
-        <location
-            file="src\main\res\values-v29\strings.xml"
-            line="7"
-            column="2"/>
-    </issue>
-
-    <issue
         id="ObsoleteSdkInt"
         message="Unnecessary; SDK_INT is never &lt; 14"
         errorLine1="  if (VERSION.SDK_INT &lt; VERSION_CODES.HONEYCOMB) {"
