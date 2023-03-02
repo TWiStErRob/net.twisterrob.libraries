@@ -26,3 +26,5 @@ dependencies {
 }
 
 android.testOptions.unitTests.includeAndroidResources = true
+// lint:RestrictedApi is disabled because this module needs to show useful info, whatever it takes.
+android.lint.disable.add("RestrictedApi")

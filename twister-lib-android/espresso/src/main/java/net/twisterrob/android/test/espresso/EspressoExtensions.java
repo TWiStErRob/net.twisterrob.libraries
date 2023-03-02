@@ -541,6 +541,7 @@ public class EspressoExtensions {
 		};
 	}
 
+	@SuppressLint("RestrictedApi") // Otherwise we don't know what the ID of the menu item is.
 	private static @NonNull Matcher<View> withMenuItemIdCompat(@IdRes final int menuId) {
 		final Matcher<Integer> viewIdMatcher = equalTo(menuId);
 		// simplified version of Espresso's ViewMatchers.WithIdMatcher
