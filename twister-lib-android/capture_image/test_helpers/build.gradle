@@ -15,7 +15,7 @@ dependencies {
 	// > class file for androidx.core.app.ActivityCompat not found
 	// Adding :core itself doesn't help in any capacity (compileOnly/implementation/api),
 	// not here, not in :capture_image.
-	compileOnly "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
+	compileOnly(libs.androidx.fragment)
 	implementation "net.twisterrob.lib:twister-lib-java"
-	implementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
+	implementation(libs.test.androidx.espressoIntents)
 }

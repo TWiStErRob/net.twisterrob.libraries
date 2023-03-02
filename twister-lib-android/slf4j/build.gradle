@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
-	implementation "org.slf4j:slf4j-api:${VERSION_SLF4J}"
+	implementation(libs.androidx.annotation)
+	implementation(libs.slf4j.api)
 }

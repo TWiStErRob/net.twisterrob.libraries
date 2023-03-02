@@ -10,7 +10,7 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-junit4"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-junit4"
 	api "net.twisterrob.lib:twister-lib-hamcrest"
-	implementation "org.hamcrest:hamcrest-junit:${VERSION_HAMCREST}"
+	implementation(libs.test.hamcrest.junit)
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	implementation "net.twisterrob.lib:twister-lib-android-logging"
@@ -18,30 +18,30 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-android-defs"
 
 	// Espresso core
-	api "androidx.test.espresso:espresso-core:${VERSION_ESPRESSO}"
-	api "androidx.test:core:${VERSION_ESPRESSO_RUNNER}"
-	api "androidx.test:rules:${VERSION_ESPRESSO_RUNNER}"
-	api "androidx.test.ext:junit:${VERSION_ESPRESSO_JUNIT}"
+	api(libs.test.androidx.espressoCore)
+	api(libs.test.androidx.core)
+	api(libs.test.androidx.rules)
+	api(libs.test.androidx.junit)
 	// Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-	implementation "androidx.test.espresso:espresso-contrib:${VERSION_ESPRESSO}"
+	implementation(libs.test.androidx.espressoContrib)
 	// Espresso-accessibility for automatic checking (not used yet)
 	// TODO AccessibilityChecks.enable()
-	//androidTestImplementation "androidx.test.espresso:espresso-accessibility:${VERSION_ESPRESSO}"
+	//androidTestImplementation(libs.test.androidx.espressoAccessibility)
 	// disable web for now, because it has some conflicting Guava classes (https://issuetracker.google.com/issues/37063389)
 	// Espresso-web for WebView support (not used yet)
-	//androidTestImplementation "androidx.test.espresso:espresso-web:${VERSION_ESPRESSO}"
+	//androidTestImplementation(libs.test.androidx.espressoWeb)
 	// Espresso-intents for capturing Intents and mocking onActivityResult
-	implementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
+	implementation(libs.test.androidx.espressoIntents)
 	// Espresso-idling-resource for synchronization with background jobs
-	implementation "androidx.test.espresso:espresso-idling-resource:${VERSION_ESPRESSO}"
-	implementation "androidx.multidex:multidex:${VERSION_ANDROIDX_MULTIDEX}"
+	implementation(libs.test.androidx.espressoIdle)
+	implementation(libs.androidx.multidex)
 
-	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
-	implementation "androidx.preference:preference:${VERSION_ANDROIDX_PREFERENCE}"
-	implementation "androidx.recyclerview:recyclerview:${VERSION_ANDROIDX_RECYCLERVIEW}"
+	implementation(libs.androidx.annotation)
+	implementation(libs.androidx.preference)
+	implementation(libs.androidx.recyclerview)
 
-	androidTestImplementation 'pl.pragmatists:JUnitParams:1.1.1'
+	androidTestImplementation(libs.test.params)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 
-	testImplementation "org.mockito:mockito-core:${VERSION_MOCKITO}"
+	testImplementation(libs.test.mockito)
 }

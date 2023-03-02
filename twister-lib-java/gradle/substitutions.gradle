@@ -27,10 +27,10 @@ configurations.configureEach { Configuration config ->
 configurations.configureEach { Configuration config ->
 	config.resolutionStrategy { ResolutionStrategy strategy ->
 		strategy.dependencySubstitution {
-			substitute(module("org.hamcrest:hamcrest-core"))
-					.with module("org.hamcrest:java-hamcrest:${VERSION_HAMCREST}")
-			substitute(module("org.hamcrest:hamcrest-library"))
-					.with module("org.hamcrest:java-hamcrest:${VERSION_HAMCREST}")
+			substitute(module(libs.test.hamcrest.core.get().module.toString()))
+					.using(module(libs.test.hamcrest.asProvider().get().toString()))
+			substitute(module(libs.test.hamcrest.library.get().module.toString()))
+					.using(module(libs.test.hamcrest.asProvider().get().toString()))
 		}
 	}
 }
@@ -39,14 +39,14 @@ configurations.configureEach { Configuration config ->
 configurations.configureEach { Configuration config ->
 	config.resolutionStrategy {
 		// use latest version, hamcrest-junit refers to 4.12
-		force("junit:junit:${VERSION_JUNIT}")
+		force(libs.test.junit)
 		// powermock refers to older
-		force("org.mockito:mockito-core:${VERSION_MOCKITO}")
+		force(libs.test.mockito)
 		// 3.0.1 (powermock 2.0.7) vs 2.6 (mockito 3.3.3)
-		force "org.objenesis:objenesis:3.0.1"
+		force(libs.test.objenesis)
 		// 1.9.10 (powermock 2.0.7) vs 1.10.5 (mockito 3.3.3)
-		force "net.bytebuddy:byte-buddy:1.10.5"
+		force(libs.test.bytebuddy)
 		// 1.9.10 (powermock 2.0.7) vs 1.10.5 (mockito 3.3.3)
-		force "net.bytebuddy:byte-buddy-agent:1.10.5"
+		force(libs.test.bytebuddyAgent)
 	}
 }

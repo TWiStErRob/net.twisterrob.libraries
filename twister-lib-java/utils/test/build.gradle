@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-	api "org.hamcrest:java-hamcrest:${VERSION_HAMCREST}"
-	implementation "org.hamcrest:hamcrest-junit:${VERSION_HAMCREST}"
+	api(libs.test.hamcrest)
+	implementation(libs.test.hamcrest.junit)
 
-	testImplementation "junit:junit:${VERSION_JUNIT}"
+	testImplementation(libs.test.junit)
 	testImplementation "net.twisterrob.lib:twister-lib-java"
 }

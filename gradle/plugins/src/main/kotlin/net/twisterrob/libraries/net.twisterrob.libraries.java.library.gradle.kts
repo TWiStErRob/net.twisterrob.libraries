@@ -1,3 +1,5 @@
+import net.twisterrob.libraries.build.dsl.libs
+
 plugins {
 	id("net.twisterrob.libraries.build.publishing")
 	id("net.twisterrob.java-library")
@@ -18,10 +20,8 @@ dependencies {
 	//noinspection ForeignDelegate it's confusing but works.
 	apply(from = rootProject.file("gradle/testCompile.gradle"), to = project)
 
-	@Suppress("VariableNaming")
-	val VERSION_SLF4J: String by project
-	api("org.slf4j:slf4j-api:${VERSION_SLF4J}")
-	testImplementation("org.slf4j:slf4j-simple:${VERSION_SLF4J}")
+	api(libs.slf4j.api)
+	testImplementation(libs.slf4j.simple)
 	// TODO change to implementation (first step: exclude in Android)
-	api("com.google.code.findbugs:jsr305:3.0.2")
+	api(libs.annotations.jsr305)
 }

@@ -5,15 +5,15 @@ plugins {
 android.namespace = "net.twisterrob.android.annotation.defs"
 
 dependencies {
-	implementation "androidx.annotation:annotation:${VERSION_ANDROIDX_ANNOTATION}"
-	compileOnly "androidx.core:core:${VERSION_ANDROIDX_CORE}"
-	compileOnly "androidx.drawerlayout:drawerlayout:${VERSION_ANDROIDX_DRAWERLAYOUT}"
-	compileOnly "com.google.android.material:material:${VERSION_ANDROIDX_MATERIAL}"
+	implementation(libs.androidx.annotation)
+	compileOnly(libs.androidx.core)
+	compileOnly(libs.androidx.drawerlayout)
+	compileOnly(libs.androidx.material)
 
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "net.twisterrob.lib:twister-lib-core"
 
 	testImplementation "net.twisterrob.lib:twister-lib-hamcrest"
 	testImplementation "net.twisterrob.lib:twister-lib-junit4"
-	testImplementation "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
+	testImplementation(libs.androidx.fragment)
 }

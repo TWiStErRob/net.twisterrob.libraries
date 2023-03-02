@@ -21,9 +21,9 @@ dependencies {
 	configurations.testRuntimeOnly.exclude module: 'twister-lib-android-slf4j'
 
 	if (isAndroid) {
-		testImplementation "org.robolectric:robolectric:${VERSION_ROBOLECTRIC}"
-		testImplementation "org.robolectric:shadows-multidex:${VERSION_ROBOLECTRIC}"
-		testImplementation "androidx.test:core:${VERSION_ESPRESSO_RUNNER}"
+		testImplementation(libs.test.android.robolectric)
+		testImplementation(libs.test.android.robolectricMultidex)
+		testImplementation(libs.test.androidx.core)
 
 //	configurations
 //			.compile
@@ -34,52 +34,52 @@ dependencies {
 //			.grep { it.group.startsWith("androidx.") }
 //			.each { androidTestImplementation it.displayName }
 
-		androidTestImplementation "junit:junit:${VERSION_JUNIT}"
-		androidTestImplementation 'pl.pragmatists:JUnitParams:1.1.1'
+		androidTestImplementation(libs.test.junit)
+		androidTestImplementation(libs.test.params)
 		androidTestImplementation "net.twisterrob.lib:twister-lib-hamcrest"
 		androidTestImplementation "net.twisterrob.lib:twister-lib-mockito"
-		androidTestImplementation "org.mockito:mockito-android:${VERSION_MOCKITO}"
+		androidTestImplementation(libs.test.android.mockito)
 		androidTestImplementation "net.twisterrob.lib:twister-lib-junit4"
 		androidTestImplementation "net.twisterrob.lib:twister-lib-test"
-		androidTestImplementation "org.hamcrest:hamcrest-junit:${VERSION_HAMCREST}"
-		androidTestImplementation ('com.shazam:shazamcrest:0.11') { // assertThat(*, sameBeanAs(*))
+		androidTestImplementation(libs.test.hamcrest.junit)
+		androidTestImplementation(libs.test.shazamcrest) { // assertThat(*, sameBeanAs(*))
 			exclude group: 'junit'
 			exclude module: 'guava'
 			exclude group: 'org.json', module: 'json'
 		}
-//		androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.0'
-//		androidTestImplementation 'com.google.dexmaker:dexmaker:1.0'
+//		androidTestImplementation(libs.test.android.dexmaker.mockito)
+//		androidTestImplementation(libs.test.android.dexmaker)
 		// Android JUnit Runner
-		androidTestImplementation "androidx.test:runner:${VERSION_ESPRESSO_RUNNER}"
-		androidTestImplementation "androidx.test.ext:junit:${VERSION_ESPRESSO_JUNIT}"
-		androidTestImplementation "androidx.test:rules:${VERSION_ESPRESSO_RUNNER}"
+		androidTestImplementation(libs.test.androidx.runner)
+		androidTestImplementation(libs.test.androidx.junit)
+		androidTestImplementation(libs.test.androidx.rules)
 
 		// Espresso core
-		androidTestImplementation "androidx.test.espresso:espresso-core:${VERSION_ESPRESSO}"
+		androidTestImplementation(libs.test.androidx.espressoCore)
 		// Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-		androidTestImplementation "androidx.test.espresso:espresso-contrib:${VERSION_ESPRESSO}"
+		androidTestImplementation(libs.test.androidx.espressoContrib)
 		// Make sure to bump the version coming transitively from Espresso to the one used by the project.
 		// Resolves
 		// > :processDebugAndroidTestManifest
 		// > [androidx.vectordrawable:vectordrawable-animated:1.0.0]
 		// > P:\caches\gradle\caches\transforms-2\files-2.1\54c0e3e3a1f93b71f3e9e8caba1f6095\vectordrawable-animated-1.0.0\AndroidManifest.xml
 		// > Warning: Package name 'androidx.vectordrawable' used in: androidx.vectordrawable:vectordrawable-animated:1.0.0, androidx.vectordrawable:vectordrawable:1.0.0.
-		androidTestImplementation "com.google.android.material:material:${VERSION_ANDROIDX_MATERIAL}"
+		androidTestImplementation(libs.androidx.material)
 		// Espresso-accessibility for automatic checking (not used yet)
 		// TODO AccessibilityChecks.enable()
-		//androidTestImplementation "androidx.test.espresso:espresso-accessibility:${VERSION_ESPRESSO}"
+		//androidTestImplementation(libs.test.androidx.espressoAccessibility)
 		// disable web for now, because it has some conflicting Guava classes (https://issuetracker.google.com/issues/37063389)
 		// Espresso-web for WebView support (not used yet)
-		//androidTestImplementation "androidx.test.espresso:espresso-web:${VERSION_ESPRESSO}"
+		//androidTestImplementation(libs.test.androidx.espressoWeb)
 		// Espresso-intents for capturing Intents and mocking onActivityResult
-		androidTestImplementation "androidx.test.espresso:espresso-intents:${VERSION_ESPRESSO}"
+		androidTestImplementation(libs.test.androidx.espressoIntents)
 		// Espresso-idling-resource for synchronization with background jobs
-		androidTestImplementation "androidx.test.espresso:espresso-idling-resource:${VERSION_ESPRESSO}"
+		androidTestImplementation(libs.test.androidx.espressoIdle)
 		// CONSIDER using these with Glide
-		//androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:${VERSION_ESPRESSO}"
-		//androidTestImplementation "androidx.test.espresso.idling:idling-net:${VERSION_ESPRESSO}"
+		//androidTestImplementation(libs.test.androidx.espressoConcurrent)
+		//androidTestImplementation(libs.test.androidx.espressoNet)
 
 		// UI Automator @SdkSuppress(minSdkVersion = VERSION_CODES.JELLY_BEAN_MR2)
-		androidTestImplementation "androidx.test.uiautomator:uiautomator:${VERSION_ESPRESSO_UIAUTOMATOR}"
+		androidTestImplementation(libs.test.androidx.uiautomator)
 	}
 }

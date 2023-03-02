@@ -23,20 +23,20 @@ dependencies {
 	implementation 'net.twisterrob.lib:twister-lib-android-stringers'
 	implementation 'net.twisterrob.lib:twister-lib-android-settings'
 
-	implementation "androidx.fragment:fragment:${VERSION_ANDROIDX_FRAGMENT}"
-	implementation "androidx.cardview:cardview:${VERSION_ANDROIDX_CARDVIEW}"
-	implementation "androidx.recyclerview:recyclerview:${VERSION_ANDROIDX_RECYCLERVIEW}"
-	implementation "com.google.android.material:material:${VERSION_ANDROIDX_MATERIAL}"
-	implementation "androidx.annotation:annotation-experimental:${VERSION_ANDROIDX_ANNOTATION_EXPERIMENTAL}"
+	implementation(libs.androidx.fragment)
+	implementation(libs.androidx.cardview)
+	implementation(libs.androidx.recyclerview)
+	implementation(libs.androidx.material)
+	implementation(libs.androidx.annotationExperimental)
 
-	//implementation "androidx.palette:palette:+"
+	//implementation(libs.androidx.palette)
 
 	// FIXME @Deprecated, use Glide
-	implementation 'com.jakewharton:disklrucache:2.0.2'
+	implementation(libs.android.lrucache)
 
 	// 2.4.+ is required for API 28+
 	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
-	compileOnly 'com.rarepebble:colorpicker:2.4.2'
+	compileOnly(libs.android.colorpicker)
 
 	apply from: "${rootDir}/gradle/testCompile.gradle", to: project
 }
