@@ -43,35 +43,7 @@ jobs:
       - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
         uses: actions/checkout@v3
 
-      - name: "Build & Verify plugins."
-        working-directory: ./gradle/plugins
-        run: >
-          ./gradlew
-          --no-daemon
-          --stacktrace
-          --continue
-          build
-
-      - name: "Build & Verify project."
-        working-directory: .
-        run: >
-          ./gradlew
-          --no-daemon
-          --stacktrace
-          --continue
-          build
-
-      - name: "Build & Verify twister-lib-java."
-        working-directory: ./twister-lib-java
-        run: >
-          ./gradlew
-          --no-daemon
-          --stacktrace
-          --continue
-          build
-
-      - name: "Build & Verify twister-lib-android."
-        working-directory: ./twister-lib-android
+      - name: "Build & Verify."
         run: >
           ./gradlew
           --no-daemon
@@ -88,19 +60,19 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: 'Lint Results HTMLs'
-          path: ${{ github.workspace }}/twister-lib-android/**/build/reports/lint-results*.html
+          path: ${{ github.workspace }}/**/build/reports/lint-results*.html
 
       - name: "Upload 'Lint Merged Results' artifact."
         if: success() || failure()
         uses: actions/upload-artifact@v3
         with:
           name: 'Lint Merged Results'
-          path: ${{ github.workspace }}/twister-lib-android/build/reports/violations.*
+          path: ${{ github.workspace }}/build/reports/violations.*
 
       - name: "Fail if there are violations."
         if: success() || failure()
         run: |
-          count=$(cat "${{ github.workspace }}/twister-lib-android/build/reports/violations.count")
+          count=$(cat "${{ github.workspace }}/build/reports/violations.count")
           if [[ "$count" != "0" ]]; then
             echo "::error file=twister-lib-android/config/lint/lint.xml,title=Android Lint::There were $count violations."
             exit 1
