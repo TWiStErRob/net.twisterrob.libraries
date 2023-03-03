@@ -8,7 +8,7 @@ repositories {
 	mavenCentral()
 }
 
-apply(from = rootProject.file("gradle/substitutions.gradle"))
+apply(from = rootDir.resolve("gradle/substitutions.gradle"))
 
 @Suppress("UnstableApiUsage")
 android {
@@ -23,8 +23,8 @@ android {
 	lint {
 		warningsAsErrors = true
 		checkAllWarnings = true
-		lintConfig = rootProject.file("twister-lib-android/config/lint/lint.xml")
-		baseline = rootProject.file("twister-lib-android/config/lint/lint-baseline-${project.name}.xml")
+		lintConfig = rootDir.resolve("twister-lib-android/config/lint/lint.xml")
+		baseline = rootDir.resolve("twister-lib-android/config/lint/lint-baseline-${project.name}.xml")
 	}
 	afterEvaluate {
 		sourceSets.named("androidTest").configure androidTest@{
