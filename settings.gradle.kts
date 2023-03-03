@@ -1,5 +1,7 @@
 rootProject.name = "net-twisterrob-libraries"
 
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+
 pluginManagement {
 	includeBuild("gradle/plugins")
 	repositories {
