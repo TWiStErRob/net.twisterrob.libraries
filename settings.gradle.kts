@@ -9,6 +9,7 @@ pluginManagement {
 		google()
 		mavenCentral()
 	}
+	// TODO add disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") when twisterrob-settings
 }
 
 includeJava(":utils:stringer")
