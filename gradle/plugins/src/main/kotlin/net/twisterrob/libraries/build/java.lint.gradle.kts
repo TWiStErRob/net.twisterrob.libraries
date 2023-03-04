@@ -7,8 +7,8 @@ plugins {
 lint {
 	warningsAsErrors = true
 	checkAllWarnings = true
-	lintConfig = rootProject.file("twister-lib-java/config/lint/lint.xml")
-	baseline = rootProject.file("twister-lib-java/config/lint/lint-baseline-${project.name}.xml")
+	lintConfig = rootDir.resolve("twister-lib-java/config/lint/lint.xml")
+	baseline = rootDir.resolve("twister-lib-java/config/lint/lint-baseline-${project.name}.xml")
 	
 	// lint:CannotEnableHidden Follow net.twisterrob.gradle.android.AndroidBuildPlugin.configureLint.
 	// > Issue StopShip was configured with severity fatal in monolith,

@@ -1,6 +1,6 @@
 def isAndroid = plugins.hasPlugin('com.android.application') || plugins.hasPlugin('com.android.library')
 
-apply from: rootProject.file("twister-lib-java/gradle/testCompile.gradle")
+apply from: new File(rootDir, "twister-lib-java/gradle/testCompile.gradle")
 
 dependencies {
 	// Replace APK's runtimeOnly sneaking into test runtime

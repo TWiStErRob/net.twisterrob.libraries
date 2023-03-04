@@ -1,11 +1,15 @@
 rootProject.name = "net-twisterrob-libraries"
 
+// TODO enable when AGP 8, see https://github.com/gradle/android-cache-fix-gradle-plugin/issues/466
+//enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+
 pluginManagement {
 	includeBuild("gradle/plugins")
 	repositories {
 		google()
 		mavenCentral()
 	}
+	// TODO add disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") when twisterrob-settings
 }
 
 includeJava(":utils:stringer")
