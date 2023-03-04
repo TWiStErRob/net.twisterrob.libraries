@@ -42,7 +42,11 @@ public class MailSender {
 	public String[] getTo() {
 		return to;
 	}
-	public void setTo(String... toArr) {
+	@SuppressWarnings("MethodCanBeVariableArityMethod") // Contradicts lint:KotlinPropertyAccess.
+	public void setTo(String[] toArr) {
+		this.to = toArr;
+	}
+	public void setTos(String... toArr) {
 		this.to = toArr;
 	}
 

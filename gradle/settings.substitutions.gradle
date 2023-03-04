@@ -3,22 +3,33 @@
  * 
  * settings.gradle:
  * ```
- * includeBuild("path/to/twister-lib-android") { build ->
- *  build.name = "twister-libs-android"
- * 	apply from: new File(build.projectDir, "settings.substitutions.gradle"), to: build
+ * includeBuild("path/to/net.twisterrob.libraries") { build ->
+ * 	apply from: new File(build.projectDir, "gradle/settings.substitutions.gradle"), to: build
  * }
  * ```
  *
  * settings.gradle.kts:
  * ```
- * includeBuild("../twister-lib-android") {
- *  name = "twister-libs-android"
- * 	apply(from = projectDir.resolve("settings.substitutions.gradle"), to = this)
+ * includeBuild("path/to/net.twisterrob.libraries") {
+ * 	apply(from = projectDir.resolve("gradle/settings.substitutions.gradle"), to = this)
  * }
  * ```
  */
 
 dependencySubstitution {
+	substitute module('net.twisterrob.lib:twister-lib-general') with project(':lib:general')
+
+	substitute module("net.twisterrob.lib:twister-lib-hamcrest") with project(":lib:hamcrest")
+	substitute module("net.twisterrob.lib:twister-lib-java") with project(":lib:java")
+	substitute module("net.twisterrob.lib:twister-lib-java_desktop") with project(":lib:java_desktop")
+	substitute module("net.twisterrob.lib:twister-lib-junit4") with project(":lib:junit4")
+	substitute module("net.twisterrob.lib:twister-lib-mockito") with project(":lib:mockito")
+
+	substitute module("net.twisterrob.lib:twister-lib-collect") with project(":utils:collect")
+	substitute module("net.twisterrob.lib:twister-lib-core") with project(":utils:core")
+	substitute module("net.twisterrob.lib:twister-lib-stringer") with project(":utils:stringer")
+	substitute module("net.twisterrob.lib:twister-lib-test") with project(":utils:test")
+
 	substitute module('net.twisterrob.lib:twister-lib-android-monolith') with project(':monolith')
 	substitute module("net.twisterrob.lib:twister-lib-android-about") with project(":about")
 	substitute module("net.twisterrob.lib:twister-lib-android-about-test_helpers") with project(":about-test_helpers")

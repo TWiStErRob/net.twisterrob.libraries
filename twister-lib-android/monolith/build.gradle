@@ -15,7 +15,6 @@ repositories {
 }
 
 dependencies {
-	configurations.named("implementation") { resolutionStrategy.cacheChangingModulesFor(0, "seconds") } // -SNAPSHOT
 	implementation 'net.twisterrob.lib:twister-lib-general'
 	implementation 'net.twisterrob.lib:twister-lib-android-defs'
 	implementation 'net.twisterrob.lib:twister-lib-android-logging'
@@ -38,7 +37,7 @@ dependencies {
 	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
 	compileOnly(libs.android.colorpicker)
 
-	apply from: "${rootDir}/gradle/testCompile.gradle", to: project
+	apply from: "${rootDir}/twister-lib-android/gradle/testCompile.gradle", to: project
 }
 
 android.lintOptions.checkDependencies = true

@@ -15,6 +15,7 @@ import javax.annotation.meta.*;
 @TypeQualifierNickname
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SimpleDateFormatString {
+	@SuppressWarnings("NoHardKeywords") // Not used in Kotlin yet.
 	When when() default When.ALWAYS;
 
 	class Checker implements TypeQualifierValidator<SimpleDateFormatString> {

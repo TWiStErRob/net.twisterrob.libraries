@@ -16,6 +16,31 @@ configurations.configureEach { Configuration config ->
 	}
 }
 
+// Substitutions for project
+configurations.configureEach { Configuration config ->
+	config.resolutionStrategy.dependencySubstitution.all { DependencySubstitution dependency ->
+		if (dependency.requested instanceof ModuleComponentSelector
+				&& dependency.requested.group == "net.twisterrob.lib") {
+			def module = dependency.requested.module.toString()
+			if (!module.startsWith("twister-lib-")) {
+				return
+			}
+			module = module.substring("twister-lib-".length())
+			def lib = findProject(":lib:${module}")
+			if (lib != null) {
+				dependency.useTarget(lib)
+			}
+			def utils = findProject(":utils:${module}")
+			if (utils != null) {
+				dependency.useTarget(utils)
+			}
+			if (lib != null && utils != null) {
+				throw new IllegalStateException("Ambiguous module: ${dependency.requested}")
+			}
+		}
+	}
+}
+
 // Substitutions for support library
 //configurations.all { Configuration config ->
 //	if (!config.name.contains("lintClassPath")) {

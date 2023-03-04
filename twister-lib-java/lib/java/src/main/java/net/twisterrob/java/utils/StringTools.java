@@ -20,6 +20,7 @@ public final class StringTools {
 		return String.format(messageFormat, formatArgs);
 	}
 
+	@SuppressWarnings("LambdaLast")
 	public static String join(final Iterable<?> list, final String separator) {
 		StringBuilder sb = new StringBuilder();
 		Iterator<?> iterator = list.iterator();

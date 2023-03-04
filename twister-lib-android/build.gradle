@@ -1,7 +1,0 @@
-plugins {
-	id("net.twisterrob.libraries.root")
-}
-
-tasks.register("connectedCheck").configure { connectedCheck ->
-	connectedCheck.dependsOn(subprojects.collect { "${it.path}:connectedCheck" })
-}

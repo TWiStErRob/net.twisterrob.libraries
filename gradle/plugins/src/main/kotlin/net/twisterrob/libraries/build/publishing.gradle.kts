@@ -27,5 +27,3 @@ publishing {
 tasks.withType<GenerateModuleMetadata>().configureEach {
 	enabled = false
 }
-
-apply(from = rootProject.file("gradle/substitutions.gradle"), to = project)
