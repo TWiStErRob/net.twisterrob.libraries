@@ -10,4 +10,7 @@ dependencies {
 	api "net.twisterrob.lib:twister-lib-android-defs"
 	compileOnly(libs.androidx.fragment)
 	compileOnly(libs.androidx.swiperefreshlayout)
+
+	apply from: "${rootDir}/twister-lib-android/gradle/testCompile.gradle", to: project
+	testImplementation(libs.test.androidx.junit)
 }
