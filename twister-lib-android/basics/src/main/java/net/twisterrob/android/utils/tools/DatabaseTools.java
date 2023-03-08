@@ -24,24 +24,48 @@ public /*static*/ abstract class DatabaseTools {
 
 	private static final Map<SQLiteDatabase, String> DATABASE_TO_SQLITE_VERSION = new WeakHashMap<>();
 	public static String dbToString(final @Nullable SQLiteDatabase database) {
-		int userVersion = database == null? 0
-				: database.getVersion();
-		int schemaVersion = database == null? 0
-				: (int)DatabaseUtils.longForQuery(database, "PRAGMA schema_version;", null);
-		String path = database == null? null
-				: database.getPath();
+		try {
+			String userVersion = database == null
+					? "null"
+					: (database.isOpen()? String.valueOf(database.getVersion()) : "<closed>");
+			String schemaVersion = database == null
+					? "null"
+					: (database.isOpen()? String.valueOf(DatabaseUtils.longForQuery(database, "PRAGMA schema_version;", null)) : "<closed>");
+			String path = database == null
+					? "null"
+					: database.getPath();
 
-		String sqliteVersion = null;
-		if (database != null) {
-			String cachedVersion = DATABASE_TO_SQLITE_VERSION.get(database);
-			if (cachedVersion != null) {
-				sqliteVersion = cachedVersion;
-			} else {
-				sqliteVersion = getSQLiteVersion(database);
-				DATABASE_TO_SQLITE_VERSION.put(database, sqliteVersion);
+			String sqliteVersion = null;
+			if (database != null) {
+				String cachedVersion = DATABASE_TO_SQLITE_VERSION.get(database);
+				if (cachedVersion != null) {
+					sqliteVersion = cachedVersion;
+				} else {
+					sqliteVersion = database.isOpen()? getSQLiteVersion(database) : "<closed>";
+					DATABASE_TO_SQLITE_VERSION.put(database, sqliteVersion);
+				}
 			}
+			return String.format(Locale.ROOT, "v%s(%s)::%s@%s", userVersion, schemaVersion, sqliteVersion, path);
+		} catch (IllegalStateException ex) {
+			// The database could be closed in the middle of calling this dbToString method.
+			// If that happens we'll get something like:
+			// > java.lang.IllegalStateException: Cannot perform this operation because the connection pool has been closed.
+			// > 	at android.database.sqlite.SQLiteConnectionPool.throwIfClosedLocked(SQLiteConnectionPool.java:962)
+			// > 	at android.database.sqlite.SQLiteConnectionPool.waitForConnection(SQLiteConnectionPool.java:599)
+			// > 	at android.database.sqlite.SQLiteConnectionPool.acquireConnection(SQLiteConnectionPool.java:348)
+			// > 	at android.database.sqlite.SQLiteSession.acquireConnection(SQLiteSession.java:894)
+			// > 	at android.database.sqlite.SQLiteSession.executeForLong(SQLiteSession.java:650)
+			// > 	at android.database.sqlite.SQLiteStatement.simpleQueryForLong(SQLiteStatement.java:107)
+			// > 	at android.database.DatabaseUtils.longForQuery(DatabaseUtils.java:825)
+			// > 	at android.database.DatabaseUtils.longForQuery(DatabaseUtils.java:813)
+			// > 	at net.twisterrob.android.utils.tools.DatabaseTools.dbToString(DatabaseTools.java:34)
+			// Let's print this stack trace, because it's abnormal behavior,
+			ex.printStackTrace();
+			// but don't rethrow the exception, because this is just for logging.
+			// At this point, we are more sure that isOpen() will return false, so call ourselves again.
+			//noinspection ConstantConditions database cannot be null if IllegalStateException was thrown.
+			return database.isOpen() ? ex.toString() : dbToString(database);
 		}
-		return String.format(Locale.ROOT, "v%d(%d)::%s@%s", userVersion, schemaVersion, sqliteVersion, path);
 	}
 
 	public static @NonNull String getSQLiteVersion(@NonNull SQLiteDatabase database) {
