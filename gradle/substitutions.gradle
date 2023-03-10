@@ -41,24 +41,6 @@ configurations.configureEach { Configuration config ->
 	}
 }
 
-// Substitutions for Guava on Android
-configurations.configureEach { Configuration config ->
-	if (!config.name.startsWith("androidTest") && !config.name.startsWith("debugAndroidTest")) return
-	config.resolutionStrategy { ResolutionStrategy strategy ->
-		strategy.dependencySubstitution {
-			all { DependencySubstitution dep ->
-				if (dep.requested instanceof ModuleComponentSelector
-						&& dep.requested.module == "guava"
-						&& dep.requested.group == "com.google.guava") {
-					// need to use the Android dependency, otherwise Dex/R8/Jetifier fails
-					def androidVersion = dep.requested.version.replace("-jre", "-android")
-					dep.useTarget("com.google.guava:guava:${androidVersion}")
-				}
-			}
-		}
-	}
-}
-
 // Substitutions for Hamcrest
 configurations.configureEach { Configuration config ->
 	config.resolutionStrategy { ResolutionStrategy strategy ->
@@ -75,8 +57,6 @@ configurations.configureEach { Configuration config ->
 // Resolve dependency conflicts
 configurations.configureEach { Configuration config ->
 	config.resolutionStrategy {
-		// 17.0 (shazamcrest 0.11, bumped in next release) vs 27.0.1-jre (robolectric 4.3.1)
-		force(libs.guava.jre)
 		// 2.0.1 (Espresso 3.0.1) vs 3.0.2 (latest)
 		force(libs.annotations.jsr305)
 	}
