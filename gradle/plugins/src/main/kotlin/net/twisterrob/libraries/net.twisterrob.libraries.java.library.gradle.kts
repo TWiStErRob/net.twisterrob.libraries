@@ -18,8 +18,6 @@ configurations.configureEach {
 //		this.resolutionStrategy.failOnVersionConflict()
 }
 
-apply(from = rootDir.resolve("gradle/substitutions.gradle"))
-
 dependencies {
 	compileOnly(libs.annotations.jsr305)
 	compileOnly(libs.slf4j.api)
