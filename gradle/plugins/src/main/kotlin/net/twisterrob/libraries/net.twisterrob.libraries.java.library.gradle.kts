@@ -1,6 +1,7 @@
 import net.twisterrob.libraries.build.dsl.libs
 
 plugins {
+	id("net.twisterrob.libraries.build.allprojects")
 	id("net.twisterrob.libraries.build.publishing")
 	id("net.twisterrob.java-library")
 	// Must be applied after java-library, because it eagerly looks up sourceSets.main.
@@ -16,8 +17,6 @@ configurations.configureEach {
 	if (this.name == "lintClassPath") return@configureEach
 //		this.resolutionStrategy.failOnVersionConflict()
 }
-
-apply(from = rootDir.resolve("gradle/substitutions.gradle"))
 
 dependencies {
 	compileOnly(libs.annotations.jsr305)

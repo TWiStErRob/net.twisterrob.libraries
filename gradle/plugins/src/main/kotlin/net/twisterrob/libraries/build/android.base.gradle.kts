@@ -8,8 +8,6 @@ repositories {
 	mavenCentral()
 }
 
-apply(from = rootDir.resolve("gradle/substitutions.gradle"))
-
 @Suppress("UnstableApiUsage")
 android {
 	namespace = project.autoNamespace
