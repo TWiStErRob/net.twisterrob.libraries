@@ -24,5 +24,5 @@ dependencies {
 	// TODO change to implementation (first step: exclude in Android)
 	api(libs.annotations.jsr305)
 
-	testImplementation(project(":test-helpers:unit"))
+	testImplementation(project(":internal:test:jvm_unit"))
 }

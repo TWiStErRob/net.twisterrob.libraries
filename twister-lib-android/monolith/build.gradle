@@ -37,7 +37,7 @@ dependencies {
 	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
 	compileOnly(libs.android.colorpicker)
 
-	testImplementation(project(":test-helpers:android_unit"))
+	testImplementation(project(":internal:test:android_unit"))
 	// Replace APK's runtimeOnly sneaking into test runtime
 	configurations.testRuntimeOnly.exclude module: 'twister-lib-android-slf4j'
 

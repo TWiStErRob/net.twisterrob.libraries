@@ -15,8 +15,8 @@ pluginManagement {
 	//disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") 
 }
 
-include(":test-helpers:unit")
-include(":test-helpers:android_unit")
+include(":internal:test:jvm_unit")
+include(":internal:test:android_unit")
 
 includeJava(":utils:stringer")
 includeJava(":utils:core")
