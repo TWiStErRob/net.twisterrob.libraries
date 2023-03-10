@@ -13,5 +13,5 @@ dependencies {
 	implementation(libs.slf4j.api)
 	implementation(libs.android.guava)
 	// Call to Glide.with(Context) doesn't compile without seeing Glide.with(androidx.Fragment)
-	implementation(libs.androidx.fragment)
+	compileOnly(libs.androidx.fragment)
 }

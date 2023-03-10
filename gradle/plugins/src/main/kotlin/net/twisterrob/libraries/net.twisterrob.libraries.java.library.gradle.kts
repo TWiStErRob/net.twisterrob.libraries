@@ -21,7 +21,7 @@ apply(from = rootDir.resolve("gradle/substitutions.gradle"))
 
 dependencies {
 	compileOnly(libs.annotations.jsr305)
-	implementation(libs.slf4j.api)
+	compileOnly(libs.slf4j.api)
 	testCompileOnly(libs.annotations.jsr305)
 	testImplementation(project(":internal:test:jvm_unit"))
 }

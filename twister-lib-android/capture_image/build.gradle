@@ -15,7 +15,7 @@ dependencies {
 	androidTestImplementation(libs.test.androidx.espressoIntents)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_glide3"
-	androidTestImplementation(libs.androidx.fragment)
+	androidTestCompileOnly(libs.androidx.fragment)
 }
 
 // REPORT disabled here, because it's not possible to suppress in manifest.
