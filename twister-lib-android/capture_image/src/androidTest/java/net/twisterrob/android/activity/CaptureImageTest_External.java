@@ -55,7 +55,7 @@ public class CaptureImageTest_External {
 		captureImage.verifyState(SelectionStatus.FOCUSED);
 		captureImage.intendExternalChooserCancelled();
 		captureImage.pick();
-		captureImage.verifyExternalChooser(times(2));
+		captureImage.verifyExternalChooser(2);
 		captureImage.verifyState(SelectionStatus.BLURRY);
 		Intents.assertNoUnverifiedIntents();
 		captureImage.verifyImageColor(equalTo(Color.GREEN));

@@ -15,6 +15,12 @@ tasks.register("build") {
 }
 
 dependencyAnalysis {
+	abi {
+		exclusions {
+			// project(":espresso_glide3")'s internal helper classes.
+			ignoreSubPackage("com.bumptech.glide")
+		}
+	}
 	issues {
 		all {
 			//onAny { severity("fail") }
