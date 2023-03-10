@@ -12,26 +12,4 @@
             column="34"/>
     </issue>
 
-    <issue
-        id="PrivateResource"
-        message="The resource `@layout/preference_material` is marked as private in androidx.preference:preference:1.1.1"
-        errorLine1="  &lt;item name=&quot;android:layout&quot;>@layout/preference_material&lt;/item>"
-        errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/preference_number_picker_style.xml"
-            line="6"
-            column="31"/>
-    </issue>
-
-    <issue
-        id="PrivateResource"
-        message="The resource `@bool/config_materialPreferenceIconSpaceReserved` is marked as private in androidx.preference:preference:1.1.1"
-        errorLine1="  &lt;item name=&quot;iconSpaceReserved&quot;>@bool/config_materialPreferenceIconSpaceReserved&lt;/item>"
-        errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/preference_number_picker_style.xml"
-            line="10"
-            column="34"/>
-    </issue>
-
 </issues>

@@ -6,11 +6,10 @@ android.namespace = "net.twisterrob.android.core"
 
 dependencies {
 	implementation(libs.slf4j.api)
-	api(libs.androidx.annotation)
+	compileOnly(libs.androidx.annotation)
 	api "net.twisterrob.lib:twister-lib-android-defs"
 	compileOnly(libs.androidx.fragment)
 	compileOnly(libs.androidx.swiperefreshlayout)
 
-	apply from: "${rootDir}/twister-lib-android/gradle/testCompile.gradle", to: project
-	testImplementation(libs.test.androidx.junit)
+	testImplementation(project(":internal:test:android_unit"))
 }

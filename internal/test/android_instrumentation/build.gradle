@@ -1,0 +1,44 @@
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
+
+dependencies {
+	api(libs.test.junit)
+	api(libs.test.params)
+	api "net.twisterrob.lib:twister-lib-hamcrest"
+	api "net.twisterrob.lib:twister-lib-mockito"
+	api(libs.test.android.mockito)
+	api "net.twisterrob.lib:twister-lib-junit4"
+	api "net.twisterrob.lib:twister-lib-test"
+	api(libs.test.hamcrest.junit)
+	api(libs.test.shazamcrest) { // assertThat(*, sameBeanAs(*))
+		exclude group: 'junit'
+		exclude module: 'guava'
+		exclude group: 'org.json', module: 'json'
+	}
+	// Android JUnit Runner
+	api(libs.test.androidx.runner)
+	api(libs.test.androidx.junit)
+	api(libs.test.androidx.rules)
+
+	// Espresso core
+	api(libs.test.androidx.espressoCore)
+	// Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
+	api(libs.test.androidx.espressoContrib)
+	// Espresso-accessibility for automatic checking (not used yet)
+	// TODO AccessibilityChecks.enable()
+	//api(libs.test.androidx.espressoAccessibility)
+	// disable web for now, because it has some conflicting Guava classes (https://issuetracker.google.com/issues/37063389)
+	// Espresso-web for WebView support (not used yet)
+	//api(libs.test.androidx.espressoWeb)
+	// Espresso-intents for capturing Intents and mocking onActivityResult
+	api(libs.test.androidx.espressoIntents)
+	// Espresso-idling-resource for synchronization with background jobs
+	api(libs.test.androidx.espressoIdle)
+	// CONSIDER using these with Glide
+	//api(libs.test.androidx.espressoConcurrent)
+	//api(libs.test.androidx.espressoNet)
+
+	// UI Automator @SdkSuppress(minSdkVersion = VERSION_CODES.JELLY_BEAN_MR2)
+	api(libs.test.androidx.uiautomator)
+}

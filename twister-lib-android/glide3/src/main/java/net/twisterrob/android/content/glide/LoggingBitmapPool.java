@@ -13,16 +13,11 @@ import net.twisterrob.android.annotation.TrimMemoryLevel;
 import net.twisterrob.android.utils.tools.StringerTools;
 
 public class LoggingBitmapPool implements BitmapPool {
-	private final @NonNull Logger LOG;
+	private static final @NonNull Logger LOG = LoggerFactory.getLogger("glide.BitmapPool");
 	private final @NonNull BitmapPool wrapped;
 
 	public LoggingBitmapPool(@NonNull BitmapPool wrapped) {
-		this(wrapped, LoggerFactory.getLogger("glide.BitmapPool"));
-	}
-
-	public LoggingBitmapPool(@NonNull BitmapPool wrapped,  @NonNull Logger logger) {
 		this.wrapped = wrapped;
-		LOG = logger;
 	}
 
 	@Override public int getMaxSize() {

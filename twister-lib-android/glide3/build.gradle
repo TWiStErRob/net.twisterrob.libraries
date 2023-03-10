@@ -3,11 +3,11 @@ plugins {
 }
 
 dependencies {
-	implementation(libs.slf4j.api)
+	compileOnly(libs.slf4j.api)
 
 	api(libs.android.glide3)
 
-	implementation(libs.android.svg)
+	compileOnly(libs.android.svg)
 
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	compileOnly "net.twisterrob.lib:twister-lib-core"

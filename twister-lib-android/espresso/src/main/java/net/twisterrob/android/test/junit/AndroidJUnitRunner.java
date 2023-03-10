@@ -134,7 +134,7 @@ public class AndroidJUnitRunner extends androidx.test.runner.AndroidJUnitRunner 
 		}
 		if (!arguments.containsKey(ARGUMENT_CLASSPATHTOSCAN)) {
 			// Make sure we scan all dex files for tests.
-			List<File> classpath = new DexPathListReflection(this, LOG).dexClasspath();
+			List<File> classpath = new DexPathListReflection(this).dexClasspath();
 			if (!classpath.isEmpty()) {
 				arguments.putString(ARGUMENT_CLASSPATHTOSCAN, StringTools.join(classpath, ":"));
 			}

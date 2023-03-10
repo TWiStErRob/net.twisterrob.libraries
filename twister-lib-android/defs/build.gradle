@@ -5,7 +5,7 @@ plugins {
 android.namespace = "net.twisterrob.android.annotation.defs"
 
 dependencies {
-	implementation(libs.androidx.annotation)
+	compileOnly(libs.androidx.annotation)
 	compileOnly(libs.androidx.core)
 	compileOnly(libs.androidx.drawerlayout)
 	compileOnly(libs.androidx.material)
@@ -15,5 +15,7 @@ dependencies {
 
 	testImplementation "net.twisterrob.lib:twister-lib-hamcrest"
 	testImplementation "net.twisterrob.lib:twister-lib-junit4"
-	testImplementation(libs.androidx.fragment)
+	testCompileOnly(libs.androidx.annotation)
+	testCompileOnly(libs.androidx.fragment)
+	testRuntimeOnly(libs.androidx.fragment)
 }

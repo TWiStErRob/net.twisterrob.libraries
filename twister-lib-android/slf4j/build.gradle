@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-	implementation(libs.androidx.annotation)
-	implementation(libs.slf4j.api)
+	compileOnly(libs.androidx.annotation)
+	api(libs.slf4j.api)
 }

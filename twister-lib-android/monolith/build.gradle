@@ -22,11 +22,10 @@ dependencies {
 	implementation 'net.twisterrob.lib:twister-lib-android-stringers'
 	implementation 'net.twisterrob.lib:twister-lib-android-settings'
 
-	implementation(libs.androidx.fragment)
-	implementation(libs.androidx.cardview)
-	implementation(libs.androidx.recyclerview)
-	implementation(libs.androidx.material)
-	implementation(libs.androidx.annotationExperimental)
+	implementation(libs.slf4j.api)
+	api(libs.androidx.fragment)
+	api(libs.androidx.recyclerview)
+	api(libs.androidx.material)
 
 	//implementation(libs.androidx.palette)
 
@@ -37,7 +36,11 @@ dependencies {
 	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
 	compileOnly(libs.android.colorpicker)
 
-	apply from: "${rootDir}/twister-lib-android/gradle/testCompile.gradle", to: project
+	testImplementation(project(":internal:test:android_unit"))
+	// Replace APK's runtimeOnly sneaking into test runtime
+	configurations.testRuntimeOnly.exclude module: 'twister-lib-android-slf4j'
+
+	androidTestImplementation(project(":internal:test:android_instrumentation"))
 }
 
 android.lintOptions.checkDependencies = true

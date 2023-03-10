@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.app.Instrumentation;
 import android.os.StrictMode;
@@ -32,11 +33,10 @@ import net.twisterrob.java.utils.ReflectionTools;
 public class DexPathListReflection {
 
 	private final @NonNull Instrumentation instr;
-	private final @NonNull Logger LOG;
+	private static final @NonNull Logger LOG = LoggerFactory.getLogger(DexPathListReflection.class);
 
-	public DexPathListReflection(@NonNull Instrumentation instrumentation, @NonNull Logger log) {
+	public DexPathListReflection(@NonNull Instrumentation instrumentation) {
 		this.instr = instrumentation;
-		this.LOG = log;
 	}
 
 	/**

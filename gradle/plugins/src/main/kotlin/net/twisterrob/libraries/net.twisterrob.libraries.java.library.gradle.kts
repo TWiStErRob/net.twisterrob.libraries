@@ -20,11 +20,8 @@ configurations.configureEach {
 apply(from = rootDir.resolve("gradle/substitutions.gradle"))
 
 dependencies {
-	//noinspection ForeignDelegate it's confusing but works.
-	apply(from = rootDir.resolve("twister-lib-java/gradle/testCompile.gradle"), to = project)
-
-	api(libs.slf4j.api)
-	testImplementation(libs.slf4j.simple)
-	// TODO change to implementation (first step: exclude in Android)
-	api(libs.annotations.jsr305)
+	compileOnly(libs.annotations.jsr305)
+	compileOnly(libs.slf4j.api)
+	testCompileOnly(libs.annotations.jsr305)
+	testImplementation(project(":internal:test:jvm_unit"))
 }

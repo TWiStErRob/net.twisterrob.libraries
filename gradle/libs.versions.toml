@@ -1,6 +1,6 @@
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-
+dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 
 [versions]
 project = "1.0"
@@ -10,6 +10,7 @@ agp = "7.4.2"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.15"
 detekt = "1.22.0"
+dependencyAnalysis = "1.19.0"
 
 jsr305 = "3.0.2"
 jbrAnn = "18.0.0"
@@ -82,6 +83,7 @@ test-androidx-uiautomator = "2.2.0"
 plugin-android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 plugin-twisterrob-quality = { module = "net.twisterrob.gradle:twister-quality", version.ref = "twisterrob" }
 plugin-twisterrob-android = { module = "net.twisterrob.gradle:twister-convention-plugins", version.ref = "twisterrob" }
+plugin-dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
 
 annotations-jetbrains = { module = "org.jetbrains:annotations", version.ref = "jbrAnn" }
 annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }

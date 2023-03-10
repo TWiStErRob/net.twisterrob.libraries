@@ -259,7 +259,10 @@ public class CaptureImageActivityActor extends ActivityActor {
 	public void verifyExternalChooser() {
 		verifyExternalChooser(times(1));
 	}
-	public void verifyExternalChooser(VerificationMode mode) {
+	public void verifyExternalChooser(int times) {
+		verifyExternalChooser(times(times));
+	}
+	private void verifyExternalChooser(VerificationMode mode) {
 		String title = ApplicationProvider.getApplicationContext().getString(R.string.image__choose_external__title);
 		Intents.intended(allOf(
 				hasAction(Intent.ACTION_CHOOSER),

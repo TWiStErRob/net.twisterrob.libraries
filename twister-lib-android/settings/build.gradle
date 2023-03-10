@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-	implementation(libs.androidx.annotation)
+	compileOnly(libs.androidx.annotation)
 	api(libs.androidx.preference)
 	implementation(libs.slf4j.api)
 }

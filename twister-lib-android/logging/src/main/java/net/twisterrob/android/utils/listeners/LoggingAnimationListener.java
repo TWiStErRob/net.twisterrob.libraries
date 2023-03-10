@@ -6,16 +6,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 
 public class LoggingAnimationListener implements AnimationListener {
-	private static final Logger LOGGER = LoggerFactory.getLogger("Animation");
-	private final Logger LOG;
-
-	public LoggingAnimationListener() {
-		this(LOGGER);
-	}
-
-	public LoggingAnimationListener(Logger log) {
-		LOG = log;
-	}
+	private static final Logger LOG = LoggerFactory.getLogger("Animation");
 
 	@Override public void onAnimationStart(Animation animation) {
 		LOG.trace("onAnimationStart({})", animation);

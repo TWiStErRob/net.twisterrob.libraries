@@ -4,13 +4,20 @@ rootProject.name = "net-twisterrob-libraries"
 //enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
+	@Suppress("UnstableApiUsage")
 	includeBuild("gradle/plugins")
 	repositories {
 		google()
 		mavenCentral()
+		gradlePluginPortal()
 	}
-	// TODO add disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") when twisterrob-settings
+	// TODO when twisterrob-settings add
+	//disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") 
 }
+
+include(":internal:test:jvm_unit")
+include(":internal:test:android_unit")
+include(":internal:test:android_instrumentation")
 
 includeJava(":utils:stringer")
 includeJava(":utils:core")

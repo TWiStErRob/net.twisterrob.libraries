@@ -10,12 +10,12 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-junit4"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-junit4"
 	api "net.twisterrob.lib:twister-lib-hamcrest"
-	implementation(libs.test.hamcrest.junit)
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	implementation "net.twisterrob.lib:twister-lib-android-logging"
 	implementation "net.twisterrob.lib:twister-lib-android-stringers"
 	implementation "net.twisterrob.lib:twister-lib-android-defs"
+	implementation(libs.slf4j.api)
 
 	// Espresso core
 	api(libs.test.androidx.espressoCore)
@@ -33,14 +33,16 @@ dependencies {
 	// Espresso-intents for capturing Intents and mocking onActivityResult
 	implementation(libs.test.androidx.espressoIntents)
 	// Espresso-idling-resource for synchronization with background jobs
-	implementation(libs.test.androidx.espressoIdle)
+	api(libs.test.androidx.espressoIdle)
 	implementation(libs.androidx.multidex)
 
-	implementation(libs.androidx.annotation)
-	implementation(libs.androidx.preference)
-	implementation(libs.androidx.recyclerview)
+	compileOnly(libs.androidx.annotation)
+	api(libs.androidx.preference)
+	api(libs.androidx.recyclerview)
 
 	androidTestImplementation(libs.test.params)
+	androidTestImplementation(libs.test.androidx.junit)
+	androidTestImplementation(libs.test.hamcrest.junit)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 
 	testImplementation(libs.test.mockito)
