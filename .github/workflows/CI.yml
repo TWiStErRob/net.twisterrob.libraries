@@ -116,6 +116,13 @@ jobs:
           test_changes_limit: 0
           junit_files: ${{ github.workspace }}/**/build/test-results/*/TEST-*.xml
 
+      - name: "Upload 'Build Health' artifact."
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'Build Health'
+          path: ${{ github.workspace }}/**/build/reports/dependency-analysis/
+
 
   instrumentation:
     name: "🧪 Instrumentation Tests on ${{ matrix.android-api }}"
