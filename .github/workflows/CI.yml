@@ -121,7 +121,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: 'Build Health'
-          path: ${{ github.workspace }}/**/build/reports/dependency-analysis/
+          path: ${{ github.workspace }}/build/reports/dependency-analysis/
 
 
   instrumentation:
