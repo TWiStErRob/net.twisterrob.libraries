@@ -4,11 +4,11 @@ plugins {
 }
 
 // :plugins:check is not automatically invoked when doing `gradlew check`. Help Gradle discover it.
-tasks.register("check") {
+tasks.named("check") {
 	dependsOn(gradle.includedBuild("plugins").task(":check"))
 }
 
 // :plugins:build is not automatically invoked when doing `gradlew build`. Help Gradle discover it.
-tasks.register("build") {
+tasks.named("build") {
 	dependsOn(gradle.includedBuild("plugins").task(":build"))
 }
