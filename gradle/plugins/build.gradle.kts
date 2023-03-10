@@ -7,6 +7,7 @@ dependencies {
 	implementation(libs.plugin.android.gradle)
 	implementation(libs.plugin.twisterrob.quality)
 	implementation(libs.plugin.twisterrob.android)
+	implementation(libs.plugin.dependencyAnalysis)
 	// TODEL https://github.com/gradle/gradle/issues/15383
 	implementation(files(libs::class.java.superclass.protectionDomain.codeSource.location))
 }

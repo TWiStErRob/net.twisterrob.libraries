@@ -1,7 +1,6 @@
 plugins {
 	id("net.twisterrob.libraries.root")
-	@Suppress("DSL_SCOPE_VIOLATION")
-	alias(libs.plugins.dependencyAnalysis)
+	id("net.twisterrob.libraries.build.dependencyAnalysis")
 }
 
 // :plugins:check is not automatically invoked when doing `gradlew check`. Help Gradle discover it.
@@ -12,68 +11,4 @@ tasks.register("check") {
 // :plugins:build is not automatically invoked when doing `gradlew build`. Help Gradle discover it.
 tasks.register("build") {
 	dependsOn(gradle.includedBuild("plugins").task(":build"))
-}
-
-dependencyAnalysis {
-	abi {
-		exclusions {
-			// project(":espresso_glide3")'s internal helper classes.
-			ignoreSubPackage("com.bumptech.glide")
-		}
-	}
-	issues {
-		all {
-			onAny { severity("fail") }
-			onUsedTransitiveDependencies { severity("ignore") }
-		}
-		allprojects.forEach { project ->
-			if (project.path.endsWith("-test_helpers")) {
-				project(project.path) {
-					onIncorrectConfiguration { exclude(project.path.removeSuffix("-test_helpers")) }
-				}
-			}
-		}
-		project(":internal:test").subprojects.forEach { project ->
-			project(project.path) {
-				// Don't report dependencies of these helper projects,
-				// they exist to provide these dependencies.
-				onUnusedDependencies { severity("ignore") }
-			}
-			all {
-				// Don't report usages of these helper projects,
-				// they'll look like they're unused, but their transitive dependencies are needed.
-				onUnusedDependencies { exclude(project.path) }
-			}
-		}
-		project(":espresso_glide3") {
-			onUnusedDependencies {
-				// REPORT false positive, it is used with FQCN.
-				exclude(libs.android.guava.get().toString())
-			}
-		}
-		project(":defs") {
-			onUnusedDependencies {
-				// REPORT false positive, TransactionOperationCommandTest uses same-package class reference.
-				exclude(libs.androidx.fragment.get().toString())
-			}
-		}
-		project(":espresso") {
-			onUnusedDependencies {
-				// These dependencies are there to be provided to the consumers, keep them.
-				exclude(libs.test.androidx.junit.get().toString())
-			}
-			onIncorrectConfiguration {
-				// These dependencies are there to be provided to the consumers, keep them api.
-				exclude(
-					libs.test.androidx.junit.get().toString(),
-					libs.test.androidx.core.get().toString(),
-				)
-			}
-		}
-	}
-	dependencies {
-		bundle("robolectric") {
-			includeGroup("org.robolectric")
-		}
-	}
 }
