@@ -15,5 +15,7 @@ dependencies {
 
 	testImplementation "net.twisterrob.lib:twister-lib-hamcrest"
 	testImplementation "net.twisterrob.lib:twister-lib-junit4"
+	testCompileOnly(libs.androidx.annotation)
+	testImplementation(libs.androidx.core)
 	testImplementation(libs.androidx.fragment)
 }

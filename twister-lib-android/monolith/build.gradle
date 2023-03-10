@@ -23,11 +23,9 @@ dependencies {
 	implementation 'net.twisterrob.lib:twister-lib-android-settings'
 
 	implementation(libs.slf4j.api)
-	implementation(libs.androidx.fragment)
-	implementation(libs.androidx.cardview)
-	implementation(libs.androidx.recyclerview)
-	implementation(libs.androidx.material)
-	implementation(libs.androidx.annotationExperimental)
+	api(libs.androidx.fragment)
+	api(libs.androidx.recyclerview)
+	api(libs.androidx.material)
 
 	//implementation(libs.androidx.palette)
 

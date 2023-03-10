@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+	compileOnly(libs.slf4j.api)
 	api(libs.test.mockito)
 	implementation "net.twisterrob.lib:twister-lib-java"
 	

@@ -22,7 +22,7 @@ dependencies {
 	testImplementation(libs.test.androidx.junit)
 	testImplementation(libs.test.androidx.fragment)
 	testImplementation(libs.test.androidx.core)
-	testImplementation(libs.androidx.material)
+	testRuntimeOnly(libs.androidx.material)
 }
 
 android.testOptions.unitTests.includeAndroidResources = true
