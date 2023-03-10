@@ -52,12 +52,3 @@ configurations.configureEach { Configuration config ->
 		}
 	}
 }
-
-// TODO is this right to be on bottom?
-// Resolve dependency conflicts
-configurations.configureEach { Configuration config ->
-	config.resolutionStrategy {
-		// 2.0.1 (Espresso 3.0.1) vs 3.0.2 (latest)
-		force(libs.annotations.jsr305)
-	}
-}
