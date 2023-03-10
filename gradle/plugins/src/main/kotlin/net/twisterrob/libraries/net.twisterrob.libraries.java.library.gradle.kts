@@ -20,9 +20,8 @@ configurations.configureEach {
 apply(from = rootDir.resolve("gradle/substitutions.gradle"))
 
 dependencies {
-	api(libs.slf4j.api)
-	// TODO change to implementation (first step: exclude in Android)
-	api(libs.annotations.jsr305)
-
+	compileOnly(libs.annotations.jsr305)
+	implementation(libs.slf4j.api)
+	testCompileOnly(libs.annotations.jsr305)
 	testImplementation(project(":internal:test:jvm_unit"))
 }

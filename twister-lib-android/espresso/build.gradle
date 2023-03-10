@@ -16,6 +16,7 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-android-logging"
 	implementation "net.twisterrob.lib:twister-lib-android-stringers"
 	implementation "net.twisterrob.lib:twister-lib-android-defs"
+	implementation(libs.slf4j.api)
 
 	// Espresso core
 	api(libs.test.androidx.espressoCore)

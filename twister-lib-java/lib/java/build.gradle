@@ -4,5 +4,6 @@ plugins {
 
 dependencies {
 	implementation 'net.twisterrob.lib:twister-lib-core'
-	api(libs.annotations.jetbrains)
+	compileOnly(libs.annotations.jetbrains)
+	implementation(libs.slf4j.api)
 }

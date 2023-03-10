@@ -22,6 +22,7 @@ dependencies {
 	implementation 'net.twisterrob.lib:twister-lib-android-stringers'
 	implementation 'net.twisterrob.lib:twister-lib-android-settings'
 
+	implementation(libs.slf4j.api)
 	implementation(libs.androidx.fragment)
 	implementation(libs.androidx.cardview)
 	implementation(libs.androidx.recyclerview)

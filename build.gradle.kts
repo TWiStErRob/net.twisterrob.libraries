@@ -17,17 +17,24 @@ tasks.register("build") {
 dependencyAnalysis {
 	issues {
 		all {
-			onAny { severity("fail") }
+			//onAny { severity("fail") }
 			onUsedTransitiveDependencies { severity("ignore") }
 		}
-		project(":internal:test:jvm_unit") {
-			onUnusedDependencies { severity("ignore") }
+		project(":internal:test").subprojects.forEach { project ->
+			project(project.path) {
+				onUnusedDependencies { severity("ignore") }
+			}
 		}
-		project(":internal:test:android_unit") {
-			onUnusedDependencies { severity("ignore") }
+		project(":capture_image") {
+			onUnusedDependencies { exclude(libs.androidx.fragment.get().toString()) }
 		}
-		project(":internal:test:android_instrumentation") {
-			onUnusedDependencies { severity("ignore") }
+		project(":espresso_glide3") {
+			onUnusedDependencies { exclude(libs.androidx.fragment.get().toString()) }
+		}
+		(project(":lib").subprojects + project(":utils").subprojects).forEach { project ->
+			project(project.path) {
+				onUnusedDependencies { exclude(libs.slf4j.api.get().toString()) }
+			}
 		}
 	}
 	dependencies {

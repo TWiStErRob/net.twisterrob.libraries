@@ -12,12 +12,12 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-stringer"
 	implementation 'net.twisterrob.lib:twister-lib-android-basics'
 	implementation "net.twisterrob.lib:twister-lib-android-defs"
+	implementation(libs.slf4j.api)
 	compileOnly(libs.annotations.jsr305)
 	compileOnly "net.twisterrob.lib:twister-lib-android-annotations"
 	compileOnly "net.twisterrob.lib:twister-lib-core"
 
 	testImplementation(libs.test.junit)
-	testImplementation(libs.test.mockito)
 	testImplementation(libs.test.android.robolectric)
 	testImplementation(libs.test.androidx.junit)
 	testImplementation(libs.test.androidx.fragment)
