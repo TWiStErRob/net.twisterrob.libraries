@@ -16,6 +16,7 @@ pluginManagement {
 }
 
 include(":test-helpers:unit")
+include(":test-helpers:android_unit")
 
 includeJava(":utils:stringer")
 includeJava(":utils:core")

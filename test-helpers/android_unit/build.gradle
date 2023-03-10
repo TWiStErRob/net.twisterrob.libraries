@@ -1,0 +1,10 @@
+plugins {
+	id("net.twisterrob.libraries.java.library")
+}
+
+dependencies {
+	api(project(":test-helpers:unit"))
+	api(libs.test.android.robolectric)
+	api(libs.test.android.robolectricMultidex)
+	api(libs.test.androidx.core)
+}
