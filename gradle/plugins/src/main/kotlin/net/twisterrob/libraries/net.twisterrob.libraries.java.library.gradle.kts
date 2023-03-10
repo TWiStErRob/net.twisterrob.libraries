@@ -19,8 +19,7 @@ configurations.configureEach {
 }
 
 dependencies {
-	compileOnly(libs.annotations.jsr305)
+	implementation(libs.annotations.jsr305)
 	compileOnly(libs.slf4j.api)
-	testCompileOnly(libs.annotations.jsr305)
 	testImplementation(project(":internal:test:jvm_unit"))
 }

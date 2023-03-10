@@ -15,13 +15,26 @@ dependencyAnalysis {
 	}
 	issues {
 		all {
-			onAny { severity("fail") }
-			onUsedTransitiveDependencies { severity("ignore") }
+			onAny {
+				severity("fail")
+			}
+			onUsedTransitiveDependencies {
+				severity("ignore")
+			}
+			onIncorrectConfiguration {
+				// R8 needs the annotations to be on the runtime classpath too.
+				exclude(libs.annotations.jsr305.get().toString())
+			}
+			onUnusedDependencies {
+				// R8 needs the annotations to be on the runtime classpath too.
+				exclude(libs.annotations.jsr305.get().toString())
+			}
 		}
 		allprojects.forEach { project ->
-			if (project.path.endsWith("-test_helpers")) {
-				project(project.path) {
-					onIncorrectConfiguration { exclude(project.path.removeSuffix("-test_helpers")) }
+			if (!project.path.endsWith("-test_helpers")) return@forEach
+			project(project.path) {
+				onIncorrectConfiguration {
+					exclude(project.path.removeSuffix("-test_helpers"))
 				}
 			}
 		}
@@ -29,12 +42,16 @@ dependencyAnalysis {
 			project(project.path) {
 				// Don't report dependencies of these helper projects,
 				// they exist to provide these dependencies.
-				onUnusedDependencies { severity("ignore") }
+				onUnusedDependencies {
+					severity("ignore")
+				}
 			}
 			all {
 				// Don't report usages of these helper projects,
 				// they'll look like they're unused, but their transitive dependencies are needed.
-				onUnusedDependencies { exclude(project.path) }
+				onUnusedDependencies {
+					exclude(project.path)
+				}
 			}
 		}
 		project(":espresso_glide3") {
