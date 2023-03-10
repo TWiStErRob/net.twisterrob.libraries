@@ -8,6 +8,7 @@ pluginManagement {
 	repositories {
 		google()
 		mavenCentral()
+		gradlePluginPortal()
 	}
 	// TODO add disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") when twisterrob-settings
 }

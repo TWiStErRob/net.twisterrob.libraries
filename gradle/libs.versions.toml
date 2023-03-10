@@ -1,6 +1,6 @@
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-
+dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 
 [versions]
 project = "1.0"
@@ -10,6 +10,7 @@ agp = "7.4.2"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.15"
 detekt = "1.22.0"
+dependencyAnalysis = "1.19.0"
 
 jsr305 = "3.0.2"
 jbrAnn = "18.0.0"
