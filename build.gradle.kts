@@ -1,5 +1,6 @@
 plugins {
 	id("net.twisterrob.libraries.root")
+	@Suppress("DSL_SCOPE_VIOLATION")
 	alias(libs.plugins.dependencyAnalysis)
 }
 
