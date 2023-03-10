@@ -1,0 +1,26 @@
+plugins {
+	id("net.twisterrob.libraries.java.library")
+}
+
+dependencies {
+	api(libs.test.junit)
+	api "net.twisterrob.lib:twister-lib-hamcrest"
+	api "net.twisterrob.lib:twister-lib-mockito"
+	api "net.twisterrob.lib:twister-lib-junit4"
+	api "net.twisterrob.lib:twister-lib-test"
+	api(libs.test.hamcrest.junit)
+	api(libs.test.shazamcrest) { // assertThat(*, sameBeanAs(*))
+		exclude group: 'junit'
+		exclude module: 'guava'
+	}
+	api(libs.test.mockito)
+	api(libs.test.powermock.mockito2)
+	api(libs.test.powermock.junit4)
+	api(libs.test.powermock.junit4Rule)
+	// Contains duplicate PowerMockRule which messes things up, do not enable.
+	//api(libs.test.powermock.junit4Agent)
+	api(libs.test.powermock.xstream)
+	api(libs.test.gwen) // Gwen.given, Gwen.when, Gwen.then
+	runtimeOnly(libs.slf4j.simple)
+	api(libs.test.params)
+}
