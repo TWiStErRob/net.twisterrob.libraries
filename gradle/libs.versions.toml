@@ -147,9 +147,6 @@ test-bytebuddyAgent = { module = "net.bytebuddy:byte-buddy-agent", version.ref =
 
 test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }
 test-hamcrest-junit = { module = "org.hamcrest:hamcrest-junit", version.ref = "test-hamcrest" }
-# Deprecated ones, exist for reference only.
-test-hamcrest-core = { module = "org.hamcrest:hamcrest-core" }
-test-hamcrest-library = { module = "org.hamcrest:hamcrest-library" }
 test-shazamcrest = { module = "com.shazam:shazamcrest", version.ref = "test-shazamcrest" }
 
 test-powermock-mockito2 = { module = "org.powermock:powermock-api-mockito2", version.ref = "test-powermock" }
@@ -157,3 +154,6 @@ test-powermock-junit4 = { module = "org.powermock:powermock-module-junit4", vers
 test-powermock-junit4Rule = { module = "org.powermock:powermock-module-junit4-rule", version.ref = "test-powermock" }
 test-powermock-junit4Agent = { module = "org.powermock:powermock-module-junit4-rule-agent", version.ref = "test-powermock" }
 test-powermock-xstream = { module = "org.powermock:powermock-classloading-xstream", version.ref = "test-powermock" }
+
+deprecated-hamcrestCore = { module = "org.hamcrest:hamcrest-core" }
+deprecated-hamcrestLibrary = { module = "org.hamcrest:hamcrest-library" }
