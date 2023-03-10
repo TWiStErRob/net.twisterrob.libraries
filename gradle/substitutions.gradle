@@ -40,15 +40,3 @@ configurations.configureEach { Configuration config ->
 		}
 	}
 }
-
-// Substitutions for Hamcrest
-configurations.configureEach { Configuration config ->
-	config.resolutionStrategy { ResolutionStrategy strategy ->
-		strategy.dependencySubstitution {
-			substitute(module(libs.deprecated.hamcrestCore.get().module.toString()))
-					.using(module(libs.test.hamcrest.asProvider().get().toString()))
-			substitute(module(libs.deprecated.hamcrestLibrary.get().module.toString()))
-					.using(module(libs.test.hamcrest.asProvider().get().toString()))
-		}
-	}
-}

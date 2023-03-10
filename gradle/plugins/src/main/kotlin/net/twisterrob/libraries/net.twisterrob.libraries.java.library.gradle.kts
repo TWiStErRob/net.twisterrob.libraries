@@ -1,6 +1,7 @@
 import net.twisterrob.libraries.build.dsl.libs
 
 plugins {
+	id("net.twisterrob.libraries.build.allprojects")
 	id("net.twisterrob.libraries.build.publishing")
 	id("net.twisterrob.java-library")
 	// Must be applied after java-library, because it eagerly looks up sourceSets.main.

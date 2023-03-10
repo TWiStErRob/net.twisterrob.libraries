@@ -1,4 +1,5 @@
 plugins {
+	id("net.twisterrob.libraries.build.allprojects")
 	id("net.twisterrob.quality")
 }
 
