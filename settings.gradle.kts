@@ -17,6 +17,7 @@ pluginManagement {
 
 include(":internal:test:jvm_unit")
 include(":internal:test:android_unit")
+include(":internal:test:android_instrumentation")
 
 includeJava(":utils:stringer")
 includeJava(":utils:core")

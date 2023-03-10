@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all" version="7.4.2">
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in net.bytebuddy:byte-buddy-agent; not included in Android: `java.lang.instrument`. Referenced from `net.bytebuddy.agent.ByteBuddyAgent`.">
+        <location
+            file="Z:/caches/gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.10.5/d1c949ee74c3421ffd3d9159c867777ded928448/byte-buddy-agent-1.10.5.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in net.bytebuddy:byte-buddy-agent; not included in Android: `java.lang.management`. Referenced from `net.bytebuddy.agent.ByteBuddyAgent.ProcessProvider.ForCurrentVm.ForLegacyVm`.">
+        <location
+            file="Z:/caches/gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.10.5/d1c949ee74c3421ffd3d9159c867777ded928448/byte-buddy-agent-1.10.5.jar"/>
+    </issue>
+
+    <issue
+        id="InvalidPackage"
+        message="Invalid package reference in org.mockito:mockito-core; not included in Android: `javax.tools`. Referenced from `org.mockito.internal.creation.bytebuddy.InlineByteBuddyMockMaker`.">
+        <location
+            file="Z:/caches/gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/3.3.3/4878395d4e63173f3825e17e5e0690e8054445f1/mockito-core-3.3.3.jar"/>
+    </issue>
+
+</issues>
