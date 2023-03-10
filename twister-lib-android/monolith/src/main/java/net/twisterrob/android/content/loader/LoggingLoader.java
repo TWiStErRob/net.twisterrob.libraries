@@ -10,8 +10,7 @@ import net.twisterrob.java.annotations.DebugHelper;
 
 @DebugHelper
 public class LoggingLoader<T> extends Loader<T> {
-	@SuppressWarnings("CanBeFinal") // allow children to override
-	protected Logger LOG = LoggerFactory.getLogger(getClass());
+	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
 	public LoggingLoader(Context context) {
 		super(context);

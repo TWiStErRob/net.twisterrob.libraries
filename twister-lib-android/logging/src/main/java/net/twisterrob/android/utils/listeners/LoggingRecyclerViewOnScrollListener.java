@@ -8,16 +8,7 @@ import net.twisterrob.java.annotations.DebugHelper;
 
 @DebugHelper
 public class LoggingRecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
-	private static final Logger LOGGER = LoggerFactory.getLogger("RecyclerViewOnScroll");
-	private final Logger LOG;
-
-	public LoggingRecyclerViewOnScrollListener() {
-		this(LOGGER);
-	}
-
-	public LoggingRecyclerViewOnScrollListener(Logger log) {
-		LOG = log;
-	}
+	private static final Logger LOG = LoggerFactory.getLogger("RecyclerViewOnScroll");
 
 	@Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 		LOG.trace("onScrollStateChanged({}, {})", recyclerView, scrollStateToString(newState));

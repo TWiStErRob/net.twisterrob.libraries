@@ -10,16 +10,7 @@ import net.twisterrob.java.annotations.DebugHelper;
 @SuppressLint("ClickableViewAccessibility")
 @DebugHelper
 public class LoggingOnTouchListener implements View.OnTouchListener {
-	private static final Logger LOGGER = LoggerFactory.getLogger("ViewOnTouch");
-	private final Logger LOG;
-
-	public LoggingOnTouchListener() {
-		this(LOGGER);
-	}
-
-	public LoggingOnTouchListener(Logger log) {
-		LOG = log;
-	}
+	private static final Logger LOG = LoggerFactory.getLogger("ViewOnTouch");
 
 	@Override public boolean onTouch(View v, MotionEvent event) {
 		LOG.trace("onTouch({}, {})", v, event);
