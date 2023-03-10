@@ -67,6 +67,7 @@ dependencyAnalysis {
 	}
 	dependencies {
 		bundle("robolectric") {
+			primary("org.robolectric:robolectric")
 			includeGroup("org.robolectric")
 		}
 	}
