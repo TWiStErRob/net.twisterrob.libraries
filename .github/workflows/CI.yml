@@ -54,6 +54,7 @@ jobs:
           --stacktrace
           --continue
           build
+          buildHealth
           lint
           violationCountFile
           violationReportConsole

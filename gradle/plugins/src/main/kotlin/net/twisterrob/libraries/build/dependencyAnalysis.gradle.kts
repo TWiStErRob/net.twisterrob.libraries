@@ -6,8 +6,6 @@ plugins {
 	id("com.autonomousapps.dependency-analysis")
 }
 
-tasks.named("check").configure { dependsOn("buildHealth") }
-
 dependencyAnalysis {
 	abi {
 		exclusions {
