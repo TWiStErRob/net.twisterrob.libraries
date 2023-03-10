@@ -41,26 +41,6 @@ configurations.configureEach { Configuration config ->
 	}
 }
 
-// Substitutions for support library
-//configurations.all { Configuration config ->
-//	if (!config.name.contains("lintClassPath")) {
-//		config.resolutionStrategy { ResolutionStrategy strategy ->
-//			strategy.dependencySubstitution { subst ->
-//				[ "support-annotations", "support-v4", "appcompat-v7", "support-v13",
-//				  "design", "customtabs", "preference-v7", "preference-v14",
-//				  "recyclerview-v7", "cardview-v7", "gridlayout-v7", "percent", "palette-v7",
-//				  "mediarouter-v7", "leanback-v17", "preference-leanback-v17", "recommendation",
-//				  "support-vector-drawable", "animated-vector-drawable"
-//				].each {
-//					strategy.force("com.android.support:${it}:${VERSION_SUPPORT}")
-//					subst.substitute(module("com.android.support:${it}"))
-//					     .with module("com.android.support:${it}:${VERSION_SUPPORT}")
-//				}
-//			}
-//		}
-//	}
-//}
-
 // Substitutions for Guava on Android
 configurations.configureEach { Configuration config ->
 	if (!config.name.startsWith("androidTest") && !config.name.startsWith("debugAndroidTest")) return
