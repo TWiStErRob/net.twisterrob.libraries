@@ -11,6 +11,5 @@ dependencies {
 	compileOnly(libs.androidx.fragment)
 	compileOnly(libs.androidx.swiperefreshlayout)
 
-	apply from: "${rootDir}/twister-lib-android/gradle/testCompile.gradle", to: project
-	testImplementation(libs.test.androidx.junit)
+	testImplementation(project(":test-helpers:android_unit"))
 }
