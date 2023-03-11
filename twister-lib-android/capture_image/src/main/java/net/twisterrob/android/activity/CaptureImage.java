@@ -57,7 +57,6 @@ import static net.twisterrob.android.content.ImageRequest.*;
  * > <a href="https://code.google.com/archive/p/ece301-examples/downloads">Downloads</a>
  * > <a href="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/ece301-examples/CameraPreview.zip">CameraPreview.zip</a> (password preview).
  */
-@SuppressLint("WrongThread") // TODEL when updated the Gradle plugin with new lint
 @UiThread
 public class CaptureImage extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
 	private static final Logger LOG = LoggerFactory.getLogger(CaptureImage.class);
