@@ -15,20 +15,25 @@ pluginManagement {
 	//disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") 
 }
 
+include(":internal")
+include(":internal:test")
 include(":internal:test:jvm_unit")
 include(":internal:test:android_unit")
 include(":internal:test:android_instrumentation")
 
-includeJava(":utils:stringer")
-includeJava(":utils:core")
-includeJava(":utils:collect")
-includeJava(":utils:test")
-includeJava(":lib:general")
-includeJava(":lib:java")
-includeJava(":lib:java_desktop")
-includeJava(":lib:junit4")
-includeJava(":lib:hamcrest")
-includeJava(":lib:mockito")
+// Note: the container project is already relocated, any subprojects will be resolved relative to it.
+includeJava(":utils")
+include(":utils:stringer")
+include(":utils:core")
+include(":utils:collect")
+include(":utils:test")
+includeJava(":lib")
+include(":lib:general")
+include(":lib:java")
+include(":lib:java_desktop")
+include(":lib:junit4")
+include(":lib:hamcrest")
+include(":lib:mockito")
 
 includeAndroid(":monolith")
 

@@ -1,5 +1,6 @@
 plugins {
 	id("net.twisterrob.libraries.build.allprojects")
+	id("net.twisterrob.libraries.container")
 	id("net.twisterrob.quality")
 }
 
@@ -8,14 +9,8 @@ tasks.register("build") {
 	dependsOn("check")
 }
 
-tasks.register<Delete>("clean") {
-	delete(project.buildDir)
-}
-
 tasks.register("cleanFull") {
-	// subprojects*.tasks*.named("clean") is not available at this point
-	dependsOn(subprojects.map { "${it.path}:clean" })
-	dependsOn(tasks.named("clean"))
+	dependsOn(allprojects.map { it.tasks.named("clean") })
 }
 
 // To get gradle/dependency-locks run `gradlew :allDependencies --write-locks`.

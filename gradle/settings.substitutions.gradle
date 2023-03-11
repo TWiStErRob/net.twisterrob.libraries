@@ -17,7 +17,7 @@
  */
 
 dependencySubstitution {
-	substitute module('net.twisterrob.lib:twister-lib-general') with project(':lib:general')
+	substitute module("net.twisterrob.lib:twister-lib-general") with project(":lib:general")
 
 	substitute module("net.twisterrob.lib:twister-lib-hamcrest") with project(":lib:hamcrest")
 	substitute module("net.twisterrob.lib:twister-lib-java") with project(":lib:java")
@@ -30,7 +30,7 @@ dependencySubstitution {
 	substitute module("net.twisterrob.lib:twister-lib-stringer") with project(":utils:stringer")
 	substitute module("net.twisterrob.lib:twister-lib-test") with project(":utils:test")
 
-	substitute module('net.twisterrob.lib:twister-lib-android-monolith') with project(':monolith')
+	substitute module("net.twisterrob.lib:twister-lib-android-monolith") with project(":monolith")
 	substitute module("net.twisterrob.lib:twister-lib-android-about") with project(":about")
 	substitute module("net.twisterrob.lib:twister-lib-android-about-test_helpers") with project(":about-test_helpers")
 	substitute module("net.twisterrob.lib:twister-lib-android-annotations") with project(":annotations")
