@@ -1,14 +1,16 @@
 package net.twisterrob.android.utils.log;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.SuppressLint;
-import android.app.IntentService;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.IBinder;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.JobIntentService;
 
 import net.twisterrob.android.annotation.TrimMemoryLevel;
 import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;
@@ -17,24 +19,19 @@ import net.twisterrob.java.annotations.DebugHelper;
 
 @DebugHelper
 @SuppressLint("Registered") // allow registration if wanted without needing to subclass
-public class LoggingIntentService extends IntentService {
-	private static final Logger LOG = LoggerFactory.getLogger("IntentService");
-	private final String name;
+public class LoggingJobIntentService extends JobIntentService {
+	private static final Logger LOG = LoggerFactory.getLogger("JobIntentService");
 
-	public LoggingIntentService(String name) {
-		super(name);
-		this.name = name;
+	public LoggingJobIntentService() {
 		log("<ctor>");
 	}
-	@Override public void setIntentRedelivery(boolean enabled) {
-		log("setIntentRedelivery", enabled);
-		super.setIntentRedelivery(enabled);
-	}
+
 	@Override public void onCreate() {
 		log("onCreate");
 		super.onCreate();
 	}
 	@Deprecated
+	@SuppressWarnings("deprecation")
 	@Override public void onStart(@Nullable Intent intent, int startId) {
 		log("onStart", intent, startId);
 		super.onStart(intent, startId);
@@ -75,10 +72,14 @@ public class LoggingIntentService extends IntentService {
 		log("onTaskRemoved", rootIntent);
 		super.onTaskRemoved(rootIntent);
 	}
-	@Override protected void onHandleIntent(@Nullable Intent intent) {
-		log("onHandleIntent", intent);
+	@Override public boolean onStopCurrentWork() {
+		log("onStopCurrentWork");
+		return super.onStopCurrentWork();
+	}
+	@Override protected void onHandleWork(@NonNull Intent intent) {
+		log("onHandleWork", intent);
 	}
 	private void log(@NonNull String method, @NonNull Object... args) {
-		LoggingHelper.log(LOG, StringerTools.toNameString(this) + "[" + name + "]", method, null, args);
+		LoggingHelper.log(LOG, StringerTools.toNameString(this), method, null, args);
 	}
 }
