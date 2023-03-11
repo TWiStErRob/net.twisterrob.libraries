@@ -13,6 +13,7 @@ import androidx.annotation.*;
 public abstract class SafeAsyncTask<Param, Progress, Result>
 		extends AsyncTask<Param, Progress, AsyncTaskResult<Param, Result>> {
 	@WorkerThread
+	@SuppressWarnings("varargs")
 	@SafeVarargs
 	@Override protected final @NonNull AsyncTaskResult<Param, Result> doInBackground(@Nullable Param... params) {
 		try {

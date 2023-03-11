@@ -15,6 +15,7 @@ import static net.twisterrob.android.utils.concurrent.SimpleAsyncTaskHelper.*;
 public abstract class SimpleAsyncTask<Param, Progress, Result>
 		extends AsyncTask<Param, Progress, Result> {
 	@WorkerThread
+	@SuppressWarnings("varargs")
 	@SafeVarargs
 	@Override protected final @Nullable Result doInBackground(@Nullable Param... params) {
 		return doInBackground(getSingleOrThrow("background operation", params, true));
@@ -24,6 +25,7 @@ public abstract class SimpleAsyncTask<Param, Progress, Result>
 	protected abstract @Nullable Result doInBackground(@Nullable Param param);
 
 	@UiThread
+	@SuppressWarnings("varargs")
 	@SafeVarargs
 	@Override protected final void onProgressUpdate(@Nullable Progress... values) {
 		onProgressUpdate(getSingleOrThrow("progress update", values, true));

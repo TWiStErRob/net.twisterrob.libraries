@@ -56,7 +56,7 @@ public final class CollectionTools {
 		throw new IllegalArgumentException();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	@SafeVarargs
 	public static <T> T[] nonNull(T... listOrNull) {
 		return listOrNull != null? listOrNull : (T[])new Object[0];
