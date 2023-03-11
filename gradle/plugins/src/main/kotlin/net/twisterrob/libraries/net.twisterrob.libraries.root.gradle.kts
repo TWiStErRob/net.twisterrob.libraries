@@ -1,15 +1,12 @@
 plugins {
 	id("net.twisterrob.libraries.build.allprojects")
+	id("net.twisterrob.libraries.container")
 	id("net.twisterrob.quality")
 }
 
 tasks.register("check")
 tasks.register("build") {
 	dependsOn("check")
-}
-
-tasks.register<Delete>("clean") {
-	delete(project.buildDir)
 }
 
 tasks.register("cleanFull") {
