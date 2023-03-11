@@ -17,8 +17,5 @@ local.properties
 
 # No source code in grouping folders.
 /twister-lib-java/src/
-/twister-lib-java/*.gradle*
 /twister-lib-java/*/src/
-/twister-lib-java/*/*.gradle*
 /twister-lib-android/src/
-/twister-lib-android/*.gradle*
