@@ -13,11 +13,6 @@ repositories {
 	mavenCentral()
 }
 
-configurations.configureEach {
-	if (this.name == "lintClassPath") return@configureEach
-//		this.resolutionStrategy.failOnVersionConflict()
-}
-
 dependencies {
 	implementation(libs.annotations.jsr305)
 	compileOnly(libs.slf4j.api)
