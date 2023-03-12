@@ -630,7 +630,11 @@ public /*static*/ abstract class AndroidTools {
 		view.draw(new Canvas(bitmap));
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ROOT).format(new Date());
 		try {
-			File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+			File storageDir = view.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+			if (storageDir == null) {
+				Log.e("SCREENSHOT", "No external Downloads directory, cannot save screenshot of " + view);
+				return;
+			}
 			IOTools.ensure(storageDir);
 			File file = File.createTempFile(timeStamp, ".png", storageDir);
 			@SuppressWarnings("resource")
