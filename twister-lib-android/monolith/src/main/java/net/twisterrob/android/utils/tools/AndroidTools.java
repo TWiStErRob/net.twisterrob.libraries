@@ -900,12 +900,14 @@ public /*static*/ abstract class AndroidTools {
 
 	public static void unparcel(Intent intent) {
 		if (intent != null) {
-			unparcel(intent.getExtras());
+			// Calling it only for the side effect of calling mExtras.unparcel().
+			intent.hasExtra(null);
 		}
 	}
 	public static void unparcel(Bundle bundle) {
 		if (bundle != null) {
-			bundle.get(null);
+			// Calling it only for the side effect of calling unparcel().
+			bundle.isEmpty();
 		}
 	}
 
