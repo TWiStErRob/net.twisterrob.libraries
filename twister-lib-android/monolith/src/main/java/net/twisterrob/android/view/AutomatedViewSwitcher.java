@@ -3,6 +3,7 @@ package net.twisterrob.android.view;
 import org.slf4j.*;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.ViewSwitcher;
 
 public class AutomatedViewSwitcher {
@@ -20,7 +21,7 @@ public class AutomatedViewSwitcher {
 		firstDelay += switcher.getOutAnimation().getDuration() + switcher.getInAnimation().getDuration();
 		secondDelay += switcher.getOutAnimation().getDuration() + switcher.getInAnimation().getDuration();
 		this.delays = new long[] {firstDelay, secondDelay};
-		this.handler = new Handler();
+		this.handler = new Handler(Looper.getMainLooper());
 	}
 	public void start() {
 		int current = switcher.getDisplayedChild();

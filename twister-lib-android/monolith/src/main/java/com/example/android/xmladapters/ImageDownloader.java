@@ -61,7 +61,7 @@ public class ImageDownloader {
 	private final static ConcurrentMap<String, SoftReference<Bitmap>> sSoftBitmapCache =
 			new ConcurrentHashMap<>(HARD_CACHE_CAPACITY / 2);
 
-	private final Handler purgeHandler = new Handler();
+	private final Handler purgeHandler = new Handler(Looper.myLooper());
 
 	private final Runnable purger = new Runnable() {
 		public void run() {
