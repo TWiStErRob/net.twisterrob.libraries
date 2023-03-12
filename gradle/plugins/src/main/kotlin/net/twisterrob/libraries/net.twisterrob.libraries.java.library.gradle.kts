@@ -3,7 +3,7 @@ import net.twisterrob.libraries.build.dsl.libs
 plugins {
 	id("net.twisterrob.libraries.build.allprojects")
 	id("net.twisterrob.libraries.build.publishing")
-	id("net.twisterrob.java-library")
+	id("net.twisterrob.gradle.plugin.java-library")
 	// Must be applied after java-library, because it eagerly looks up sourceSets.main.
 	id("net.twisterrob.libraries.build.java.lint")
 }

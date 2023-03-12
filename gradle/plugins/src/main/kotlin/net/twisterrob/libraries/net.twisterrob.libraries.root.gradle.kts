@@ -1,7 +1,7 @@
 plugins {
 	id("net.twisterrob.libraries.build.allprojects")
 	id("net.twisterrob.libraries.container")
-	id("net.twisterrob.quality")
+	id("net.twisterrob.gradle.plugin.quality")
 }
 
 tasks.register("check")
