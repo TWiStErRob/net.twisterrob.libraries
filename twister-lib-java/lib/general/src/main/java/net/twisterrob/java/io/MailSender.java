@@ -6,6 +6,10 @@ import java.util.Locale;
 
 import net.twisterrob.java.utils.ArrayTools;
 
+/**
+ * @deprecated this doesn't belong in here, move to BLT.
+ */
+@Deprecated
 public class MailSender {
 	private String from = "";
 	private String[] to;
