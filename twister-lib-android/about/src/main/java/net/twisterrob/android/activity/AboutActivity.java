@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.slf4j.*;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.*;
 import android.content.pm.*;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -28,7 +27,8 @@ import androidx.appcompat.app.AlertDialog.Builder;
 import net.twisterrob.android.about.R;
 import net.twisterrob.android.utils.tools.ViewTools;
 
-public class AboutActivity extends ListActivity {
+@SuppressWarnings("deprecation")
+public class AboutActivity extends android.app.ListActivity {
 	private static final Logger LOG = LoggerFactory.getLogger(AboutActivity.class);
 	private static final String META_EXTRA_KEY_EMAIL = "net.twisterrob.android.about.email";
 
