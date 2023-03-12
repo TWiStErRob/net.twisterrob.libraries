@@ -3,6 +3,9 @@ package net.twisterrob.android.content;
 import java.io.File;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.Manifest;
 import android.annotation.*;
 import android.app.Activity;
@@ -13,6 +16,7 @@ import android.os.Build.*;
 import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.PermissionChecker;
 
 import net.twisterrob.android.activity.CaptureImage;
@@ -21,6 +25,8 @@ import net.twisterrob.android.utils.tools.*;
 
 // FIXME https://developer.android.com/guide/topics/providers/document-provider.html
 public class ImageRequest {
+	private static final Logger LOG = LoggerFactory.getLogger(ImageRequest.class);
+
 	private final Activity activity;
 	private final Intent intent;
 	private final int requestCode;
@@ -117,7 +123,7 @@ public class ImageRequest {
 			return new ImageRequest(chooserIntent, requestCode, activity);
 		}
 		private Intent[] buildInitialIntents() {
-			Intent[] intents = this.intents.toArray(new Intent[this.intents.size()]);
+			Intent[] intents = this.intents.toArray(new Intent[0]);
 			PackageManager pm = context.getPackageManager();
 			for (int i = 0; i < intents.length; i++) {
 				Intent intent = intents[i];
@@ -215,9 +221,10 @@ public class ImageRequest {
 		@Override public int compare(Intent lhs, Intent rhs) {
 			CharSequence lLabel = getLabel(lhs);
 			CharSequence rLabel = getLabel(rhs);
-			return lLabel.toString().compareTo(rLabel.toString());
+			// Poor man's null-safe comparison.
+			return String.valueOf(lLabel).compareTo(String.valueOf(rLabel));
 		}
-		private CharSequence getLabel(Intent intent) {
+		private @Nullable CharSequence getLabel(Intent intent) {
 			if (intent instanceof LabeledIntent) {
 				return ((LabeledIntent)intent).loadLabel(pm);
 			} else {

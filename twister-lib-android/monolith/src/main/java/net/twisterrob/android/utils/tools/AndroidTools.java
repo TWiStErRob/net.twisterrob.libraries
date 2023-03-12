@@ -65,7 +65,7 @@ public /*static*/ abstract class AndroidTools {
 			String[] requestedPermissions = packageInfo.requestedPermissions;
 			return requestedPermissions != null
 					? Arrays.asList(requestedPermissions)
-					: Collections.<String>emptyList();
+					: Collections.emptyList();
 		} catch (PackageManager.NameNotFoundException e) {
 			return Collections.emptyList();
 		}
