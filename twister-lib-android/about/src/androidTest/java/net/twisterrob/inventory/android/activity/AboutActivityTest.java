@@ -8,7 +8,10 @@ import static org.hamcrest.Matchers.*;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+
+import androidx.annotation.NonNull;
 
 import static androidx.test.core.app.ApplicationProvider.*;
 
@@ -66,10 +69,11 @@ public class AboutActivityTest {
 		about.assertTextExists(equalTo(stringRes(R.string.about_tips_title)));
 	}
 
-	private static PackageInfo getPackageInfo() {
+	private static @NonNull PackageInfo getPackageInfo() {
 		Context context = getApplicationContext();
 		try {
-			PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			PackageManager pm = context.getPackageManager();
+			PackageInfo info = PackageManagerTools.getPackageInfo(pm, context.getPackageName(), 0);
 			assertThat(context.getPackageName(), info, not(nullValue()));
 			return info;
 		} catch (NameNotFoundException e) {

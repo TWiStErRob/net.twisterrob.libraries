@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 
 import net.twisterrob.android.about.R;
+import net.twisterrob.android.utils.tools.PackageManagerTools;
 import net.twisterrob.android.utils.tools.ViewTools;
 
 @SuppressWarnings("deprecation")
@@ -160,7 +161,8 @@ public class AboutActivity extends android.app.ListActivity {
 		about.appIcon = appInfo.loadIcon(app.getPackageManager());
 		about.applicationId = app.getPackageName();
 		try {
-			ActivityInfo activityInfo = app.getPackageManager().getActivityInfo(this.getComponentName(), PackageManager.GET_META_DATA);
+			ActivityInfo activityInfo = PackageManagerTools.getActivityInfo(
+					app.getPackageManager(), this.getComponentName(), PackageManager.GET_META_DATA);
 			about.email = activityInfo.metaData.getString(META_EXTRA_KEY_EMAIL);
 		} catch (NameNotFoundException ex) {
 			throw new IllegalStateException("Cannot find information about the application.", ex);

@@ -122,7 +122,13 @@ public class ImageRequest {
 			for (int i = 0; i < intents.length; i++) {
 				Intent intent = intents[i];
 				if (!(intent instanceof LabeledIntent)) {
-					CharSequence appLabel = pm.resolveActivity(intent, 0).loadLabel(pm);
+					ResolveInfo info = PackageManagerTools.resolveActivity(pm, intent, 0);
+					if (info == null) {
+						// Assumption is that all the intents used as the input are already resolved once.
+						LOG.warn("Intent {} has no ResolveInfo.", intent);
+						continue;
+					}
+					CharSequence appLabel = info.loadLabel(pm);
 					CharSequence label;
 					if (MediaStore.ACTION_IMAGE_CAPTURE.equals(intent.getAction())) {
 						label = TextTools.formatFormatted(context,
@@ -215,8 +221,8 @@ public class ImageRequest {
 			if (intent instanceof LabeledIntent) {
 				return ((LabeledIntent)intent).loadLabel(pm);
 			} else {
-				ResolveInfo info = pm.resolveActivity(intent, 0);
-				return info.loadLabel(pm);
+				ResolveInfo info = PackageManagerTools.resolveActivity(pm, intent, 0);
+				return info != null? info.loadLabel(pm) : null;
 			}
 		}
 	}

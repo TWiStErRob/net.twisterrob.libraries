@@ -8,9 +8,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 
 import androidx.annotation.RequiresPermission;
+
+import net.twisterrob.android.utils.tools.PackageManagerTools;
 
 public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 
@@ -32,12 +35,13 @@ public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 	@SuppressLint("InlinedApi")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	@Override protected boolean matchesSafely(Context context, Description mismatchDescription) {
+		PackageManager pm = context.getPackageManager();
 		PackageInfo info;
 		try {
-			info = context.getPackageManager().getPackageInfo(packageName, 0);
+			info = PackageManagerTools.getPackageInfo(pm, packageName, 0);
 		} catch (NameNotFoundException e) {
 			@SuppressLint("QueryPermissionsNeeded") // Used from tests, so we can request QUERY_ALL_PACKAGES.
-			Iterable<PackageInfo> packages = context.getPackageManager().getInstalledPackages(0);
+			Iterable<PackageInfo> packages = PackageManagerTools.getInstalledPackages(pm, 0);
 			Collection<String> packageNames = new ArrayList<>();
 			for (PackageInfo aPackage : packages) {
 				packageNames.add(aPackage.packageName);

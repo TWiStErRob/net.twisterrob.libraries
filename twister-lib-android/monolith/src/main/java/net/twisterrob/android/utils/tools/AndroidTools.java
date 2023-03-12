@@ -60,10 +60,9 @@ public /*static*/ abstract class AndroidTools {
 	public static @NonNull List<String> getDeclaredPermissions(@NonNull Context context) {
 		PackageManager pm = context.getPackageManager();
 		try {
-			PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
-			String[] requestedPermissions = packageInfo != null
-					? packageInfo.requestedPermissions
-					: null;
+			PackageInfo packageInfo = PackageManagerTools.getPackageInfo(
+					pm, context.getPackageName(), PackageManager.GET_PERMISSIONS);
+			String[] requestedPermissions = packageInfo.requestedPermissions;
 			return requestedPermissions != null
 					? Arrays.asList(requestedPermissions)
 					: Collections.<String>emptyList();
@@ -72,9 +71,9 @@ public /*static*/ abstract class AndroidTools {
 		}
 	}
 
-	public static List<Intent> resolveIntents(Context context, Intent originalIntent, int flags) {
+	public static List<Intent> resolveIntents(Context context, Intent originalIntent, long flags) {
 		PackageManager packageManager = context.getPackageManager();
-		List<ResolveInfo> resolved = packageManager.queryIntentActivities(originalIntent, flags);
+		List<ResolveInfo> resolved = PackageManagerTools.queryIntentActivities(packageManager, originalIntent, flags);
 		List<Intent> result = new ArrayList<>(resolved.size());
 		for (ResolveInfo info : resolved) {
 			Intent intent = new Intent(originalIntent);
@@ -527,7 +526,7 @@ public /*static*/ abstract class AndroidTools {
 		// The specific app page
 		Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
 		intent.setData(Uri.parse("package:" + packageName));
-		if (context.getPackageManager().resolveActivity(intent, 0) == null) {
+		if (PackageManagerTools.resolveActivity(context.getPackageManager(), intent, 0) == null) {
 			// The generic apps page
 			intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
 		}
@@ -803,16 +802,6 @@ public /*static*/ abstract class AndroidTools {
 		}
 	}
 
-	/** @see PackageManager#getActivityInfo(ComponentName, int) */
-	public static ActivityInfo getActivityInfo(Activity activity, int flags) {
-		try {
-			return activity.getPackageManager().getActivityInfo(activity.getComponentName(), flags);
-		} catch (NameNotFoundException e) {
-			LOG.warn("Activity doesn't exists, but has an instance? {}", activity, e);
-			throw new RuntimeException(e);
-		}
-	}
-
 	public static ParcelFileDescriptor stream(final @NonNull byte... contents) throws FileNotFoundException {
 		return stream(new ByteArrayInputStream(contents));
 	}
@@ -989,7 +978,8 @@ public /*static*/ abstract class AndroidTools {
 			@NonNull Context context, @NonNull Class<? extends ContentProvider> clazz) {
 		try {
 			PackageManager pm = context.getPackageManager();
-			PackageInfo info = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_PROVIDERS);
+			PackageInfo info = PackageManagerTools.getPackageInfo(
+					pm, context.getPackageName(), PackageManager.GET_PROVIDERS);
 			for (ProviderInfo p : info.providers) {
 				try {
 					Class<?> providerClass = Class.forName(p.name);
