@@ -3,9 +3,12 @@ package net.twisterrob.android.settings.view;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.*;
+import android.os.Build;
 import android.util.AttributeSet;
 
+import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
 /**
@@ -31,7 +34,17 @@ public class ExternalIntentPreference extends Preference {
 	@Override public void onAttached() {
 		super.onAttached();
 		PackageManager pm = getContext().getPackageManager();
-		List<ResolveInfo> intents = pm.queryIntentActivities(getIntent(), 0);
+		List<ResolveInfo> intents = queryIntentActivities(pm, getIntent(), 0L);
 		setEnabled(!intents.isEmpty());
+	}
+
+	@SuppressWarnings({"deprecation", "SameParameterValue"})
+	private static @NonNull List<ResolveInfo> queryIntentActivities(
+			@NonNull PackageManager pm, @NonNull Intent intent, long flags) {
+		if (Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) {
+			return pm.queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(flags));
+		} else {
+			return pm.queryIntentActivities(intent, (int)flags);
+		}
 	}
 }
