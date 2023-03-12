@@ -59,7 +59,7 @@ public class ImageRequest {
 		if (resultCode == Activity.RESULT_OK && requestCode == this.requestCode && data != null) {
 			boolean isCamera = MediaStore.ACTION_IMAGE_CAPTURE.equals(data.getAction());
 			if (isCamera) {
-				selectedImageUri = data.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+				selectedImageUri = IntentTools.getParcelableExtra(data, MediaStore.EXTRA_OUTPUT, Uri.class);
 			} else {
 				selectedImageUri = data.getData();
 			}

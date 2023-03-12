@@ -44,6 +44,7 @@ import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.utils.concurrent.Callback;
 import net.twisterrob.android.utils.tools.AndroidTools;
 import net.twisterrob.android.utils.tools.ImageTools;
+import net.twisterrob.android.utils.tools.IntentTools;
 import net.twisterrob.android.view.*;
 import net.twisterrob.android.view.CameraPreview.*;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
@@ -433,7 +434,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 
 	private ImageRequest buildRequest() {
 		// TODO properly pass and handle EXTRA_OUTPUT as Uris
-		Uri publicOutput = getIntent().getParcelableExtra(EXTRA_OUTPUT_PUBLIC);
+		Uri publicOutput = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT_PUBLIC, Uri.class);
 		return new ImageRequest.Builder(CaptureImage.this)
 				.addGalleryIntent()
 				.addCameraIntents(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile))
@@ -581,7 +582,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 			LOG.info("Rotated to size {}x{} because {}({})",
 					bitmap.getWidth(), bitmap.getHeight(), ImageTools.getExifString(orientation), orientation);
 		}
-		CompressFormat format = (CompressFormat)getIntent().getSerializableExtra(EXTRA_FORMAT);
+		CompressFormat format = IntentTools.getSerializableExtra(getIntent(), EXTRA_FORMAT, CompressFormat.class);
 		if (format == null) {
 			format = CompressFormat.JPEG;
 		}
