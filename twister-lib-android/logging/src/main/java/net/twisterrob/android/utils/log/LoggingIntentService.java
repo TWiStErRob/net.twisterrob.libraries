@@ -3,7 +3,6 @@ package net.twisterrob.android.utils.log;
 import org.slf4j.*;
 
 import android.annotation.SuppressLint;
-import android.app.IntentService;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.IBinder;
@@ -17,7 +16,8 @@ import net.twisterrob.java.annotations.DebugHelper;
 
 @DebugHelper
 @SuppressLint("Registered") // allow registration if wanted without needing to subclass
-public class LoggingIntentService extends IntentService {
+@SuppressWarnings("deprecation")
+public class LoggingIntentService extends android.app.IntentService {
 	private static final Logger LOG = LoggerFactory.getLogger("IntentService");
 	private final String name;
 

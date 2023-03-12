@@ -301,10 +301,12 @@ public class LoggingActivity extends AppCompatActivity {
 		log("supportNavigateUpTo", upIntent);
 		super.supportNavigateUpTo(upIntent);
 	}
+	@SuppressWarnings("deprecation")
 	@Override public boolean onNavigateUpFromChild(Activity child) {
 		log("onNavigateUpFromChild", child);
 		return super.onNavigateUpFromChild(child);
 	}
+	@SuppressWarnings("deprecation")
 	@Override public boolean navigateUpToFromChild(Activity child, @NonNull Intent upIntent) {
 		log("onNavigateUpFromChild", child, upIntent);
 		return super.navigateUpToFromChild(child, upIntent);
