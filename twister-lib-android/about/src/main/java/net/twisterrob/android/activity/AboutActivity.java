@@ -150,7 +150,6 @@ public class AboutActivity extends android.app.ListActivity {
 		return feedbackIntent;
 	}
 
-	@SuppressWarnings("deprecation") // TODO versionCode should be long (appcompat/androidx helper?)
 	protected @NonNull AboutInfo getAboutInfo() {
 		AboutInfo about = new AboutInfo();
 
@@ -172,7 +171,7 @@ public class AboutActivity extends android.app.ListActivity {
 		try {
 			pkgInfo = app.getPackageManager().getPackageInfo(app.getPackageName(), 0);
 			about.versionName = pkgInfo.versionName;
-			about.versionCode = pkgInfo.versionCode;
+			about.versionCode = PackageManagerTools.getVersionCode(pkgInfo);
 		} catch (NameNotFoundException ex) {
 			about.versionName = "?";
 		}
@@ -207,7 +206,7 @@ public class AboutActivity extends android.app.ListActivity {
 		protected @Nullable String appLabel;
 		protected @NonNull Drawable appIcon;
 		protected @NonNull String versionName;
-		protected @IntRange(from = 0) int versionCode;
+		protected @IntRange(from = 0) long versionCode;
 		protected @NonNull String applicationId;
 		protected @NonNull String email;
 

@@ -66,10 +66,9 @@ public abstract class BaseApp extends android.app.Application {
 	protected void logStartup() {
 		try {
 			PackageInfo info = PackageManagerTools.getPackageInfo(getPackageManager(), getPackageName(), 0);
-			@SuppressWarnings("deprecation") // TODO versionCode should be long (appcompat/androidx helper?)
 			FormattingTuple message = MessageFormatter.arrayFormat(
 					"************ Starting up {} {} ({}) installed at {}", new Object[] {
-							getPackageName(), info.versionName, info.versionCode, new Date(info.lastUpdateTime)
+							getPackageName(), info.versionName, PackageManagerTools.getVersionCode(info), new Date(info.lastUpdateTime)
 					});
 			// Could be wtf() except that does other things than just logging.
 			Log.e("App", message.getMessage());

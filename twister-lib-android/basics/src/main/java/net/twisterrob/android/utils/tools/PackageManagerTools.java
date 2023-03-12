@@ -88,4 +88,13 @@ public /*static*/ abstract class PackageManagerTools {
 			return pm.getInstalledPackages((int)flags);
 		}
 	}
+
+	@SuppressWarnings("deprecation")
+	public static long getVersionCode(@NonNull PackageInfo packageInfo) {
+		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+			return packageInfo.getLongVersionCode();
+		} else {
+			return packageInfo.versionCode;
+		}
+	}
 }

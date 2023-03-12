@@ -18,6 +18,7 @@ import static androidx.test.core.app.ApplicationProvider.*;
 import net.twisterrob.android.about.R;
 import net.twisterrob.android.activity.AboutActivity;
 import net.twisterrob.android.test.junit.SensibleActivityTestRule;
+import net.twisterrob.android.utils.tools.PackageManagerTools;
 import net.twisterrob.inventory.android.test.actors.AboutActivityActor;
 //import net.twisterrob.inventory.android.test.categories.*;
 
@@ -48,10 +49,10 @@ public class AboutActivityTest {
 	}
 
 //	@Category(UseCase.InitialCondition.class)
-	@SuppressWarnings("deprecation")
 	@Test public void testAppVersionShown() {
 		about.assertTextExists(containsString(getPackageInfo().versionName));
-		about.assertTextExists(containsString(String.valueOf(getPackageInfo().versionCode)));
+		long versionCode = PackageManagerTools.getVersionCode(getPackageInfo());
+		about.assertTextExists(containsString(String.valueOf(versionCode)));
 	}
 
 //	@Category(UseCase.InitialCondition.class)
