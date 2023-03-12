@@ -240,6 +240,7 @@ public /*static*/ abstract class ImageTools {
 		return result;
 	}
 
+	@SuppressWarnings("deprecation")
 	@TargetApi(VERSION_CODES.KITKAT)
 	private static String getPathKitKat(final Context context, final Uri uri) {
 		if (DocumentsContract.isDocumentUri(context, uri)) { // DocumentProvider

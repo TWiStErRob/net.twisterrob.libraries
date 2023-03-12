@@ -974,6 +974,7 @@ public /*static*/ abstract class AndroidTools {
 		return new ProviderInfo();
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void makeFileDiscoverable(@NonNull Context context, @NonNull File file) {
 		// MediaScannerConnection doesn't unbind for some reason, so let's send an intent instead:
 		// android.app.ServiceConnectionLeaked: [...] has leaked ServiceConnection
