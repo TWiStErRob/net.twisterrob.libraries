@@ -874,8 +874,8 @@ public /*static*/ abstract class AndroidTools {
 		Set<String> keys = bundle1.keySet();
 
 		for (String key : keys) {
-			Object value1 = bundle1.get(key);
-			Object value2 = bundle2.get(key);
+			Object value1 = BundleTools.getObject(bundle1, key);
+			Object value2 = BundleTools.getObject(bundle2, key);
 			if (value1 == null || value2 == null) {
 				if (value1 != value2 || bundle1.containsKey(key) != bundle2.containsKey(key)) {
 					return false;
