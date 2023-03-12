@@ -15,6 +15,11 @@ import static net.twisterrob.android.utils.concurrent.SimpleAsyncTaskHelper.*;
 @SuppressWarnings("deprecation")
 public abstract class SimpleAsyncTask<Param, Progress, Result>
 		extends android.os.AsyncTask<Param, Progress, Result> {
+	@Override protected void onPreExecute() {
+		// Optional override.
+		// Overridden to hide deprecation warnings in all sub-classes.
+	}
+
 	@WorkerThread
 	@SafeVarargs
 	@Override protected final @Nullable Result doInBackground(@Nullable Param... params) {
@@ -32,6 +37,11 @@ public abstract class SimpleAsyncTask<Param, Progress, Result>
 
 	@UiThread
 	protected void onProgressUpdate(@Nullable Progress value) {
-		// optional override
+		// Optional override.
+	}
+
+	@Override protected void onPostExecute(Result result) {
+		// Optional override.
+		// Overridden to hide deprecation warnings in all sub-classes.
 	}
 }

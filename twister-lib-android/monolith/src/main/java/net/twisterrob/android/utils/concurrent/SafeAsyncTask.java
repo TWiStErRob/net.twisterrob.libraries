@@ -12,6 +12,12 @@ import androidx.annotation.*;
 @SuppressWarnings("deprecation")
 public abstract class SafeAsyncTask<Param, Progress, Result>
 		extends android.os.AsyncTask<Param, Progress, AsyncTaskResult<Param, Result>> {
+
+	@Override protected void onPreExecute() {
+		// Optional override.
+		// Overridden to hide deprecation warnings in all sub-classes.
+	}
+
 	@WorkerThread
 	@SafeVarargs
 	@Override protected final @NonNull AsyncTaskResult<Param, Result> doInBackground(@Nullable Param... params) {
@@ -33,6 +39,7 @@ public abstract class SafeAsyncTask<Param, Progress, Result>
 
 	@SuppressWarnings("unchecked")
 	@Override protected void onProgressUpdate(Progress... values) {
+		// Overridden to hide deprecation warnings in all sub-classes.
 		super.onProgressUpdate(values);
 	}
 

@@ -21,6 +21,11 @@ public abstract class SimpleSafeAsyncTask<Param, Progress, Result>
 	@WorkerThread
 	protected abstract @Nullable Result doInBackground(@Nullable Param param) throws Exception;
 
+	@SuppressWarnings({"unchecked", "deprecation"})
+	protected final void publishProgress(@Nullable Progress value) {
+		super.publishProgress(value);
+	}
+
 	@UiThread
 	@SafeVarargs
 	@Override protected final void onProgressUpdate(@Nullable Progress... values) {
