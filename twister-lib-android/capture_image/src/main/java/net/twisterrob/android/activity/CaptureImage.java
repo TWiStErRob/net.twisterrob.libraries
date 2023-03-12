@@ -34,12 +34,15 @@ import com.bumptech.glide.request.target.*;
 
 import androidx.annotation.*;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.exifinterface.media.ExifInterface;
 
 import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.utils.concurrent.Callback;
+import net.twisterrob.android.utils.tools.AndroidTools;
 import net.twisterrob.android.utils.tools.ImageTools;
 import net.twisterrob.android.view.*;
 import net.twisterrob.android.view.CameraPreview.*;
@@ -104,7 +107,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		AndroidTools.setFullscreen(getWindow());
 		// FIXME fast 180 rotation results in flipped image: http://stackoverflow.com/a/19599599/253468
 		StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
 		try {

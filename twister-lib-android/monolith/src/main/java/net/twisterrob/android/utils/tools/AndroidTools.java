@@ -675,6 +675,19 @@ public /*static*/ abstract class AndroidTools {
 	}
 
 	/**
+	 * @see Activity#getWindow()
+	 */
+	@SuppressWarnings("deprecation")
+	public static void setFullscreen(@NonNull Window window) {
+		if (VERSION_CODES.R <= VERSION.SDK_INT) {
+			window.getInsetsController().hide(WindowInsets.Type.statusBars());
+		} else {
+			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	}
+
+	/**
 	 * Similar to using the below flags in the theme, but works after the fact.
 	 * <pre><code>
 	 * &lt;item name="android:windowTranslucentStatus">true&lt;/item>
@@ -683,16 +696,20 @@ public /*static*/ abstract class AndroidTools {
 	 * Leaves the scrim (shadow) intact.
 	 * CONSIDER do something with FLAG_TRANSLUCENT_NAVIGATION as well?
 	 */
+	@SuppressWarnings("deprecation")
 	@TargetApi(VERSION_CODES.KITKAT)
-	public static void setTranslucentStatusBar(Window window) {
-		if (window == null) {
-			LOG.warn("No window while setting translucent status bar!", new StackTrace());
-			return;
-		}
+	private static void setTranslucentStatusBar(@NonNull Window window) {
 		if (VERSION_CODES.KITKAT <= VERSION.SDK_INT) {
 			window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		}
 	}
+
+	/**
+	 * @deprecated Every method call inside this method is deprecated,
+	 * except for {@link Window#setStatusBarColor(int)}.
+	 */
+	@Deprecated
+	@SuppressWarnings("deprecation")
 	@TargetApi(VERSION_CODES.LOLLIPOP)
 	public static void setTranslucentStatusBar(Window window, @ColorInt int lollipopColor) {
 		if (window == null) {
@@ -712,11 +729,14 @@ public /*static*/ abstract class AndroidTools {
 	}
 
 	/**
+	 * @deprecated use {@link androidx.core.view.WindowInsetsCompat}.
 	 * @see <a href="http://blog.raffaeu.com/archive/2015/04/11/android-and-the-transparent-status-bar.aspx">
 	 *     Make the StatusBar transparent</a>
 	 */
+	@Deprecated
 	public static int getStatusBarHeight(Context context) {
 		int result = 25; // safe bet, better bigger than nothing
+		@SuppressLint("InternalInsetResource")
 		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
 		if (resourceId != INVALID_RESOURCE_ID) {
 			result = context.getResources().getDimensionPixelSize(resourceId);
@@ -724,6 +744,11 @@ public /*static*/ abstract class AndroidTools {
 		return result;
 	}
 
+	/**
+	 * @deprecated use {@link androidx.core.view.WindowInsetsCompat}.
+	 */
+	@Deprecated
+	@SuppressWarnings("deprecation")
 	@TargetApi(VERSION_CODES.LOLLIPOP)
 	public static void accountForStatusBar(View view) {
 		boolean needsOffset = false;
