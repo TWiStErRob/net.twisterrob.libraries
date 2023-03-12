@@ -131,6 +131,7 @@ public class CaptureImageActivityActor extends ActivityActor {
 		onView(withId(R.id.btn_flash)).perform(uncheckIfChecked());
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void assertFlashMode(
 			@SuppressWarnings("deprecation")
 			@NonNull androidx.test.rule.ActivityTestRule<CaptureImage> activityRule,
