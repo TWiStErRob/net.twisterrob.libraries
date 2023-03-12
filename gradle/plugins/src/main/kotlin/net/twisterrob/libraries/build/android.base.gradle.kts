@@ -11,7 +11,7 @@ repositories {
 @Suppress("UnstableApiUsage")
 android {
 	namespace = project.autoNamespace
-	compileSdk = 31
+	compileSdk = 32
 	defaultConfig {
 		minSdk = 14
 	}
