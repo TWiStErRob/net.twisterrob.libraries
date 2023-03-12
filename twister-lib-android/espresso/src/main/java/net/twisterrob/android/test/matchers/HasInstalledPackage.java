@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.hamcrest.*;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -18,8 +19,8 @@ public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 	/**
 	 * @see AndroidMatchers#hasPackageInstalled(String)
 	 */
-	// TODO replace with android.Manifest.permission.QUERY_ALL_PACKAGES
-	@RequiresPermission("android.permission.QUERY_ALL_PACKAGES")
+	@SuppressLint("InlinedApi")
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public HasInstalledPackage(String packageName) {
 		this.packageName = packageName;
 	}
@@ -28,8 +29,8 @@ public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 		description.appendValue(packageName).appendText(" package installed");
 	}
 
-	// TODO replace with android.Manifest.permission.QUERY_ALL_PACKAGES
-	@RequiresPermission("android.permission.QUERY_ALL_PACKAGES")
+	@SuppressLint("InlinedApi")
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	@Override protected boolean matchesSafely(Context context, Description mismatchDescription) {
 		PackageInfo info;
 		try {

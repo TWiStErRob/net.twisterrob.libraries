@@ -8,6 +8,8 @@ import org.hamcrest.*;
 
 import static org.hamcrest.Matchers.*;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
@@ -56,8 +58,8 @@ public class AndroidMatchers {
 				matchesPattern("^.*\\b" + Pattern.quote(word) + "\\b.*$"));
 	}
 
-	// TODO replace with android.Manifest.permission.QUERY_ALL_PACKAGES
-	@RequiresPermission("android.permission.QUERY_ALL_PACKAGES")
+	@SuppressLint("InlinedApi")
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull Matcher<Context> hasPackageInstalled(@NonNull String packageName) {
 		return new HasInstalledPackage(packageName);
 	}
