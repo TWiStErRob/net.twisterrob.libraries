@@ -15,6 +15,7 @@ import android.os.Build.*;
 import android.os.Environment;
 import android.provider.*;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 
@@ -386,7 +387,7 @@ public /*static*/ abstract class ImageTools {
 	private static Bitmap cropRegion(File file, Rect rect, BitmapFactory.Options options) throws IOException {
 		BitmapRegionDecoder decoder = null;
 		try {
-			decoder = BitmapRegionDecoder.newInstance(file.getAbsolutePath(), true);
+			decoder = newBitmapRegionDecoder(file.getAbsolutePath());
 			if (decoder != null) {
 				return decoder.decodeRegion(rect, options);
 			}
@@ -396,6 +397,15 @@ public /*static*/ abstract class ImageTools {
 			}
 		}
 		return null;
+	}
+
+	@SuppressWarnings("deprecation")
+	public static BitmapRegionDecoder newBitmapRegionDecoder(@NonNull String pathName) throws IOException {
+		if (VERSION_CODES.S <= VERSION.SDK_INT) {
+			return BitmapRegionDecoder.newInstance(pathName);
+		} else {
+			return BitmapRegionDecoder.newInstance(pathName, true);
+		}
 	}
 
 	private static BitmapFactory.Options getSizeInternal(File file) {
