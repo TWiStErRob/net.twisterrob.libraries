@@ -424,23 +424,26 @@ public /*static*/ abstract class AndroidTools {
 	 * Try to execute in parallel if the API level allows.
 	 * @see #executeParallel(AsyncTask, boolean, Object[])
 	 */
+	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
-	public static <Params> void executePreferParallel(final AsyncTask<Params, ?, ?> task, final Params... params) {
+	public static <Params> void executePreferParallel(
+			final android.os.AsyncTask<Params, ?, ?> task, final Params... params) {
 		executeParallel(task, false, params);
 	}
 
 	/**
 	 * @param force Force execution to be parallel.
 	 *              It will not work before {@link VERSION_CODES#DONUT}, because it was not possible back then.
-	 * @see AsyncTask#execute(Object[])
+	 * @see android.os.AsyncTask#execute(Object[])
 	 * @see <a href="http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html">AsyncTask Threading Regression Confirmed</a>
 	 * @see <a href="https://groups.google.com/forum/#!topic/android-developers/8M0RTFfO7-M">AsyncTask in Android 4.0</a>
 	 * @see <a href="http://www.jayway.com/2012/11/28/is-androids-asynctask-executing-tasks-serially-or-concurrently/">AsyncTask ordering</a>
 	 */
+	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
 	@TargetApi(VERSION_CODES.HONEYCOMB)
 	public static <Params> void executeParallel(
-			final AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
+			final android.os.AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
 		if (force && VERSION.SDK_INT < VERSION_CODES.DONUT) {
 			throw new IllegalStateException("Cannot execute AsyncTask in parallel before DONUT");
 		}
@@ -460,16 +463,18 @@ public /*static*/ abstract class AndroidTools {
 		} else if (VERSION.SDK_INT < VERSION_CODES.HONEYCOMB) { // [4, 11)
 			task.execute(params); // default is pooling, cannot be explicit
 		} else { // [11, ∞) android commit: 81de61bfddceba0eb77b3aacea317594b0f1de49
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params); // default is serial, explicit pooling
+			task.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, params); // default is serial, explicit pooling
 		}
 	}
 
 	/**
 	 * Try to execute in serial if the API level allows.
-	 * @see #executeSerial(AsyncTask, boolean, Object[])
+	 * @see #executeSerial(android.os.AsyncTask, boolean, Object[])
 	 */
+	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
-	public static <Params> void executePreferSerial(final AsyncTask<Params, ?, ?> task, final Params... params) {
+	public static <Params> void executePreferSerial(
+			final android.os.AsyncTask<Params, ?, ?> task, final Params... params) {
 		executeSerial(task, false, params);
 	}
 
@@ -477,13 +482,14 @@ public /*static*/ abstract class AndroidTools {
 	 * @param force Force execution to be serial.
 	 *              It will not work between {@link VERSION_CODES#DONUT} and {@link VERSION_CODES#HONEYCOMB}, they made
 	 *              a breaking change in {@link VERSION_CODES#DONUT} with no way to get back the old serial behavior.
-	 * @see AsyncTask#execute(Object[])
-	 * @see #executeParallel(AsyncTask, boolean, Object[])
+	 * @see android.os.AsyncTask#execute(Object[])
+	 * @see #executeParallel(android.os.AsyncTask, boolean, Object[])
 	 */
+	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
 	@TargetApi(VERSION_CODES.HONEYCOMB)
 	public static <Params> void executeSerial(
-			final AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
+			final android.os.AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
 		if (force && VERSION_CODES.DONUT <= VERSION.SDK_INT && VERSION.SDK_INT < VERSION_CODES.HONEYCOMB) {
 			throw new IllegalStateException("Cannot execute AsyncTask in serial between DONUT and HONEYCOMB");
 		}
@@ -503,7 +509,7 @@ public /*static*/ abstract class AndroidTools {
 		} else if (VERSION.SDK_INT < VERSION_CODES.HONEYCOMB) { // [4, 11)
 			task.execute(params); // default is pooling, but not forced, so let's do it
 		} else { // [11, ∞) android commit: 81de61bfddceba0eb77b3aacea317594b0f1de49
-			task.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, params); // default is serial, explicit serial
+			task.executeOnExecutor(android.os.AsyncTask.SERIAL_EXECUTOR, params); // default is serial, explicit serial
 		}
 	}
 
@@ -812,7 +818,8 @@ public /*static*/ abstract class AndroidTools {
 		final ParcelFileDescriptor readEnd = pipe[0];
 		final ParcelFileDescriptor writeEnd = pipe[1];
 
-		class PipeCloserAsyncTask extends AsyncTask<Void, Void, Void> {
+		@SuppressWarnings("deprecation")
+		class PipeCloserAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
 			@Override protected Void doInBackground(Void... params) {
 				AutoCloseOutputStream out = new AutoCloseOutputStream(writeEnd);
 				try {

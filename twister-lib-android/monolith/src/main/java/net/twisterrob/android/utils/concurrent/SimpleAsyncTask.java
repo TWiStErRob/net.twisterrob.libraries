@@ -1,19 +1,20 @@
 package net.twisterrob.android.utils.concurrent;
 
-import android.os.AsyncTask;
-
 import androidx.annotation.*;
 
 import static net.twisterrob.android.utils.concurrent.SimpleAsyncTaskHelper.*;
 
 /**
- * Simple {@link AsyncTask} implementation that converts the varargs interface to single params.
+ * Simple {@link android.os.AsyncTask} implementation that
+ * converts the varargs interface to single params.
+ *
  * @see net.twisterrob.android.utils.tools.AndroidTools#executeParallel
  * @see net.twisterrob.android.utils.tools.AndroidTools#executeSerial
  */
 // TODO create a non-null version
+@SuppressWarnings("deprecation")
 public abstract class SimpleAsyncTask<Param, Progress, Result>
-		extends AsyncTask<Param, Progress, Result> {
+		extends android.os.AsyncTask<Param, Progress, Result> {
 	@WorkerThread
 	@SafeVarargs
 	@Override protected final @Nullable Result doInBackground(@Nullable Param... params) {
