@@ -3,6 +3,7 @@ package net.twisterrob.android.utils.tostring.stringers.detailed;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.twisterrob.java.annotations.DebugHelper;
 import net.twisterrob.java.collections.NullsSafeComparator;
@@ -17,9 +18,14 @@ public class BundleStringer extends Stringer<Bundle> {
 	@Override public void toString(@NonNull ToStringAppender append, Bundle bundle) {
 		append.beginSizedList(bundle, bundle.size());
 		for (String key : CollectionTools.newTreeSet(bundle.keySet(), new NullsSafeComparator<String>())) {
-			Object value = bundle.get(key);
+			Object value = getValue(bundle, key);
 			append.item(key, value);
 		}
 		append.endSizedList();
+	}
+
+	@SuppressWarnings("deprecation") // Generic access to bundle, don't know the type.
+	private static @Nullable Object getValue(@NonNull Bundle bundle, @NonNull String key) {
+		return bundle.get(key);
 	}
 }
