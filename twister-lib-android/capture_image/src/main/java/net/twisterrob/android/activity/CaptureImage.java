@@ -40,7 +40,9 @@ import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.utils.concurrent.Callback;
+import net.twisterrob.android.utils.tools.AndroidTools;
 import net.twisterrob.android.utils.tools.ImageTools;
+import net.twisterrob.android.utils.tools.IntentTools;
 import net.twisterrob.android.view.*;
 import net.twisterrob.android.view.CameraPreview.*;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
@@ -57,7 +59,6 @@ import static net.twisterrob.android.content.ImageRequest.*;
  * > <a href="https://code.google.com/archive/p/ece301-examples/downloads">Downloads</a>
  * > <a href="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/ece301-examples/CameraPreview.zip">CameraPreview.zip</a> (password preview).
  */
-@SuppressLint("WrongThread") // TODEL when updated the Gradle plugin with new lint
 @UiThread
 public class CaptureImage extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
 	private static final Logger LOG = LoggerFactory.getLogger(CaptureImage.class);
@@ -105,7 +106,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		AndroidTools.setFullscreen(getWindow());
 		// FIXME fast 180 rotation results in flipped image: http://stackoverflow.com/a/19599599/253468
 		StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
 		try {
@@ -431,7 +432,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 
 	private ImageRequest buildRequest() {
 		// TODO properly pass and handle EXTRA_OUTPUT as Uris
-		Uri publicOutput = getIntent().getParcelableExtra(EXTRA_OUTPUT_PUBLIC);
+		Uri publicOutput = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT_PUBLIC, Uri.class);
 		return new ImageRequest.Builder(CaptureImage.this)
 				.addGalleryIntent()
 				.addCameraIntents(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile))
@@ -579,7 +580,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 			LOG.info("Rotated to size {}x{} because {}({})",
 					bitmap.getWidth(), bitmap.getHeight(), ImageTools.getExifString(orientation), orientation);
 		}
-		CompressFormat format = (CompressFormat)getIntent().getSerializableExtra(EXTRA_FORMAT);
+		CompressFormat format = IntentTools.getSerializableExtra(getIntent(), EXTRA_FORMAT, CompressFormat.class);
 		if (format == null) {
 			format = CompressFormat.JPEG;
 		}

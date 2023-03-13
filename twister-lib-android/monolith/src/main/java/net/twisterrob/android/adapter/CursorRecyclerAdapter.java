@@ -3,6 +3,7 @@ package net.twisterrob.android.adapter;
 import android.annotation.SuppressLint;
 import android.database.*;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.*;
 
 import androidx.annotation.*;
@@ -277,7 +278,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
 
 	private class ChangeObserver extends ContentObserver {
 		public ChangeObserver() {
-			super(new Handler());
+			super(new Handler(Looper.getMainLooper()));
 		}
 
 		@Override public boolean deliverSelfNotifications() {

@@ -2,6 +2,7 @@ package net.twisterrob.android.view;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.*;
 import android.view.View.*;
 
@@ -20,7 +21,7 @@ import androidx.annotation.*;
  * @see <a href="http://stackoverflow.com/a/12795551/253468">Android - Hold Button to Repeat Action</a>
  */
 public class RepeatListener implements OnTouchListener {
-	private final Handler handler = new Handler();
+	private final Handler handler = new Handler(Looper.getMainLooper());
 	private final Runnable handlerRunnable = new Runnable() {
 		@Override public void run() {
 			handler.postDelayed(this, repeatInterval);

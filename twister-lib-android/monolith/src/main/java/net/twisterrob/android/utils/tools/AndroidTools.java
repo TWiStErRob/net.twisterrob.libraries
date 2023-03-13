@@ -60,21 +60,21 @@ public /*static*/ abstract class AndroidTools {
 	public static @NonNull List<String> getDeclaredPermissions(@NonNull Context context) {
 		PackageManager pm = context.getPackageManager();
 		try {
-			PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
-			String[] requestedPermissions = packageInfo != null
-					? packageInfo.requestedPermissions
-					: null;
+			PackageInfo packageInfo = PackageManagerTools.getPackageInfo(
+					pm, context.getPackageName(), PackageManager.GET_PERMISSIONS);
+			String[] requestedPermissions = packageInfo.requestedPermissions;
 			return requestedPermissions != null
 					? Arrays.asList(requestedPermissions)
-					: Collections.<String>emptyList();
+					: Collections.emptyList();
 		} catch (PackageManager.NameNotFoundException e) {
 			return Collections.emptyList();
 		}
 	}
 
-	public static List<Intent> resolveIntents(Context context, Intent originalIntent, int flags) {
+	public static @NonNull List<Intent> resolveIntents(
+			@NonNull Context context, @NonNull Intent originalIntent, long flags) {
 		PackageManager packageManager = context.getPackageManager();
-		List<ResolveInfo> resolved = packageManager.queryIntentActivities(originalIntent, flags);
+		List<ResolveInfo> resolved = PackageManagerTools.queryIntentActivities(packageManager, originalIntent, flags);
 		List<Intent> result = new ArrayList<>(resolved.size());
 		for (ResolveInfo info : resolved) {
 			Intent intent = new Intent(originalIntent);
@@ -164,16 +164,21 @@ public /*static*/ abstract class AndroidTools {
 		return result;
 	}
 
+	/**
+	 * This method is used for serious hacking.
+	 * Not sure if there's another way to achieve the same thing.
+	 */
 	@SuppressWarnings("ConstantConditions")
 	private static @Nullable View findViewSupportOrAndroid(@NonNull View root, @NonNull String resourceName) {
 		Context context = root.getContext();
+		// Note: getIdentifier may return 0 if not found, but it's ok because findViewByID will convert it to null.
 		View result = null;
 		if (result == null) {
-			int supportID = context.getResources().getIdentifier(resourceName, RES_TYPE_ID, context.getPackageName());
+			int supportID = ResourceTools.getIDResourceID(context, resourceName);
 			result = root.findViewById(supportID);
 		}
 		if (result == null) {
-			int androidID = context.getResources().getIdentifier(resourceName, RES_TYPE_ID, ANDROID_PACKAGE);
+			int androidID = ResourceTools.getIDResourceID(null, resourceName);
 			result = root.findViewById(androidID);
 		}
 		return result;
@@ -424,23 +429,26 @@ public /*static*/ abstract class AndroidTools {
 	 * Try to execute in parallel if the API level allows.
 	 * @see #executeParallel(AsyncTask, boolean, Object[])
 	 */
+	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
-	public static <Params> void executePreferParallel(final AsyncTask<Params, ?, ?> task, final Params... params) {
+	public static <Params> void executePreferParallel(
+			final android.os.AsyncTask<Params, ?, ?> task, final Params... params) {
 		executeParallel(task, false, params);
 	}
 
 	/**
 	 * @param force Force execution to be parallel.
 	 *              It will not work before {@link VERSION_CODES#DONUT}, because it was not possible back then.
-	 * @see AsyncTask#execute(Object[])
+	 * @see android.os.AsyncTask#execute(Object[])
 	 * @see <a href="http://commonsware.com/blog/2012/04/20/asynctask-threading-regression-confirmed.html">AsyncTask Threading Regression Confirmed</a>
 	 * @see <a href="https://groups.google.com/forum/#!topic/android-developers/8M0RTFfO7-M">AsyncTask in Android 4.0</a>
 	 * @see <a href="http://www.jayway.com/2012/11/28/is-androids-asynctask-executing-tasks-serially-or-concurrently/">AsyncTask ordering</a>
 	 */
+	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
 	@TargetApi(VERSION_CODES.HONEYCOMB)
 	public static <Params> void executeParallel(
-			final AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
+			final android.os.AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
 		if (force && VERSION.SDK_INT < VERSION_CODES.DONUT) {
 			throw new IllegalStateException("Cannot execute AsyncTask in parallel before DONUT");
 		}
@@ -460,16 +468,18 @@ public /*static*/ abstract class AndroidTools {
 		} else if (VERSION.SDK_INT < VERSION_CODES.HONEYCOMB) { // [4, 11)
 			task.execute(params); // default is pooling, cannot be explicit
 		} else { // [11, ∞) android commit: 81de61bfddceba0eb77b3aacea317594b0f1de49
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params); // default is serial, explicit pooling
+			task.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, params); // default is serial, explicit pooling
 		}
 	}
 
 	/**
 	 * Try to execute in serial if the API level allows.
-	 * @see #executeSerial(AsyncTask, boolean, Object[])
+	 * @see #executeSerial(android.os.AsyncTask, boolean, Object[])
 	 */
+	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
-	public static <Params> void executePreferSerial(final AsyncTask<Params, ?, ?> task, final Params... params) {
+	public static <Params> void executePreferSerial(
+			final android.os.AsyncTask<Params, ?, ?> task, final Params... params) {
 		executeSerial(task, false, params);
 	}
 
@@ -477,13 +487,14 @@ public /*static*/ abstract class AndroidTools {
 	 * @param force Force execution to be serial.
 	 *              It will not work between {@link VERSION_CODES#DONUT} and {@link VERSION_CODES#HONEYCOMB}, they made
 	 *              a breaking change in {@link VERSION_CODES#DONUT} with no way to get back the old serial behavior.
-	 * @see AsyncTask#execute(Object[])
-	 * @see #executeParallel(AsyncTask, boolean, Object[])
+	 * @see android.os.AsyncTask#execute(Object[])
+	 * @see #executeParallel(android.os.AsyncTask, boolean, Object[])
 	 */
+	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
 	@TargetApi(VERSION_CODES.HONEYCOMB)
 	public static <Params> void executeSerial(
-			final AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
+			final android.os.AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
 		if (force && VERSION_CODES.DONUT <= VERSION.SDK_INT && VERSION.SDK_INT < VERSION_CODES.HONEYCOMB) {
 			throw new IllegalStateException("Cannot execute AsyncTask in serial between DONUT and HONEYCOMB");
 		}
@@ -503,7 +514,7 @@ public /*static*/ abstract class AndroidTools {
 		} else if (VERSION.SDK_INT < VERSION_CODES.HONEYCOMB) { // [4, 11)
 			task.execute(params); // default is pooling, but not forced, so let's do it
 		} else { // [11, ∞) android commit: 81de61bfddceba0eb77b3aacea317594b0f1de49
-			task.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, params); // default is serial, explicit serial
+			task.executeOnExecutor(android.os.AsyncTask.SERIAL_EXECUTOR, params); // default is serial, explicit serial
 		}
 	}
 
@@ -521,7 +532,7 @@ public /*static*/ abstract class AndroidTools {
 		// The specific app page
 		Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
 		intent.setData(Uri.parse("package:" + packageName));
-		if (context.getPackageManager().resolveActivity(intent, 0) == null) {
+		if (PackageManagerTools.resolveActivity(context.getPackageManager(), intent, 0) == null) {
 			// The generic apps page
 			intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
 		}
@@ -630,7 +641,11 @@ public /*static*/ abstract class AndroidTools {
 		view.draw(new Canvas(bitmap));
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ROOT).format(new Date());
 		try {
-			File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+			File storageDir = view.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+			if (storageDir == null) {
+				Log.e("SCREENSHOT", "No external Downloads directory, cannot save screenshot of " + view);
+				return;
+			}
 			IOTools.ensure(storageDir);
 			File file = File.createTempFile(timeStamp, ".png", storageDir);
 			@SuppressWarnings("resource")
@@ -665,6 +680,19 @@ public /*static*/ abstract class AndroidTools {
 	}
 
 	/**
+	 * @see Activity#getWindow()
+	 */
+	@SuppressWarnings("deprecation")
+	public static void setFullscreen(@NonNull Window window) {
+		if (VERSION_CODES.R <= VERSION.SDK_INT) {
+			window.getInsetsController().hide(WindowInsets.Type.statusBars());
+		} else {
+			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	}
+
+	/**
 	 * Similar to using the below flags in the theme, but works after the fact.
 	 * <pre><code>
 	 * &lt;item name="android:windowTranslucentStatus">true&lt;/item>
@@ -673,16 +701,20 @@ public /*static*/ abstract class AndroidTools {
 	 * Leaves the scrim (shadow) intact.
 	 * CONSIDER do something with FLAG_TRANSLUCENT_NAVIGATION as well?
 	 */
+	@SuppressWarnings("deprecation")
 	@TargetApi(VERSION_CODES.KITKAT)
-	public static void setTranslucentStatusBar(Window window) {
-		if (window == null) {
-			LOG.warn("No window while setting translucent status bar!", new StackTrace());
-			return;
-		}
+	private static void setTranslucentStatusBar(@NonNull Window window) {
 		if (VERSION_CODES.KITKAT <= VERSION.SDK_INT) {
 			window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		}
 	}
+
+	/**
+	 * @deprecated Every method call inside this method is deprecated,
+	 * except for {@link Window#setStatusBarColor(int)}.
+	 */
+	@Deprecated
+	@SuppressWarnings("deprecation")
 	@TargetApi(VERSION_CODES.LOLLIPOP)
 	public static void setTranslucentStatusBar(Window window, @ColorInt int lollipopColor) {
 		if (window == null) {
@@ -702,18 +734,26 @@ public /*static*/ abstract class AndroidTools {
 	}
 
 	/**
+	 * @deprecated use {@link androidx.core.view.WindowInsetsCompat}.
 	 * @see <a href="http://blog.raffaeu.com/archive/2015/04/11/android-and-the-transparent-status-bar.aspx">
 	 *     Make the StatusBar transparent</a>
 	 */
+	@Deprecated
 	public static int getStatusBarHeight(Context context) {
 		int result = 25; // safe bet, better bigger than nothing
-		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		@SuppressLint("InternalInsetResource") // Note: AndroidX TooltipPopup is also using this.
+		int resourceId = ResourceTools.getDimenResourceID(null, "status_bar_height");
 		if (resourceId != INVALID_RESOURCE_ID) {
 			result = context.getResources().getDimensionPixelSize(resourceId);
 		}
 		return result;
 	}
 
+	/**
+	 * @deprecated use {@link androidx.core.view.WindowInsetsCompat}.
+	 */
+	@Deprecated
+	@SuppressWarnings("deprecation")
 	@TargetApi(VERSION_CODES.LOLLIPOP)
 	public static void accountForStatusBar(View view) {
 		boolean needsOffset = false;
@@ -768,16 +808,6 @@ public /*static*/ abstract class AndroidTools {
 		}
 	}
 
-	/** @see PackageManager#getActivityInfo(ComponentName, int) */
-	public static ActivityInfo getActivityInfo(Activity activity, int flags) {
-		try {
-			return activity.getPackageManager().getActivityInfo(activity.getComponentName(), flags);
-		} catch (NameNotFoundException e) {
-			LOG.warn("Activity doesn't exists, but has an instance? {}", activity, e);
-			throw new RuntimeException(e);
-		}
-	}
-
 	public static ParcelFileDescriptor stream(final @NonNull byte... contents) throws FileNotFoundException {
 		return stream(new ByteArrayInputStream(contents));
 	}
@@ -808,7 +838,8 @@ public /*static*/ abstract class AndroidTools {
 		final ParcelFileDescriptor readEnd = pipe[0];
 		final ParcelFileDescriptor writeEnd = pipe[1];
 
-		class PipeCloserAsyncTask extends AsyncTask<Void, Void, Void> {
+		@SuppressWarnings("deprecation")
+		class PipeCloserAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
 			@Override protected Void doInBackground(Void... params) {
 				AutoCloseOutputStream out = new AutoCloseOutputStream(writeEnd);
 				try {
@@ -849,8 +880,8 @@ public /*static*/ abstract class AndroidTools {
 		Set<String> keys = bundle1.keySet();
 
 		for (String key : keys) {
-			Object value1 = bundle1.get(key);
-			Object value2 = bundle2.get(key);
+			Object value1 = BundleTools.getObject(bundle1, key);
+			Object value2 = BundleTools.getObject(bundle2, key);
 			if (value1 == null || value2 == null) {
 				if (value1 != value2 || bundle1.containsKey(key) != bundle2.containsKey(key)) {
 					return false;
@@ -875,12 +906,14 @@ public /*static*/ abstract class AndroidTools {
 
 	public static void unparcel(Intent intent) {
 		if (intent != null) {
-			unparcel(intent.getExtras());
+			// Calling it only for the side effect of calling mExtras.unparcel().
+			intent.hasExtra(null);
 		}
 	}
 	public static void unparcel(Bundle bundle) {
 		if (bundle != null) {
-			bundle.get(null);
+			// Calling it only for the side effect of calling unparcel().
+			bundle.isEmpty();
 		}
 	}
 
@@ -953,7 +986,8 @@ public /*static*/ abstract class AndroidTools {
 			@NonNull Context context, @NonNull Class<? extends ContentProvider> clazz) {
 		try {
 			PackageManager pm = context.getPackageManager();
-			PackageInfo info = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_PROVIDERS);
+			PackageInfo info = PackageManagerTools.getPackageInfo(
+					pm, context.getPackageName(), PackageManager.GET_PROVIDERS);
 			for (ProviderInfo p : info.providers) {
 				try {
 					Class<?> providerClass = Class.forName(p.name);
@@ -970,6 +1004,7 @@ public /*static*/ abstract class AndroidTools {
 		return new ProviderInfo();
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void makeFileDiscoverable(@NonNull Context context, @NonNull File file) {
 		// MediaScannerConnection doesn't unbind for some reason, so let's send an intent instead:
 		// android.app.ServiceConnectionLeaked: [...] has leaked ServiceConnection

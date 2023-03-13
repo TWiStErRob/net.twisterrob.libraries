@@ -29,7 +29,6 @@ import android.content.res.*;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.util.*;
 import android.view.View;
 import android.widget.*;
@@ -844,7 +843,8 @@ public class Adapters {
 		private final String[] mFrom;
 		private final String[] mColumns;
 		private final CursorBinder[] mBinders;
-		private AsyncTask<Void, Void, Cursor> mLoadTask;
+		@SuppressWarnings("deprecation")
+		private android.os.AsyncTask<Void, Void, Cursor> mLoadTask;
 
 		XmlCursorAdapter(Context context, int layout, String uri, String[] from, int[] to, String selection,
 				String[] selectionArgs, String sortOrder, HashMap<String, CursorBinder> binders) {
@@ -898,6 +898,7 @@ public class Adapters {
 			mUri = uri;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override public void changeCursor(Cursor c) {
 			if (mLoadTask != null && mLoadTask.getStatus() != QueryTask.Status.FINISHED) {
 				mLoadTask.cancel(true);
@@ -906,8 +907,9 @@ public class Adapters {
 			super.changeCursor(c);
 		}
 
+		@SuppressWarnings("deprecation")
 		@SuppressLint("StaticFieldLeak")
-		class QueryTask extends AsyncTask<Void, Void, Cursor> {
+		class QueryTask extends android.os.AsyncTask<Void, Void, Cursor> {
 			@SuppressWarnings("deprecation")
 			@Override protected Cursor doInBackground(Void... params) {
 				if (mContext instanceof Activity) {
@@ -923,6 +925,10 @@ public class Adapters {
 				if (!isCancelled()) {
 					XmlCursorAdapter.super.changeCursor(cursor);
 				}
+			}
+
+			public android.os.AsyncTask<Void, Void, Cursor> execute() {
+				return super.execute();
 			}
 		}
 	}

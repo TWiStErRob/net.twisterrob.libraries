@@ -495,6 +495,7 @@ public class ImageCache {
 	 * @param context The context to use
 	 * @return The external cache dir
 	 */
+	@SuppressWarnings("deprecation")
 	@TargetApi(VERSION_CODES.FROYO)
 	public static File getExternalCacheDir(final Context context) {
 		if (VERSION.SDK_INT < VERSION_CODES.FROYO) {

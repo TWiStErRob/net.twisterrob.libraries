@@ -23,6 +23,7 @@ import androidx.preference.PreferenceManager;
 
 import net.twisterrob.android.AndroidConstants;
 import net.twisterrob.android.content.pref.ResourcePreferences;
+import net.twisterrob.android.utils.tools.PackageManagerTools;
 import net.twisterrob.android.utils.tostring.stringers.AndroidStringerRepo;
 import net.twisterrob.java.exceptions.StackTrace;
 import net.twisterrob.java.utils.tostring.StringerRepo;
@@ -64,11 +65,10 @@ public abstract class BaseApp extends android.app.Application {
 
 	protected void logStartup() {
 		try {
-			PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-			@SuppressWarnings("deprecation") // TODO versionCode should be long (appcompat/androidx helper?)
+			PackageInfo info = PackageManagerTools.getPackageInfo(getPackageManager(), getPackageName(), 0);
 			FormattingTuple message = MessageFormatter.arrayFormat(
 					"************ Starting up {} {} ({}) installed at {}", new Object[] {
-							getPackageName(), info.versionName, info.versionCode, new Date(info.lastUpdateTime)
+							getPackageName(), info.versionName, PackageManagerTools.getVersionCode(info), new Date(info.lastUpdateTime)
 					});
 			// Could be wtf() except that does other things than just logging.
 			Log.e("App", message.getMessage());

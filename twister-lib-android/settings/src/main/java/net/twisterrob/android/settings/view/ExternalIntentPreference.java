@@ -3,10 +3,13 @@ package net.twisterrob.android.settings.view;
 import java.util.List;
 
 import android.content.Context;
-import android.content.pm.*;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.util.AttributeSet;
 
 import androidx.preference.Preference;
+
+import net.twisterrob.android.utils.tools.PackageManagerTools;
 
 /**
  * Simple stand-in for {@link Preference} which only has an {@code <intent>} in it.
@@ -31,7 +34,7 @@ public class ExternalIntentPreference extends Preference {
 	@Override public void onAttached() {
 		super.onAttached();
 		PackageManager pm = getContext().getPackageManager();
-		List<ResolveInfo> intents = pm.queryIntentActivities(getIntent(), 0);
+		List<ResolveInfo> intents = PackageManagerTools.queryIntentActivities(pm, getIntent(), 0);
 		setEnabled(!intents.isEmpty());
 	}
 }

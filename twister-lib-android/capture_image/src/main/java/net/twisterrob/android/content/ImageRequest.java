@@ -3,6 +3,9 @@ package net.twisterrob.android.content;
 import java.io.File;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.Manifest;
 import android.annotation.*;
 import android.app.Activity;
@@ -13,6 +16,7 @@ import android.os.Build.*;
 import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.PermissionChecker;
 
 import net.twisterrob.android.activity.CaptureImage;
@@ -21,6 +25,8 @@ import net.twisterrob.android.utils.tools.*;
 
 // FIXME https://developer.android.com/guide/topics/providers/document-provider.html
 public class ImageRequest {
+	private static final Logger LOG = LoggerFactory.getLogger(ImageRequest.class);
+
 	private final Activity activity;
 	private final Intent intent;
 	private final int requestCode;
@@ -48,12 +54,12 @@ public class ImageRequest {
 		}
 	}
 
-	public Uri getPictureUriFromResult(int requestCode, int resultCode, Intent data) {
+	public @Nullable Uri getPictureUriFromResult(int requestCode, int resultCode, Intent data) {
 		Uri selectedImageUri = null;
 		if (resultCode == Activity.RESULT_OK && requestCode == this.requestCode && data != null) {
 			boolean isCamera = MediaStore.ACTION_IMAGE_CAPTURE.equals(data.getAction());
 			if (isCamera) {
-				selectedImageUri = data.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+				selectedImageUri = IntentTools.getParcelableExtra(data, MediaStore.EXTRA_OUTPUT, Uri.class);
 			} else {
 				selectedImageUri = data.getData();
 			}
@@ -117,12 +123,18 @@ public class ImageRequest {
 			return new ImageRequest(chooserIntent, requestCode, activity);
 		}
 		private Intent[] buildInitialIntents() {
-			Intent[] intents = this.intents.toArray(new Intent[this.intents.size()]);
+			Intent[] intents = this.intents.toArray(new Intent[0]);
 			PackageManager pm = context.getPackageManager();
 			for (int i = 0; i < intents.length; i++) {
 				Intent intent = intents[i];
 				if (!(intent instanceof LabeledIntent)) {
-					CharSequence appLabel = pm.resolveActivity(intent, 0).loadLabel(pm);
+					ResolveInfo info = PackageManagerTools.resolveActivity(pm, intent, 0);
+					if (info == null) {
+						// Assumption is that all the intents used as the input are already resolved once.
+						LOG.warn("Intent {} has no ResolveInfo.", intent);
+						continue;
+					}
+					CharSequence appLabel = info.loadLabel(pm);
 					CharSequence label;
 					if (MediaStore.ACTION_IMAGE_CAPTURE.equals(intent.getAction())) {
 						label = TextTools.formatFormatted(context,
@@ -166,7 +178,7 @@ public class ImageRequest {
 		return cameraIntents;
 	}
 
-	private static Intent createGalleryIntent() {
+	private static @NonNull Intent createGalleryIntent() {
 		Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 		galleryIntent.setType("image/*");
 		return galleryIntent;
@@ -202,21 +214,22 @@ public class ImageRequest {
 	}
 
 	private static class IntentByLabelComparator implements Comparator<Intent> {
-		private final PackageManager pm;
-		public IntentByLabelComparator(PackageManager pm) {
+		private final @NonNull PackageManager pm;
+		public IntentByLabelComparator(@NonNull PackageManager pm) {
 			this.pm = pm;
 		}
-		@Override public int compare(Intent lhs, Intent rhs) {
+		@Override public int compare(@NonNull Intent lhs, @NonNull Intent rhs) {
 			CharSequence lLabel = getLabel(lhs);
 			CharSequence rLabel = getLabel(rhs);
-			return lLabel.toString().compareTo(rLabel.toString());
+			// Poor man's null-safe comparison.
+			return String.valueOf(lLabel).compareTo(String.valueOf(rLabel));
 		}
-		private CharSequence getLabel(Intent intent) {
+		private @Nullable CharSequence getLabel(@NonNull Intent intent) {
 			if (intent instanceof LabeledIntent) {
 				return ((LabeledIntent)intent).loadLabel(pm);
 			} else {
-				ResolveInfo info = pm.resolveActivity(intent, 0);
-				return info.loadLabel(pm);
+				ResolveInfo info = PackageManagerTools.resolveActivity(pm, intent, 0);
+				return info != null? info.loadLabel(pm) : null;
 			}
 		}
 	}

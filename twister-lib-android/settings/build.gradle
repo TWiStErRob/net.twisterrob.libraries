@@ -6,4 +6,5 @@ dependencies {
 	compileOnly(libs.androidx.annotation)
 	api(libs.androidx.preference)
 	implementation(libs.slf4j.api)
+	implementation("net.twisterrob.lib:twister-lib-android-basics")
 }
