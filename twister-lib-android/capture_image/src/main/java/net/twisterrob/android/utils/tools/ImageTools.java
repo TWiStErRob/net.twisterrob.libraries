@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.*;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 
@@ -399,8 +400,12 @@ public /*static*/ abstract class ImageTools {
 		return null;
 	}
 
+	/**
+	 * @return according to API 33 contract, this is NonNull, but in API 21 it's documented as nullable.
+	 *         Keep the nullability to opt for safety.
+	 */
 	@SuppressWarnings("deprecation")
-	public static BitmapRegionDecoder newBitmapRegionDecoder(@NonNull String pathName) throws IOException {
+	public static @Nullable BitmapRegionDecoder newBitmapRegionDecoder(@NonNull String pathName) throws IOException {
 		if (VERSION_CODES.S <= VERSION.SDK_INT) {
 			return BitmapRegionDecoder.newInstance(pathName);
 		} else {

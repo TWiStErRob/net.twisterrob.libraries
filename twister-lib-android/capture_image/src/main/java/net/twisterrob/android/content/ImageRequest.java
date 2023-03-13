@@ -178,7 +178,7 @@ public class ImageRequest {
 		return cameraIntents;
 	}
 
-	private static Intent createGalleryIntent() {
+	private static @NonNull Intent createGalleryIntent() {
 		Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 		galleryIntent.setType("image/*");
 		return galleryIntent;
@@ -214,17 +214,17 @@ public class ImageRequest {
 	}
 
 	private static class IntentByLabelComparator implements Comparator<Intent> {
-		private final PackageManager pm;
-		public IntentByLabelComparator(PackageManager pm) {
+		private final @NonNull PackageManager pm;
+		public IntentByLabelComparator(@NonNull PackageManager pm) {
 			this.pm = pm;
 		}
-		@Override public int compare(Intent lhs, Intent rhs) {
+		@Override public int compare(@NonNull Intent lhs, @NonNull Intent rhs) {
 			CharSequence lLabel = getLabel(lhs);
 			CharSequence rLabel = getLabel(rhs);
 			// Poor man's null-safe comparison.
 			return String.valueOf(lLabel).compareTo(String.valueOf(rLabel));
 		}
-		private @Nullable CharSequence getLabel(Intent intent) {
+		private @Nullable CharSequence getLabel(@NonNull Intent intent) {
 			if (intent instanceof LabeledIntent) {
 				return ((LabeledIntent)intent).loadLabel(pm);
 			} else {

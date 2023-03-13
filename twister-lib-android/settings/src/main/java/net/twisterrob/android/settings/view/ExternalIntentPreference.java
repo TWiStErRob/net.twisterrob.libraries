@@ -34,7 +34,7 @@ public class ExternalIntentPreference extends Preference {
 	@Override public void onAttached() {
 		super.onAttached();
 		PackageManager pm = getContext().getPackageManager();
-		List<ResolveInfo> intents = PackageManagerTools.queryIntentActivities(pm, getIntent(), 0L);
+		List<ResolveInfo> intents = PackageManagerTools.queryIntentActivities(pm, getIntent(), 0);
 		setEnabled(!intents.isEmpty());
 	}
 }

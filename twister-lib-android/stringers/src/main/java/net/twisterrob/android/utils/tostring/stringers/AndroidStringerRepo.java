@@ -9,6 +9,7 @@ import android.location.Address;
 import android.os.Build.*;
 import android.view.AbsSavedState;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SupportToolbarSavedStateStringer;
 import androidx.drawerlayout.widget.DrawerLayoutStateStringer;
 import androidx.fragment.app.*;
@@ -64,7 +65,8 @@ public class AndroidStringerRepo {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void registerDeprecated(StringerRepo repo, Context context) {
+	private static void registerDeprecated(
+			@NonNull StringerRepo repo, @SuppressWarnings("unused") Context context) {
 		if (VERSION_CODES.HONEYCOMB_MR2 <= VERSION.SDK_INT) {
 			repo.register(android.app.Fragment.SavedState.class, new FragmentSavedStateStringer());
 		}

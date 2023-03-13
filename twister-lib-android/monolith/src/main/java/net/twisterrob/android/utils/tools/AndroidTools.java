@@ -71,7 +71,8 @@ public /*static*/ abstract class AndroidTools {
 		}
 	}
 
-	public static List<Intent> resolveIntents(Context context, Intent originalIntent, long flags) {
+	public static @NonNull List<Intent> resolveIntents(
+			@NonNull Context context, @NonNull Intent originalIntent, long flags) {
 		PackageManager packageManager = context.getPackageManager();
 		List<ResolveInfo> resolved = PackageManagerTools.queryIntentActivities(packageManager, originalIntent, flags);
 		List<Intent> result = new ArrayList<>(resolved.size());
