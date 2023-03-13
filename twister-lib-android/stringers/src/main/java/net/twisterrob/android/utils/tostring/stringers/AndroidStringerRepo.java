@@ -38,6 +38,8 @@ public class AndroidStringerRepo {
 			repo.register(android.app.Fragment.SavedState.class, new FragmentSavedStateStringer());
 		}
 		repo.register("androidx.fragment.app.FragmentManagerState", new SupportFragmentManagerStateStringer());
+		repo.register("android.app.FragmentManagerState", new FragmentManagerStateStringer());
+		repo.register("android.app.FragmentState", new FragmentStateStringer());
 		repo.register(androidx.loader.content.Loader.class, new SupportLoaderStringer());
 		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
 			repo.register(android.content.Loader.class, new LoaderStringer());
