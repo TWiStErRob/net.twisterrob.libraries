@@ -12,7 +12,8 @@ import net.twisterrob.java.utils.tostring.ToStringAppender;
  * which is default in the package, but behaves as @hide.
  */
 public class FragmentManagerStateStringer extends Stringer<Object /*FragmentManagerState*/> {
-	@Override public void toString(@NonNull ToStringAppender append, Object /*FragmentManagerState*/ state) {
+	@Override public void toString(
+			@NonNull ToStringAppender append, @NonNull Object /*FragmentManagerState*/ state) {
 		Object[] mBackStack = ReflectionTools.get(state, "mBackStack");
 		append.beginSizedList("backstack", ArrayTools.safeLength(mBackStack), false);
 		if (mBackStack != null) {
