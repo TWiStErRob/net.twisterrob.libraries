@@ -43,7 +43,7 @@ public class DynamicLoaderManager implements LoaderCallbacks<Object> {
 
 	public void onLoaderReset(Loader<Object> loader) {
 		Dependency<?> state = loaders.get(loader.getId());
-		assert state.loader == loader
+		assert state.loader == null || state.loader == loader
 				: "loader=" + loader + ", state(" + state.id + ")=" + state.loader;
 		@SuppressWarnings("unchecked")
 		LoaderCallbacks<Object> callbacks = (LoaderCallbacks<Object>)state.callbacks;
@@ -55,7 +55,7 @@ public class DynamicLoaderManager implements LoaderCallbacks<Object> {
 
 	public void onLoadFinished(Loader<Object> loader, Object data) {
 		Dependency<?> state = loaders.get(loader.getId());
-		assert state.loader == loader
+		assert state.loader == null || state.loader == loader
 				: "loader=" + loader + ", state(" + state.id + ")=" + state.loader;
 
 		if (!state.ready) {
