@@ -48,10 +48,12 @@ public class FragmentStateStringer extends Stringer<Object /*FragmentState*/> {
 		boolean mFromLayout = ReflectionTools.get(state, "mFromLayout");
 		boolean mRetainInstance = ReflectionTools.get(state, "mRetainInstance");
 		boolean mDetached = ReflectionTools.get(state, "mDetached");
+		boolean mHidden = ReflectionTools.get(state, "mHidden");
 
 		append.booleanProperty(mFromLayout, "from layout");
 		append.booleanProperty(mRetainInstance, "retained");
 		append.booleanProperty(mDetached, "detached", "attached");
+		append.booleanProperty(mHidden, "hidden");
 		appendNullDetails(append, state);
 	}
 
