@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -17,6 +18,15 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * Some methods in this class require a suppression to {@code QueryPermissionsNeeded},
+ * because they call specific APIs, and therefore require {@code <queries>} elements in the manifest.
+ * Sadly there's no way to propagate this to callers easily (sans writing a custom Lint detector).
+ * 
+ * <a href="https://googlesamples.github.io/android-custom-lint-rules/checks/QueryPermissionsNeeded.md.html">
+ *     The original lint documentation.</a>
+ * The {@code QueryPermissionsNeeded} Lint issue is implemented in {@code PackageVisibilityDetector.kt}.
+ */
 @SuppressWarnings("unused")
 public /*static*/ abstract class PackageManagerTools {
 
@@ -26,6 +36,7 @@ public /*static*/ abstract class PackageManagerTools {
 		// static utility class
 	}
 
+	@SuppressLint("QueryPermissionsNeeded")
 	@SuppressWarnings("deprecation")
 	public static @NonNull List<ResolveInfo> queryIntentActivities(
 			@NonNull PackageManager pm, @NonNull Intent intent, long flags) {
@@ -79,6 +90,7 @@ public /*static*/ abstract class PackageManagerTools {
 		}
 	}
 
+	@SuppressLint("QueryPermissionsNeeded")
 	@SuppressWarnings("deprecation")
 	public static @NonNull List<PackageInfo> getInstalledPackages(
 			@NonNull PackageManager pm, long flags) {

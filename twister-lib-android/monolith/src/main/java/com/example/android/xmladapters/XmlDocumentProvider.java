@@ -269,6 +269,8 @@ public class XmlDocumentProvider extends ContentProvider {
 					throw new FileNotFoundException("Single path segment is not a resource ID: " + resourceUri);
 				}
 			} else if (len == 2) {
+				// Not why the single usage of the method builds a String and then this parses it.
+				//noinspection DiscouragedApi
 				id = r.getIdentifier(path.get(1), path.get(0), authority);
 			} else {
 				throw new FileNotFoundException("More than two path segments: " + resourceUri);

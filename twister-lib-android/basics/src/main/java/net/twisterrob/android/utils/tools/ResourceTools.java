@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.slf4j.*;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
@@ -50,6 +51,10 @@ public /*static*/ abstract class ResourceTools {
 		return getResourceID(context, RES_TYPE_DRAWABLE, drawableResourceName);
 	}
 
+	public static @DimenRes int getDimenResourceID(@Nullable Context context, String dimenResourceName) {
+		return getResourceID(context, RES_TYPE_DIMEN, dimenResourceName);
+	}
+
 	public static @StringRes int getStringResourceID(@Nullable Context context, @NonNull String stringResourceName) {
 		return getResourceID(context, RES_TYPE_STRING, stringResourceName);
 	}
@@ -72,8 +77,9 @@ public /*static*/ abstract class ResourceTools {
 	}
 
 	// TODO consider requireResourceID aliases too
-	private static @AnyRes int getResourceID(@Nullable Context context,
-			@NonNull String resourceType, @NonNull String resourceName) {
+	@SuppressLint("DiscouragedApi") // Yes, it's unsafe, but also in some cases there's no other way.
+	private static @AnyRes int getResourceID(
+			@Nullable Context context, @NonNull String resourceType, @NonNull String resourceName) {
 		int resID;
 		if (context != null) {
 			resID = context.getResources().getIdentifier(resourceName, resourceType, context.getPackageName());

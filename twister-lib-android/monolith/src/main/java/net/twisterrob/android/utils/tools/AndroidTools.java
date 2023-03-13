@@ -163,16 +163,21 @@ public /*static*/ abstract class AndroidTools {
 		return result;
 	}
 
+	/**
+	 * This method is used for serious hacking.
+	 * Not sure if there's another way to achieve the same thing.
+	 */
 	@SuppressWarnings("ConstantConditions")
 	private static @Nullable View findViewSupportOrAndroid(@NonNull View root, @NonNull String resourceName) {
 		Context context = root.getContext();
+		// Note: getIdentifier may return 0 if not found, but it's ok because findViewByID will convert it to null.
 		View result = null;
 		if (result == null) {
-			int supportID = context.getResources().getIdentifier(resourceName, RES_TYPE_ID, context.getPackageName());
+			int supportID = ResourceTools.getIDResourceID(context, resourceName);
 			result = root.findViewById(supportID);
 		}
 		if (result == null) {
-			int androidID = context.getResources().getIdentifier(resourceName, RES_TYPE_ID, ANDROID_PACKAGE);
+			int androidID = ResourceTools.getIDResourceID(null, resourceName);
 			result = root.findViewById(androidID);
 		}
 		return result;
@@ -735,8 +740,8 @@ public /*static*/ abstract class AndroidTools {
 	@Deprecated
 	public static int getStatusBarHeight(Context context) {
 		int result = 25; // safe bet, better bigger than nothing
-		@SuppressLint("InternalInsetResource")
-		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		@SuppressLint("InternalInsetResource") // Note: AndroidX TooltipPopup is also using this.
+		int resourceId = ResourceTools.getDimenResourceID(null, "status_bar_height");
 		if (resourceId != INVALID_RESOURCE_ID) {
 			result = context.getResources().getDimensionPixelSize(resourceId);
 		}
