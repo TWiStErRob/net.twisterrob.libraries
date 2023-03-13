@@ -54,7 +54,7 @@ public class ImageRequest {
 		}
 	}
 
-	public Uri getPictureUriFromResult(int requestCode, int resultCode, Intent data) {
+	public @Nullable Uri getPictureUriFromResult(int requestCode, int resultCode, Intent data) {
 		Uri selectedImageUri = null;
 		if (resultCode == Activity.RESULT_OK && requestCode == this.requestCode && data != null) {
 			boolean isCamera = MediaStore.ACTION_IMAGE_CAPTURE.equals(data.getAction());
