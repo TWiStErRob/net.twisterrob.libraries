@@ -233,16 +233,9 @@ public abstract class BaseApp extends android.app.Application {
 
 	@UiThread
 	protected void doToastUser(CharSequence message) {
-		// TODEL https://github.com/TWiStErRob/net.twisterrob.libraries/issues/37
-		StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
-		StrictMode.setVmPolicy(permitIncorrectContextUse(new VmPolicy.Builder(originalPolicy))
-				.build());
-		try {
-			//LOG.trace("User Toast: {}", message, new StackTrace());
-			Toast.makeText(getAppContext(), message, Toast.LENGTH_LONG).show();
-		} finally {
-			StrictMode.setVmPolicy(originalPolicy);
-		}
+		// TODO https://github.com/TWiStErRob/net.twisterrob.libraries/issues/37
+		//LOG.trace("User Toast: {}", message, new StackTrace());
+		Toast.makeText(getAppContext(), message, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -341,32 +334,12 @@ public abstract class BaseApp extends android.app.Application {
 		}
 		if (VERSION_CODES.S <= VERSION.SDK_INT) {
 			vmBuilder = vmBuilder
-					.detectIncorrectContextUse()
+					// TODO https://issuetracker.google.com/issues/273326513
+					//.detectIncorrectContextUse()
 					.detectUnsafeIntentLaunch()
 			;
 		}
 		StrictMode.setVmPolicy(vmBuilder.build());
-	}
-
-	/**
-	 * Counteract {@link StrictMode.VmPolicy.Builder#detectIncorrectContextUse}.
-	 */
-	@SuppressLint("PrivateApi")
-	private static @NonNull StrictMode.VmPolicy.Builder permitIncorrectContextUse(
-			@NonNull StrictMode.VmPolicy.Builder builder) {
-		if (VERSION_CODES.S <= VERSION.SDK_INT) {
-			try {
-				Method m = VmPolicy.Builder.class.getDeclaredMethod("permitIncorrectContextUse");
-				m.invoke(builder);
-			} catch (NoSuchMethodException ex) {
-				LOG.warn("permitIncorrectContextUse is missing", ex);
-			} catch (InvocationTargetException ex) {
-				LOG.warn("permitIncorrectContextUse failed", ex);
-			} catch (IllegalAccessException ex) {
-				LOG.warn("permitIncorrectContextUse can't be called", ex);
-			}
-		}
-		return builder;
 	}
 
 	public static void notImplemented() {
