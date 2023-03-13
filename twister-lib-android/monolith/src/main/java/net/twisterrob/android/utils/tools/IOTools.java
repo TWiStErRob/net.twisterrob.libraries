@@ -3,8 +3,6 @@ package net.twisterrob.android.utils.tools;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.*;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipFile;
 
 import org.slf4j.*;
@@ -20,24 +18,13 @@ import android.system.*;
 
 import androidx.annotation.Nullable;
 
-import net.twisterrob.java.utils.CollectionTools;
-
 @SuppressWarnings("unused")
 public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools {
 	private static final Logger LOG = LoggerFactory.getLogger(IOTools.class);
 
-	// FIXME check if UTF-8 is used by cineworld
-	private static final String DEFAULT_HTTP_ENCODING = ENCODING;
-	private static final String HTTP_HEADER_CHARSET_PREFIX = "charset=";
-	/** @deprecated use Glide */
-	@Deprecated @SuppressWarnings("deprecation")
-	private static net.twisterrob.android.utils.cache.ImageSDNetCache imageCache;
-
 	// TODO merge with Cineworld
 	//public static String getEncoding(final org.apache.http.HttpEntity entity);
 
-	/** @deprecated use Glide */
-	@Deprecated @SuppressWarnings("deprecation")
 	public static Bitmap getImage(final URL url) throws IOException {
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		InputStream input = null;
@@ -49,66 +36,6 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 		} finally {
 			closeConnection(connection, input);
 		}
-	}
-
-	/** @deprecated use Glide */
-	@Deprecated @SuppressWarnings("deprecation")
-	private static final Set<Object> s_getImageLocks =
-			CollectionTools.newSetFromMap(new ConcurrentHashMap<Object, Boolean>());
-
-	/**
-	 * @param url will be used for synchronization
-	 * @deprecated use Glide
-	 */
-	@Deprecated @SuppressWarnings("deprecation")
-	public static Bitmap getImage(final URL url, boolean cache) throws IOException {
-		if (!cache) {
-			return getImage(url);
-		}
-		try {
-			ensureImageCache();
-			Bitmap result = imageCache.get(url);
-			LOG.trace("getImage({}): {}", url, result != null? "hit" : "miss");
-			if (result == null) {
-				boolean added = s_getImageLocks.add(url);
-				if (added) {
-					//noinspection SynchronizationOnLocalVariableOrMethodParameter this method is deprecated
-					synchronized (url) {
-						if (s_getImageLocks.contains(url)) {
-							Bitmap newImage = getImage(url, false);
-							s_getImageLocks.remove(url);
-							imageCache.put(url, newImage);
-							LOG.trace("getImage({}): {}", url, "loaded");
-						} else {
-							LOG.trace("getImage({}): {}", url, "already-loaded");
-						}
-					}
-				}
-				result = imageCache.get(url);
-				assert result != null : "Image cache is misbehaving";
-			}
-			return result;
-		} catch (Exception ex) {
-			throw new IOException("Cannot use cache", ex);
-		}
-	}
-	/** @deprecated use Glide */
-	@Deprecated @SuppressWarnings("deprecation")
-	private static synchronized void ensureImageCache() {
-		if (imageCache == null) {
-			imageCache = new net.twisterrob.android.utils.cache.ImageSDNetCache();
-		}
-	}
-	/** @deprecated use Glide */
-	@Deprecated @SuppressWarnings("deprecation")
-	public static Bitmap getImage(final String urlString) throws IOException {
-		return getImage(urlString, false);
-	}
-	/** @deprecated use Glide */
-	@Deprecated @SuppressWarnings("deprecation")
-	public static Bitmap getImage(final String urlString, boolean cache) throws IOException {
-		URL url = new URL(urlString);
-		return IOTools.getImage(url, cache);
 	}
 
 	@SuppressWarnings("resource")

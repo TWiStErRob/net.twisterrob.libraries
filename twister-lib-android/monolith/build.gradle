@@ -29,9 +29,6 @@ dependencies {
 
 	//implementation(libs.androidx.palette)
 
-	// FIXME @Deprecated, use Glide
-	implementation(libs.android.lrucache)
-
 	// 2.4.+ is required for API 28+
 	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
 	compileOnly(libs.android.colorpicker)
