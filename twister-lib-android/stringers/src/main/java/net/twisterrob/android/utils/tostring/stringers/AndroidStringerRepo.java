@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.location.Address;
-import android.os.AsyncTask;
 import android.os.Build.*;
 import android.view.AbsSavedState;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SupportToolbarSavedStateStringer;
 import androidx.drawerlayout.widget.DrawerLayoutStateStringer;
 import androidx.fragment.app.*;
@@ -22,7 +22,6 @@ import net.twisterrob.java.utils.tostring.StringerRepo;
 
 @TargetApi(VERSION_CODES.HONEYCOMB_MR2)
 public class AndroidStringerRepo {
-	@SuppressWarnings("deprecation") // Fragment and Loader
 	public static void init(StringerRepo repo, Context context) {
 		ResourceNameStringer.INSTANCE = new ResourceNameStringer(context);
 		repo.register(AbsSavedState.class, new AbsSavedStateStringer());
@@ -34,16 +33,10 @@ public class AndroidStringerRepo {
 				new StaggeredGridLayoutManagerSavedStateStringer());
 		repo.register("androidx.drawerlayout.widget.DrawerLayout$SavedState", new DrawerLayoutStateStringer());
 		repo.register(androidx.fragment.app.Fragment.SavedState.class, new SupportFragmentSavedStateStringer());
-		if (VERSION_CODES.HONEYCOMB_MR2 <= VERSION.SDK_INT) {
-			repo.register(android.app.Fragment.SavedState.class, new FragmentSavedStateStringer());
-		}
 		repo.register("androidx.fragment.app.FragmentManagerState", new SupportFragmentManagerStateStringer());
 		repo.register("android.app.FragmentManagerState", new FragmentManagerStateStringer());
 		repo.register("android.app.FragmentState", new FragmentStateStringer());
 		repo.register(androidx.loader.content.Loader.class, new SupportLoaderStringer());
-		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
-			repo.register(android.content.Loader.class, new LoaderStringer());
-		}
 		repo.register(android.content.Intent.class, new IntentStringer());
 		repo.register(android.app.PendingIntent.class, new PendingIntentStringer());
 		repo.register(android.os.Bundle.class, new BundleStringer());
@@ -61,7 +54,6 @@ public class AndroidStringerRepo {
 		repo.register(androidx.fragment.app.FragmentManager.BackStackEntry.class,
 				new SupportBackStackEntryStringer(context));
 
-		repo.register(AsyncTask.class, new AsyncTaskStringer());
 		// FIXME figure out how to do this dynamically
 //		repo.register(AsyncTaskResult.class, new AsyncTaskResultStringer());
 		repo.register(Address.class, new AddressStringer());
@@ -71,5 +63,18 @@ public class AndroidStringerRepo {
 		repo.register(ActivityManager.class, new ActivityManagerStringer());
 		repo.register(Configuration.class, new ConfigurationStringer());
 		repo.register(Bitmap.class, new BitmapStringer());
+		registerDeprecated(repo, context);
+	}
+
+	@SuppressWarnings("deprecation")
+	private static void registerDeprecated(
+			@NonNull StringerRepo repo, @SuppressWarnings("unused") Context context) {
+		if (VERSION_CODES.HONEYCOMB_MR2 <= VERSION.SDK_INT) {
+			repo.register(android.app.Fragment.SavedState.class, new FragmentSavedStateStringer());
+		}
+		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
+			repo.register(android.content.Loader.class, new LoaderStringer());
+		}
+		repo.register(android.os.AsyncTask.class, new AsyncTaskStringer());
 	}
 }

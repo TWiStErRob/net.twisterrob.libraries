@@ -1,5 +1,6 @@
 package com.example.android.xmladapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 
@@ -14,6 +15,7 @@ public class TranslateTransformation extends CursorTransformation {
 		return mContext.getString(transformToResource(cursor, columnIndex));
 	}
 
+	@SuppressLint("DiscouragedApi") // Not sure what this is, but it's unused.
 	@Override public int transformToResource(Cursor cursor, int columnIndex) {
 		String data = cursor.getString(columnIndex);
 		return mContext.getResources().getIdentifier(data, "string", mContext.getPackageName());

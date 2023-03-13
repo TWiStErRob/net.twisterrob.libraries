@@ -37,7 +37,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {
 	private static final String DB_DEVELOPMENT_FILE = "%s.development.sql";
 
 	protected final AssetManager assets;
-	private final boolean hasWriteExternalPermission;
 	private final String dbName;
 	private boolean devMode;
 	private boolean testMode;
@@ -48,7 +47,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {
 		super(context, dbName, dbVersion, createCursorFactory(isDebugBuild));
 		this.assets = context.getAssets();
 		this.dbName = dbName;
-		this.hasWriteExternalPermission = AndroidTools.hasPermission(context, WRITE_EXTERNAL_STORAGE);
 	}
 
 	@TargetApi(VERSION_CODES.HONEYCOMB)
@@ -362,20 +360,19 @@ public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {
 	}
 
 	private void backupDB(SQLiteDatabase db, String when) {
-		if (allowDump && hasWriteExternalPermission) {
+		if (allowDump) {
 			String date = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ROOT).format(new Date());
 			String fileName = dbName + "." + date + "." + when + ".sqlite";
 			try {
-				String target = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + fileName;
-				IOTools.copyFile(db.getPath(), target);
-				LOG.info("DB backed up to {}", target);
+				File targetDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+				File dbBackup = new File(targetDir, fileName);
+				IOTools.copyFile(new File(db.getPath()), dbBackup);
+				LOG.info("Database backed up to {}", dbBackup);
 			} catch (IOException ex) {
-				LOG.error("Cannot back up DB on open", ex);
+				LOG.error("Cannot back up database", ex);
 			}
 		} else {
-			if (!hasWriteExternalPermission) {
-				LOG.debug("No {} permission to back up DB at {}", WRITE_EXTERNAL_STORAGE, when);
-			}
+			LOG.trace("Backup database was called, but dumping is not allowed.");
 		}
 	}
 }

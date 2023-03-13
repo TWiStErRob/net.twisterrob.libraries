@@ -1,17 +1,23 @@
 package net.twisterrob.android.utils.concurrent;
 
-import android.os.AsyncTask;
-
 import androidx.annotation.*;
 
 /**
- * {@link AsyncTask} implementation that separates positive and negative outcome, so {@link #doInBackground(Object[])}
- * can simply throw exceptions and simply return the value.
+ * {@link android.os.AsyncTask} implementation that separates positive and negative outcome,
+ * so {@link #doInBackground(Object[])} can simply throw exceptions and simply return the value.
+ *
  * @see net.twisterrob.android.utils.tools.AndroidTools#executeParallel
  * @see net.twisterrob.android.utils.tools.AndroidTools#executeSerial
  */
+@SuppressWarnings("deprecation")
 public abstract class SafeAsyncTask<Param, Progress, Result>
-		extends AsyncTask<Param, Progress, AsyncTaskResult<Param, Result>> {
+		extends android.os.AsyncTask<Param, Progress, AsyncTaskResult<Param, Result>> {
+
+	@Override protected void onPreExecute() {
+		// Optional override.
+		// Overridden to hide deprecation warnings in all sub-classes.
+	}
+
 	@WorkerThread
 	@SuppressWarnings("varargs")
 	@SafeVarargs
@@ -32,6 +38,12 @@ public abstract class SafeAsyncTask<Param, Progress, Result>
 	@SuppressWarnings("unchecked" /* @SafeVarargs is not allowed here */)
 	protected abstract @Nullable Result doInBackgroundSafe(@Nullable Param... params) throws Exception;
 
+	@SuppressWarnings("unchecked")
+	@Override protected void onProgressUpdate(Progress... values) {
+		// Overridden to hide deprecation warnings in all sub-classes.
+		super.onProgressUpdate(values);
+	}
+
 	@UiThread
 	@Override protected final void onPostExecute(
 			@SuppressWarnings("NullableProblems") @NonNull AsyncTaskResult<Param, Result> result) {
@@ -46,6 +58,7 @@ public abstract class SafeAsyncTask<Param, Progress, Result>
 	@UiThread
 	@SuppressWarnings("unchecked" /* @SafeVarargs is not allowed here */)
 	protected abstract void onResult(@Nullable Result result, Param... params);
+
 	@UiThread
 	@SuppressWarnings("unchecked" /* @SafeVarargs is not allowed here */)
 	protected abstract void onError(@NonNull Exception ex, Param... params);

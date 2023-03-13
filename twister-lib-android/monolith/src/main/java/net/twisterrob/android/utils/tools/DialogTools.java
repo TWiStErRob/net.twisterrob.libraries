@@ -68,12 +68,12 @@ public class DialogTools {
 	public static AlertDialog.Builder confirm(@NonNull Context context,
 			final @NonNull PopupCallbacks<Boolean> callbacks) {
 		return new DefaultBuilder(context)
-				.setPositiveButton(android.R.string.yes, new OnClickListener() {
+				.setPositiveButton(android.R.string.ok, new OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						callbacks.finished(true);
 					}
 				})
-				.setNegativeButton(android.R.string.no, new OnClickListener() {
+				.setNegativeButton(android.R.string.cancel, new OnClickListener() {
 					@Override public void onClick(DialogInterface dialog, int which) {
 						callbacks.finished(false);
 					}

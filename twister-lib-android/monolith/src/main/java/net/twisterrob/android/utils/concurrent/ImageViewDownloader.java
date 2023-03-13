@@ -2,15 +2,15 @@ package net.twisterrob.android.utils.concurrent;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import net.twisterrob.android.utils.log.*;
 import net.twisterrob.android.utils.tools.IOTools;
 
 /** @deprecated use Glide */
-@Deprecated @SuppressWarnings("deprecation")
-public class ImageViewDownloader extends AsyncTask<String, Void, Bitmap> {
+@Deprecated
+@SuppressWarnings("deprecation")
+public class ImageViewDownloader extends android.os.AsyncTask<String, Void, Bitmap> {
 	private static final Log LOG = LogFactory.getLog(Tag.IO);
 	@SuppressLint("StaticFieldLeak")
 	private final ImageView m_view;

@@ -8,13 +8,17 @@ import static org.hamcrest.Matchers.*;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+
+import androidx.annotation.NonNull;
 
 import static androidx.test.core.app.ApplicationProvider.*;
 
 import net.twisterrob.android.about.R;
 import net.twisterrob.android.activity.AboutActivity;
 import net.twisterrob.android.test.junit.SensibleActivityTestRule;
+import net.twisterrob.android.utils.tools.PackageManagerTools;
 import net.twisterrob.inventory.android.test.actors.AboutActivityActor;
 //import net.twisterrob.inventory.android.test.categories.*;
 
@@ -45,10 +49,10 @@ public class AboutActivityTest {
 	}
 
 //	@Category(UseCase.InitialCondition.class)
-	@SuppressWarnings("deprecation")
 	@Test public void testAppVersionShown() {
 		about.assertTextExists(containsString(getPackageInfo().versionName));
-		about.assertTextExists(containsString(String.valueOf(getPackageInfo().versionCode)));
+		long versionCode = PackageManagerTools.getVersionCode(getPackageInfo());
+		about.assertTextExists(containsString(String.valueOf(versionCode)));
 	}
 
 //	@Category(UseCase.InitialCondition.class)
@@ -66,10 +70,11 @@ public class AboutActivityTest {
 		about.assertTextExists(equalTo(stringRes(R.string.about_tips_title)));
 	}
 
-	private static PackageInfo getPackageInfo() {
+	private static @NonNull PackageInfo getPackageInfo() {
 		Context context = getApplicationContext();
 		try {
-			PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			PackageManager pm = context.getPackageManager();
+			PackageInfo info = PackageManagerTools.getPackageInfo(pm, context.getPackageName(), 0);
 			assertThat(context.getPackageName(), info, not(nullValue()));
 			return info;
 		} catch (NameNotFoundException e) {

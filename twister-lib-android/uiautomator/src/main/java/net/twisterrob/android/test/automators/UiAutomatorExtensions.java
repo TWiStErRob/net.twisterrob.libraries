@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.junit.MatcherAssume.*;
 import static org.junit.Assert.*;
 
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.os.Build.*;
@@ -75,10 +76,17 @@ public class UiAutomatorExtensions {
 	public static @IdResName String externalId(String packageName, @StringResName String resName) {
 		return packageName + ":id/" + resName;
 	}
+
+	/**
+	 * Using this method is better than hardcoding external strings.
+	 * Hopefully the internal keys are more stable than the user facing content.
+	 */
 	public static String externalString(String packageName, @StringResName String resName,
 			String englishFallback)
 			throws NameNotFoundException {
+		// CONSIDER using ResourceTools.getStringResourceID, but it needs more overloads.
 		Resources res = getInstrumentation().getContext().getPackageManager().getResourcesForApplication(packageName);
+		@SuppressLint("DiscouragedApi") // It's external packages, no other way.
 		@StringRes int resId = res.getIdentifier(resName, "string", packageName);
 
 		String resValue;

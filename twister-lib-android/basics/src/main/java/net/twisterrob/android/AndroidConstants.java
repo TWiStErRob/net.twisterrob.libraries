@@ -11,4 +11,5 @@ public class AndroidConstants {
 	public static final String RES_TYPE_RAW = "raw";
 	public static final String RES_TYPE_DRAWABLE = "drawable";
 	public static final String RES_TYPE_COLOR = "color";
+	public static final String RES_TYPE_DIMEN = "dimen";
 }

@@ -8,9 +8,12 @@ import org.hamcrest.*;
 
 import static org.hamcrest.Matchers.*;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.*;
@@ -31,6 +34,7 @@ import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import net.twisterrob.android.utils.tools.DatabaseTools;
+import net.twisterrob.android.utils.tools.PackageManagerTools;
 import net.twisterrob.java.utils.ReflectionTools;
 import net.twisterrob.test.hamcrest.NamedMatcher;
 
@@ -56,8 +60,8 @@ public class AndroidMatchers {
 				matchesPattern("^.*\\b" + Pattern.quote(word) + "\\b.*$"));
 	}
 
-	// TODO replace with android.Manifest.permission.QUERY_ALL_PACKAGES
-	@RequiresPermission("android.permission.QUERY_ALL_PACKAGES")
+	@SuppressLint("InlinedApi")
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull Matcher<Context> hasPackageInstalled(@NonNull String packageName) {
 		return new HasInstalledPackage(packageName);
 	}
@@ -68,7 +72,8 @@ public class AndroidMatchers {
 			final int flags, final Matcher<ResolveInfo> resolveInfoMatcher) {
 		return new TypeSafeMatcher<Intent>() {
 			@Override protected boolean matchesSafely(Intent intent) {
-				ResolveInfo info = getApplicationContext().getPackageManager().resolveActivity(intent, flags);
+				PackageManager pm = getApplicationContext().getPackageManager();
+				ResolveInfo info = PackageManagerTools.resolveActivity(pm, intent, flags);
 				return resolveInfoMatcher.matches(info);
 			}
 			@Override public void describeTo(Description description) {
@@ -85,7 +90,8 @@ public class AndroidMatchers {
 		return new FeatureMatcher<Intent, List<ResolveInfo>>(resolveInfoMatcher,
 				"Intent resolves to activities", "resolved activities") {
 			@Override protected List<ResolveInfo> featureValueOf(Intent intent) {
-				return getApplicationContext().getPackageManager().queryIntentActivities(intent, flags);
+				PackageManager pm = getApplicationContext().getPackageManager();
+				return PackageManagerTools.queryIntentActivities(pm, intent, flags);
 			}
 		};
 	}

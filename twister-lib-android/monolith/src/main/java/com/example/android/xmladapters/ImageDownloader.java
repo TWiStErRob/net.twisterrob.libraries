@@ -61,7 +61,7 @@ public class ImageDownloader {
 	private final static ConcurrentMap<String, SoftReference<Bitmap>> sSoftBitmapCache =
 			new ConcurrentHashMap<>(HARD_CACHE_CAPACITY / 2);
 
-	private final Handler purgeHandler = new Handler();
+	private final Handler purgeHandler = new Handler(Looper.myLooper());
 
 	private final Runnable purger = new Runnable() {
 		public void run() {
@@ -152,7 +152,7 @@ public class ImageDownloader {
 		if (bitmapDownloaderTask != null) {
 			String bitmapUrl = bitmapDownloaderTask.url;
 			if ((bitmapUrl == null) || (!bitmapUrl.equals(url))) {
-				bitmapDownloaderTask.cancel(true);
+				bitmapDownloaderTask.stop();
 			} else {
 				// The same URL is already being downloaded.
 				return false;
@@ -213,13 +213,18 @@ public class ImageDownloader {
 	/**
 	 * The actual AsyncTask that will asynchronously download the image.
 	 */
-	static class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
+	@SuppressWarnings("deprecation")
+	static class BitmapDownloaderTask extends android.os.AsyncTask<String, Void, Bitmap> {
 		private static final int IO_BUFFER_SIZE = 4 * 1024;
 		private String url;
 		private final WeakReference<ImageView> imageViewReference;
 
 		public BitmapDownloaderTask(ImageView imageView) {
 			imageViewReference = new WeakReference<>(imageView);
+		}
+		
+		public AsyncTask<String, Void, Bitmap> execute(String url, String cookie) {
+			return super.execute(url, cookie);
 		}
 
 		/**
@@ -270,6 +275,10 @@ public class ImageDownloader {
 				}
 			}
 			return null;
+		}
+		
+		public void stop() {
+			super.cancel(true);
 		}
 
 		/**

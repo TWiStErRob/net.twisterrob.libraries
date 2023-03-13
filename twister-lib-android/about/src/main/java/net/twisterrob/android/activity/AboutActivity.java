@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.slf4j.*;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.*;
 import android.content.pm.*;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -26,9 +25,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 
 import net.twisterrob.android.about.R;
+import net.twisterrob.android.utils.tools.PackageManagerTools;
 import net.twisterrob.android.utils.tools.ViewTools;
 
-public class AboutActivity extends ListActivity {
+@SuppressWarnings("deprecation")
+public class AboutActivity extends android.app.ListActivity {
 	private static final Logger LOG = LoggerFactory.getLogger(AboutActivity.class);
 	private static final String META_EXTRA_KEY_EMAIL = "net.twisterrob.android.about.email";
 
@@ -149,7 +150,6 @@ public class AboutActivity extends ListActivity {
 		return feedbackIntent;
 	}
 
-	@SuppressWarnings("deprecation") // TODO versionCode should be long (appcompat/androidx helper?)
 	protected @NonNull AboutInfo getAboutInfo() {
 		AboutInfo about = new AboutInfo();
 
@@ -160,7 +160,8 @@ public class AboutActivity extends ListActivity {
 		about.appIcon = appInfo.loadIcon(app.getPackageManager());
 		about.applicationId = app.getPackageName();
 		try {
-			ActivityInfo activityInfo = app.getPackageManager().getActivityInfo(this.getComponentName(), PackageManager.GET_META_DATA);
+			ActivityInfo activityInfo = PackageManagerTools.getActivityInfo(
+					app.getPackageManager(), this.getComponentName(), PackageManager.GET_META_DATA);
 			about.email = activityInfo.metaData.getString(META_EXTRA_KEY_EMAIL);
 		} catch (NameNotFoundException ex) {
 			throw new IllegalStateException("Cannot find information about the application.", ex);
@@ -170,7 +171,7 @@ public class AboutActivity extends ListActivity {
 		try {
 			pkgInfo = app.getPackageManager().getPackageInfo(app.getPackageName(), 0);
 			about.versionName = pkgInfo.versionName;
-			about.versionCode = pkgInfo.versionCode;
+			about.versionCode = PackageManagerTools.getVersionCode(pkgInfo);
 		} catch (NameNotFoundException ex) {
 			about.versionName = "?";
 		}
@@ -205,7 +206,7 @@ public class AboutActivity extends ListActivity {
 		protected @Nullable String appLabel;
 		protected @NonNull Drawable appIcon;
 		protected @NonNull String versionName;
-		protected @IntRange(from = 0) int versionCode;
+		protected @IntRange(from = 0) long versionCode;
 		protected @NonNull String applicationId;
 		protected @NonNull String email;
 
