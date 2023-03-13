@@ -370,13 +370,13 @@ public class ViewServer implements Runnable {
 	 * Main server loop.
 	 */
 	public void run() {
+		TrafficStats.setThreadStatsTag(VIEW_SERVER_SOCKET_TAG);
 		try {
 			mServer = new ServerSocket(mPort, VIEW_SERVER_MAX_CONNECTIONS, InetAddress.getLocalHost());
 		} catch (Exception e) {
 			Log.w(LOG_TAG, "Starting ServerSocket error: ", e);
 		}
 
-		TrafficStats.setThreadStatsTag(VIEW_SERVER_SOCKET_TAG);
 		while (mServer != null && Thread.currentThread() == mThread) {
 			// Any uncaught exception will crash the system process
 			try {
