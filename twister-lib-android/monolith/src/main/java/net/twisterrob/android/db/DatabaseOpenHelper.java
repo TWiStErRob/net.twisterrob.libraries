@@ -16,6 +16,8 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.os.Build.*;
 import android.os.Environment;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import androidx.annotation.*;
 
 import net.twisterrob.android.utils.tools.*;
