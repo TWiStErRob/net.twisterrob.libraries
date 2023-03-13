@@ -14,7 +14,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build.*;
 import android.os.*;
 import android.os.StrictMode.*;
-import android.os.StrictMode.ThreadPolicy.Builder;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -106,14 +105,16 @@ public abstract class BaseApp extends android.app.Application {
 	@CallSuper
 	protected void safeOnCreate() {
 		if (BuildConfigDEBUG) {
-			VmPolicy vmPolicy = StrictMode.getVmPolicy();
+			StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
 			if (VERSION_CODES.P <= VERSION.SDK_INT) {
-				StrictMode.setVmPolicy(new VmPolicy.Builder(vmPolicy).permitNonSdkApiUsage().build());
+				StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy)
+						.permitNonSdkApiUsage()
+						.build());
 			}
 			try {
 				AndroidStringerRepo.init(StringerRepo.getInstance(), this);
 			} finally {
-				StrictMode.setVmPolicy(vmPolicy);
+				StrictMode.setVmPolicy(originalPolicy);
 			}
 			initStetho();
 		}
@@ -245,7 +246,7 @@ public abstract class BaseApp extends android.app.Application {
 		if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {
 			return; // StrictMode was added in API 9
 		}
-		Builder threadBuilder = new Builder();
+		StrictMode.ThreadPolicy.Builder threadBuilder = new StrictMode.ThreadPolicy.Builder();
 		if (VERSION_CODES.GINGERBREAD <= VERSION.SDK_INT) {
 			threadBuilder = threadBuilder
 					.detectDiskReads()
@@ -282,7 +283,7 @@ public abstract class BaseApp extends android.app.Application {
 //		}
 		StrictMode.setThreadPolicy(threadBuilder.build());
 
-		VmPolicy.Builder vmBuilder = new VmPolicy.Builder();
+		StrictMode.VmPolicy.Builder vmBuilder = new StrictMode.VmPolicy.Builder();
 		if (VERSION_CODES.GINGERBREAD <= VERSION.SDK_INT) {
 			vmBuilder = vmBuilder
 					.detectLeakedSqlLiteObjects()
