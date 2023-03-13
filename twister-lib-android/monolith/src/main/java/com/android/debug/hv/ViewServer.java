@@ -27,6 +27,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.net.TrafficStats;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
@@ -106,6 +107,7 @@ public class ViewServer implements Runnable {
 	 * The default port used to start view servers.
 	 */
 	private static final int VIEW_SERVER_DEFAULT_PORT = 4939;
+	private static final int VIEW_SERVER_SOCKET_TAG = 3262344;
 	private static final int VIEW_SERVER_MAX_CONNECTIONS = 10;
 	private static final String BUILD_TYPE_USER = "user";
 
@@ -374,10 +376,12 @@ public class ViewServer implements Runnable {
 			Log.w(LOG_TAG, "Starting ServerSocket error: ", e);
 		}
 
+		TrafficStats.setThreadStatsTag(VIEW_SERVER_SOCKET_TAG);
 		while (mServer != null && Thread.currentThread() == mThread) {
 			// Any uncaught exception will crash the system process
 			try {
 				Socket client = mServer.accept();
+				TrafficStats.tagSocket(client);
 				if (mThreadPool != null) {
 					mThreadPool.submit(new ViewServerWorker(client));
 				} else {
