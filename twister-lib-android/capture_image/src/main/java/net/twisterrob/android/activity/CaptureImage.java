@@ -34,8 +34,6 @@ import com.bumptech.glide.request.target.*;
 
 import androidx.annotation.*;
 import androidx.core.app.ActivityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.exifinterface.media.ExifInterface;
 
 import net.twisterrob.android.capture_image.R;
