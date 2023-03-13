@@ -262,6 +262,16 @@ public abstract class BaseApp extends android.app.Application {
 					.detectResourceMismatches()
 			;
 		}
+		if (VERSION_CODES.O <= VERSION.SDK_INT) {
+			threadBuilder = threadBuilder
+					.detectUnbufferedIo()
+			;
+		}
+//		if (VERSION_CODES.U <= VERSION.SDK_INT) {
+//			threadBuilder = threadBuilder
+//					.detectExplicitGc()
+//			;
+//		}
 		StrictMode.setThreadPolicy(threadBuilder.build());
 
 		VmPolicy.Builder vmBuilder = new VmPolicy.Builder();
@@ -293,6 +303,29 @@ public abstract class BaseApp extends android.app.Application {
 			vmBuilder = vmBuilder
 					.detectCleartextNetwork()
 					//.penaltyDeathOnCleartextNetwork()
+			;
+		}
+		if (VERSION_CODES.O <= VERSION.SDK_INT) {
+			vmBuilder = vmBuilder
+					.detectContentUriWithoutPermission()
+					.detectUntaggedSockets()
+			;
+		}
+		if (VERSION_CODES.P <= VERSION.SDK_INT) {
+			vmBuilder = vmBuilder
+					.detectNonSdkApiUsage()
+			;
+		}
+		if (VERSION_CODES.Q <= VERSION.SDK_INT) {
+			vmBuilder = vmBuilder
+					.detectCredentialProtectedWhileLocked()
+					.detectImplicitDirectBoot()
+			;
+		}
+		if (VERSION_CODES.S <= VERSION.SDK_INT) {
+			vmBuilder = vmBuilder
+					.detectIncorrectContextUse()
+					.detectUnsafeIntentLaunch()
 			;
 		}
 		StrictMode.setVmPolicy(vmBuilder.build());
