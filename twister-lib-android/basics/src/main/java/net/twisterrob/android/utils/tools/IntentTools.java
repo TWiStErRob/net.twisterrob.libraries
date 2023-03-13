@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ public /*static*/ abstract class IntentTools {
 	/**
 	 * Workaround for <a href=https://issuetracker.google.com/issues/240585930>
 	 *     Intent.getParcelableExtra(String,Class) throws an NPE internally</a>.
+	 *
+	 * Similar to <a href=https://github.com/androidx/androidx/blob/a1997f091fe7b74f6f44188877f7703c4a60074a/core/core/src/main/java/androidx/core/content/IntentCompat.java#L233">AndroidX</a>
 	 */
 	@SuppressWarnings("deprecation")
 	public static @Nullable <T extends Parcelable> T getParcelableExtra(
@@ -33,11 +36,17 @@ public /*static*/ abstract class IntentTools {
 			// See https://issuetracker.google.com/issues/240585930#comment6
 			return intent.getParcelableExtra(name, clazz);
 		} else {
-			return intent.getParcelableExtra(name);
+			// SIC Delegate to the other one to closer match the behavior of the new method in API 33.
+			Bundle mExtras = intent.getExtras();
+			if (mExtras != null) {
+				return BundleTools.getParcelable(mExtras, name, clazz);
+			} else {
+				return null;
+			}
 		}
 	}
 
-	@SuppressWarnings({"deprecation", "unchecked"})
+	@SuppressWarnings("deprecation")
 	public static @Nullable <T extends Serializable> T getSerializableExtra(
 			@NonNull Intent intent, @Nullable String name, @NonNull Class<T> clazz) {
 		if (Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) {
@@ -45,7 +54,13 @@ public /*static*/ abstract class IntentTools {
 			// is not affected by https://issuetracker.google.com/issues/240585930.
 			return intent.getSerializableExtra(name, clazz);
 		} else {
-			return (T)intent.getSerializableExtra(name);
+			// SIC Delegate to the other one to closer match the behavior of the new method in API 33.
+			Bundle mExtras = intent.getExtras();
+			if (mExtras != null) {
+				return BundleTools.getSerializable(mExtras, name, clazz);
+			} else {
+				return null;
+			}
 		}
 	}
 }
