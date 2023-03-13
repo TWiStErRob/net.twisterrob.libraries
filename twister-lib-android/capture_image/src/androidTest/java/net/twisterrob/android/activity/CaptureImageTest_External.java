@@ -14,8 +14,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 
-import static androidx.test.espresso.intent.Intents.*;
-
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
 
 /**
