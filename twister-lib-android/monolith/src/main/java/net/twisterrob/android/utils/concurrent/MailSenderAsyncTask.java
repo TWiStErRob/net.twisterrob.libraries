@@ -2,14 +2,15 @@ package net.twisterrob.android.utils.concurrent;
 
 import org.slf4j.*;
 
-import android.os.AsyncTask;
-
-import net.twisterrob.java.io.MailSender;
-
-public class MailSenderAsyncTask extends AsyncTask<String, Void, Boolean> {
+/**
+ * @deprecated this doesn't belong in here, move to BLT.
+ */
+@SuppressWarnings("deprecation")
+@Deprecated
+public class MailSenderAsyncTask extends android.os.AsyncTask<String, Void, Boolean> {
 	private static final Logger LOG = LoggerFactory.getLogger(MailSenderAsyncTask.class);
 
-	private final MailSender m = new MailSender();
+	private final net.twisterrob.java.io.MailSender m = new net.twisterrob.java.io.MailSender();
 
 	public MailSenderAsyncTask(String subject, String from, String... to) {
 		m.setTo(to);

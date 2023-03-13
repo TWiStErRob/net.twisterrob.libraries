@@ -16,7 +16,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.os.Build.*;
 import android.os.Environment;
 
-import static android.Manifest.permission.*;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import androidx.annotation.*;
 

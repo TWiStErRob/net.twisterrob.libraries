@@ -19,6 +19,7 @@ public abstract class SafeAsyncTask<Param, Progress, Result>
 	}
 
 	@WorkerThread
+	@SuppressWarnings("varargs")
 	@SafeVarargs
 	@Override protected final @NonNull AsyncTaskResult<Param, Result> doInBackground(@Nullable Param... params) {
 		try {

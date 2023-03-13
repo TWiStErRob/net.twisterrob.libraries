@@ -30,7 +30,7 @@ public class RawResourceSVGExternalFileResolver
 	}
 
 	@Override public @NonNull SVG manipulate(@NonNull SVG svg) {
-		svg.registerExternalFileResolver(this);
+		SVG.registerExternalFileResolver(this);
 		return svg;
 	}
 

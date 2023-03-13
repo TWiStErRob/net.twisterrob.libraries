@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public final class CollectionTools {
 	private CollectionTools() {
@@ -56,7 +57,7 @@ public final class CollectionTools {
 		throw new IllegalArgumentException();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "varargs"})
 	@SafeVarargs
 	public static <T> T[] nonNull(T... listOrNull) {
 		return listOrNull != null? listOrNull : (T[])new Object[0];
@@ -81,6 +82,10 @@ public final class CollectionTools {
 		TreeSet<T> set = new TreeSet<>(comparator);
 		set.addAll(items);
 		return set;
+	}
+
+	public static int safeSize(@Nullable Collection<?> collection) {
+		return collection == null? 0 : collection.size();
 	}
 
 	private static class SetFromMap<E> extends AbstractSet<E> implements Serializable {

@@ -42,3 +42,12 @@ android {
 		}
 	}
 }
+
+tasks.withType<JavaCompile>().configureEach javac@{
+	this@javac.options.compilerArgs = this@javac.options.compilerArgs + listOf(
+		// Google's compilers emit some weird stuff (espresso, dagger, etc.)
+		// warning: [classfile] MethodParameters attribute introduced in version 52.0 class files
+		// is ignored in version 51.0 class files
+		"-Xlint:-classfile",
+	)
+}

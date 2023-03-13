@@ -5,13 +5,17 @@ public class AsyncTaskResult<Param, Result> {
 	private final Result result;
 	private final Exception error;
 
-	@SafeVarargs public AsyncTaskResult(Result result, Param... params) {
+	@SuppressWarnings("varargs")
+	@SafeVarargs
+	public AsyncTaskResult(Result result, Param... params) {
 		this.params = params;
 		this.result = result;
 		this.error = null;
 	}
 
-	@SafeVarargs public AsyncTaskResult(Exception error, Param... params) {
+	@SuppressWarnings("varargs")
+	@SafeVarargs
+	public AsyncTaskResult(Exception error, Param... params) {
 		this.params = params;
 		this.result = null;
 		this.error = error;

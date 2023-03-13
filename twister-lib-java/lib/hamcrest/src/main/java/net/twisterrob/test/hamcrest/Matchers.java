@@ -22,11 +22,13 @@ public class Matchers {
 		return new ExactlyOneOf<>(matchers);
 	}
 
+	@SuppressWarnings("varargs")
 	@SafeVarargs
 	public static <T> ExactlyOneOf<T> exactlyOneOf(Matcher<? super T>... matchers) {
 		return Matchers.<T>exactlyOneOf(Arrays.asList(matchers));
 	}
 
+	@SuppressWarnings("varargs")
 	@SafeVarargs
 	public static <K, V> Matcher<Map<? extends K, ? extends V>> containsEntries(
 			Matcher<? super Map<? extends K, ? extends V>>... matchers) {

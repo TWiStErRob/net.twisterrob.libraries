@@ -35,6 +35,7 @@ public class IsMapContainsEntries<K, V> extends TypeSafeDiagnosingMatcher<Map<? 
 		           .appendText(" in any order");
 	}
 
+	@SuppressWarnings("varargs")
 	@SafeVarargs
 	static <K, V> Matcher<Map<? extends K, ? extends V>> containsEntries(
 			Matcher<? super Map<? extends K, ? extends V>>... matchers) {
