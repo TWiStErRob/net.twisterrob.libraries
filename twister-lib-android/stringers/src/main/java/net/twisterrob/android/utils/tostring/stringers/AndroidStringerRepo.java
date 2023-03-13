@@ -34,6 +34,8 @@ public class AndroidStringerRepo {
 		repo.register("androidx.drawerlayout.widget.DrawerLayout$SavedState", new DrawerLayoutStateStringer());
 		repo.register(androidx.fragment.app.Fragment.SavedState.class, new SupportFragmentSavedStateStringer());
 		repo.register("androidx.fragment.app.FragmentManagerState", new SupportFragmentManagerStateStringer());
+		repo.register("android.app.FragmentManagerState", new FragmentManagerStateStringer());
+		repo.register("android.app.FragmentState", new FragmentStateStringer());
 		repo.register(androidx.loader.content.Loader.class, new SupportLoaderStringer());
 		repo.register(android.content.Intent.class, new IntentStringer());
 		repo.register(android.app.PendingIntent.class, new PendingIntentStringer());

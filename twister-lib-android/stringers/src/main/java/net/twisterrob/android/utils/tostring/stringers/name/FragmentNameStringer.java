@@ -14,6 +14,7 @@ public class FragmentNameStringer extends Stringer<Fragment> {
 			append.selfDescribingProperty(StringTools.NULL_STRING);
 			return;
 		}
-		append.identity(StringTools.hashString(fragment), ReflectionTools.get(fragment, "mWho"));
+		String mWho = ReflectionTools.get(fragment, "mWho");
+		append.identity(StringTools.hashString(fragment), mWho);
 	}
 }

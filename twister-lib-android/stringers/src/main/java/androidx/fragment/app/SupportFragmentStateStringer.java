@@ -35,6 +35,8 @@ public class SupportFragmentStateStringer extends Stringer<FragmentState> {
 		append.booleanProperty(state.mFromLayout, "from layout");
 		append.booleanProperty(state.mRetainInstance, "retained");
 		append.booleanProperty(state.mDetached, "detached", "attached");
+		append.booleanProperty(state.mHidden, "hidded");
+		append.booleanProperty(state.mRemoving, "removing");
 		appendNullDetails(append, state);
 	}
 
