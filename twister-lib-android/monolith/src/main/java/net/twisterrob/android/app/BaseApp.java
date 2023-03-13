@@ -316,18 +316,18 @@ public abstract class BaseApp extends android.app.Application {
 					.detectNonSdkApiUsage()
 			;
 		}
-		if (VERSION_CODES.Q <= VERSION.SDK_INT) {
-			vmBuilder = vmBuilder
-					.detectCredentialProtectedWhileLocked()
-					.detectImplicitDirectBoot()
-			;
-		}
-		if (VERSION_CODES.S <= VERSION.SDK_INT) {
-			vmBuilder = vmBuilder
-					.detectIncorrectContextUse()
-					.detectUnsafeIntentLaunch()
-			;
-		}
+//		if (VERSION_CODES.Q <= VERSION.SDK_INT) {
+//			vmBuilder = vmBuilder
+//					.detectCredentialProtectedWhileLocked()
+//					.detectImplicitDirectBoot()
+//			;
+//		}
+//		if (VERSION_CODES.S <= VERSION.SDK_INT) {
+//			vmBuilder = vmBuilder
+//					.detectIncorrectContextUse()
+//					.detectUnsafeIntentLaunch()
+//			;
+//		}
 		StrictMode.setVmPolicy(vmBuilder.build());
 	}
 
