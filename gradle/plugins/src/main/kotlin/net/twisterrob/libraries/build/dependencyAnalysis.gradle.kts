@@ -24,6 +24,8 @@ dependencyAnalysis {
 			onIncorrectConfiguration {
 				// R8 needs the annotations to be on the runtime classpath too.
 				exclude(libs.annotations.jsr305.get().toString())
+				// REPORT javac needs @Contract to be on the compile classpath with -Wall.
+				exclude(libs.annotations.jetbrains.get().toString())
 			}
 			onUnusedDependencies {
 				// R8 needs the annotations to be on the runtime classpath too.
