@@ -1,5 +1,6 @@
 package android.app;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -46,14 +47,19 @@ public class FragmentStateStringer extends Stringer<Object /*FragmentState*/> {
 	private void appendFlags(
 			@NonNull ToStringAppender append, @NonNull Object /*FragmentState*/ state) {
 		boolean mFromLayout = ReflectionTools.get(state, "mFromLayout");
-		boolean mRetainInstance = ReflectionTools.get(state, "mRetainInstance");
-		boolean mDetached = ReflectionTools.get(state, "mDetached");
-		boolean mHidden = ReflectionTools.get(state, "mHidden");
-
 		append.booleanProperty(mFromLayout, "from layout");
+
+		boolean mRetainInstance = ReflectionTools.get(state, "mRetainInstance");
 		append.booleanProperty(mRetainInstance, "retained");
+
+		boolean mDetached = ReflectionTools.get(state, "mDetached");
 		append.booleanProperty(mDetached, "detached", "attached");
-		append.booleanProperty(mHidden, "hidden");
+
+		if (Build.VERSION_CODES.O_MR1 <= Build.VERSION.SDK_INT) {
+			boolean mHidden = ReflectionTools.get(state, "mHidden");
+			append.booleanProperty(mHidden, "hidden");
+		}
+
 		appendNullDetails(append, state);
 	}
 
