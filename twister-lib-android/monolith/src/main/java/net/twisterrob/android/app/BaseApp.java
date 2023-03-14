@@ -14,7 +14,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build.*;
 import android.os.*;
 import android.os.StrictMode.*;
-import android.os.StrictMode.ThreadPolicy.Builder;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -225,6 +224,7 @@ public abstract class BaseApp extends android.app.Application {
 	@UiThread
 	protected void doToastUser(CharSequence message) {
 		//LOG.trace("User Toast: {}", message, new StackTrace());
+		// TODO https://github.com/TWiStErRob/net.twisterrob.libraries/issues/37
 		Toast.makeText(getAppContext(), message, Toast.LENGTH_LONG).show();
 	}
 
@@ -237,7 +237,7 @@ public abstract class BaseApp extends android.app.Application {
 		if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {
 			return; // StrictMode was added in API 9
 		}
-		Builder threadBuilder = new Builder();
+		StrictMode.ThreadPolicy.Builder threadBuilder = new StrictMode.ThreadPolicy.Builder();
 		if (VERSION_CODES.GINGERBREAD <= VERSION.SDK_INT) {
 			threadBuilder = threadBuilder
 					.detectDiskReads()
@@ -274,7 +274,7 @@ public abstract class BaseApp extends android.app.Application {
 //		}
 		StrictMode.setThreadPolicy(threadBuilder.build());
 
-		VmPolicy.Builder vmBuilder = new VmPolicy.Builder();
+		StrictMode.VmPolicy.Builder vmBuilder = new StrictMode.VmPolicy.Builder();
 		if (VERSION_CODES.GINGERBREAD <= VERSION.SDK_INT) {
 			vmBuilder = vmBuilder
 					.detectLeakedSqlLiteObjects()
@@ -316,18 +316,19 @@ public abstract class BaseApp extends android.app.Application {
 					.detectNonSdkApiUsage()
 			;
 		}
-//		if (VERSION_CODES.Q <= VERSION.SDK_INT) {
-//			vmBuilder = vmBuilder
-//					.detectCredentialProtectedWhileLocked()
-//					.detectImplicitDirectBoot()
-//			;
-//		}
-//		if (VERSION_CODES.S <= VERSION.SDK_INT) {
-//			vmBuilder = vmBuilder
-//					.detectIncorrectContextUse()
-//					.detectUnsafeIntentLaunch()
-//			;
-//		}
+		if (VERSION_CODES.Q <= VERSION.SDK_INT) {
+			vmBuilder = vmBuilder
+					.detectCredentialProtectedWhileLocked()
+					.detectImplicitDirectBoot()
+			;
+		}
+		if (VERSION_CODES.S <= VERSION.SDK_INT) {
+			vmBuilder = vmBuilder
+					// TODO https://issuetracker.google.com/issues/273326513
+					//.detectIncorrectContextUse()
+					.detectUnsafeIntentLaunch()
+			;
+		}
 		StrictMode.setVmPolicy(vmBuilder.build());
 	}
 

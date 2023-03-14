@@ -23,7 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
  *
  * @see <a href="https://gist.github.com/Shywim/127f207e7248fe48400b">Github > Shywim > CursorRecyclerAdapter.java</a>
  */
-public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
+public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
+		extends RecyclerView.Adapter<VH>
 		implements Filterable, CursorFilter.CursorFilterClient {
 	public static final int AUTO_REQUERY_BG = androidx.cursoradapter.widget.CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER;
 
@@ -150,6 +151,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
 	 * Cursor, null is also returned.
 	 */
 	@SuppressLint("NotifyDataSetChanged") // Everything is changed, so notify all.
+	@CheckResult
 	public @Nullable Cursor swapCursor(@Nullable Cursor newCursor) {
 		if (newCursor == mCursor) {
 			return null;
@@ -163,7 +165,6 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
 				oldCursor.unregisterDataSetObserver(mDataSetObserver);
 			}
 		}
-		mCursor = newCursor;
 		if (newCursor != null) {
 			if (mChangeObserver != null) {
 				newCursor.registerContentObserver(mChangeObserver);
@@ -173,13 +174,17 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
 			}
 			mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
 			mDataValid = true;
+			mCursor = newCursor;
 			// notify the observers about the new cursor
 			notifyDataSetChanged();
 		} else {
+			// Make sure getting count is before all mutation, otherwise it's invalid.
+			int oldCount = getItemCount();
 			mRowIDColumn = -1;
 			mDataValid = false;
+			mCursor = null;
 			// notify the observers about the lack of a data set
-			notifyItemRangeRemoved(0, getItemCount()); // =~= notifyDataSetInvalidated();
+			notifyItemRangeRemoved(0, oldCount); // =~= notifyDataSetInvalidated();
 		}
 		return oldCursor;
 	}

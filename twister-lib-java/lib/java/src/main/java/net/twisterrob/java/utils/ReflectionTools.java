@@ -54,12 +54,10 @@ public class ReflectionTools {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <T> T get(@Nonnull Object object, @Nonnull String fieldName) {
 		try {
 			Field field = findDeclaredField(object.getClass(), fieldName);
-			field.setAccessible(true);
-			return (T)field.get(object);
+			return get(object, field);
 		} catch (Exception ex) {
 			//noinspection ConstantConditions prevent NPE when object is null, even though it was declared not null
 			Class<?> clazz = object != null? object.getClass() : null;
@@ -68,15 +66,38 @@ public class ReflectionTools {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> T get(@Nonnull Object object, @Nonnull Field field) {
+		try {
+			field.setAccessible(true);
+			return (T)field.get(object);
+		} catch (Exception ex) {
+			//noinspection ConstantConditions prevent NPE when object is null, even though it was declared not null
+			Class<?> clazz = object != null? object.getClass() : null;
+			LOG.warn("Cannot read field {} of ({}){}", field, clazz, object, ex);
+		}
+		return null;
+	}
+
 	public static void set(@Nonnull Object object, @Nonnull String fieldName, @Nullable Object value) {
 		try {
 			Field field = findDeclaredField(object.getClass(), fieldName);
+			set(object, field, value);
+		} catch (Exception ex) {
+			//noinspection ConstantConditions prevent NPE when object is null, even though it was declared not null
+			Class<?> clazz = object != null? object.getClass() : null;
+			LOG.warn("Cannot write field {} of ({}){}", fieldName, clazz, object, ex);
+		}
+	}
+
+	public static void set(@Nonnull Object object, @Nonnull Field field, @Nullable Object value) {
+		try {
 			field.setAccessible(true);
 			field.set(object, value);
 		} catch (Exception ex) {
 			//noinspection ConstantConditions prevent NPE when object is null, even though it was declared not null
 			Class<?> clazz = object != null? object.getClass() : null;
-			LOG.warn("Cannot write field {} of ({}){}", fieldName, clazz, object, ex);
+			LOG.warn("Cannot write field {} of ({}){}", field, clazz, object, ex);
 		}
 	}
 
@@ -206,5 +227,13 @@ public class ReflectionTools {
 	public static Throwable clearCause(Throwable exception) {
 		set(exception, "cause", exception);
 		return exception;
+	}
+
+	public static @Nullable Class<?> tryForName(@Nonnegative String className) {
+		try {
+			return Class.forName(className);
+		} catch (ClassNotFoundException ex) {
+			return null;
+		}
 	}
 }
