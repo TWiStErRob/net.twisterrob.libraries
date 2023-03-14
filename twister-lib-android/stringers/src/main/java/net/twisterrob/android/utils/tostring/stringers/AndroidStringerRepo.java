@@ -22,7 +22,7 @@ import net.twisterrob.java.utils.tostring.StringerRepo;
 
 @TargetApi(VERSION_CODES.HONEYCOMB_MR2)
 public class AndroidStringerRepo {
-	public static void init(StringerRepo repo, Context context) {
+	public static void init(@NonNull StringerRepo repo, @NonNull Context context) {
 		ResourceNameStringer.INSTANCE = new ResourceNameStringer(context);
 		repo.register(AbsSavedState.class, new AbsSavedStateStringer());
 		repo.register(com.google.android.material.navigation.NavigationView.SavedState.class,
@@ -34,8 +34,6 @@ public class AndroidStringerRepo {
 		repo.register("androidx.drawerlayout.widget.DrawerLayout$SavedState", new DrawerLayoutStateStringer());
 		repo.register(androidx.fragment.app.Fragment.SavedState.class, new SupportFragmentSavedStateStringer());
 		repo.register("androidx.fragment.app.FragmentManagerState", new SupportFragmentManagerStateStringer());
-		repo.register("android.app.FragmentManagerState", new FragmentManagerStateStringer());
-		repo.register("android.app.FragmentState", new FragmentStateStringer());
 		repo.register(androidx.loader.content.Loader.class, new SupportLoaderStringer());
 		repo.register(android.content.Intent.class, new IntentStringer());
 		repo.register(android.app.PendingIntent.class, new PendingIntentStringer());
@@ -67,10 +65,11 @@ public class AndroidStringerRepo {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void registerDeprecated(
-			@NonNull StringerRepo repo, @SuppressWarnings("unused") Context context) {
+	private static void registerDeprecated(@NonNull StringerRepo repo, @NonNull Context context) {
 		if (VERSION_CODES.HONEYCOMB_MR2 <= VERSION.SDK_INT) {
 			repo.register(android.app.Fragment.SavedState.class, new FragmentSavedStateStringer());
+			repo.register("android.app.FragmentManagerState", new FragmentManagerStateStringer(context.getContentResolver()));
+			repo.register("android.app.FragmentState", new FragmentStateStringer());
 		}
 		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
 			repo.register(android.content.Loader.class, new LoaderStringer());

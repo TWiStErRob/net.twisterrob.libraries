@@ -11,6 +11,10 @@ import net.twisterrob.java.utils.tostring.Stringer;
 import net.twisterrob.java.utils.tostring.ToStringAppender;
 import net.twisterrob.java.utils.tostring.stringers.DefaultStringer;
 
+/**
+ * This does not have any logic to handle Hidden APIs, because it's protected by {@link FragmentManagerStateStringer}.
+ * The only location of instances of this class is in {@code FragmentManagerState.mActive[]}.
+ */
 @SuppressWarnings("ConstantConditions")
 public class FragmentStateStringer extends Stringer<Object /*FragmentState*/> {
 	@Override public void toString(
