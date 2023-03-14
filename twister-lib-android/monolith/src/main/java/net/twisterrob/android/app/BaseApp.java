@@ -233,8 +233,8 @@ public abstract class BaseApp extends android.app.Application {
 
 	@UiThread
 	protected void doToastUser(CharSequence message) {
-		// TODO https://github.com/TWiStErRob/net.twisterrob.libraries/issues/37
 		//LOG.trace("User Toast: {}", message, new StackTrace());
+		// TODO https://github.com/TWiStErRob/net.twisterrob.libraries/issues/37
 		Toast.makeText(getAppContext(), message, Toast.LENGTH_LONG).show();
 	}
 
