@@ -105,17 +105,7 @@ public abstract class BaseApp extends android.app.Application {
 	@CallSuper
 	protected void safeOnCreate() {
 		if (BuildConfigDEBUG) {
-			StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
-			if (VERSION_CODES.P <= VERSION.SDK_INT) {
-				StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy)
-						.permitNonSdkApiUsage()
-						.build());
-			}
-			try {
-				AndroidStringerRepo.init(StringerRepo.getInstance(), this);
-			} finally {
-				StrictMode.setVmPolicy(originalPolicy);
-			}
+			AndroidStringerRepo.init(StringerRepo.getInstance(), this);
 			initStetho();
 		}
 		initPreferences();
