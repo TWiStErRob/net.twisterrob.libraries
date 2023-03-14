@@ -164,7 +164,6 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 				oldCursor.unregisterDataSetObserver(mDataSetObserver);
 			}
 		}
-		mCursor = newCursor;
 		if (newCursor != null) {
 			if (mChangeObserver != null) {
 				newCursor.registerContentObserver(mChangeObserver);
@@ -174,13 +173,17 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 			}
 			mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
 			mDataValid = true;
+			mCursor = newCursor;
 			// notify the observers about the new cursor
 			notifyDataSetChanged();
 		} else {
+			// Make sure getting count is before all mutation, otherwise it's invalid.
+			int oldCount = getItemCount();
 			mRowIDColumn = -1;
 			mDataValid = false;
+			mCursor = null;
 			// notify the observers about the lack of a data set
-			notifyItemRangeRemoved(0, getItemCount()); // =~= notifyDataSetInvalidated();
+			notifyItemRangeRemoved(0, oldCount); // =~= notifyDataSetInvalidated();
 		}
 		return oldCursor;
 	}
