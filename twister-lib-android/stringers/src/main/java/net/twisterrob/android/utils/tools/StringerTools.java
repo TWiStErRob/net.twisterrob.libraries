@@ -23,48 +23,12 @@ public class StringerTools {
 
 	@DebugHelper
 	public static @NonNull <T> String toShortString(T value) {
-		/*
-			StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation:
-			Landroid/app/FragmentManagerState;->mActive:[Landroid/app/FragmentState;
-			at net.twisterrob.java.utils.ReflectionTools.findDeclaredField(ReflectionTools.java:92)
-			at net.twisterrob.java.utils.ReflectionTools.get(ReflectionTools.java:60)
-			at android.app.FragmentManagerStateStringer.toString(FragmentManagerStateStringer.java:27)
-			at net.twisterrob.android.utils.tools.StringerTools.toString(StringerTools.java:27)
-			net.twisterrob.android.utils.log.LoggingActivity.log(LoggingActivity.java:439)
-		 */
-		StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
-		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
-			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy)
-					.permitNonSdkApiUsage().build());
-		}
-		try {
-			return new ToStringer(StringerRepo.INSTANCE, value, false).toString();
-		} finally {
-			StrictMode.setVmPolicy(originalPolicy);
-		}
+		return new ToStringer(StringerRepo.INSTANCE, value, false).toString();
 	}
 
 	@DebugHelper
 	public static @NonNull <T> String toString(T value) {
-		/*
-			StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation:
-			Landroid/app/FragmentManagerState;->mActive:[Landroid/app/FragmentState;
-			at net.twisterrob.java.utils.ReflectionTools.findDeclaredField(ReflectionTools.java:92)
-			at net.twisterrob.java.utils.ReflectionTools.get(ReflectionTools.java:60)
-			at android.app.FragmentManagerStateStringer.toString(FragmentManagerStateStringer.java:27)
-			at net.twisterrob.android.utils.tools.StringerTools.toString(StringerTools.java:27)
-			net.twisterrob.android.utils.log.LoggingActivity.log(LoggingActivity.java:439)
-		 */
-		StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
-		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
-			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy)
-					.permitNonSdkApiUsage().build());
-		}
-		try {
-			return new ToStringer(StringerRepo.INSTANCE, value, true).toString();
-		} finally {
-			StrictMode.setVmPolicy(originalPolicy);
-		}
+		return new ToStringer(StringerRepo.INSTANCE, value, true).toString();
 	}
 
 	/** @see ComponentCallbacks2 */
