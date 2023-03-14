@@ -23,7 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
  *
  * @see <a href="https://gist.github.com/Shywim/127f207e7248fe48400b">Github > Shywim > CursorRecyclerAdapter.java</a>
  */
-public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
+public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
+		extends RecyclerView.Adapter<VH>
 		implements Filterable, CursorFilter.CursorFilterClient {
 	public static final int AUTO_REQUERY_BG = androidx.cursoradapter.widget.CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER;
 
