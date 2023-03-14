@@ -182,7 +182,7 @@ jobs:
 
       - name: "Publish 'Instrumentation Results ${{ matrix.android-api }}' check suite."
         if: success() || failure()
-        uses: EnricoMi/publish-unit-test-result-action/composite@master
+        uses: EnricoMi/publish-unit-test-result-action/composite@b1e53583d373f5d1a4094014bb8a544d07ba3c8b
         with:
           check_name: '🔔 Test: Instrumentation Results ${{ matrix.android-api }}'
           comment_mode: off
