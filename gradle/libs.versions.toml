@@ -22,7 +22,6 @@ guava-jre = "27.0.1-jre"
 android-svg = "1.4"
 android-glide3 = "3.8.0"
 android-guava = "27.0.1-android"
-android-lrucache = "2.0.2"
 android-colorpicker = "2.4.2"
 
 # https://developer.android.com/jetpack/androidx/releases/annotation
@@ -95,7 +94,6 @@ guava-jre = { module = "com.google.guava:guava", version.ref = "guava-jre" }
 android-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide3" }
 android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" }
 android-guava = { module = "com.google.guava:guava", version.ref = "android-guava" }
-android-lrucache = { module = "com.jakewharton:disklrucache", version.ref = "android-lrucache" }
 android-colorpicker = { module = "com.rarepebble:colorpicker", version.ref = "android-colorpicker" }
 
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
