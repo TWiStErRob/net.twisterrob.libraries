@@ -5,6 +5,9 @@ import java.lang.reflect.*;
 import org.slf4j.*;
 
 import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
+import android.os.StrictMode;
 
 import androidx.annotation.NonNull;
 
@@ -20,9 +23,9 @@ public class PendingIntentStringer extends Stringer<PendingIntent> {
 	 * @since API VERSION_CODES.JELLY_BEAN_MR2
 	 * @until API VERSION_CODES.N https://stackoverflow.com/q/42401911/253468
 	 */
-	private static final Method getIntent = ReflectionTools.tryFindDeclaredMethod(PendingIntent.class, "getIntent");
+	private static final Method getIntent;
 	/** @since API 16 */
-	private static final Method isActivity = ReflectionTools.tryFindDeclaredMethod(PendingIntent.class, "isActivity");
+	private static final Method isActivity;
 
 	@Override public void toString(@NonNull ToStringAppender append, PendingIntent pending) {
 		append.identity(pending, null);
@@ -32,13 +35,31 @@ public class PendingIntentStringer extends Stringer<PendingIntent> {
 			}
 			if (getIntent != null) {
 				try {
-					append.complexProperty("intent", getIntent.invoke(pending));
+					append.complexProperty("intent", (Intent)getIntent.invoke(pending));
 				} catch (InvocationTargetException ex) {
 					append.rawProperty("intent", ex.getCause().toString());
 				}
 			}
 		} catch (Exception ex) {
 			LOG.warn("Cannot inspect PendingIntent", ex);
+		}
+	}
+
+	static {
+		// Accessing hidden method Landroid/app/PendingIntent;->getIntent()Landroid/content/Intent; (unsupported, reflection, allowed)
+		// StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation:
+		// Landroid/app/PendingIntent;->getIntent()Landroid/content/Intent;
+		StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
+		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy)
+					.permitNonSdkApiUsage()
+					.build());
+		}
+		try {
+			getIntent = ReflectionTools.tryFindDeclaredMethod(PendingIntent.class, "getIntent");
+			isActivity = ReflectionTools.tryFindDeclaredMethod(PendingIntent.class, "isActivity");
+		} finally {
+			StrictMode.setVmPolicy(originalPolicy);
 		}
 	}
 }
