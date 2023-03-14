@@ -151,6 +151,7 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 	 * Cursor, null is also returned.
 	 */
 	@SuppressLint("NotifyDataSetChanged") // Everything is changed, so notify all.
+	@CheckResult
 	public @Nullable Cursor swapCursor(@Nullable Cursor newCursor) {
 		if (newCursor == mCursor) {
 			return null;
