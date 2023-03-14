@@ -5,8 +5,6 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.*;
 import android.graphics.Color;
-import android.os.Build;
-import android.os.StrictMode;
 
 import androidx.annotation.*;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,17 +18,14 @@ import net.twisterrob.java.utils.tostring.*;
 import net.twisterrob.java.utils.tostring.stringers.DefaultNameStringer;
 
 public class StringerTools {
-
 	@DebugHelper
 	public static @NonNull <T> String toShortString(T value) {
 		return new ToStringer(StringerRepo.INSTANCE, value, false).toString();
 	}
-
 	@DebugHelper
 	public static @NonNull <T> String toString(T value) {
 		return new ToStringer(StringerRepo.INSTANCE, value, true).toString();
 	}
-
 	/** @see ComponentCallbacks2 */
 	@DebugHelper
 	public static String toTrimMemoryString(@TrimMemoryLevel int level) {
