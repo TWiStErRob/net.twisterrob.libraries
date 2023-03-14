@@ -680,19 +680,6 @@ public /*static*/ abstract class AndroidTools {
 	}
 
 	/**
-	 * @see Activity#getWindow()
-	 */
-	@SuppressWarnings("deprecation")
-	public static void setFullscreen(@NonNull Window window) {
-		if (VERSION_CODES.R <= VERSION.SDK_INT) {
-			window.getInsetsController().hide(WindowInsets.Type.statusBars());
-		} else {
-			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		}
-	}
-
-	/**
 	 * Similar to using the below flags in the theme, but works after the fact.
 	 * <pre><code>
 	 * &lt;item name="android:windowTranslucentStatus">true&lt;/item>
