@@ -5,6 +5,8 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.*;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.StrictMode;
 
 import androidx.annotation.*;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -18,14 +20,53 @@ import net.twisterrob.java.utils.tostring.*;
 import net.twisterrob.java.utils.tostring.stringers.DefaultNameStringer;
 
 public class StringerTools {
+
 	@DebugHelper
 	public static @NonNull <T> String toShortString(T value) {
-		return new ToStringer(StringerRepo.INSTANCE, value, false).toString();
+		/*
+			StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation:
+			Landroid/app/FragmentManagerState;->mActive:[Landroid/app/FragmentState;
+			at net.twisterrob.java.utils.ReflectionTools.findDeclaredField(ReflectionTools.java:92)
+			at net.twisterrob.java.utils.ReflectionTools.get(ReflectionTools.java:60)
+			at android.app.FragmentManagerStateStringer.toString(FragmentManagerStateStringer.java:27)
+			at net.twisterrob.android.utils.tools.StringerTools.toString(StringerTools.java:27)
+			net.twisterrob.android.utils.log.LoggingActivity.log(LoggingActivity.java:439)
+		 */
+		StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
+		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy)
+					.permitNonSdkApiUsage().build());
+		}
+		try {
+			return new ToStringer(StringerRepo.INSTANCE, value, false).toString();
+		} finally {
+			StrictMode.setVmPolicy(originalPolicy);
+		}
 	}
+
 	@DebugHelper
 	public static @NonNull <T> String toString(T value) {
-		return new ToStringer(StringerRepo.INSTANCE, value, true).toString();
+		/*
+			StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation:
+			Landroid/app/FragmentManagerState;->mActive:[Landroid/app/FragmentState;
+			at net.twisterrob.java.utils.ReflectionTools.findDeclaredField(ReflectionTools.java:92)
+			at net.twisterrob.java.utils.ReflectionTools.get(ReflectionTools.java:60)
+			at android.app.FragmentManagerStateStringer.toString(FragmentManagerStateStringer.java:27)
+			at net.twisterrob.android.utils.tools.StringerTools.toString(StringerTools.java:27)
+			net.twisterrob.android.utils.log.LoggingActivity.log(LoggingActivity.java:439)
+		 */
+		StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
+		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy)
+					.permitNonSdkApiUsage().build());
+		}
+		try {
+			return new ToStringer(StringerRepo.INSTANCE, value, true).toString();
+		} finally {
+			StrictMode.setVmPolicy(originalPolicy);
+		}
 	}
+
 	/** @see ComponentCallbacks2 */
 	@DebugHelper
 	public static String toTrimMemoryString(@TrimMemoryLevel int level) {
