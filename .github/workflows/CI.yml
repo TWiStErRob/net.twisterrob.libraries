@@ -162,7 +162,7 @@ jobs:
           profile: pixel
           script: |
             adb devices -l
-            ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace connectedCheck
+            ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace :about:connectedCheck
 
       - name: "Upload 'Instrumentation Test Results ${{ matrix.android-api }}' artifact."
         if: success() || failure()
