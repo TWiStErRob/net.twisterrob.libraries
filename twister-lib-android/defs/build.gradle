@@ -5,7 +5,7 @@ plugins {
 android.namespace = "net.twisterrob.android.annotation.defs"
 
 dependencies {
-	compileOnly(libs.androidx.annotation)
+	implementation(libs.androidx.annotation)
 	compileOnly(libs.androidx.core)
 	compileOnly(libs.androidx.drawerlayout)
 	compileOnly(libs.androidx.material)
