@@ -11,6 +11,7 @@ agp = "7.4.2"
 twisterrob = "0.15.1"
 detekt = "1.22.0"
 dependencyAnalysis = "1.19.0"
+kotlin = "1.8.10"
 
 jsr305 = "3.0.2"
 jbrAnn = "18.0.0"
@@ -46,6 +47,8 @@ androidx-drawerlayout = "1.1.1"
 androidx-swiperefreshlayout = "1.1.0"
 # https://developer.android.com/jetpack/androidx/releases/preference
 androidx-preference = "1.2.0"
+# https://developer.android.com/jetpack/androidx/releases/lifecycle
+androidx-lifecycle = "2.6.0"
 # https://github.com/material-components/material-components-android/releases
 androidx-material = "1.8.0"
 
@@ -80,6 +83,8 @@ plugin-twisterrob-quality = { module = "net.twisterrob.gradle:twister-quality", 
 plugin-twisterrob-android = { module = "net.twisterrob.gradle:twister-convention-plugins", version.ref = "twisterrob" }
 plugin-dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
 
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
+
 annotations-jetbrains = { module = "org.jetbrains:annotations", version.ref = "jbrAnn" }
 annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
 
@@ -103,6 +108,7 @@ androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "andr
 androidx-drawerlayout = { module = "androidx.drawerlayout:drawerlayout", version.ref = "androidx-drawerlayout" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
 androidx-preference = { module = "androidx.preference:preference", version.ref = "androidx-preference" }
+androidx-lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-material = { module = "com.google.android.material:material", version.ref = "androidx-material" }
 
 test-android-mockito = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
