@@ -1,15 +1,18 @@
 package androidx.fragment.app;
 
-import androidx.annotation.*;
+import androidx.annotation.AnimRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import static androidx.lifecycle.Lifecycle.*;
+import static androidx.lifecycle.Lifecycle.State;
 
 import net.twisterrob.android.utils.tostring.stringers.name.ResourceNameStringer;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
-public class SupportBackStackStateStringer extends Stringer<BackStackState> {
+public class SupportBackStackRecordStateStringer extends Stringer<BackStackRecordState> {
 
-	@Override public void toString(@NonNull ToStringAppender append, BackStackState state) {
+	@Override public void toString(@NonNull ToStringAppender append, BackStackRecordState state) {
 		append.identity(state.mIndex, state.mName);
 		append.selfDescribingProperty(TransitionCommand.Converter.toString(state.mTransition));
 		append.booleanProperty(state.mReorderingAllowed, "reordering allowed",
@@ -20,12 +23,12 @@ public class SupportBackStackStateStringer extends Stringer<BackStackState> {
 	}
 
 	/**
-	 * Based on how {@link BackStackState#mOps} is written and read.
-	 * @see BackStackState#mOps
-	 * @see BackStackState#BackStackState(BackStackRecord)
-	 * @see BackStackState#instantiate(FragmentManager)
+	 * Based on how {@link BackStackRecordState#mOps} is written and read.
+	 * @see BackStackRecordState#mOps
+	 * @see BackStackRecordState#BackStackRecordState(BackStackRecord)
+	 * @see BackStackRecordState#instantiate(FragmentManager)
 	 */
-	private void appendOps(ToStringAppender append, BackStackState state) {
+	private void appendOps(ToStringAppender append, BackStackRecordState state) {
 		int size = state.mOps.length / OpsRef.OPS_LENGTH;
 		if (size > 1) {
 			append.beginSizedList("ops", size);
@@ -49,7 +52,7 @@ public class SupportBackStackStateStringer extends Stringer<BackStackState> {
 		assert opsPos == state.mOps.length;
 	}
 
-	private static void appendShared(ToStringAppender append, BackStackState state) {
+	private static void appendShared(ToStringAppender append, BackStackRecordState state) {
 		append.beginPropertyGroup("shared");
 		if (state.mSharedElementSourceNames != null && state.mSharedElementTargetNames != null) {
 			int sharedNamesCount = state.mSharedElementSourceNames.size();
@@ -63,7 +66,7 @@ public class SupportBackStackStateStringer extends Stringer<BackStackState> {
 	}
 
 	@SuppressWarnings("unused")
-	private void appendBreadCrumb(ToStringAppender append, BackStackState state) {
+	private void appendBreadCrumb(ToStringAppender append, BackStackRecordState state) {
 		// mBreadCrumbTitleRes, mBreadCrumbTitleText is deprecated
 		// mBreadCrumbShortTitleRes, mBreadCrumbShortTitleText is deprecated
 	}

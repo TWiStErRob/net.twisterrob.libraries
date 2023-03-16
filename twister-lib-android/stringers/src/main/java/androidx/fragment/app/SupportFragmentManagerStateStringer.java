@@ -11,16 +11,16 @@ public class SupportFragmentManagerStateStringer extends Stringer<FragmentManage
 	@Override public void toString(@NonNull ToStringAppender append, FragmentManagerState state) {
 		append.beginSizedList("backstack", ArrayTools.safeLength(state.mBackStack), false);
 		if (state.mBackStack != null) {
-			for (BackStackState bs : state.mBackStack) {
-				append.item(bs);
+			for (BackStackRecordState record : state.mBackStack) {
+				append.item(record);
 			}
 		}
 		append.endSizedList();
 		append.item("added", state.mAdded);
 		append.beginSizedList("active fragments", CollectionTools.safeSize(state.mActive), false);
 		if (state.mActive != null) {
-			for (FragmentState bs : state.mActive) {
-				append.item(bs);
+			for (String active : state.mActive) {
+				append.item(active);
 			}
 		}
 		append.endSizedList();
