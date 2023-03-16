@@ -5,7 +5,8 @@ import java.util.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.*;
 
-public class StaticFragmentPagerAdapter extends FragmentPagerAdapter {
+@Deprecated @SuppressWarnings("deprecation")
+public class StaticFragmentPagerAdapter extends androidx.fragment.app.FragmentPagerAdapter {
 	private final List<Fragment> fragments = new ArrayList<>();
 	private final List<String> fragmentTitles = new ArrayList<>();
 
