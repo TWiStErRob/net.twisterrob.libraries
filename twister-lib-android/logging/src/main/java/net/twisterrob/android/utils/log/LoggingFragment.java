@@ -130,6 +130,7 @@ public class LoggingFragment extends Fragment {
 
 	// Activity.onCreateOptionsMenu
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
 		log("onCreateOptionsMenu", menu, menuInflater);
 		super.onCreateOptionsMenu(menu, menuInflater);
@@ -137,21 +138,25 @@ public class LoggingFragment extends Fragment {
 
 	// Activity.onPrepareOptionsMenu
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onPrepareOptionsMenu(@NonNull Menu menu) {
 		log("onPrepareOptionsMenu", menu);
 		super.onPrepareOptionsMenu(menu);
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 		log("onOptionsItemSelected", item);
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onOptionsMenuClosed(@NonNull Menu menu) {
 		log("onOptionsMenuClosed", menu);
 		super.onOptionsMenuClosed(menu);
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onDestroyOptionsMenu() {
 		log("onDestroyOptionsMenu");
 		super.onDestroyOptionsMenu();
