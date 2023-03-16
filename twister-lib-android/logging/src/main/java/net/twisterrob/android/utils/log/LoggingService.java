@@ -27,7 +27,7 @@ public class LoggingService extends Service {
 		log("onCreate");
 		super.onCreate();
 	}
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onStart(Intent intent, int startId) {
 		log("onStart", intent, startId);
 		super.onStart(intent, startId);

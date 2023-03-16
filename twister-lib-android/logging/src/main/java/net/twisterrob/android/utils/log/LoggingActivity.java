@@ -60,7 +60,7 @@ public class LoggingActivity extends AppCompatActivity {
 		log("onContentChanged");
 		super.onContentChanged();
 	}
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onSupportContentChanged() {
 		log("onSupportContentChanged");
 		super.onSupportContentChanged();
@@ -88,11 +88,12 @@ public class LoggingActivity extends AppCompatActivity {
 	}
 
 	@TargetApi(VERSION_CODES.HONEYCOMB)
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onAttachFragment(android.app.Fragment fragment) {
 		log("onAttachFragment", fragment);
 		super.onAttachFragment(fragment);
 	}
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onAttachFragment(@NonNull Fragment fragment) {
 		log("onAttachFragment", fragment);
 		super.onAttachFragment(fragment);
@@ -301,12 +302,12 @@ public class LoggingActivity extends AppCompatActivity {
 		log("supportNavigateUpTo", upIntent);
 		super.supportNavigateUpTo(upIntent);
 	}
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public boolean onNavigateUpFromChild(Activity child) {
 		log("onNavigateUpFromChild", child);
 		return super.onNavigateUpFromChild(child);
 	}
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public boolean navigateUpToFromChild(Activity child, @NonNull Intent upIntent) {
 		log("onNavigateUpFromChild", child, upIntent);
 		return super.navigateUpToFromChild(child, upIntent);
@@ -343,6 +344,7 @@ public class LoggingActivity extends AppCompatActivity {
 		return super.onSearchRequested();
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void startActivityForResult(Intent intent, int requestCode) {
 		log("startActivityForResult", intent, requestCode);
 		super.startActivityForResult(intent, requestCode);
@@ -369,7 +371,7 @@ public class LoggingActivity extends AppCompatActivity {
 		log("onNewIntent", intent);
 		super.onNewIntent(intent);
 	}
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public Object onRetainCustomNonConfigurationInstance() {
 		log("onRetainCustomNonConfigurationInstance");
 		return super.onRetainCustomNonConfigurationInstance();

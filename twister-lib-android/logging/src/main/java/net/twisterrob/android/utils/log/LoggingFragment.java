@@ -37,7 +37,7 @@ public class LoggingFragment extends Fragment {
 		super.onInflate(context, attrs, savedInstanceState);
 	}
 
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onInflate(
 			@NonNull Activity activity,
 			@NonNull AttributeSet attrs,
@@ -62,7 +62,7 @@ public class LoggingFragment extends Fragment {
 		super.onAttach(context);
 	}
 
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onAttach(@NonNull Activity activity) {
 		log("onAttach", activity);
 		super.onAttach(activity);
@@ -87,6 +87,7 @@ public class LoggingFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		log("onActivityCreated", savedInstanceState);
 		super.onActivityCreated(savedInstanceState);
@@ -106,10 +107,12 @@ public class LoggingFragment extends Fragment {
 	// Activity.onPostCreate
 	// Activity.onResume/onPostResume/onResumeFragments
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		log("onActivityResult", requestCode, resultCode, data);
 		super.onActivityResult(requestCode, resultCode, data);
 	}
+
 	@Override public void onResume() {
 		log("onResume");
 		super.onResume();
@@ -118,6 +121,8 @@ public class LoggingFragment extends Fragment {
 		log("startActivity", intent);
 		super.startActivity(intent);
 	}
+
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void startActivityForResult(Intent intent, int requestCode) {
 		log("startActivityForResult", intent, requestCode);
 		super.startActivityForResult(intent, requestCode);

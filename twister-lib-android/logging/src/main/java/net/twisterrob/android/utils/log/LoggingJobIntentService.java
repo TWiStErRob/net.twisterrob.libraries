@@ -10,7 +10,6 @@ import android.os.IBinder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.JobIntentService;
 
 import net.twisterrob.android.annotation.TrimMemoryLevel;
 import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;
@@ -19,7 +18,8 @@ import net.twisterrob.java.annotations.DebugHelper;
 
 @DebugHelper
 @SuppressLint("Registered") // allow registration if wanted without needing to subclass
-public class LoggingJobIntentService extends JobIntentService {
+@Deprecated @SuppressWarnings("deprecation")
+public class LoggingJobIntentService extends androidx.core.app.JobIntentService {
 	private static final Logger LOG = LoggerFactory.getLogger("JobIntentService");
 
 	public LoggingJobIntentService() {
@@ -30,8 +30,7 @@ public class LoggingJobIntentService extends JobIntentService {
 		log("onCreate");
 		super.onCreate();
 	}
-	@Deprecated
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onStart(@Nullable Intent intent, int startId) {
 		log("onStart", intent, startId);
 		super.onStart(intent, startId);
