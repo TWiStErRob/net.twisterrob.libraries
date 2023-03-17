@@ -9,7 +9,7 @@ dependencies {
 	api(libs.test.android.classpath) {
 		exclude group: 'junit'
 	}
-	implementation(libs.test.androidx.runner) {
+	implementation(libs.androidx.test.runner) {
 		exclude group: 'junit'
 	}
 }

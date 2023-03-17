@@ -10,6 +10,8 @@ repositories {
 
 dependencies {
 	"implementation"(platform("net.twisterrob.libraries.build:platform-libs"))
+	"testImplementation"(platform("net.twisterrob.libraries.build:platform-libs"))
+	"androidTestImplementation"(platform("net.twisterrob.libraries.build:platform-libs"))
 }
 
 @Suppress("UnstableApiUsage")

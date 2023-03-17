@@ -73,13 +73,13 @@ dependencyAnalysis {
 		project(":espresso") {
 			onUnusedDependencies {
 				// These dependencies are there to be provided to the consumers, keep them.
-				exclude(libs.test.androidx.junit.get().toString())
+				exclude(libs.androidx.test.junit.get().toString())
 			}
 			onIncorrectConfiguration {
 				// These dependencies are there to be provided to the consumers, keep them api.
 				exclude(
-					libs.test.androidx.junit.get().toString(),
-					libs.test.androidx.core.get().toString(),
+					libs.androidx.test.junit.get().toString(),
+					libs.androidx.test.core.get().toString(),
 				)
 			}
 		}

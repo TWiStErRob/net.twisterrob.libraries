@@ -8,7 +8,7 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-android-espresso"
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "net.twisterrob.lib:twister-lib-hamcrest"
-	implementation(libs.test.androidx.espressoCore)
+	implementation(libs.androidx.test.espressoCore)
 	implementation(libs.android.glide3)
 	implementation(libs.slf4j.api)
 	implementation(libs.android.guava)
