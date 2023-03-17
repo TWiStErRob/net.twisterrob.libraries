@@ -56,7 +56,7 @@ dependencies {
 }
 
 fun DependencyConstraintHandler.apiWithKtx(constraintNotation: Provider<MinimalExternalModuleDependency>) {
-	api(constraintNotation)
+	api(constraintNotation) // { version { strictly(version!!) } }
 	api(constraintNotation.ktx)
 }
 
