@@ -35,6 +35,7 @@ dependencies {
 		apiWithKtx(libs.androidx.recyclerview)
 		apiWithKtx(libs.androidx.savedstate)
 		apiWithKtx(libs.androidx.swiperefreshlayout)
+		apiWithKtx(libs.androidx.tracing)
 		apiWithKtx(libs.androidx.transition)
 
 		apiWithKtx(libs.androidx.test.fragment)
