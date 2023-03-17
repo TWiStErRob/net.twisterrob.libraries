@@ -4,6 +4,15 @@ import net.twisterrob.libraries.build.dsl.libs
 
 configurations.configureEach {
 	resolutionStrategy {
+		failOnChangingVersions()
+		failOnDynamicVersions()
+		failOnNonReproducibleResolution()
+		//failOnVersionConflict()
+	}
+}
+
+configurations.configureEach {
+	resolutionStrategy {
 		apply(from = rootDir.resolve("gradle/settings.substitutions.gradle"), to = this)
 		dependencySubstitution {
 			substitute(module(libs.deprecated.hamcrestCore.get().module.toString()))
