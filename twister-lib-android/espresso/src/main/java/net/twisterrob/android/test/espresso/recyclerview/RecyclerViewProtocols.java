@@ -103,6 +103,7 @@ public final class RecyclerViewProtocols {
 			return datas;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public Optional<AdaptedData> getDataRenderedByView(RecyclerView adapterView,
 				View descendantView) {

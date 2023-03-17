@@ -4,6 +4,7 @@ import org.junit.runner.Runner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.parameterized.*;
 
+import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 
 import androidx.test.internal.runner.RunnerArgs;
@@ -21,6 +22,7 @@ public class AndroidJUnit4WithParametersRunnerFactory implements ParametersRunne
 		Instrumentation instr = InstrumentationRegistry.getInstrumentation();
 		RunnerArgs runnerArgs = ReflectionTools.get(instr, "mRunnerArgs");
 
+		@SuppressLint("RestrictedApi")
 		@SuppressWarnings("deprecation") // will probably revisit soon
 		AndroidRunnerParams runnerParams = new AndroidRunnerParams(
 				instr,

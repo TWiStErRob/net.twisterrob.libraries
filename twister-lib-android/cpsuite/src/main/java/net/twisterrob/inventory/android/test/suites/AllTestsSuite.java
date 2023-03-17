@@ -102,7 +102,7 @@ public class AllTestsSuite {
 		/**
 		 * Wrapper for using the original {@link ClassPathScanner} inside Espresso.
 		 */
-		@SuppressLint("VisibleForTests")
+		@SuppressLint({"VisibleForTests", "RestrictedApi"})
 		private Iterable<String> getAllClassNamesOnClassPath() {
 			try {
 				return new ClassPathScanner(apkPath).getClassPathEntries(new AcceptAllFilter());

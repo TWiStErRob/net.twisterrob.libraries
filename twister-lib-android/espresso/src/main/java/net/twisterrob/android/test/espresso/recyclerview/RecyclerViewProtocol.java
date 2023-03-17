@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.core.internal.deps.guava.base.Optional;
 import androidx.test.espresso.util.HumanReadables;
 
-import static androidx.test.espresso.core.internal.deps.guava.base.Preconditions.*;
+import static net.twisterrob.java.utils.ObjectTools.checkNotNull;
 
 /**
  * A sadly necessary layer of indirection to interact with AdapterViews.
