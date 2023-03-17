@@ -6,7 +6,7 @@ dependencies {
 	implementation(libs.slf4j.api)
 	compileOnly(libs.androidx.annotation)
 	compileOnly(libs.androidx.fragment)
-	implementation(libs.androidx.exif)
+	implementation(libs.androidx.exifinterface)
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	implementation "net.twisterrob.lib:twister-lib-android-glide3"
 	implementation "net.twisterrob.lib:twister-lib-java"
