@@ -20,17 +20,18 @@ import kotlin.collections.CollectionsKt;
 
 import static androidx.fragment.app.testing.FragmentScenario.*;
 
-import net.twisterrob.android.stringers.R;
 import net.twisterrob.android.utils.tools.StringerTools;
 import net.twisterrob.android.utils.tosting.strings.AndroidStringerRepoRule;
 
+import static net.twisterrob.java.utils.ReflectionTools.getStatic;
+
 /**
- * @see SupportBackStackStateStringer
+ * @see SupportBackStackRecordStateStringer
  */
 @RunWith(AndroidJUnit4.class)
 @Config(sdk = Build.VERSION_CODES.P)
 @DoNotInstrument
-public class SupportBackStackStateStringerTest {
+public class SupportBackStackRecordStateStringerTest {
 
 	@Rule public TestRule stringerRule = new AndroidStringerRepoRule();
 
@@ -49,6 +50,7 @@ public class SupportBackStackStateStringerTest {
 				fragment2Who.set(fragment2.mWho);
 				fragment3Who.set(fragment3.mWho);
 				FragmentManager fragmentManager = fragment1.getParentFragmentManager();
+				//noinspection ConstantConditions
 				fragmentManager
 						.beginTransaction()
 						.addToBackStack("backyStacky")
@@ -62,10 +64,10 @@ public class SupportBackStackStateStringerTest {
 						)
 						.add(android.R.id.content, fragment2)
 						.setCustomAnimations(
-								R.anim.fragment_open_enter,
-								R.anim.fragment_open_exit,
-								R.anim.fragment_fade_enter,
-								R.anim.fragment_fade_exit
+								getStatic("androidx.fragment.R$animator", "fragment_open_enter"),
+								getStatic("androidx.fragment.R$animator", "fragment_open_exit"),
+								getStatic("androidx.fragment.R$animator", "fragment_fade_enter"),
+								getStatic("androidx.fragment.R$animator", "fragment_fade_exit")
 						)
 						.setReorderingAllowed(true)
 						.attach(fragment3)
@@ -77,18 +79,18 @@ public class SupportBackStackStateStringerTest {
 			@Override public void perform(@NonNull Fragment1 fragment) {
 				BackStackRecord record =
 						CollectionsKt.single(fragment.getParentFragmentManager().mBackStack);
-				BackStackState state = new BackStackState(record);
+				BackStackRecordState state = new BackStackRecordState(record);
 
 				String result = StringerTools.toString(state);
 
 				assertEquals(
-						"(androidx.fragment.app.BackStackState)0: backyStacky, TRANSIT_FRAGMENT_OPEN, reordering allowed, shared::{  }, ops of 3:\n"
+						"(androidx.fragment.app.BackStackRecordState)0: backyStacky, TRANSIT_FRAGMENT_OPEN, reordering allowed, shared::{  }, ops of 3:\n"
 								+ "\t" + fragment1Who.get()
-								+ ": SET_MAX_LIFECYCLE, MaxLifecycle::{ old=RESUMED, new=STARTED }, Anim::{ enter=invalid, exit=invalid, popEnter=invalid, popExit=invalid }\n"
+								+ ": SET_MAX_LIFECYCLE, not from expanded op, MaxLifecycle::{ old=RESUMED, new=STARTED }, Anim::{ enter=invalid, exit=invalid, popEnter=invalid, popExit=invalid }\n"
 								+ "\t" + fragment2Who.get()
-								+ ": ADD, maxLifecycle=RESUMED, Anim::{ enter=android:anim/fade_in, exit=android:anim/fade_out, popEnter=android:anim/slide_in_left, popExit=android:anim/slide_out_right }\n"
+								+ ": ADD, not from expanded op, maxLifecycle=RESUMED, Anim::{ enter=android:anim/fade_in, exit=android:anim/fade_out, popEnter=android:anim/slide_in_left, popExit=android:anim/slide_out_right }\n"
 								+ "\t" + fragment3Who.get()
-								+ ": ATTACH, maxLifecycle=RESUMED, Anim::{ enter=app:anim/fragment_open_enter, exit=app:anim/fragment_open_exit, popEnter=app:anim/fragment_fade_enter, popExit=app:anim/fragment_fade_exit }",
+								+ ": ATTACH, not from expanded op, maxLifecycle=RESUMED, Anim::{ enter=app:animator/fragment_open_enter, exit=app:animator/fragment_open_exit, popEnter=app:animator/fragment_fade_enter, popExit=app:animator/fragment_fade_exit }",
 						result);
 			}
 		});

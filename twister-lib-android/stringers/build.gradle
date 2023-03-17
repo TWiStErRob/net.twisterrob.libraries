@@ -22,6 +22,7 @@ dependencies {
 	testImplementation(libs.test.androidx.junit)
 	testImplementation(libs.test.androidx.fragment)
 	testImplementation(libs.test.androidx.core)
+	testRuntimeOnly(libs.slf4j.simple)
 	testRuntimeOnly(libs.androidx.material)
 }
 

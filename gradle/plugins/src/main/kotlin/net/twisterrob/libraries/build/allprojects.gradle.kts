@@ -40,3 +40,7 @@ tasks.withType<Test>().configureEach test@{
 		)
 	}
 }
+
+tasks.withType<Test>().configureEach test@{
+	systemProperty("org.slf4j.simpleLogger.defaultLogLevel", "trace")
+}

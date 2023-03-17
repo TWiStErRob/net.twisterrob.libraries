@@ -72,7 +72,10 @@ public class SupportBackStackRecordStateStringer extends Stringer<BackStackRecor
 	}
 
 	private static class OpsRef {
-		static final int OPS_LENGTH = 5;
+		/**
+		 * How many {@code pos++} there are in {@link BackStackRecordState} constructor.
+		 */
+		static final int OPS_LENGTH = 6;
 		@SuppressWarnings({"FieldCanBeLocal", "unused"})
 		private final int pos;
 
@@ -80,11 +83,15 @@ public class SupportBackStackRecordStateStringer extends Stringer<BackStackRecor
 		private final @NonNull State oldMaxState;
 		private final @NonNull State newMaxState;
 		private final @TransactionOperationCommand int cmd;
+		private final int fromExpandedOp;
 		private final @AnimRes int enterAnim;
 		private final @AnimRes int exitAnim;
 		private final @AnimRes int popEnterAnim;
 		private final @AnimRes int popExitAnim;
 
+		/**
+		 * Reversal of {@code for} loop in {@link BackStackRecordState#BackStackRecordState(BackStackRecord)}.
+		 */
 		public OpsRef(
 				@Nullable String who,
 				@NonNull State oldMaxState,
@@ -98,6 +105,7 @@ public class SupportBackStackRecordStateStringer extends Stringer<BackStackRecor
 			int currentPos = startPos;
 			this.pos = startPos;
 			this.cmd = mOps[currentPos++];
+			this.fromExpandedOp = mOps[currentPos++];
 			this.enterAnim = mOps[currentPos++];
 			this.exitAnim = mOps[currentPos++];
 			this.popEnterAnim = mOps[currentPos++];
@@ -114,6 +122,7 @@ public class SupportBackStackRecordStateStringer extends Stringer<BackStackRecor
 		@Override public void toString(@NonNull ToStringAppender append, OpsRef op) {
 			String commandString = TransactionOperationCommand.Converter.toString(op.cmd);
 			append.identity(op.who, commandString);
+			append.booleanProperty(op.fromExpandedOp == 1, "from expanded op");
 			if (op.oldMaxState == op.newMaxState) {
 				append.rawProperty("maxLifecycle", op.newMaxState);
 			} else {
