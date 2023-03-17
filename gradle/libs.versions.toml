@@ -25,32 +25,28 @@ android-glide3 = "3.8.0"
 android-guava = "27.0.1-android"
 android-colorpicker = "2.4.2"
 
-# https://developer.android.com/jetpack/androidx/releases/annotation
-androidx-annotation = "1.6.0"
-# https://developer.android.com/jetpack/androidx/releases/fragment
-androidx-fragment = "1.5.5"
-# https://developer.android.com/jetpack/androidx/releases/appcompat
-androidx-appcompat = "1.6.1"
-# https://developer.android.com/jetpack/androidx/releases/core
-androidx-core = "1.9.0"
-# https://developer.android.com/jetpack/androidx/releases/multidex
-androidx-multidex = "2.0.1"
-# https://developer.android.com/jetpack/androidx/releases/exifinterface
-androidx-exif = "1.3.6"
-# https://developer.android.com/jetpack/androidx/releases/recyclerview
-androidx-recyclerview = "1.3.0"
-# https://developer.android.com/jetpack/androidx/releases/cardview
-androidx-cardview = "1.0.0"
-# https://developer.android.com/jetpack/androidx/releases/drawerlayout
-androidx-drawerlayout = "1.1.1"
-# https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout
-androidx-swiperefreshlayout = "1.1.0"
-# https://developer.android.com/jetpack/androidx/releases/preference
-androidx-preference = "1.2.0"
-# https://developer.android.com/jetpack/androidx/releases/lifecycle
-androidx-lifecycle = "2.6.0"
-# https://github.com/material-components/material-components-android/releases
-androidx-material = "1.8.0"
+androidx-activity = "1.6.1" # https://developer.android.com/jetpack/androidx/releases/activity
+androidx-annotation = "1.6.0" # https://developer.android.com/jetpack/androidx/releases/annotation
+androidx-annotationExperimental = "1.3.0" # https://developer.android.com/jetpack/androidx/releases/annotation
+androidx-appcompat = "1.6.1" # https://developer.android.com/jetpack/androidx/releases/appcompat
+androidx-archCore = "2.2.0" # https://developer.android.com/jetpack/androidx/releases/arch
+androidx-broadcast = "1.1.0" # https://developer.android.com/jetpack/androidx/releases/localbroadcastmanager
+androidx-cardview = "1.0.0" # https://developer.android.com/jetpack/androidx/releases/cardview
+androidx-collection = "1.2.0" # https://developer.android.com/jetpack/androidx/releases/collection
+androidx-core = "1.9.0" # https://developer.android.com/jetpack/androidx/releases/core
+androidx-customview = "1.1.0" # https://developer.android.com/jetpack/androidx/releases/customview
+androidx-drawerlayout = "1.1.1" # https://developer.android.com/jetpack/androidx/releases/drawerlayout
+androidx-exif = "1.3.6" # https://developer.android.com/jetpack/androidx/releases/exifinterface
+androidx-fragment = "1.5.5" # https://developer.android.com/jetpack/androidx/releases/fragment
+androidx-lifecycle = "2.6.0" # https://developer.android.com/jetpack/androidx/releases/lifecycle
+androidx-loader = "1.1.0" # https://developer.android.com/jetpack/androidx/releases/loader
+androidx-material = "1.8.0" # https://github.com/material-components/material-components-android/releases
+androidx-multidex = "2.0.1" # https://developer.android.com/jetpack/androidx/releases/multidex
+androidx-preference = "1.2.0" # https://developer.android.com/jetpack/androidx/releases/preference
+androidx-recyclerview = "1.3.0" # https://developer.android.com/jetpack/androidx/releases/recyclerview
+androidx-savedstate = "1.2.0" # https://developer.android.com/jetpack/androidx/releases/savedstate
+androidx-swiperefreshlayout = "1.1.0" # https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout
+androidx-transition = "1.4.1" # https://developer.android.com/jetpack/androidx/releases/transition
 
 test-junit = "4.13.1"
 test-params = "1.1.1"
@@ -97,19 +93,32 @@ android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" 
 android-guava = { module = "com.google.guava:guava", version.ref = "android-guava" }
 android-colorpicker = { module = "com.rarepebble:colorpicker", version.ref = "android-colorpicker" }
 
+androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
-androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidx-fragment" }
+androidx-annotationExperimental = { module = "androidx.annotation:annotation-experimental", version.ref = "androidx-annotationExperimental" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
-androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "androidx-multidex" }
-androidx-exif = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exif" }
-androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
+androidx-appcompatResources = { module = "androidx.appcompat:appcompat-resources", version.ref = "androidx-appcompat" }
+androidx-archCoreCommon = { module = "androidx.arch.core:core-common", version.ref = "androidx-archCore" }
+androidx-archCoreRuntime = { module = "androidx.arch.core:core-runtime", version.ref = "androidx-archCore" }
+androidx-broadcast = { module = "androidx.localbroadcastmanager:localbroadcastmanager", version.ref = "androidx-broadcast" }
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "androidx-cardview" }
+androidx-collection = { module = "androidx.collection:collection", version.ref = "androidx-collection" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
+androidx-customview = { module = "androidx.customview:customview", version.ref = "androidx-customview" }
 androidx-drawerlayout = { module = "androidx.drawerlayout:drawerlayout", version.ref = "androidx-drawerlayout" }
-androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
-androidx-preference = { module = "androidx.preference:preference", version.ref = "androidx-preference" }
+androidx-exif = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exif" }
+androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidx-fragment" }
+androidx-lifecycleCommon = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidx-lifecycle" }
+androidx-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "androidx-lifecycle" }
 androidx-lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-loader = { module = "androidx.loader:loader", version.ref = "androidx-loader" }
 androidx-material = { module = "com.google.android.material:material", version.ref = "androidx-material" }
+androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "androidx-multidex" }
+androidx-preference = { module = "androidx.preference:preference", version.ref = "androidx-preference" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
+androidx-savedstate = { module = "androidx.savedstate:savedstate", version.ref = "androidx-savedstate" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
+androidx-transition = { module = "androidx.transition:transition", version.ref = "androidx-transition" }
 
 test-android-mockito = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
 test-android-dexmaker = { module = "com.google.dexmaker:dexmaker", version.ref = "test-android-dexmaker" }
