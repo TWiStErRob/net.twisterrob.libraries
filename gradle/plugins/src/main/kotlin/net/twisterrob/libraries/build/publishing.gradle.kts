@@ -16,10 +16,10 @@ if (!project.hasProperty("release")) {
 
 publishing {
 	repositories {
-		// publishAllPublicationsToLocalRepository, not publishToMavenLocal!
 		maven {
+			// gradlew publishAllPublicationsToLocalRepository, not publishToMavenLocal!
 			name = "local"
-			url = File(rootDir, "build/repo").toURI()
+			url = File(rootDir, "build/localMaven").toURI()
 		}
 	}
 }
@@ -27,23 +27,3 @@ publishing {
 tasks.withType<GenerateModuleMetadata>().configureEach {
 	enabled = false
 }
-
-/*
-android.publishing { singleVariant("release") }
-publishing.publications {
-	release<MavenPublication> {
-		afterEvaluate { from(components.release) }
-		groupId = "net.twisterrob.libraries"
-		artifactId = "mylibrary"
-		version = "1.0"
-		versionMapping {
-			usage("java-api") {
-				fromResolutionOf("releaseRuntimeClasspath")
-			}
-			usage("java-runtime") {
-				fromResolutionResult()
-			}
-		}
-	}
-}
-*/

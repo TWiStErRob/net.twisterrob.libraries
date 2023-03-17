@@ -13,7 +13,7 @@ repositories {
 	mavenCentral()
 }
 
-dependencies { // Platforms
+dependencies {
 	implementation(platform("net.twisterrob.libraries.build:platform-libs"))
 	testImplementation(platform("net.twisterrob.libraries.build:platform-libs"))
 }

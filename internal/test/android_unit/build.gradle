@@ -1,4 +1,5 @@
 plugins {
+	// Should be .java.library, but there are some problems, maybe in AGP 8, it'll work again.
 	id("net.twisterrob.libraries.android.library")
 }
 

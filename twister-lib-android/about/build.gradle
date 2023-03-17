@@ -7,7 +7,7 @@ dependencies {
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	implementation "net.twisterrob.lib:twister-lib-java"
-	implementation(libs.androidx.annotation)
+	compileOnly(libs.androidx.annotation)
 	implementation(libs.androidx.appcompat)
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_actors"
