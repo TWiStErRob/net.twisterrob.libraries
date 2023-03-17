@@ -8,6 +8,10 @@ repositories {
 	mavenCentral()
 }
 
+dependencies {
+	"implementation"(platform("net.twisterrob.libraries.build:platform-libs"))
+}
+
 @Suppress("UnstableApiUsage")
 android {
 	namespace = project.autoNamespace
