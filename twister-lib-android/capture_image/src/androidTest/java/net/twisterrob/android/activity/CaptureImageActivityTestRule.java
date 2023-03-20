@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import androidx.annotation.NonNull;
 import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import net.twisterrob.android.test.espresso.idle.GlideIdlingResource;
@@ -49,6 +50,13 @@ public class CaptureImageActivityTestRule extends SensibleActivityTestRule<Captu
 
 	public TemporaryFolder getTemp() {
 		return temp;
+	}
+
+	@Override protected void afterActivityLaunched() {
+		super.afterActivityLaunched();
+		// Reset Intents framework state, so it ignores a call to ActivityTestRule#launchActivity().
+		Intents.release();
+		Intents.init();
 	}
 
 	@Override protected void beforeActivityLaunched() {
