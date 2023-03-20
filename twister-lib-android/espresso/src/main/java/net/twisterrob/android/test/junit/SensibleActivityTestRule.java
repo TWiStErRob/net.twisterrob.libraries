@@ -42,8 +42,9 @@ public class SensibleActivityTestRule<T extends Activity> extends androidx.test.
 		chatty = new ChattyLogCat();
 	}
 
-	// Note: with the base = foo.apply(base) pattern, these will be executed in reverse when evaluate() is called.
+	// LIFECYCLE: with the base = foo.apply(base) pattern, these will be executed in reverse when evaluate() is called.
 	@Override public Statement apply(Statement base, Description description) {
+		// LIFECYCLE: @Before @Test @After will be executed logically at this point in the chain.
 		// Inner of ActivityTestRule, because it needs to take a screenshot before a failure finishes the activity.
 		base = new ScreenshotFailure().apply(base, description);
 		// Inner of ActivityTestRule, because it should be run after the Activity has started.
@@ -52,8 +53,10 @@ public class SensibleActivityTestRule<T extends Activity> extends androidx.test.
 		base = new TestLogger().apply(base, description);
 		// ActivityTestRule itself is the outermost rule, so its startup executes first and finalizer finishes last.
 		base = super.apply(base, description);
+		// LIFECYCLE: Anything after this point will be called BEFORE the activity is launched!
 		// Anything from above will be wrapped inside the name shortener so that all exceptions are cleaned.
 		//base = new PackageNameShortener().apply(base, description); // TODO make it available
+		// LIFECYCLE: Logically, this point will execute first when entering a test from the test runner.
 		return base;
 	}
 
@@ -98,6 +101,7 @@ public class SensibleActivityTestRule<T extends Activity> extends androidx.test.
 
 	@CallSuper
 	@Override protected void afterActivityFinished() {
+		Log.d("ViewInteraction", "Finished Activity at the end of the test.");
 		waitForEverythingToDestroy();
 		super.afterActivityFinished();
 		systemAnimations.restore();
