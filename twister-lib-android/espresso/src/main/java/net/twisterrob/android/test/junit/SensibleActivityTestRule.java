@@ -9,53 +9,54 @@ import android.content.*;
 import android.util.Log;
 
 import androidx.annotation.*;
-import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.intent.rule.IntentsRule;
-import androidx.test.platform.app.InstrumentationRegistry;
 
-import net.twisterrob.android.test.*;
 import net.twisterrob.android.test.espresso.ScreenshotFailure;
-import net.twisterrob.android.test.espresso.idle.AllActivitiesDestroyedIdlingResource;
-
-import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
+import net.twisterrob.android.test.junit.rules.ChattyLogCatRule;
+import net.twisterrob.android.test.junit.rules.DeviceUnlockerRule;
+import net.twisterrob.android.test.junit.rules.SystemAnimationsRule;
+import net.twisterrob.android.test.junit.rules.WaitForEverythingToDestroyRule;
 
 @SuppressWarnings("deprecation")
 public class SensibleActivityTestRule<T extends Activity> extends androidx.test.rule.ActivityTestRule<T> {
-	private static final String TAG = "ActivityTestRule";
+	private static final String TAG = "ViewInteraction";
 
-	private final SystemAnimations systemAnimations;
-	private final DeviceUnlocker unlocker;
-	private final ChattyLogCat chatty;
 	private Intent startIntent;
 
 	public SensibleActivityTestRule(Class<T> activityClass) {
-		this(activityClass, false);
+		super(activityClass);
 	}
 	public SensibleActivityTestRule(Class<T> activityClass, boolean initialTouchMode) {
-		this(activityClass, initialTouchMode, true);
+		super(activityClass, initialTouchMode);
 	}
 	public SensibleActivityTestRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
 		super(activityClass, initialTouchMode, launchActivity);
-		Context context = InstrumentationRegistry.getInstrumentation().getContext();
-		systemAnimations = new SystemAnimations(context);
-		unlocker = new DeviceUnlocker(context);
-		chatty = new ChattyLogCat();
 	}
 
 	// LIFECYCLE: with the base = foo.apply(base) pattern, these will be executed in reverse when evaluate() is called.
 	@Override public Statement apply(Statement base, Description description) {
 		// LIFECYCLE: @Before @Test @After will be executed logically at this point in the chain.
+
 		// Inner of ActivityTestRule, because it needs to take a screenshot before a failure finishes the activity.
 		base = new ScreenshotFailure().apply(base, description);
 		// Inner of ActivityTestRule, because it should be run after the Activity has started.
 		base = new IntentsRule().apply(base, description);
 		// This needs to be right before the super call, so it is the immediate inner of ActivityTestRule.
 		base = new TestLogger().apply(base, description);
-		// ActivityTestRule itself is the outermost rule, so its startup executes first and finalizer finishes last.
+
+		// ActivityTestRule itself.
 		base = super.apply(base, description);
 		// LIFECYCLE: Anything after this point will be called BEFORE the activity is launched!
+
+		// Outside of ActivityTestRule, because it should be run before the Activity has started.
+		base = new DeviceUnlockerRule().apply(base, description);
+		base = new WaitForEverythingToDestroyRule().apply(base, description);
+		base = new SystemAnimationsRule().apply(base, description);
+		base = new ChattyLogCatRule().apply(base, description);
+
 		// Anything from above will be wrapped inside the name shortener so that all exceptions are cleaned.
 		//base = new PackageNameShortener().apply(base, description); // TODO make it available
+
 		// LIFECYCLE: Logically, this point will execute first when entering a test from the test runner.
 		return base;
 	}
@@ -83,13 +84,7 @@ public class SensibleActivityTestRule<T extends Activity> extends androidx.test.
 
 	@CallSuper
 	@Override protected void beforeActivityLaunched() {
-		chatty.saveBlackWhiteList();
-		chatty.iAmNotChatty();
-		waitForEverythingToDestroy();
-		systemAnimations.backup();
-		systemAnimations.disableAll();
-		unlocker.wakeUpWithDisabledKeyguard();
-		Log.i("ViewInteraction", "Launching activity at the beginning of test.");
+		Log.i(TAG, "Launching activity at the beginning of test.");
 		super.beforeActivityLaunched();
 	}
 
@@ -101,40 +96,15 @@ public class SensibleActivityTestRule<T extends Activity> extends androidx.test.
 
 	@CallSuper
 	@Override protected void afterActivityFinished() {
-		Log.d("ViewInteraction", "Finished Activity at the end of the test.");
-		waitForEverythingToDestroy();
+		Log.d(TAG, "Finished Activity at the end of the test.");
 		super.afterActivityFinished();
-		systemAnimations.restore();
-		chatty.restoreLastBlackWhiteList();
-	}
-
-	protected void waitForEverythingToDestroy() {
-		AllActivitiesDestroyedIdlingResource.finishAll();
-		AllActivitiesDestroyedIdlingResource activities = new AllActivitiesDestroyedIdlingResource();
-		IdlingRegistry.getInstance().register(activities);
-		try {
-			waitForIdleSync();
-		} finally {
-			IdlingRegistry.getInstance().unregister(activities);
-		}
-	}
-
-	protected void waitForIdleSync() {
-		try {
-			runOnUiThread(new Runnable() {
-				@Override public void run() {
-					getUIControllerHack().loopMainThreadUntilIdle();
-				}
-			});
-		} catch (Throwable ex) {
-			androidx.test.espresso.core.internal.deps.guava.base.Throwables.throwIfUnchecked(ex);
-		}
 	}
 
 	/**
-	 * This needs to be applied right inside {@link ActivityTestRule.ActivityStatement}
+	 * This needs to be applied right inside {@link androidx.test.rule.ActivityTestRule.ActivityStatement}
 	 * so the logging happens at the correct time.
 	 */
+	@SuppressWarnings("JavadocReference")
 	private static class TestLogger implements TestRule {
 		@Override public Statement apply(final Statement base, Description description) {
 			return new Statement() {
