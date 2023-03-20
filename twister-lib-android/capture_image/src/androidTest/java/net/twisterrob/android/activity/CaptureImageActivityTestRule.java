@@ -1,23 +1,17 @@
 package net.twisterrob.android.activity;
 
 import java.io.File;
-import java.lang.reflect.Field;
 
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-import android.content.Context;
 import android.content.Intent;
 
-import com.bumptech.glide.Glide;
-
-import androidx.annotation.NonNull;
-import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.platform.app.InstrumentationRegistry;
 
-import net.twisterrob.android.test.espresso.idle.GlideIdlingResource;
+import net.twisterrob.android.test.espresso.idle.GlideIdlingResourceRule;
+import net.twisterrob.android.test.espresso.idle.GlideResetRule;
 import net.twisterrob.android.test.junit.SensibleActivityTestRule;
 
 /**
@@ -32,7 +26,6 @@ import net.twisterrob.android.test.junit.SensibleActivityTestRule;
 public class CaptureImageActivityTestRule extends SensibleActivityTestRule<CaptureImage> {
 
 	private File outputFile;
-	private final GlideIdlingResource glideIdler = new GlideIdlingResource();
 	private final TemporaryFolder temp = new TemporaryFolder() {
 		@Override protected void before() throws Throwable {
 			super.before();
@@ -59,18 +52,6 @@ public class CaptureImageActivityTestRule extends SensibleActivityTestRule<Captu
 		Intents.init();
 	}
 
-	@Override protected void beforeActivityLaunched() {
-		resetGlide(InstrumentationRegistry.getInstrumentation().getTargetContext());
-		IdlingRegistry.getInstance().register(glideIdler);
-		super.beforeActivityLaunched();
-	}
-
-	@Override protected void afterActivityFinished() {
-		super.afterActivityFinished();
-		IdlingRegistry.getInstance().unregister(glideIdler);
-		resetGlide(InstrumentationRegistry.getInstrumentation().getTargetContext());
-	}
-
 	@Override protected Intent getActivityIntent() {
 		return new Intent()
 				.putExtra(CaptureImage.EXTRA_OUTPUT, outputFile.getAbsolutePath());
@@ -80,27 +61,8 @@ public class CaptureImageActivityTestRule extends SensibleActivityTestRule<Captu
 		base = super.apply(base, description);
 		// Wrap activity rule in temp so that folder is available throughout.
 		base = temp.apply(base, description);
+		base = new GlideIdlingResourceRule().apply(base, description);
+		base = new GlideResetRule().apply(base, description);
 		return base;
-	}
-
-	/** Try to get rid of references and clean as much as possible */
-	@SuppressWarnings("deprecation")
-	public static void resetGlide(final @NonNull Context applicationContext) {
-		if (!Glide.isSetup()) {
-			return;
-		}
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override public void run() {
-				try {
-					Glide.with(applicationContext).onDestroy();
-					Glide.get(applicationContext).clearMemory();
-					Field glide = Glide.class.getDeclaredField("glide");
-					glide.setAccessible(true);
-					glide.set(null, null);
-				} catch (Exception ex) {
-					throw new IllegalStateException("Cannot tear down Glide", ex);
-				}
-			}
-		});
 	}
 }
