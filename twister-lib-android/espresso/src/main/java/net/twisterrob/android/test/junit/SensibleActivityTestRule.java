@@ -10,7 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.*;
 import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.rule.IntentsRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import net.twisterrob.android.test.*;
@@ -46,8 +46,11 @@ public class SensibleActivityTestRule<T extends Activity> extends androidx.test.
 	@Override public Statement apply(Statement base, Description description) {
 		// Inner of ActivityTestRule, because it needs to take a screenshot before a failure finishes the activity.
 		base = new ScreenshotFailure().apply(base, description);
+		// Inner of ActivityTestRule, because it should be run after the Activity has started.
+		base = new IntentsRule().apply(base, description);
 		// This needs to be right before the super call, so it is the immediate inner of ActivityTestRule.
 		base = new TestLogger().apply(base, description);
+		// ActivityTestRule itself is the outermost rule, so its startup executes first and finalizer finishes last.
 		base = super.apply(base, description);
 		// Anything from above will be wrapped inside the name shortener so that all exceptions are cleaned.
 		//base = new PackageNameShortener().apply(base, description); // TODO make it available
@@ -91,14 +94,12 @@ public class SensibleActivityTestRule<T extends Activity> extends androidx.test.
 	@Override protected void afterActivityLaunched() {
 		Log.d(TAG, "Activity launched at the beginning of test.");
 		super.afterActivityLaunched();
-		Intents.init();
 	}
 
 	@CallSuper
 	@Override protected void afterActivityFinished() {
 		waitForEverythingToDestroy();
 		super.afterActivityFinished();
-		Intents.release();
 		systemAnimations.restore();
 		chatty.restoreLastBlackWhiteList();
 	}
