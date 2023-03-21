@@ -8,6 +8,13 @@ repositories {
 	mavenCentral()
 }
 
+dependencies {
+	// Need to use ""() notation, because neither library, nor application plugin applied on this convention.
+	"implementation"(platform("net.twisterrob.libraries.build:platform-libs"))
+	"testImplementation"(platform("net.twisterrob.libraries.build:platform-libs"))
+	"androidTestImplementation"(platform("net.twisterrob.libraries.build:platform-libs"))
+}
+
 @Suppress("UnstableApiUsage")
 android {
 	namespace = project.autoNamespace

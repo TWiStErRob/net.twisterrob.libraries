@@ -6,6 +6,7 @@ import android.widget.*;
 import net.twisterrob.android.settings.R;
 
 import androidx.annotation.*;
+import androidx.fragment.app.Fragment;
 import androidx.preference.*;
 
 public class NumberPickerPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
@@ -71,5 +72,16 @@ public class NumberPickerPreferenceDialogFragmentCompat extends PreferenceDialog
                 preference.setValue(value);
             }
         }
+    }
+
+    /**
+     * The preference library is in maintenance mode,
+     * there are currently no plans to migrate to the
+     * {@link androidx.fragment.app.FragmentResultListener} API.
+     */
+    // TODEL https://issuetracker.google.com/issues/181793702
+    @SuppressWarnings("deprecation")
+    public void setTargetFragment(@Nullable Fragment fragment, int requestCode) {
+        super.setTargetFragment(fragment, requestCode);
     }
 }

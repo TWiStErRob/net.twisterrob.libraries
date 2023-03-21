@@ -5,6 +5,8 @@ import org.junit.internal.runners.statements.FailOnTimeout;
 import org.junit.runners.model.*;
 import org.junit.runners.parameterized.*;
 
+import android.annotation.SuppressLint;
+
 import androidx.test.internal.util.AndroidRunnerParams;
 
 /**
@@ -43,6 +45,7 @@ public class AndroidJUnit4WithParameters extends BlockJUnit4ClassRunnerWithParam
 	 * Default to <a href="http://junit.org/javadoc/latest/org/junit/Test.html">{@code Test}</a> level timeout if set.
 	 * Otherwise, set the timeout that was passed to the instrumentation via argument.
 	 */
+	@SuppressLint("RestrictedApi")
 	@SuppressWarnings("deprecation")
 	@Override protected Statement withPotentialTimeout(FrameworkMethod method, Object test, Statement next) {
 		long timeout = getTimeout(method.getAnnotation(Test.class));

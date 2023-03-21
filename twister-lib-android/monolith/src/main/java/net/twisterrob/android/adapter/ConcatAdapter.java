@@ -94,10 +94,10 @@ public class ConcatAdapter extends Adapter<ViewHolder> {
 		return type;
 	}
 	@Override public void onViewAttachedToWindow(ViewHolder holder) {
-		getAdapter(holder.getAdapterPosition()).onViewAttachedToWindow(holder);
+		getAdapter(holder.getBindingAdapterPosition()).onViewAttachedToWindow(holder);
 	}
 	@Override public void onViewDetachedFromWindow(ViewHolder holder) {
-		getAdapter(holder.getAdapterPosition()).onViewDetachedFromWindow(holder);
+		getAdapter(holder.getBindingAdapterPosition()).onViewDetachedFromWindow(holder);
 	}
 	@Override public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
 		for (Adapter<?> adapter : mWrappedAdapters) {

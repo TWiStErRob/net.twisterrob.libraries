@@ -10,9 +10,9 @@ import android.os.Looper;
 import androidx.annotation.*;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.lifecycle.*;
+import kotlin.collections.CollectionsKt;
 
 import static androidx.test.espresso.core.internal.deps.guava.base.Throwables.*;
-import static androidx.test.espresso.core.internal.deps.guava.collect.Iterables.*;
 import static androidx.test.platform.app.InstrumentationRegistry.*;
 
 public class InstrumentationExtensions {
@@ -47,7 +47,7 @@ public class InstrumentationExtensions {
 	public static @NonNull <T extends Activity> T getActivityByType(@NonNull Class<T> activityType)
 			throws NoSuchElementException, IllegalArgumentException {
 		Collection<T> activities = getActivitiesByType(activityType);
-		return getOnlyElement(activities);
+		return CollectionsKt.single(activities);
 	}
 
 	public static @NonNull Collection<Activity> getAllActivities() {
@@ -82,7 +82,7 @@ public class InstrumentationExtensions {
 	public static @NonNull Activity getActivityInStage(@NonNull Stage stage)
 			throws NoSuchElementException, IllegalArgumentException {
 		Collection<Activity> activities = getActivitiesInStage(stage);
-		return getOnlyElement(activities);
+		return CollectionsKt.single(activities);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class InstrumentationExtensions {
 	 */
 	public static @Nullable Activity tryGetActivityInStage(@NonNull Stage stage) throws IllegalArgumentException {
 		Collection<Activity> activities = getActivitiesInStage(stage);
-		return activities.isEmpty()? null : getOnlyElement(activities);
+		return activities.isEmpty()? null : CollectionsKt.single(activities);
 	}
 
 	@AnyThread

@@ -5,6 +5,8 @@ import java.util.concurrent.*;
 import org.junit.*;
 import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -34,6 +36,8 @@ import static net.twisterrob.test.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class DialogMatchersTest_Toast {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(DialogMatchersTest_Toast.class);
 
 	@SuppressWarnings("deprecation")
 	@Rule public final androidx.test.rule.ActivityTestRule<TestActivity> activity =
@@ -145,13 +149,18 @@ public class DialogMatchersTest_Toast {
 	@Test public void testWaitForToastsToDisappear_waitsForToast() {
 		Toast toast = createToast("A toast");
 		toast.setDuration(Toast.LENGTH_SHORT);
+		long show = System.currentTimeMillis();
 		show(toast);
 		onRoot(isToast()).check(matches(isDisplayed()));
+		long verified = System.currentTimeMillis();
 
-		// based on com.android.server.notification.NotificationManagerService#SHORT_DELAY = 2000
-		// allow a bit more than double the set duration to show and hide the toast
-		// for some reason the delay is 2000, but on emulator it disappears in ~1900 ms
-		assertTimeout(1500, 2 * 2000, TimeUnit.MILLISECONDS, new Runnable() {
+		// Based on com.android.server.notification.NotificationManagerService#SHORT_DELAY = 2000
+		// Allow a bit more than double the set duration to show and hide the toast.
+		// For some reason the delay is 2000, but on emulator it disappears in ~1900 ms.
+		// Estimated time for the toast to disappear is a bit illogical, but hopefully more stable.
+		long minimumTime = 2000 - (verified - show);
+		LOG.trace("testWaitForToastsToDisappear_waitsForToast: minimumTime = {}", minimumTime);
+		assertTimeout(minimumTime, 2 * 2000, TimeUnit.MILLISECONDS, new Runnable() {
 			@Override public void run() {
 				onView(isRoot()).perform(waitForToastsToDisappear());
 			}

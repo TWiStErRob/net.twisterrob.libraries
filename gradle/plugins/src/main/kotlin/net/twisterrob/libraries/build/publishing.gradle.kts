@@ -16,10 +16,10 @@ if (!project.hasProperty("release")) {
 
 publishing {
 	repositories {
-		mavenLocal {
-			if (System.getProperty("user.name") == "TWiStEr") {
-				url = file("p:\\repos\\maven").toURI()
-			}
+		maven {
+			// gradlew publishAllPublicationsToLocalRepository, not publishToMavenLocal!
+			name = "local"
+			url = File(rootDir, "build/localMaven").toURI()
 		}
 	}
 }

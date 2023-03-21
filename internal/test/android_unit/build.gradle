@@ -1,11 +1,17 @@
 plugins {
-	id("net.twisterrob.libraries.java.library")
+	// Should be .java.library, but there are some problems, maybe in AGP 8, it'll work again.
+	id("net.twisterrob.libraries.android.library")
 }
 
 dependencies {
 	api(project(":internal:test:jvm_unit"))
 	api(libs.test.android.robolectric)
 	api(libs.test.android.robolectricMultidex)
-	api(libs.test.androidx.core)
-	api(libs.test.androidx.junit)
+	api(libs.androidx.test.core)
+	api(libs.androidx.test.junit)
 }
+
+// This module is meant to be used as testImplementation, running on the JVM,
+// so it doesn't matter what classes it references.
+android.lint.disable.add("InvalidPackage")
+android.lint.disable.add("DuplicatePlatformClasses")

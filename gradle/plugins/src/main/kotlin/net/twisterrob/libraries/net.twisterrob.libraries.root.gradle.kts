@@ -14,6 +14,7 @@ tasks.register("cleanFull") {
 }
 
 // To get gradle/dependency-locks run `gradlew :allDependencies --write-locks`.
+// See also :module:dependencies and :module:androidDependencies and :module:dependencyInsight.
 tasks.register<Task>("allDependencies") {
 	val projects = project.allprojects.sortedBy { it.path }
 	val projectPaths = "Printing dependencies for modules:\n" +

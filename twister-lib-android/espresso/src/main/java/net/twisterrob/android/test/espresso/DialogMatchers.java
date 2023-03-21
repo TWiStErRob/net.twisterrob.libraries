@@ -19,6 +19,7 @@ import static androidx.test.espresso.action.ViewActions.pressBack;
 import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.*;
+import static androidx.test.espresso.core.internal.deps.guava.base.Throwables.throwIfUnchecked;
 import static androidx.test.espresso.matcher.RootMatchers.*;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 import static androidx.test.platform.app.InstrumentationRegistry.*;
@@ -200,7 +201,15 @@ public class DialogMatchers {
 		//onView(isRoot()).inRoot(isDialog()).check(matches(not(isDisplayed())));
 		// this works but the other is more concise
 		//onView(isRoot()).check(matches(root(not(RootMatchers.isDialog()))));
-		onView(isDialogView())/*.noActivity()*/.check(doesNotExist());
+		onView(isDialogView())
+				/*.noActivity()*/
+				// TODEL Workaround for https://github.com/android/android-test/issues/1739
+				.withFailureHandler((error, __) -> {
+					// Same as androidx.test.espresso.base.ThrowableHandler, but not package private.
+					throwIfUnchecked(error);
+					throw new RuntimeException(error);
+				})
+				.check(doesNotExist());
 	}
 
 	/**

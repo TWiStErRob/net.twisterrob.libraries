@@ -6,6 +6,7 @@ plugins {
 	id("com.autonomousapps.dependency-analysis")
 }
 
+// `gradlew buildHealth` or `gradle :some:module:projectHealth`
 dependencyAnalysis {
 	abi {
 		exclusions {
@@ -73,14 +74,25 @@ dependencyAnalysis {
 		project(":espresso") {
 			onUnusedDependencies {
 				// These dependencies are there to be provided to the consumers, keep them.
-				exclude(libs.test.androidx.junit.get().toString())
+				exclude(libs.androidx.test.junit.get().toString())
 			}
 			onIncorrectConfiguration {
 				// These dependencies are there to be provided to the consumers, keep them api.
 				exclude(
-					libs.test.androidx.junit.get().toString(),
-					libs.test.androidx.core.get().toString(),
+					libs.androidx.test.junit.get().toString(),
+					libs.androidx.test.core.get().toString(),
 				)
+			}
+		}
+		project(":internal:test:android_unit") {
+			// > Advice for :internal:test:android_unit
+			// > Dependencies which should be removed or changed to runtime-only:
+			// > runtimeOnly("androidx.test:core:1.5.0") (was api)
+			onRuntimeOnly {
+				// These dependencies are there to be provided to the consumers, keep them api.
+				// In particular, this lib contains androidx.test.core.app.ApplicationProvider,
+				// which is the recommended way to get the application Context in Robolectric.
+				exclude(libs.androidx.test.core.get().toString())
 			}
 		}
 	}

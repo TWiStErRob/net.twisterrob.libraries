@@ -18,22 +18,22 @@ dependencies {
 	implementation(libs.slf4j.api)
 
 	// Espresso core
-	api(libs.test.androidx.espressoCore)
-	api(libs.test.androidx.core)
-	api(libs.test.androidx.rules)
-	api(libs.test.androidx.junit)
+	api(libs.androidx.test.espressoCore)
+	api(libs.androidx.test.core)
+	api(libs.androidx.test.rules)
+	api(libs.androidx.test.junit)
 	// Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-	implementation(libs.test.androidx.espressoContrib)
+	implementation(libs.androidx.test.espressoContrib)
 	// Espresso-accessibility for automatic checking (not used yet)
 	// TODO AccessibilityChecks.enable()
-	//androidTestImplementation(libs.test.androidx.espressoAccessibility)
+	//androidTestImplementation(libs.androidx.test.espressoAccessibility)
 	// disable web for now, because it has some conflicting Guava classes (https://issuetracker.google.com/issues/37063389)
 	// Espresso-web for WebView support (not used yet)
-	//androidTestImplementation(libs.test.androidx.espressoWeb)
+	//androidTestImplementation(libs.androidx.test.espressoWeb)
 	// Espresso-intents for capturing Intents and mocking onActivityResult
-	implementation(libs.test.androidx.espressoIntents)
+	implementation(libs.androidx.test.espressoIntents)
 	// Espresso-idling-resource for synchronization with background jobs
-	api(libs.test.androidx.espressoIdle)
+	api(libs.androidx.test.espressoIdling)
 	implementation(libs.androidx.multidex)
 
 	compileOnly(libs.androidx.annotation)
@@ -41,7 +41,7 @@ dependencies {
 	api(libs.androidx.recyclerview)
 
 	androidTestImplementation(libs.test.params)
-	androidTestImplementation(libs.test.androidx.junit)
+	androidTestImplementation(libs.androidx.test.junit)
 	androidTestImplementation(libs.test.hamcrest.junit)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 

@@ -37,7 +37,7 @@ public class LoggingFragment extends Fragment {
 		super.onInflate(context, attrs, savedInstanceState);
 	}
 
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onInflate(
 			@NonNull Activity activity,
 			@NonNull AttributeSet attrs,
@@ -62,7 +62,7 @@ public class LoggingFragment extends Fragment {
 		super.onAttach(context);
 	}
 
-	@SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onAttach(@NonNull Activity activity) {
 		log("onAttach", activity);
 		super.onAttach(activity);
@@ -87,6 +87,7 @@ public class LoggingFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		log("onActivityCreated", savedInstanceState);
 		super.onActivityCreated(savedInstanceState);
@@ -106,10 +107,12 @@ public class LoggingFragment extends Fragment {
 	// Activity.onPostCreate
 	// Activity.onResume/onPostResume/onResumeFragments
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		log("onActivityResult", requestCode, resultCode, data);
 		super.onActivityResult(requestCode, resultCode, data);
 	}
+
 	@Override public void onResume() {
 		log("onResume");
 		super.onResume();
@@ -118,6 +121,8 @@ public class LoggingFragment extends Fragment {
 		log("startActivity", intent);
 		super.startActivity(intent);
 	}
+
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void startActivityForResult(Intent intent, int requestCode) {
 		log("startActivityForResult", intent, requestCode);
 		super.startActivityForResult(intent, requestCode);
@@ -125,6 +130,7 @@ public class LoggingFragment extends Fragment {
 
 	// Activity.onCreateOptionsMenu
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
 		log("onCreateOptionsMenu", menu, menuInflater);
 		super.onCreateOptionsMenu(menu, menuInflater);
@@ -132,21 +138,25 @@ public class LoggingFragment extends Fragment {
 
 	// Activity.onPrepareOptionsMenu
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onPrepareOptionsMenu(@NonNull Menu menu) {
 		log("onPrepareOptionsMenu", menu);
 		super.onPrepareOptionsMenu(menu);
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 		log("onOptionsItemSelected", item);
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onOptionsMenuClosed(@NonNull Menu menu) {
 		log("onOptionsMenuClosed", menu);
 		super.onOptionsMenuClosed(menu);
 	}
 
+	@Deprecated @SuppressWarnings("deprecation")
 	@Override public void onDestroyOptionsMenu() {
 		log("onDestroyOptionsMenu");
 		super.onDestroyOptionsMenu();

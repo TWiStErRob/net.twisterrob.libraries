@@ -17,28 +17,28 @@ dependencies {
 		exclude group: 'org.json', module: 'json'
 	}
 	// Android JUnit Runner
-	api(libs.test.androidx.runner)
-	api(libs.test.androidx.junit)
-	api(libs.test.androidx.rules)
+	api(libs.androidx.test.runner)
+	api(libs.androidx.test.junit)
+	api(libs.androidx.test.rules)
 
 	// Espresso core
-	api(libs.test.androidx.espressoCore)
+	api(libs.androidx.test.espressoCore)
 	// Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-	api(libs.test.androidx.espressoContrib)
+	api(libs.androidx.test.espressoContrib)
 	// Espresso-accessibility for automatic checking (not used yet)
 	// TODO AccessibilityChecks.enable()
-	//api(libs.test.androidx.espressoAccessibility)
+	//api(libs.androidx.test.espressoAccessibility)
 	// disable web for now, because it has some conflicting Guava classes (https://issuetracker.google.com/issues/37063389)
 	// Espresso-web for WebView support (not used yet)
-	//api(libs.test.androidx.espressoWeb)
+	//api(libs.androidx.test.espressoWeb)
 	// Espresso-intents for capturing Intents and mocking onActivityResult
-	api(libs.test.androidx.espressoIntents)
+	api(libs.androidx.test.espressoIntents)
 	// Espresso-idling-resource for synchronization with background jobs
-	api(libs.test.androidx.espressoIdle)
+	api(libs.androidx.test.espressoIdling)
 	// CONSIDER using these with Glide
-	//api(libs.test.androidx.espressoConcurrent)
-	//api(libs.test.androidx.espressoNet)
+	//api(libs.androidx.test.espressoConcurrent)
+	//api(libs.androidx.test.espressoNet)
 
 	// UI Automator @SdkSuppress(minSdkVersion = VERSION_CODES.JELLY_BEAN_MR2)
-	api(libs.test.androidx.uiautomator)
+	api(libs.androidx.test.uiautomator)
 }

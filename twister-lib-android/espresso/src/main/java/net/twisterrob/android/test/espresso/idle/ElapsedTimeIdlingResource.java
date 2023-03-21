@@ -2,13 +2,13 @@ package net.twisterrob.android.test.espresso.idle;
 
 import android.os.*;
 
-import androidx.test.annotation.Beta;
+import androidx.test.annotation.ExperimentalTestApi;
 import androidx.test.espresso.IdlingRegistry;
 
 /**
  * @see <a href="https://github.com/chiuki/espresso-samples/blob/master/idling-resource-elapsed-time/app/src/androidTest/java/com/sqisland/espresso/idling_resource/elapsed_time/ElapsedTimeIdlingResource.java">chiuki's ElapsedTimeIdlingResource.java</a>
  */
-@Beta
+@ExperimentalTestApi
 public class ElapsedTimeIdlingResource extends AsyncIdlingResource {
 	private long startTime;
 	private long waitingTime;

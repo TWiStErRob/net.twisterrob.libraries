@@ -46,6 +46,7 @@ public class AndroidStringerRepo {
 				new SupportToolbarSavedStateStringer());
 		repo.register("androidx.fragment.app.FragmentState", new SupportFragmentStateStringer());
 		repo.register("androidx.fragment.app.BackStackState", new SupportBackStackStateStringer());
+		repo.register("androidx.fragment.app.BackStackRecordState", new SupportBackStackRecordStateStringer());
 		// Don't use this, it converts every integer and warns a lot, find out a better way
 		//repo.register(Integer.class, new ResourceNameStringer(context));
 		repo.register(androidx.fragment.app.FragmentManager.class, new SupportFragmentManagerStringer());

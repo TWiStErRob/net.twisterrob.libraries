@@ -26,14 +26,13 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.*;
 import androidx.test.espresso.core.internal.deps.guava.base.Optional;
-import androidx.test.espresso.core.internal.deps.guava.collect.Lists;
 import androidx.test.espresso.util.HumanReadables;
 
-import static androidx.test.espresso.core.internal.deps.guava.base.Preconditions.checkNotNull;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
-import static androidx.test.internal.util.Checks.checkState;
 
 import net.twisterrob.android.test.espresso.recyclerview.RecyclerViewProtocol.AdaptedData;
+
+import static net.twisterrob.java.utils.ObjectTools.checkNotNull;
 
 /**
  * Forces an AdapterView to ensure that the data matching a provided data matcher
@@ -58,22 +57,20 @@ public final class RecyclerViewDataLoaderAction implements ViewAction {
 
 	public RecyclerViewProtocol.AdaptedData getAdaptedData() {
 		synchronized (dataLock) {
-			checkState(performed, "perform hasn't been called yet!");
+			if (!performed) throw new IllegalStateException("perform hasn't been called yet!");
 			return adaptedData;
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Matcher<View> getConstraints() {
 		return allOf(isAssignableFrom(RecyclerView.class), isDisplayed());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void perform(UiController uiController, View view) {
 		RecyclerView adapterView = (RecyclerView)view;
-		List<AdaptedData> matchedDataItems = Lists.newArrayList();
+		List<AdaptedData> matchedDataItems = new ArrayList<>();
 
 		for (RecyclerViewProtocol.AdaptedData data : adapterViewProtocol.getDataInAdapterView(adapterView)) {
 			if (dataToLoadMatcher.matches(data.getData())) {
@@ -98,20 +95,20 @@ public final class RecyclerViewDataLoaderAction implements ViewAction {
 		}
 
 		synchronized (dataLock) {
-			checkState(!performed, "perform called 2x!");
+			if (performed) throw new IllegalStateException("perform called 2x!");
 			performed = true;
 			if (atPosition.isPresent()) {
 				int matchedDataItemsSize = matchedDataItems.size() - 1;
-				if (atPosition.get() > matchedDataItemsSize) {
+				if ((Integer)atPosition.get() > matchedDataItemsSize) {
 					throw new PerformException.Builder()
 							.withActionDescription(this.getDescription())
 							.withViewDescription(HumanReadables.describe(view))
 							.withCause(new RuntimeException(String.format(Locale.ROOT,
 									"There are only %d elements that matched but requested %d element.",
-									matchedDataItemsSize, atPosition.get())))
+									matchedDataItemsSize, (Integer)atPosition.get())))
 							.build();
 				} else {
-					adaptedData = matchedDataItems.get(atPosition.get());
+					adaptedData = matchedDataItems.get((Integer)atPosition.get());
 				}
 			} else {
 				if (matchedDataItems.size() != 1) {

@@ -21,6 +21,10 @@ plugins {
 	id("net.twisterrob.gradle.plugin.settings") version "0.15.1"
 }
 
+dependencyResolutionManagement {
+	includeBuild("gradle/platform-libs")
+}
+
 include(":internal")
 include(":internal:test")
 include(":internal:test:jvm_unit")

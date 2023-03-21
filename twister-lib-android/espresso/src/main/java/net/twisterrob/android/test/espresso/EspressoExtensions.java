@@ -25,7 +25,7 @@ import android.widget.*;
 import androidx.annotation.*;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.annotation.Beta;
+import androidx.test.annotation.ExperimentalTestApi;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.*;
 import androidx.test.espresso.NoMatchingViewException.Builder;
@@ -198,7 +198,7 @@ public class EspressoExtensions {
 	 * <code>onDelayedView(isDialogView(), 100).perform(clickNeutral());</code>
 	 * TODO the root is locked on the first call, try to get a fresh one every so root(rootMatcher) can work too
 	 */
-	@Beta
+	@ExperimentalTestApi
 	public static ViewInteraction onDelayedView(final Matcher<View> viewMatcher, final long timeout) {
 		final AtomicReference<ViewInteraction> result = new AtomicReference<>();
 		onView(isRoot()).perform(new ViewAction() {
@@ -303,7 +303,7 @@ public class EspressoExtensions {
 				.build();
 	}
 
-	@Beta
+	@ExperimentalTestApi
 	public static ViewAction waitFor(final Matcher<View> viewMatcher) {
 		IdlingPolicy policy = IdlingPolicies.getDynamicIdlingResourceErrorPolicy();
 		long timeout = policy.getIdleTimeoutUnit().toMillis(policy.getIdleTimeout());
@@ -313,7 +313,7 @@ public class EspressoExtensions {
 	 * Perform action of waiting for a specific view id.
 	 * @see <a href="http://stackoverflow.com/a/22563297/253468">Espresso: Thread.sleep( );</a>
 	 */
-	@Beta
+	@ExperimentalTestApi
 	public static ViewAction waitFor(final Matcher<View> viewMatcher, final long timeout) {
 		return new ViewAction() {
 			@Override public Matcher<View> getConstraints() {

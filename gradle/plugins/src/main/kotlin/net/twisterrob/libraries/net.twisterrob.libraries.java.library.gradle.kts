@@ -14,6 +14,11 @@ repositories {
 }
 
 dependencies {
+	implementation(platform("net.twisterrob.libraries.build:platform-libs"))
+	testImplementation(platform("net.twisterrob.libraries.build:platform-libs"))
+}
+
+dependencies {
 	implementation(libs.annotations.jsr305)
 	compileOnly(libs.slf4j.api)
 	testImplementation(project(":internal:test:jvm_unit"))

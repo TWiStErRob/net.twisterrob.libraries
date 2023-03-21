@@ -13,10 +13,11 @@ import androidx.test.espresso.core.internal.deps.guava.base.Optional;
 import androidx.test.espresso.matcher.RootMatchers;
 
 import static androidx.test.espresso.Espresso.*;
-import static androidx.test.espresso.core.internal.deps.guava.base.Preconditions.*;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import net.twisterrob.android.test.espresso.recyclerview.RecyclerViewProtocol.AdaptedData;
+
+import static net.twisterrob.java.utils.ObjectTools.checkNotNull;
 
 /**
  * An interface to interact with data displayed in AdapterViews.
@@ -42,7 +43,7 @@ import net.twisterrob.android.test.espresso.recyclerview.RecyclerViewProtocol.Ad
  *
  * @see androidx.test.espresso.DataInteraction original where this is copied from
  */
-@SuppressWarnings("ParameterHidesMemberVariable")
+@SuppressWarnings({"ParameterHidesMemberVariable", "unchecked"})
 public class RecyclerViewDataInteraction {
 	private final Matcher<?> dataMatcher;
 	private Matcher<View> adapterMatcher = isAssignableFrom(RecyclerView.class);
@@ -155,12 +156,11 @@ public class RecyclerViewDataInteraction {
 		return adapterDataLoaderAction;
 	}
 
-	@SuppressWarnings("unchecked")
 	private Matcher<View> makeTargetMatcher(RecyclerViewDataLoaderAction adapterDataLoaderAction) {
 		Matcher<View> targetView = displayingData(adapterMatcher, dataMatcher, adapterViewProtocol,
 				adapterDataLoaderAction);
 		if (childViewMatcher.isPresent()) {
-			targetView = allOf(childViewMatcher.get(), isDescendantOfA(targetView));
+			targetView = allOf((Matcher<View>)childViewMatcher.get(), isDescendantOfA(targetView));
 		}
 		return targetView;
 	}
@@ -183,7 +183,6 @@ public class RecyclerViewDataInteraction {
 				adapterMatcher.describeTo(description);
 			}
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public boolean matchesSafely(View view) {
 
@@ -197,8 +196,8 @@ public class RecyclerViewDataInteraction {
 					Optional<AdaptedData> data = adapterViewProtocol.getDataRenderedByView(
 							(RecyclerView)parent, view);
 					if (data.isPresent()) {
-						return adapterDataLoaderAction.getAdaptedData().opaqueToken.equals(
-								data.get().opaqueToken);
+						return adapterDataLoaderAction.getAdaptedData().opaqueToken
+								.equals(((AdaptedData)data.get()).opaqueToken);
 					}
 				}
 				return false;
