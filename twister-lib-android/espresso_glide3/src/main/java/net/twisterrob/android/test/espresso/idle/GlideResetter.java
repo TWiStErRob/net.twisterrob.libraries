@@ -16,7 +16,13 @@ import net.twisterrob.java.utils.ReflectionTools;
 public class GlideResetter {
 	private static final Logger LOG = LoggerFactory.getLogger(GlideResetter.class);
 
+	/** Try to get rid of references and clean as much as possible */
+	@SuppressWarnings("deprecation")
 	public static void resetGlide(Context context) {
+		if (!Glide.isSetup()) {
+			LOG.info("No need resetting Glide for {}", context);
+			return;
+		}
 		LOG.info("Resetting Glide for {}", context);
 		cleanupGlide(context);
 		restrictGlide(context);
