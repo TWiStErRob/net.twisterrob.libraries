@@ -47,8 +47,6 @@ import net.twisterrob.android.view.CameraPreview.*;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
 import net.twisterrob.java.io.IOTools;
 
-import static net.twisterrob.android.content.ImageRequest.*;
-
 /**
  * TODO check how others did it
  * <a href="https://github.com/lvillani/android-cropimage/tree/678f453d577232bbeed6b025dace823fa6bee43b">Crop Image from Gallery (as was 2014)</a>
@@ -214,7 +212,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 		}
 		if (savedInstanceState == null) {
 			boolean userDeclined = hasCamera
-					&& !hasCameraPermission(this)
+					&& !ImageRequest.hasCameraPermission(this)
 					&& prefs.getBoolean(PREF_DENIED, false);
 			if (getIntent().getBooleanExtra(EXTRA_PICK, false) // forcing an immediate pick
 					|| !hasCamera // device doesn't have camera
@@ -439,7 +437,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 
 	private static final int PERMISSIONS_REQUEST_CAMERA = 1;
 	private boolean requestCameraPermissionIfNeeded() {
-		if (hasCameraPermission(this)) {
+		if (ImageRequest.hasCameraPermission(this)) {
 			return false;
 		} else {
 			// TODO if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) showDialog
