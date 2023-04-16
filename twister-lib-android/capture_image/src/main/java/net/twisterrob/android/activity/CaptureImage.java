@@ -456,16 +456,21 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		switch (requestCode) {
 			case PERMISSIONS_REQUEST_CAMERA: {
 				if (grantResults.length == 0) { // If request is cancelled, the result arrays are empty.
-					break; // nothing we can do really, let's try again later when user interactions warrants it
+					break; // Nothing we can do really, let's try again later when user interactions warrants it.
 				}
 				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// all ok, we have the permission, remember the user's approval
+					// All ok, we have the permission, remember the user's approval.
 					prefs.edit().remove(PREF_DENIED).apply();
 					doRestartPreview(); // start using the camera
 				} else {
-					// no permission: remember the user's disapproval, and don't bug again until explicit action
+					// No permission: remember the user's disapproval, and don't bug again until explicit action.
 					prefs.edit().putBoolean(PREF_DENIED, true).apply();
-					doPick(); // start picking as that's likely the action the user will need
+					if (STATE_CROPPING.equals(state)) {
+						// Nothing to do, probably a mis-click:
+						// there's already an image loaded, just have to press crop button.
+					} else {
+						doPick(); // Start picking as that's likely the action the user will need.
+					}
 				}
 				break;
 			}
