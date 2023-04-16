@@ -35,7 +35,8 @@ public class AndroidStringerRepo {
 		repo.register(androidx.fragment.app.Fragment.SavedState.class, new SupportFragmentSavedStateStringer());
 		repo.register("androidx.fragment.app.FragmentManagerState", new SupportFragmentManagerStateStringer());
 		repo.register(androidx.loader.content.Loader.class, new SupportLoaderStringer());
-		repo.register(android.content.Intent.class, new IntentStringer());
+		repo.register(android.content.Intent.class, new IntentStringer<>());
+		repo.register(android.content.pm.LabeledIntent.class, new LabeledIntentStringer());
 		repo.register(android.app.PendingIntent.class, new PendingIntentStringer());
 		repo.register(android.os.Bundle.class, new BundleStringer());
 		repo.register(android.util.SparseArray.class, new SparseArrayStringer(context));
