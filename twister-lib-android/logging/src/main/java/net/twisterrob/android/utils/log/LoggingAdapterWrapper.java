@@ -111,7 +111,7 @@ public class LoggingAdapterWrapper implements Adapter {
 		LoggingDebugProvider.LoggingHelper.log(getLog(), getName(), name, retInfo, args);
 	}
 
-	protected @NonNull Logger getLog() {
+	@NonNull Logger getLog() {
 		return LOG;
 	}
 

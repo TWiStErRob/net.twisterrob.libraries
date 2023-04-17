@@ -30,7 +30,7 @@ public class LoggingSpinnerAdapterWrapper extends LoggingAdapterWrapper implemen
 		return ret;
 	}
 
-	@Override protected @NonNull Logger getLog() {
+	@Override @NonNull Logger getLog() {
 		return LOG;
 	}
 }
