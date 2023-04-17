@@ -110,19 +110,14 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				@Override public void userInteraction() {
 					mPreview.setVisibility(View.INVISIBLE);
 				}
-				@Override public void granted() {
+				@Override public void granted(@NonNull GrantedReason reason) {
 					prefs.edit().remove(PREF_DENIED).apply();
 					doRestartPreview();
 				}
-				@Override public void denied() {
+				@Override public void denied(@NonNull DeniedReason reason) {
 					prefs.edit().putBoolean(PREF_DENIED, true).apply();
-					if (STATE_CROPPING.equals(state)) {
-						// Nothing to do, probably a mis-click:
-						// there's already an image loaded, just have to press crop button.
-					} else {
-						// Start picking as that's likely the action the user will need.
-						pick.executeBehindPermissions();
-					}
+					// Camera: denied, go to Pick, select Take Picture, Cancel Camera rationale.
+					enableControls();
 				}
 				@Override public void showRationale(@NonNull RationaleContinuation continuation) {
 					DialogTools
@@ -133,8 +128,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 									continuation.rationaleRejectedCancelProcess();
 								}
 							})
-							.setTitle("Camera permission needed")
-							.setMessage("Do you want to use the camera?")
+							.setTitle(R.string.image__permissions__camera_title)
+							.setMessage(R.string.image__permissions__camera_message)
 							.show();
 				}
 			}
@@ -145,7 +140,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			this,
 			new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
 			new PermissionProtectedAction.PermissionEvents() {
-				@Override public void granted() {
+				@Override public void granted(@NonNull GrantedReason reason) {
 					doPick();
 				}
 				@Override public void showRationale(@NonNull RationaleContinuation continuation) {
@@ -157,8 +152,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 									continuation.rationaleRejectedCancelProcess();
 								}
 							})
-							.setTitle("Read permission needed")
-							.setMessage("Do you want to allow it?")
+							.setTitle(R.string.image__permissions__disk_read_title)
+							.setMessage(R.string.image__permissions__disk_read_message)
 							.show();
 				}
 			}

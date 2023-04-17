@@ -5,4 +5,6 @@ plugins {
 dependencies {
 	implementation(libs.slf4j.api)
 	implementation(libs.androidx.activity)
+	implementation "net.twisterrob.lib:twister-lib-android-basics"
+	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 }

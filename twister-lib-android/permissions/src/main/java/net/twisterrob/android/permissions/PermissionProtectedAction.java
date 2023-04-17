@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.activity.ComponentActivity;
-import androidx.activity.result.ActivityResultCaller;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions;
 import androidx.annotation.AnyThread;
@@ -40,6 +39,7 @@ public class PermissionProtectedAction {
 
 	private final @NonNull PermissionsInterrogator interrogator;
 	private final @NonNull PermissionStateCalculator stateCalculator;
+	private final @NonNull PermissionDenialRemediator denialRemediator;
 	private final @NonNull PermissionEvents callback;
 	@Size(min = 1)
 	private final @NonNull String[] permissions;
@@ -52,20 +52,12 @@ public class PermissionProtectedAction {
 			@NonNull String[] permissions,
 			@NonNull PermissionEvents callback
 	) {
-		this(requestHost, new PermissionsInterrogator(requestHost), new PermissionStateCalculator(requestHost), permissions, callback);
-	}
-	PermissionProtectedAction(
-			@NonNull ActivityResultCaller requestHost,
-			@NonNull PermissionsInterrogator interrogator,
-			@NonNull PermissionStateCalculator stateCalculator,
-			@Size(min = 1)
-			@NonNull String[] permissions,
-			@NonNull PermissionEvents callback
-	) {
 		this.permissionRequestLauncher = requestHost.registerForActivityResult(
 				new RequestMultiplePermissions(), this::onActivityResult);
-		this.interrogator = interrogator;
-		this.stateCalculator = stateCalculator;
+		this.interrogator = new PermissionsInterrogator(requestHost);
+		this.stateCalculator = new PermissionStateCalculator(requestHost);
+		this.denialRemediator =
+				new PermissionDenialRemediator(requestHost, new RemediatorCallback());
 		this.permissions = permissions;
 		this.callback = callback;
 	}
@@ -78,10 +70,13 @@ public class PermissionProtectedAction {
 	@UiThread
 	public void executeBehindPermissions() {
 		if (interrogator.hasAllPermissions(permissions)) {
-			grantedPermanently();
+			LOG.trace("Permission request not necessary, granted already -> continue with feature.");
+			callback.granted(PermissionEvents.GrantedReason.PERMANENT);
+			return;
 		}
 		if (interrogator.needsAnyRationale(permissions)) {
 			showRationale();
+			return;
 		}
 		callback.userInteraction();
 		requestPermissions();
@@ -93,61 +88,53 @@ public class PermissionProtectedAction {
 
 	private void onActivityResult(Map<String, Boolean> isGranted) {
 		if (isGranted.isEmpty()) {
-			requestCancelled();
+			LOG.trace("Permission request cancelled, unknown permission state -> can't use feature.");
+			callback.denied(PermissionEvents.DeniedReason.CANCELLED);
 			return;
 		}
 		if (interrogator.isAllGranted(isGranted)) {
-			grantedFirstTime();
+			LOG.trace("Permission request granted -> continue with feature.");
+			callback.granted(PermissionEvents.GrantedReason.FIRST_TIME);
 			return;
 		}
 		// Some permissions were not granted (yet).
 		if (interrogator.needsAnyRationale(permissions)) {
-			deniedFirstTime();
+			LOG.trace("Permission request denied -> can't use feature until user tries again.");
+			// TODO need to be able to callback.showRationale(new RetryAfterRationale()); from this point.
+			callback.denied(PermissionEvents.DeniedReason.FIRST_TIME);
 			return;
 		}
-		deniedPermanently();
+		denialRemediator.remediatePermanentDenial(permissions);
 	}
 
 	private void showRationale() {
 		callback.userInteraction();
 		callback.showRationale(new PermissionEvents.RationaleContinuation() {
 			@Override public void rationaleAcceptedRetryRequest() {
-				rationaleAccepted();
+				LOG.trace("Permission request rationale accepted -> request permissions again.");
+				requestPermissions();
 			}
 			@Override public void rationaleRejectedCancelProcess() {
-				rationaleRejected();
+				LOG.trace("Permission request rationale rejected -> don't nag until user tries again.");
+				callback.denied(PermissionEvents.DeniedReason.RATIONALE_REJECTED);
 			}
 		});
 	}
 
-	private void requestCancelled() {
-		LOG.trace("Permission request cancelled, unknown permission state -> can't use feature.");
-		callback.denied();
-	}
-	private void grantedFirstTime() {
-		LOG.trace("Permission request granted -> continue with feature.");
-		callback.granted();
-	}
-	private void grantedPermanently() {
-		LOG.trace("Permission request not necessary, granted already -> continue with feature.");
-		callback.granted();
-	}
-	private void deniedFirstTime() {
-		LOG.trace("Permission request denied -> can't use feature until user tries again.");
-		// TODO need to be able to callback.showRationale(new RetryAfterRationale()); from this point.
-		callback.denied();
-	}
-	private void rationaleAccepted() {
-		LOG.trace("Permission request rationale accepted -> request permissions again.");
-		requestPermissions();
-	}
-	private void rationaleRejected() {
-		LOG.trace("Permission request rationale rejected -> don't nag until user tries again.");
-		callback.denied();
-	}
-	private void deniedPermanently() {
-		LOG.trace("Permission request denied permanently -> can't use feature, coach user.");
-		callback.denied();
+	private class RemediatorCallback implements PermissionEvents.RationaleContinuation {
+		@Override public void rationaleAcceptedRetryRequest() {
+			if (interrogator.hasAllPermissions(permissions)) {
+				LOG.trace("Permission request granted after going to settings.");
+				callback.granted(PermissionEvents.GrantedReason.PERMANENT_REMEDIATION);
+			} else {
+				LOG.trace("Permission request denied after going to settings.");
+				callback.denied(PermissionEvents.DeniedReason.PERMANENT);
+			}
+		}
+		@Override public void rationaleRejectedCancelProcess() {
+			LOG.trace("Permission request denied permanently -> can't use feature, coach user.");
+			callback.denied(PermissionEvents.DeniedReason.PERMANENT_REMEDIATION_REJECTED);
+		}
 	}
 
 	@UiThread
@@ -157,9 +144,21 @@ public class PermissionProtectedAction {
 			// Optional override.
 		}
 
-		void granted();
+		enum GrantedReason {
+			FIRST_TIME,
+			PERMANENT,
+			PERMANENT_REMEDIATION,
+		}
+		void granted(@NonNull GrantedReason reason);
 
-		default void denied() {
+		enum DeniedReason {
+			CANCELLED,
+			FIRST_TIME,
+			RATIONALE_REJECTED,
+			PERMANENT,
+			PERMANENT_REMEDIATION_REJECTED,
+		}
+		default void denied(@NonNull DeniedReason reason) {
 			// Nothing to do, user will try again.
 		}
 
