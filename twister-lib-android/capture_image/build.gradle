@@ -9,6 +9,7 @@ dependencies {
 	implementation(libs.androidx.exifinterface)
 	implementation "net.twisterrob.lib:twister-lib-android-basics"
 	implementation "net.twisterrob.lib:twister-lib-android-glide3"
+	implementation "net.twisterrob.lib:twister-lib-android-permissions"
 	implementation "net.twisterrob.lib:twister-lib-java"
 	implementation "net.twisterrob.lib:twister-lib-android-monolith"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"

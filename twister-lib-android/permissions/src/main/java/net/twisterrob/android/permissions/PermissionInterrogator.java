@@ -1,7 +1,10 @@
 package net.twisterrob.android.permissions;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -16,6 +19,11 @@ public class PermissionInterrogator {
 	}
 
 	public boolean hasPermission(@NonNull String permission) {
+		if (VERSION.SDK_INT < VERSION_CODES.JELLY_BEAN
+				&& Manifest.permission.READ_EXTERNAL_STORAGE.equals(permission)) {
+			// Doesn't exist on API 14, implicitly granted.
+			return true;
+		}
 		int grant = ContextCompat.checkSelfPermission(activity, permission);
 		return grant == PackageManager.PERMISSION_GRANTED;
 	}

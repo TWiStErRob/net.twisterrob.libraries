@@ -9,7 +9,6 @@ import android.animation.*;
 import android.annotation.*;
 import android.app.Activity;
 import android.content.*;
-import android.content.pm.PackageManager;
 import android.graphics.*;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.*;
@@ -17,7 +16,6 @@ import android.net.Uri;
 import android.os.*;
 import android.os.Build.*;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -41,6 +39,7 @@ import androidx.exifinterface.media.ExifInterface;
 import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
+import net.twisterrob.android.permissions.PermissionProtectedAction;
 import net.twisterrob.android.utils.concurrent.Callback;
 import net.twisterrob.android.utils.tools.DialogTools;
 import net.twisterrob.android.utils.tools.ImageTools;
@@ -103,6 +102,67 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private ImageButton mBtnPick;
 	private ImageButton mBtnCrop;
 	private ToggleButton mBtnFlash;
+
+	private final PermissionProtectedAction restartPreview = new PermissionProtectedAction(
+			this,
+			new String[] {Manifest.permission.CAMERA},
+			new PermissionProtectedAction.PermissionEvents() {
+				@Override public void userInteraction() {
+					mPreview.setVisibility(View.INVISIBLE);
+				}
+				@Override public void granted() {
+					prefs.edit().remove(PREF_DENIED).apply();
+					doRestartPreview();
+				}
+				@Override public void denied() {
+					prefs.edit().putBoolean(PREF_DENIED, true).apply();
+					if (STATE_CROPPING.equals(state)) {
+						// Nothing to do, probably a mis-click:
+						// there's already an image loaded, just have to press crop button.
+					} else {
+						// Start picking as that's likely the action the user will need.
+						pick.executeBehindPermissions();
+					}
+				}
+				@Override public void showRationale(@NonNull RationaleContinuation continuation) {
+					DialogTools
+							.confirm(CaptureImage.this, value -> {
+								if (Boolean.TRUE.equals(value)) {
+									continuation.rationaleAcceptedRetryRequest();
+								} else {
+									continuation.rationaleRejectedCancelProcess();
+								}
+							})
+							.setTitle("Camera permission needed")
+							.setMessage("Do you want to use the camera?")
+							.show();
+				}
+			}
+	);
+
+	@SuppressLint("InlinedApi")
+	private final PermissionProtectedAction pick = new PermissionProtectedAction(
+			this,
+			new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+			new PermissionProtectedAction.PermissionEvents() {
+				@Override public void granted() {
+					doPick();
+				}
+				@Override public void showRationale(@NonNull RationaleContinuation continuation) {
+					DialogTools
+							.confirm(CaptureImage.this, value -> {
+								if (Boolean.TRUE.equals(value)) {
+									continuation.rationaleAcceptedRetryRequest();
+								} else {
+									continuation.rationaleRejectedCancelProcess();
+								}
+							})
+							.setTitle("Read permission needed")
+							.setMessage("Do you want to allow it?")
+							.show();
+				}
+			}
+	);
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -405,10 +465,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		}
 	}
 	protected void doRestartPreview() {
-		if (requestCameraPermissionIfNeeded()) {
-			mPreview.setVisibility(View.INVISIBLE);
-			return;
-		}
 		if (STATE_CROPPING.equals(state)) {
 			flipSelection();
 		}
@@ -424,10 +480,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		enableControls();
 	}
 	protected void doPick() {
-		if (requestReadPermissionIfNeeded()) {
-			// Without this permission, we can't process the result of the picker.
-			return;
-		}
 		state = STATE_PICKING;
 		mPreview.setVisibility(View.INVISIBLE);
 		disableControls();
@@ -443,99 +495,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				.addGalleryIntent()
 				.addCameraIntents(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile))
 				.build();
-	}
-
-	private static final int PERMISSIONS_REQUEST_CAMERA = 1;
-	private static final int PERMISSIONS_REQUEST_READ = 2;
-	private boolean requestCameraPermissionIfNeeded() {
-		if (ImageRequest.hasCameraPermission(this)) {
-			return false;
-		} else {
-			// TODO if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) showDialog
-			ActivityCompat.requestPermissions(this,
-					new String[] {Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
-			return true;
-		}
-	}
-	private boolean requestReadPermissionIfNeeded() {
-		if (ImageRequest.hasReadPermission(this)) {
-			return false;
-		} else {
-			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-				DialogTools
-						.notify(this, value -> {
-							if (Boolean.TRUE.equals(value)) {
-								requestReadPermission();
-							}
-						})
-						.setTitle("Read permission needed")
-						.show();
-				return true;
-			}
-			requestReadPermission();
-			return true;
-		}
-	}
-	@SuppressLint("InlinedApi") // hasReadPermission checks for the API level.
-	private void requestReadPermission() {
-		ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ);
-	}
-	@SuppressWarnings("deprecation")
-	@Override public void onRequestPermissionsResult(
-			int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		switch (requestCode) {
-			case PERMISSIONS_REQUEST_CAMERA: {
-				if (grantResults.length == 0) { // If request is cancelled, the result arrays are empty.
-					break; // Nothing we can do really, let's try again later when user interactions warrants it.
-				}
-				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// All ok, we have the permission, remember the user's approval.
-					prefs.edit().remove(PREF_DENIED).apply();
-					doRestartPreview(); // start using the camera
-				} else {
-					// No permission: remember the user's disapproval, and don't bug again until explicit action.
-					prefs.edit().putBoolean(PREF_DENIED, true).apply();
-					if (STATE_CROPPING.equals(state)) {
-						// Nothing to do, probably a mis-click:
-						// there's already an image loaded, just have to press crop button.
-					} else {
-						doPick(); // Start picking as that's likely the action the user will need.
-					}
-				}
-				break;
-			}
-			case PERMISSIONS_REQUEST_READ: {
-				if (grantResults.length == 0) { // If request is cancelled, the result arrays are empty.
-					break; // Nothing we can do really, let's try again later when user interactions warrants it.
-				}
-				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					doPick(); // Start picking, as that's the next step if we have access.
-				} else {
-					if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-						// Denied for the first time, next action will show rationale.
-					} else {
-						DialogTools
-								.confirm(this, value -> {
-									if (Boolean.TRUE.equals(value)) {
-										openSettings();
-									}
-								})
-								.setTitle("Go to settings to grant read permission")
-								.show();
-					}
-				}
-				break;
-			}
-			default:
-				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		}
-	}
-	private void openSettings() {
-		Intent openSettings = new Intent(
-				Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-				Uri.fromParts("package", getPackageName(), null)
-		);
-		startActivity(openSettings);
 	}
 
 	protected void doReturn() {
@@ -715,14 +674,14 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 
 	private class PickClickListener implements OnClickListener {
 		@Override public void onClick(View v) {
-			doPick();
+			pick.executeBehindPermissions();
 		}
 	}
 
 	private class CaptureClickListener implements OnClickListener {
 		@Override public void onClick(View v) {
 			if (!mPreview.isRunning()) { // picked gallery, camera button -> enable preview
-				doRestartPreview();
+				restartPreview.executeBehindPermissions();
 				return;
 			}
 			disableControls();
@@ -739,7 +698,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 					Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 				}
 			} else {
-				doRestartPreview();
+				restartPreview.executeBehindPermissions();
 			}
 		}
 	}
