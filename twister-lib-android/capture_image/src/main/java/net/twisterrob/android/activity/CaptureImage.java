@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.*;
 import android.os.Build.*;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -41,6 +42,7 @@ import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.utils.concurrent.Callback;
+import net.twisterrob.android.utils.tools.DialogTools;
 import net.twisterrob.android.utils.tools.ImageTools;
 import net.twisterrob.android.utils.tools.IntentTools;
 import net.twisterrob.android.view.*;
@@ -422,6 +424,10 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		enableControls();
 	}
 	protected void doPick() {
+		if (requestReadPermissionIfNeeded()) {
+			// Without this permission, we can't process the result of the picker.
+			return;
+		}
 		state = STATE_PICKING;
 		mPreview.setVisibility(View.INVISIBLE);
 		disableControls();
@@ -440,6 +446,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	}
 
 	private static final int PERMISSIONS_REQUEST_CAMERA = 1;
+	private static final int PERMISSIONS_REQUEST_READ = 2;
 	private boolean requestCameraPermissionIfNeeded() {
 		if (ImageRequest.hasCameraPermission(this)) {
 			return false;
@@ -449,6 +456,29 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 					new String[] {Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_CAMERA);
 			return true;
 		}
+	}
+	private boolean requestReadPermissionIfNeeded() {
+		if (ImageRequest.hasReadPermission(this)) {
+			return false;
+		} else {
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+				DialogTools
+						.notify(this, value -> {
+							if (Boolean.TRUE.equals(value)) {
+								requestReadPermission();
+							}
+						})
+						.setTitle("Read permission needed")
+						.show();
+				return true;
+			}
+			requestReadPermission();
+			return true;
+		}
+	}
+	@SuppressLint("InlinedApi") // hasReadPermission checks for the API level.
+	private void requestReadPermission() {
+		ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ);
 	}
 	@SuppressWarnings("deprecation")
 	@Override public void onRequestPermissionsResult(
@@ -474,9 +504,38 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				}
 				break;
 			}
+			case PERMISSIONS_REQUEST_READ: {
+				if (grantResults.length == 0) { // If request is cancelled, the result arrays are empty.
+					break; // Nothing we can do really, let's try again later when user interactions warrants it.
+				}
+				if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					doPick(); // Start picking, as that's the next step if we have access.
+				} else {
+					if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+						// Denied for the first time, next action will show rationale.
+					} else {
+						DialogTools
+								.confirm(this, value -> {
+									if (Boolean.TRUE.equals(value)) {
+										openSettings();
+									}
+								})
+								.setTitle("Go to settings to grant read permission")
+								.show();
+					}
+				}
+				break;
+			}
 			default:
 				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
+	}
+	private void openSettings() {
+		Intent openSettings = new Intent(
+				Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+				Uri.fromParts("package", getPackageName(), null)
+		);
+		startActivity(openSettings);
 	}
 
 	protected void doReturn() {

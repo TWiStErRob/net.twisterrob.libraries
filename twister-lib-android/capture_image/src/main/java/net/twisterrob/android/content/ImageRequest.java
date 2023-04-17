@@ -184,6 +184,17 @@ public class ImageRequest {
 		return galleryIntent;
 	}
 
+	public static boolean hasReadPermission(@NonNull Context context) {
+		if (VERSION.SDK_INT < VERSION_CODES.KITKAT) {
+			// This permission is enforced starting in API level 19.
+			// Before API level 19, this permission is not enforced and
+			// all apps still have access to read from external storage. 
+			return true;
+		}
+		int permissionState = PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+		return permissionState == PermissionChecker.PERMISSION_GRANTED;
+	}
+	
 	/**
 	 * Check if the current {@code context} is able to launch {@link MediaStore#ACTION_IMAGE_CAPTURE}.
 	 * 
