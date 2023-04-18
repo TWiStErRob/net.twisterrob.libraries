@@ -25,7 +25,14 @@ public class LoggingFragment extends Fragment {
 	protected LoggingDebugProvider debugInfoProvider;
 
 	public LoggingFragment() {
+		super();
 		log("ctor");
+	}
+
+	@ContentView
+	public LoggingFragment(@LayoutRes int contentLayoutId) {
+		super(contentLayoutId);
+		log("ctor", contentLayoutId);
 	}
 
 	@Override public void onInflate(

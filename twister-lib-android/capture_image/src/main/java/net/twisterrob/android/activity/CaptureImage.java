@@ -32,6 +32,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.*;
 import com.bumptech.glide.request.target.*;
 
+import androidx.activity.ComponentActivity;
 import androidx.annotation.*;
 import androidx.core.app.ActivityCompat;
 import androidx.exifinterface.media.ExifInterface;
@@ -47,8 +48,6 @@ import net.twisterrob.android.view.CameraPreview.*;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
 import net.twisterrob.java.io.IOTools;
 
-import static net.twisterrob.android.content.ImageRequest.*;
-
 /**
  * TODO check how others did it
  * <a href="https://github.com/lvillani/android-cropimage/tree/678f453d577232bbeed6b025dace823fa6bee43b">Crop Image from Gallery (as was 2014)</a>
@@ -59,7 +58,7 @@ import static net.twisterrob.android.content.ImageRequest.*;
  * > <a href="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/ece301-examples/CameraPreview.zip">CameraPreview.zip</a> (password preview).
  */
 @UiThread
-public class CaptureImage extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class CaptureImage extends ComponentActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 	private static final Logger LOG = LoggerFactory.getLogger(CaptureImage.class);
 	public static final String EXTRA_OUTPUT = MediaStore.EXTRA_OUTPUT;
 	public static final String EXTRA_OUTPUT_PUBLIC = MediaStore.EXTRA_OUTPUT + "-public";
@@ -174,7 +173,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 					AnimatorSet whiteFlash = new AnimatorSet();
 					whiteFlash.playSequentially(whiteFlashIn, whiteFlashOut);
 					whiteFlash.addListener(new AnimatorListenerAdapter() {
-						@SuppressWarnings("deprecation")
+						@SuppressWarnings({"deprecation", "RedundantSuppression"}) 
 						@Override public void onAnimationEnd(Animator animation) {
 							flashView.setBackgroundDrawable(null);
 						}
@@ -214,7 +213,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 		}
 		if (savedInstanceState == null) {
 			boolean userDeclined = hasCamera
-					&& !hasCameraPermission(this)
+					&& !ImageRequest.hasCameraPermission(this)
 					&& prefs.getBoolean(PREF_DENIED, false);
 			if (getIntent().getBooleanExtra(EXTRA_PICK, false) // forcing an immediate pick
 					|| !hasCamera // device doesn't have camera
@@ -245,11 +244,13 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 			}
 		}
 	}
-	@Override protected void onSaveInstanceState(Bundle outState) {
+	@Override protected void onSaveInstanceState(@NonNull Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(KEY_STATE, state);
 	}
+	@SuppressWarnings("deprecation")
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode != Activity.RESULT_OK) {
 			if (data != null && ACTION.equals(data.getAction())) {
 				mBtnCapture.performClick();
@@ -272,6 +273,8 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 			try {
 				LOG.trace("Loading image from {} to {}", result, mTargetFile);
 				InputStream stream = getContentResolver().openInputStream(result);
+				//noinspection RedundantSuppression
+				//noinspection IOStreamConstructor only API 26 and above.
 				IOTools.copyStream(stream, new FileOutputStream(mTargetFile));
 			} catch (IOException ex) {
 				LOG.error("Cannot grab data from {} into {}", result, mTargetFile, ex);
@@ -340,7 +343,6 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 				.transform(new FitCenter(GlideHelpers.NO_POOL)) // make sure full image is visible
 				;
 
-		@SuppressWarnings("unchecked")
 		RequestListener<Object, Bitmap> listener = new MultiRequestListener<>(visualFeedbackListener, target);
 		image
 				.decoder(new NonPoolingImageVideoBitmapDecoder(DecodeFormat.PREFER_ARGB_8888))
@@ -439,7 +441,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 
 	private static final int PERMISSIONS_REQUEST_CAMERA = 1;
 	private boolean requestCameraPermissionIfNeeded() {
-		if (hasCameraPermission(this)) {
+		if (ImageRequest.hasCameraPermission(this)) {
 			return false;
 		} else {
 			// TODO if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) showDialog
@@ -448,6 +450,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 			return true;
 		}
 	}
+	@SuppressWarnings("deprecation")
 	@Override public void onRequestPermissionsResult(
 			int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		switch (requestCode) {
@@ -521,7 +524,6 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 		LOG.trace("Saving {} bytes to {}", data.length, file);
 		OutputStream out = null;
 		try {
-			//noinspection resource cannot use try-with-resources at this API level
 			out = new FileOutputStream(file);
 			out.write(data);
 			out.flush();
@@ -569,6 +571,7 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 		// @deprecated: experimental for now, don't enable; this would reduce OOMs even more,
 		// because it would skip rotation which create a full copy of the bitmap
 		// on the other hand, rotation should use less memory as saving (getPixels + YCC), so it may be unnecessary.
+		@SuppressWarnings("ConstantConditions")
 		final boolean exifRotate = Boolean.parseBoolean("false");
 		ExifInterface exif = null;
 		if (exifRotate) {
@@ -593,7 +596,13 @@ public class CaptureImage extends Activity implements ActivityCompat.OnRequestPe
 		return file;
 	}
 	@AnyThread
-	private int calcSampleSize(int maxSize, float leewayPercent, int sourceWidth, int sourceHeight) {
+	private int calcSampleSize(
+			int maxSize,
+			@SuppressWarnings("SameParameterValue")
+			float leewayPercent,
+			int sourceWidth,
+			int sourceHeight
+	) {
 		// mirror calculations in ImageTools.downscale
 		final float widthPercentage = maxSize / (float)sourceWidth;
 		final float heightPercentage = maxSize / (float)sourceHeight;

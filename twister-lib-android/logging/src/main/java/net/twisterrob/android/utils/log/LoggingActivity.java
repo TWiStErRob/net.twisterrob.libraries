@@ -41,7 +41,14 @@ public class LoggingActivity extends AppCompatActivity {
 	}
 
 	public LoggingActivity() {
+		super();
 		log("ctor");
+	}
+
+	@ContentView
+	public LoggingActivity(@LayoutRes int contentLayoutId) {
+		super(contentLayoutId);
+		log("ctor", contentLayoutId);
 	}
 
 	//region Startup

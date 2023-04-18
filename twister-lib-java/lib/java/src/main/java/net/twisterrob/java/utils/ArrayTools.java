@@ -2,6 +2,8 @@ package net.twisterrob.java.utils;
 
 import java.util.Arrays;
 
+import javax.annotation.Nonnull;
+
 public final class ArrayTools {
 	private ArrayTools() {
 		throw new IllegalAccessError("This static utility class cannot be instantiated");
@@ -125,6 +127,30 @@ public final class ArrayTools {
 			return Arrays.toString((short[])value);
 		} else if (value instanceof byte[]) {
 			return Arrays.toString((byte[])value);
+		} else {
+			throw new IllegalArgumentException("Object " + value + " must be of an array type.");
+		}
+	}
+
+	public static @Nonnull Object copyOfRange(@Nonnull Object value, int from, int to) {
+		if (value instanceof Object[]) { // T[], primitive[]...[]
+			return Arrays.copyOfRange((Object[])value, from, to);
+		} else if (value instanceof int[]) {
+			return Arrays.copyOfRange((int[])value, from, to);
+		} else if (value instanceof float[]) {
+			return Arrays.copyOfRange((float[])value, from, to);
+		} else if (value instanceof char[]) {
+			return Arrays.copyOfRange((char[])value, from, to);
+		} else if (value instanceof double[]) {
+			return Arrays.copyOfRange((double[])value, from, to);
+		} else if (value instanceof boolean[]) {
+			return Arrays.copyOfRange((boolean[])value, from, to);
+		} else if (value instanceof long[]) {
+			return Arrays.copyOfRange((long[])value, from, to);
+		} else if (value instanceof short[]) {
+			return Arrays.copyOfRange((short[])value, from, to);
+		} else if (value instanceof byte[]) {
+			return Arrays.copyOfRange((byte[])value, from, to);
 		} else {
 			throw new IllegalArgumentException("Object " + value + " must be of an array type.");
 		}

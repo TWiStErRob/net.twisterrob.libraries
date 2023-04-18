@@ -7,7 +7,7 @@ android.namespace = "net.twisterrob.android"
 repositories {
 	maven { // jcenter() deprecated https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
 		name = "jcenter"
-		setUrl("https://jcenter.bintray.com/")
+		url = uri("https://jcenter.bintray.com/")
 		content {
 			includeModule("com.rarepebble", "colorpicker")
 		}

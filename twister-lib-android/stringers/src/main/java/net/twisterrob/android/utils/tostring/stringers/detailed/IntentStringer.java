@@ -12,12 +12,13 @@ import net.twisterrob.java.utils.tostring.*;
 
 @DebugHelper
 @TargetApi(VERSION_CODES.JELLY_BEAN)
-public class IntentStringer extends Stringer<Intent> {
-	@Override public String getType(Intent object) {
+public class IntentStringer<T extends Intent> extends Stringer<T> {
+	@Override public String getType(T object) {
 		return null;
 	}
-	@Override public void toString(@NonNull ToStringAppender append, Intent intent) {
+	@Override public void toString(@NonNull ToStringAppender append, T intent) {
 		append.beginSizedList(intent, 10, false); // TODO figure out a better way
+		extraProperties(append, intent);
 		if (intent.getPackage() != null) {
 			append.item("pkg", intent.getPackage());
 		}
@@ -56,5 +57,9 @@ public class IntentStringer extends Stringer<Intent> {
 			}
 		}
 		append.endSizedList();
+	}
+
+	protected void extraProperties(ToStringAppender append, T intent) {
+		// Optional override.
 	}
 }

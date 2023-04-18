@@ -6,6 +6,7 @@ import java.util.*;
 import javax.annotation.*;
 
 import net.twisterrob.java.annotations.DebugHelper;
+import net.twisterrob.java.utils.ArrayTools;
 import net.twisterrob.java.utils.StringTools;
 import net.twisterrob.java.utils.tostring.*;
 
@@ -39,8 +40,16 @@ public class DefaultStringer extends Stringer<Object> {
 		String display;
 		if (value.getClass().isArray()) {
 			if (value.getClass().getComponentType().isPrimitive()) {
-				display = Arrays.deepToString(new Object[] {value});
+				int length = ArrayTools.safeLength(value);
+				Object cut = value;
+				if (length > 100) {
+					cut = ArrayTools.copyOfRange(cut, 0, 100);
+				}
+				display = Arrays.deepToString(new Object[] {cut});
 				display = display.substring(1, display.length() - 1);
+				if (cut != value) {
+					display += " and " + (length - ArrayTools.safeLength(cut)) + " omitted";
+				}
 			} else {
 				display = Arrays.deepToString((Object[])value);
 			}
