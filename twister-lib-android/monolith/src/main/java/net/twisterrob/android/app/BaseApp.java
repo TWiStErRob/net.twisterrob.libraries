@@ -33,7 +33,7 @@ public abstract class BaseApp extends android.app.Application {
 	private static final Logger LOG = LoggerFactory.getLogger(BaseApp.class);
 
 	private static BaseApp s_instance;
-	private final boolean BuildConfigDEBUG;
+	private boolean BuildConfigDEBUG;
 	/**
 	 * android.database.DatabaseTools.dumpCursor(net.twisterrob.inventory.android.
 	 * App.db().getReadableDatabase().rawQuery("select * from sqlite_sequence;", null));
@@ -41,25 +41,32 @@ public abstract class BaseApp extends android.app.Application {
 	private Object database;
 	private final CountDownLatch databaseWaiter = new CountDownLatch(1);
 	private ResourcePreferences prefs;
-	private final int preferencesResource;
+	private int preferencesResource;
 
 	public BaseApp(boolean debugMode, @XmlRes int preferences) {
+		this();
+		init(debugMode, preferences);
+	}
+
+	public BaseApp() {
 		synchronized (BaseApp.class) {
 			if (s_instance != null) {
 				throw new IllegalStateException("Multiple applications running at the same time?!");
 			}
-			this.preferencesResource = preferences;
-			this.BuildConfigDEBUG = debugMode;
-			if (BuildConfigDEBUG) {
-				setStrictMode();
-			}
-			//android.app.FragmentManager.enableDebugLogging(true);
-			//androidx.fragment.app.FragmentManager.enableDebugLogging(true);
-			//android.app.LoaderManager.enableDebugLogging(true);
-			//androidx.fragment.app.LoaderManager.enableDebugLogging(true);
-
 			s_instance = this;
 		}
+	}
+
+	protected void init(boolean debugMode, @XmlRes int preferences) {
+		this.preferencesResource = preferences;
+		this.BuildConfigDEBUG = debugMode;
+		if (BuildConfigDEBUG) {
+			setStrictMode();
+		}
+		//android.app.FragmentManager.enableDebugLogging(true);
+		//androidx.fragment.app.FragmentManager.enableDebugLogging(true);
+		//android.app.LoaderManager.enableDebugLogging(true);
+		//androidx.fragment.app.LoaderManager.enableDebugLogging(true);
 	}
 
 	protected void logStartup() {
