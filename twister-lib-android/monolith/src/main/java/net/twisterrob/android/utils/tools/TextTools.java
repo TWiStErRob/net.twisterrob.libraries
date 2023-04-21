@@ -1,5 +1,6 @@
 package net.twisterrob.android.utils.tools;
 
+import java.util.Collection;
 import java.util.Locale;
 
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.text.style.*;
 
 import androidx.annotation.*;
 import androidx.core.content.ContextCompat;
+import kotlin.collections.CollectionsKt;
 
 @SuppressWarnings("unused")
 public /*static*/ abstract class TextTools {
@@ -233,6 +235,19 @@ public /*static*/ abstract class TextTools {
 		int end = builder.length();
 		builder.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 		return builder;
+	}
+
+	public static @NonNull SpannableStringBuilder join(
+			@NonNull CharSequence separator,
+			@NonNull Collection<CharSequence> content
+	) {
+		return CollectionsKt.foldIndexed(content, new SpannableStringBuilder(), (index, acc, item) -> {
+			acc.append(item);
+			if (index < content.size() - 1) {
+				acc.append(separator);
+			}
+			return acc;
+		});
 	}
 
 	protected TextTools() {
