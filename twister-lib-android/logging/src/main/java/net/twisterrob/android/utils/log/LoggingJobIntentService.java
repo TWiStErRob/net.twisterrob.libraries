@@ -16,9 +16,11 @@ import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;
 import net.twisterrob.android.utils.tools.StringerTools;
 import net.twisterrob.java.annotations.DebugHelper;
 
+import static net.twisterrob.android.utils.log.LoggingDebugProvider.returned;
+
 @DebugHelper
 @SuppressLint("Registered") // allow registration if wanted without needing to subclass
-@Deprecated @SuppressWarnings("deprecation")
+@Deprecated @SuppressWarnings({"deprecation", "DeprecatedIsStillUsed"})
 public class LoggingJobIntentService extends androidx.core.app.JobIntentService {
 	private static final Logger LOG = LoggerFactory.getLogger("JobIntentService");
 
@@ -30,22 +32,26 @@ public class LoggingJobIntentService extends androidx.core.app.JobIntentService 
 		log("onCreate");
 		super.onCreate();
 	}
-	@Deprecated @SuppressWarnings("deprecation")
+	@Deprecated @SuppressWarnings({"deprecation", "RedundantSuppression"})
 	@Override public void onStart(@Nullable Intent intent, int startId) {
 		log("onStart", intent, startId);
 		super.onStart(intent, startId);
 	}
 	@Override public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
 		log("onStartCommand", intent, flags, startId);
-		return super.onStartCommand(intent, flags, startId);
+		int startResult = super.onStartCommand(intent, flags, startId);
+		logReturn("onStopCurrentWork", startResult, intent, flags, startId);
+		return startResult;
 	}
 	@Override public void onDestroy() {
 		log("onDestroy");
 		super.onDestroy();
 	}
-	@Override public @Nullable IBinder onBind(Intent intent) {
+	@Override public @Nullable IBinder onBind(@NonNull Intent intent) {
 		log("onBind", intent);
-		return super.onBind(intent);
+		IBinder binder = super.onBind(intent);
+		logReturn("onBind", binder, intent);
+		return binder;
 	}
 	@Override public void onConfigurationChanged(Configuration newConfig) {
 		log("onConfigurationChanged", newConfig);
@@ -61,7 +67,9 @@ public class LoggingJobIntentService extends androidx.core.app.JobIntentService 
 	}
 	@Override public boolean onUnbind(Intent intent) {
 		log("onUnbind", intent);
-		return super.onUnbind(intent);
+		boolean wantRebind = super.onUnbind(intent);
+		logReturn("onUnbind", wantRebind, intent);
+		return wantRebind;
 	}
 	@Override public void onRebind(Intent intent) {
 		log("onRebind", intent);
@@ -73,12 +81,21 @@ public class LoggingJobIntentService extends androidx.core.app.JobIntentService 
 	}
 	@Override public boolean onStopCurrentWork() {
 		log("onStopCurrentWork");
-		return super.onStopCurrentWork();
+		boolean reschedule = super.onStopCurrentWork();
+		logReturn("onStopCurrentWork", reschedule);
+		return reschedule;
 	}
 	@Override protected void onHandleWork(@NonNull Intent intent) {
 		log("onHandleWork", intent);
 	}
+
 	private void log(@NonNull String method, @NonNull Object... args) {
-		LoggingHelper.log(LOG, StringerTools.toNameString(this), method, null, args);
+		LoggingHelper.log(LOG, getName(), method, null, args);
+	}
+	private void logReturn(@NonNull String method, @Nullable Object ret, @NonNull Object... args) {
+		LoggingHelper.log(LOG, getName(), method, returned(ret), args);
+	}
+	private @NonNull String getName() {
+		return StringerTools.toNameString(this);
 	}
 }
