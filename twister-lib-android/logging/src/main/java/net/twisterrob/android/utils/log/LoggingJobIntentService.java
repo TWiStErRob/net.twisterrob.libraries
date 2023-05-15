@@ -11,6 +11,8 @@ import android.os.IBinder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import net.twisterrob.android.annotation.ServiceStartFlag;
+import net.twisterrob.android.annotation.ServiceStartResult;
 import net.twisterrob.android.annotation.TrimMemoryLevel;
 import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;
 import net.twisterrob.android.utils.tools.StringerTools;
@@ -38,9 +40,11 @@ public class LoggingJobIntentService extends androidx.core.app.JobIntentService 
 		super.onStart(intent, startId);
 	}
 	@Override public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-		log("onStartCommand", intent, flags, startId);
+		String flagsString = ServiceStartFlag.Converter.toString(flags);
+		log("onStartCommand", intent, flagsString, startId);
 		int startResult = super.onStartCommand(intent, flags, startId);
-		logReturn("onStopCurrentWork", startResult, intent, flags, startId);
+		String returnString = ServiceStartResult.Converter.toString(startResult);
+		logReturn("onStopCurrentWork", returnString, intent, flagsString, startId);
 		return startResult;
 	}
 	@Override public void onDestroy() {
