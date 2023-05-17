@@ -26,13 +26,48 @@ public class AndroidAutomator {
 		}
 	}
 
-	public static void allowPermissionsIfNeeded() throws UiObjectNotFoundException {
+	public static @IdResName String permissionDeny() {
+		if (VERSION.SDK_INT <= VERSION_CODES.P) {
+			return externalId(PACKAGE_PACKAGE_INSTALLER, "permission_deny_button");
+		} else {
+			return externalId(PACKAGE_PERMISSION_CONTROLLER, "permission_deny_button");
+		}
+	}
+
+	/**
+	 * @return whether the allow button was tapped
+	 */
+	public static boolean allowPermissionsIfNeeded() throws UiObjectNotFoundException {
 		if (VERSION_CODES.M <= VERSION.SDK_INT) {
 			UiDevice device = UiDevice.getInstance(getInstrumentation());
 			UiObject allow = device.findObject(new UiSelector().resourceId(permissionAllow()));
 			if (allow.exists()) {
 				shortClickOn(permissionAllow());
+				return true;
 			}
+		}
+		return false;
+	}
+
+	/**
+	 * @return whether the deny button was tapped
+	 */
+	public static boolean denyPermissionsIfNeeded() throws UiObjectNotFoundException {
+		if (VERSION_CODES.M <= VERSION.SDK_INT) {
+			UiDevice device = UiDevice.getInstance(getInstrumentation());
+			UiObject allow = device.findObject(new UiSelector().resourceId(permissionDeny()));
+			if (allow.exists()) {
+				shortClickOn(permissionDeny());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static void acceptAnyPermissions() throws UiObjectNotFoundException {
+		//noinspection StatementWithEmptyBody condition is an action which returns success.
+		while (AndroidAutomator.allowPermissionsIfNeeded()) {
+			// Keep accepting permissions until we get to the app.
 		}
 	}
 
