@@ -80,7 +80,7 @@ public class CaptureImageActivityActor extends ActivityActor {
 	}
 
 	public void allowPermissions() throws UiObjectNotFoundException {
-		allowPermissionsIfNeeded();
+		acceptAnyPermissions();
 	}
 
 	@SuppressWarnings("deprecation")
