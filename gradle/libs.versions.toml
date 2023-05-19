@@ -54,7 +54,7 @@ androidx-test-core = "1.5.0" # https://developer.android.com/jetpack/androidx/re
 androidx-test-monitor = "1.6.1" # https://developer.android.com/jetpack/androidx/releases/test
 androidx-test-rules = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/test
 androidx-test-runner = "1.5.2" # https://developer.android.com/jetpack/androidx/releases/test
-androidx-test-uiautomator = "2.2.0" # https://developer.android.com/jetpack/androidx/releases/test-uiautomator
+androidx-test-uiautomator = "2.3.0-alpha03" # https://developer.android.com/jetpack/androidx/releases/test-uiautomator
 
 test-junit = "4.13.1"
 test-params = "1.1.1"
