@@ -58,12 +58,26 @@ public class ActivityActor {
 	public void rotate() {
 		onView(isRoot()).perform(rotateActivity());
 	}
+	/**
+	 * Assert that the activity is visible and it is the top-most one.
+	 */
 	public void assertIsInFront() {
 		onView(isRoot()).perform(loopMainThreadUntilIdle()); // otherwise the assertion may fail
 		assertThat(getActivityInStage(Stage.RESUMED), instanceOf(activityClass));
 	}
-	public void assertIsInBackground(Activity activity) {
+	/**
+	 * Assert that the activity is visible, but not the top-most one.
+	 */
+	public void assertIsOverlaid(Activity activity) {
+		onView(isRoot()).perform(loopMainThreadUntilIdle()); // otherwise the assertion may fail
 		assertThat(activity, isInStage(Stage.PAUSED));
+	}
+	/**
+	 * Assert that the activity is not visible, but still in memory.
+	 */
+	public void assertIsInBackground(Activity activity) {
+		onView(isRoot()).perform(loopMainThreadUntilIdle()); // otherwise the assertion may fail
+		assertThat(activity, isInStage(Stage.STOPPED));
 	}
 	public void close() {
 		Espresso.pressBack();
