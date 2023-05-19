@@ -64,6 +64,11 @@ public class SystemAnimations {
 	private static final Method setDurationScale;
 
 	static {
+		StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
+		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy)
+					.permitNonSdkApiUsage().build());
+		}
 		try {
 			windowManagerStubClass = Class.forName("android.view.IWindowManager$Stub");
 			asInterface = windowManagerStubClass.getDeclaredMethod("asInterface", IBinder.class);
@@ -74,6 +79,13 @@ public class SystemAnimations {
 			getAnimationScales = windowManagerClass.getDeclaredMethod("getAnimationScales");
 		} catch (Throwable ex) {
 			throw new IllegalStateException(ex);
+		} finally {
+			StrictMode.setVmPolicy(originalPolicy);
+		}
+		StrictMode.VmPolicy originalPolicy2 = StrictMode.getVmPolicy();
+		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(originalPolicy2)
+					.permitNonSdkApiUsage().build());
 		}
 		try {
 			if (VERSION_CODES.JELLY_BEAN_MR1 < VERSION.SDK_INT) {
@@ -110,6 +122,8 @@ public class SystemAnimations {
 			}
 		} catch (Throwable ex) {
 			throw new IllegalStateException(ex);
+		} finally {
+			StrictMode.setVmPolicy(originalPolicy2);
 		}
 	}
 
