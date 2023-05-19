@@ -10,6 +10,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.*;
 
 import net.twisterrob.android.annotation.IdResName;
 import net.twisterrob.android.test.espresso.DialogMatchers;
+import net.twisterrob.android.utils.tools.ResourceTools;
 
 import static net.twisterrob.android.test.automators.UiAutomatorExtensions.*;
 
@@ -97,11 +98,9 @@ public class AndroidAutomator {
 
 	@RequiresApi(UiAutomatorExtensions.UI_AUTOMATOR_VERSION)
 	public static String getChooserTitle() throws UiObjectNotFoundException {
-		// TOFIX use android.R.id.title_default when targeting 23+
-		// on 28 it's title
-		int id = /*VERSION.SDK_INT >= VERSION_CODES.M
-				? ResourceTools.getIDResourceID(null, "title_default")
-				: */android.R.id.title;
+		int id = VERSION.SDK_INT >= VERSION_CODES.S
+				? ResourceTools.getIDResourceID(null, "content_preview_filename")
+				: android.R.id.title;
 		return UiAutomatorExtensions.getText(UiAutomatorExtensions.androidId(id));
 	}
 }
