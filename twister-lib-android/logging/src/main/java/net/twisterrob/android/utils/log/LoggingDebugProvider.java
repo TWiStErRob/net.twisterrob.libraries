@@ -2,6 +2,9 @@ package net.twisterrob.android.utils.log;
 
 import org.slf4j.Logger;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import net.twisterrob.android.utils.tools.StringerTools;
 import net.twisterrob.java.annotations.DebugHelper;
 
@@ -37,5 +40,9 @@ public interface LoggingDebugProvider {
 
 			LOG.trace(message.toString(), t);
 		}
+	}
+
+	static @NonNull LoggingDebugProvider returned(@Nullable Object ret) {
+		return () -> "returned " + StringerTools.toString(ret);
 	}
 }

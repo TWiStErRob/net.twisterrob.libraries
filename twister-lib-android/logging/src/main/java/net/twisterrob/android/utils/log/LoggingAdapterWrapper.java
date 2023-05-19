@@ -15,6 +15,9 @@ import androidx.annotation.RequiresApi;
 
 import net.twisterrob.android.utils.tools.StringerTools;
 
+import static net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;
+import static net.twisterrob.android.utils.log.LoggingDebugProvider.returned;
+
 public class LoggingAdapterWrapper implements Adapter {
 	private static final Logger LOG = LoggerFactory.getLogger("Adapter");
 
@@ -103,12 +106,11 @@ public class LoggingAdapterWrapper implements Adapter {
 	}
 
 	protected void log(@NonNull String name, @NonNull Object... args) {
-		LoggingDebugProvider.LoggingHelper.log(getLog(), getName(), name, null, args);
+		LoggingHelper.log(getLog(), getName(), name, null, args);
 	}
 
 	protected void logReturn(@NonNull String name, Object ret, @NonNull Object... args) {
-		LoggingDebugProvider retInfo = () -> "returned " + StringerTools.toString(ret);
-		LoggingDebugProvider.LoggingHelper.log(getLog(), getName(), name, retInfo, args);
+		LoggingHelper.log(getLog(), getName(), name, returned(ret), args);
 	}
 
 	@NonNull Logger getLog() {
