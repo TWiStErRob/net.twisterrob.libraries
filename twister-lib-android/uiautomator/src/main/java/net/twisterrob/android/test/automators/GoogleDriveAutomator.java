@@ -1,8 +1,8 @@
 package net.twisterrob.android.test.automators;
 
-import java.util.Locale;
-
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -15,15 +15,15 @@ import net.twisterrob.android.annotation.IdResName;
 import static net.twisterrob.android.test.automators.UiAutomatorExtensions.*;
 
 /**
- * Resource names last updated from {@code com.google.android.apps.docs} version 190320580 (2.19.032.05.80)
- * that was embedded in the API 28 Google Play emulator.
+ * Resource names last updated from {@code com.google.android.apps.docs} version 213141016 (2.23.161.1.all.alldpi)
+ * that was installed on my Google Pixel 7 Pro.
  */
 public class GoogleDriveAutomator {
 	public static final String PACKAGE_GOOGLE_DRIVE = "com.google.android.apps.docs";
 	public static final String PACKAGE_GOOGLE_SIGN_IN = "com.google.android.gms";
 
 	public static @IdResName String newFolderTitle() {
-		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "title_editor");
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "edit_text");
 	}
 
 	/**
@@ -36,7 +36,10 @@ public class GoogleDriveAutomator {
 		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "title");
 	}
 	public static @IdResName String folderTitleInList() {
-		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "title");
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "entry_label");
+	}
+	public static @IdResName String folderList() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "doclist_recycler_view");
 	}
 
 	/**
@@ -45,18 +48,36 @@ public class GoogleDriveAutomator {
 	public static @IdResName String up() {
 		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "up_affordance");
 	}
-	public static @IdResName String documentTitle() {
-		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "upload_edittext_document_title");
+	public static @IdResName String saveToDriveFileName() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "upload_title_edittext");
 	}
 
 	/**
 	 * Destination folder spinner in the "Save to Drive" dialog.
 	 */
 	public static @IdResName String uploadFolder() {
-		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "upload_folder");
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "upload_folder_autocomplete");
 	}
 	public static @IdResName String newFolder() {
-		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "icon_new");
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "create_folder");
+	}
+	public static @IdResName String confirmCreateFolder() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "positive_button");
+	}
+
+	public static @IdResName String searchBar() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "open_search_bar");
+	}
+
+	public static @IdResName String bottomNavigation() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "bottom_navigation");
+	}
+
+	public static @IdResName String welcomeScreen() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "welcome");
+	}
+	public static @IdResName String skipWelcome() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "skip");
 	}
 
 	/**
@@ -69,39 +90,49 @@ public class GoogleDriveAutomator {
 	/**
 	 * Title of the dialog that pops up to confirm drive upload from share intent.
 	 */
-	public static String saveToDrive() throws NameNotFoundException {
+	public static String saveToDriveDialogTitle() throws NameNotFoundException {
 		return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "upload_shared_item_title", "Save to Drive");
+	}
+
+	/**
+	 * Title of the item in the system chooser to select uploading to Drive.
+	 */
+	public static String saveToDriveChooserTitle() throws NameNotFoundException {
+		if (Build.VERSION_CODES.Q <= Build.VERSION.SDK_INT) {
+			return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "app_name_drive", "Drive");
+		} else {
+			return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "upload_shared_item_title", "Save to Drive");
+		}
+	}
+
+	/**
+	 * Title of the dialog that pops up to when we're cancelling upload.
+	 */
+	public static @IdResName String alertTitle() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "alertTitle");
+	}
+
+	public static String cancelUploadDialogTitle() throws NameNotFoundException {
+		return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "cancel_dialog_title", "Cancel upload?");
 	}
 
 	/**
 	 * Positive confirmation button of the folder selector, which pops up from Save to Drive dialog.
 	 */
-	public static String selectFolder() throws NameNotFoundException {
-		return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "dialog_select", "Select")
-		                            // this looks risky, consider android:button1
-		                            .toUpperCase(Locale.getDefault());
+	public static @IdResName String selectFolder() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "positive_button");
 	}
 
 	/**
-	 * Positive confirmation button of {@link #saveToDrive()}.
+	 * Positive confirmation button of {@link #saveToDriveDialogTitle()}.
 	 */
-	public static String save() throws NameNotFoundException {
-		return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "upload_shared_item_confirm", "Save")
-		                            // this looks risky, consider android:button1
-		                            .toUpperCase(Locale.getDefault());
+	public static @IdResName String saveToDriveDialogSave() {
+		return UiAutomatorExtensions.externalId(PACKAGE_GOOGLE_DRIVE, "save_button");
 	}
 
-	/**
-	 * Positive acknowledgement button of "Upload to Drive" dialog when user not logged in to Drive.
-	 */
-	public static String setupAccount() throws NameNotFoundException {
-		return UiAutomatorExtensions.externalString(
-				PACKAGE_GOOGLE_DRIVE, "no_account_for_upload_setup_account", "Setup account");
-	}
-
+	@RequiresApi(UI_AUTOMATOR_VERSION)
 	public static UiObject selectTitleInList(String folderName) throws UiObjectNotFoundException {
-		UiScrollable list =
-				new UiScrollable(new UiSelector().resourceId(UiAutomatorExtensions.androidId(android.R.id.list)));
+		UiScrollable list = new UiScrollable(new UiSelector().resourceId(folderList()));
 		return list.getChildByText(new UiSelector().resourceId(folderTitleInList()), folderName);
 	}
 
@@ -115,5 +146,20 @@ public class GoogleDriveAutomator {
 		UiSelector firstTextView = new UiSelector().className(TextView.class);
 		UiObject object = device.findObject(toolbar.childSelector(firstTextView));
 		return object.getText();
+	}
+
+	@RequiresApi(UI_AUTOMATOR_VERSION)
+	public static String getAlertTitle() throws UiObjectNotFoundException {
+		UiDevice device = UiDevice.getInstance(getInstrumentation());
+		UiObject object = device.findObject(new UiSelector().resourceId(alertTitle()));
+		return object.getText();
+	}
+
+	@RequiresApi(UI_AUTOMATOR_VERSION)
+	public static UiObject getUpNavigation() {
+		UiDevice device = UiDevice.getInstance(getInstrumentation());
+		UiSelector toolbar = new UiSelector().resourceId(toolbar());
+		UiSelector firstImageButton = new UiSelector().className(ImageButton.class);
+		return device.findObject(toolbar.childSelector(firstImageButton));
 	}
 }
