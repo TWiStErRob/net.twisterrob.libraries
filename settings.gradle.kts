@@ -59,6 +59,7 @@ includeAndroid(":uiautomator")
 includeAndroid(":annotations")
 includeAndroid(":defs")
 includeAndroid(":basics")
+includeAndroid(":permissions")
 
 includeAndroid(":glide3")
 includeAndroid(":widgets")

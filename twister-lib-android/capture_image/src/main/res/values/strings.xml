@@ -6,5 +6,21 @@
 	<string name="image__choose_external__intent_label_pick" tools:ignore="StringFormatCount"><xliff:g id="app" example="Photos">%1$s</xliff:g> <font color="#CCCCCC">(select)</font></string>
 	<!-- lint:StringFormatCount see https://github.com/TWiStErRob/net.twisterrob.inventory/issues/148 -->
 	<string name="image__choose_external__intent_label_take" tools:ignore="StringFormatCount"><xliff:g id="app" example="Camera">%1$s</xliff:g> <font color="#CCCCCC">(capture)</font></string>
+	
+	<string name="image__permissions__camera_title">Camera permission</string>
+	<string name="image__permissions__camera_message">
+		The app has a built-in camera for taking quick pictures.
+		If you would like to use this, please allow the Camera permission.
+		Otherwise you can pick pictures from external sources.
+		Press OK if you would like to use the built-in camera in the app.
+	</string>
+
+	<string name="image__permissions__disk_read_title">Read storage permission</string>
+	<string name="image__permissions__disk_read_message">
+		To import images from external sources,
+		the app needs to read from your device\'s external storage.
+		Alternatively, you can take pictures with the built-in camera in the app.
+		Press OK if you would like to import external images.
+	</string>
 
 </resources>
