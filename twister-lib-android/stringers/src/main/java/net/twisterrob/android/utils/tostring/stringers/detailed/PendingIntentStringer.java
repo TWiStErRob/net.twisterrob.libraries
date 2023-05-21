@@ -7,6 +7,7 @@ import org.slf4j.*;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Debug;
 import android.os.StrictMode;
 
 import androidx.annotation.NonNull;
@@ -55,11 +56,16 @@ public class PendingIntentStringer extends Stringer<PendingIntent> {
 					.permitNonSdkApiUsage()
 					.build());
 		}
-		try {
-			getIntent = ReflectionTools.tryFindDeclaredMethod(PendingIntent.class, "getIntent");
-			isActivity = ReflectionTools.tryFindDeclaredMethod(PendingIntent.class, "isActivity");
-		} finally {
-			StrictMode.setVmPolicy(originalPolicy);
+		if (!Debug.isDebuggerConnected()) {
+			try {
+				getIntent = ReflectionTools.tryFindDeclaredMethod(PendingIntent.class, "getIntent");
+				isActivity = ReflectionTools.tryFindDeclaredMethod(PendingIntent.class, "isActivity");
+			} finally {
+				StrictMode.setVmPolicy(originalPolicy);
+			}
+		} else {
+			getIntent = null;
+			isActivity = null;
 		}
 	}
 }
