@@ -991,6 +991,10 @@ public /*static*/ abstract class AndroidTools {
 		return new ProviderInfo();
 	}
 
+	/**
+	 * @deprecated Migrate to Storage Access Framework (SAF) / Scoped Storage instead.
+	 */
+	@Deprecated
 	@SuppressWarnings("deprecation")
 	public static void makeFileDiscoverable(@NonNull Context context, @NonNull File file) {
 		// MediaScannerConnection doesn't unbind for some reason, so let's send an intent instead:

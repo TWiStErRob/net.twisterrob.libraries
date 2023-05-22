@@ -10,6 +10,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.*;
 
 import net.twisterrob.android.annotation.IdResName;
 import net.twisterrob.android.test.espresso.DialogMatchers;
+import net.twisterrob.android.utils.tools.ResourceTools;
 
 import static net.twisterrob.android.test.automators.UiAutomatorExtensions.*;
 
@@ -26,13 +27,48 @@ public class AndroidAutomator {
 		}
 	}
 
-	public static void allowPermissionsIfNeeded() throws UiObjectNotFoundException {
+	public static @IdResName String permissionDeny() {
+		if (VERSION.SDK_INT <= VERSION_CODES.P) {
+			return externalId(PACKAGE_PACKAGE_INSTALLER, "permission_deny_button");
+		} else {
+			return externalId(PACKAGE_PERMISSION_CONTROLLER, "permission_deny_button");
+		}
+	}
+
+	/**
+	 * @return whether the allow button was tapped
+	 */
+	public static boolean allowPermissionsIfNeeded() throws UiObjectNotFoundException {
 		if (VERSION_CODES.M <= VERSION.SDK_INT) {
 			UiDevice device = UiDevice.getInstance(getInstrumentation());
 			UiObject allow = device.findObject(new UiSelector().resourceId(permissionAllow()));
 			if (allow.exists()) {
 				shortClickOn(permissionAllow());
+				return true;
 			}
+		}
+		return false;
+	}
+
+	/**
+	 * @return whether the deny button was tapped
+	 */
+	public static boolean denyPermissionsIfNeeded() throws UiObjectNotFoundException {
+		if (VERSION_CODES.M <= VERSION.SDK_INT) {
+			UiDevice device = UiDevice.getInstance(getInstrumentation());
+			UiObject allow = device.findObject(new UiSelector().resourceId(permissionDeny()));
+			if (allow.exists()) {
+				shortClickOn(permissionDeny());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static void acceptAnyPermissions() throws UiObjectNotFoundException {
+		//noinspection StatementWithEmptyBody condition is an action which returns success.
+		while (AndroidAutomator.allowPermissionsIfNeeded()) {
+			// Keep accepting permissions until we get to the app.
 		}
 	}
 
@@ -62,11 +98,9 @@ public class AndroidAutomator {
 
 	@RequiresApi(UiAutomatorExtensions.UI_AUTOMATOR_VERSION)
 	public static String getChooserTitle() throws UiObjectNotFoundException {
-		// TOFIX use android.R.id.title_default when targeting 23+
-		// on 28 it's title
-		int id = /*VERSION.SDK_INT >= VERSION_CODES.M
-				? ResourceTools.getIDResourceID(null, "title_default")
-				: */android.R.id.title;
+		int id = VERSION.SDK_INT >= VERSION_CODES.S
+				? ResourceTools.getIDResourceID(null, "content_preview_filename")
+				: android.R.id.title;
 		return UiAutomatorExtensions.getText(UiAutomatorExtensions.androidId(id));
 	}
 }
