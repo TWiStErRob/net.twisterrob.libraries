@@ -201,9 +201,8 @@ public class DialogTools {
 			super(context);
 		}
 
-		@Override public AlertDialog create() {
+		@Override public @NonNull AlertDialog create() {
 			final AlertDialog dialog = super.create();
-			dialog.setCanceledOnTouchOutside(true);
 			new Handler(Looper.getMainLooper()).post(new Runnable() {
 				@Override public void run() {
 					// TODO is this available earlier somehow?
