@@ -248,7 +248,8 @@ public /*static*/ abstract class IOTools {
 		ZipEntry zipEntry = new ZipEntry(zipRelativePath);
 		zipEntry.setTime(entry.lastModified());
 		zipOut.putNextEntry(zipEntry);
-		if (!entry.isDirectory()) {
+		// Note: symbolic links might not exist.
+		if (!entry.isDirectory() && entry.isFile() && entry.exists()) {
 			copyStream(new FileInputStream(entry), zipOut, false);
 		}
 		zipOut.closeEntry();
