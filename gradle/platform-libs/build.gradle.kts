@@ -44,6 +44,7 @@ dependencies {
 		apiWithKtx(libs.androidx.transition)
 
 		apiWithKtx(libs.androidx.test.fragment)
+		apiWithKtx(libs.androidx.test.fragmentManifest)
 		apiWithKtx(libs.androidx.test.core)
 		apiWithKtx(libs.androidx.test.runner)
 		apiWithKtx(libs.androidx.test.rules)

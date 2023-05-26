@@ -49,6 +49,7 @@ androidx-savedstate = "1.2.0" # https://developer.android.com/jetpack/androidx/r
 androidx-swiperefreshlayout = "1.1.0" # https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout
 androidx-tracing = "1.1.0" # https://developer.android.com/jetpack/androidx/releases/tracing
 androidx-transition = "1.4.1" # https://developer.android.com/jetpack/androidx/releases/transition
+androidx-viewbinding = "8.0.2" # Part of AGP
 androidx-test-espresso = "3.5.1" # https://developer.android.com/jetpack/androidx/releases/test
 androidx-test-junit = "1.1.5" # https://developer.android.com/jetpack/androidx/releases/test
 androidx-test-core = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/test
@@ -84,6 +85,7 @@ plugin-twisterrob-android = { module = "net.twisterrob.gradle:twister-convention
 plugin-dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-gradle-plugin", version.ref = "dependencyAnalysis" }
 
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 
 annotations-jetbrains = { module = "org.jetbrains:annotations", version.ref = "jbrAnn" }
 annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
@@ -98,7 +100,7 @@ android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" 
 android-guava = { module = "com.google.guava:guava", version.ref = "android-guava" }
 android-colorpicker = { module = "com.rarepebble:colorpicker", version.ref = "android-colorpicker" }
 
-androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
+androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
 androidx-annotationExperimental = { module = "androidx.annotation:annotation-experimental", version.ref = "androidx-annotationExperimental" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -111,9 +113,9 @@ androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
 androidx-customview = { module = "androidx.customview:customview", version.ref = "androidx-customview" }
 androidx-drawerlayout = { module = "androidx.drawerlayout:drawerlayout", version.ref = "androidx-drawerlayout" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "androidx-exifinterface" }
-androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "androidx-fragment" }
+androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidx-fragment" }
 androidx-lifecycleCommon = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidx-lifecycle" }
-androidx-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "androidx-lifecycle" }
+androidx-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycleViewModel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-loader = { module = "androidx.loader:loader", version.ref = "androidx-loader" }
 androidx-localbroadcastmanager = { module = "androidx.localbroadcastmanager:localbroadcastmanager", version.ref = "androidx-localbroadcastmanager" }
@@ -125,9 +127,12 @@ androidx-savedstate = { module = "androidx.savedstate:savedstate", version.ref =
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
 androidx-tracing = { module = "androidx.tracing:tracing", version.ref = "androidx-tracing" }
 androidx-transition = { module = "androidx.transition:transition", version.ref = "androidx-transition" }
+androidx-viewbinding = { module = "androidx.databinding:viewbinding", version.ref = "androidx-viewbinding" }
 
+# TODO change this to fragment-testing-manifest in 1.6+
+androidx-test-fragmentManifest = { module = "androidx.fragment:fragment-testing", version.ref = "androidx-fragment" }
 androidx-test-fragment = { module = "androidx.fragment:fragment-testing", version.ref = "androidx-fragment" }
-androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core" }
+androidx-test-core = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-junit" }
