@@ -8,9 +8,8 @@ dependencies {
 	api(libs.androidx.viewbinding)
 	implementation(libs.androidx.lifecycleRuntime)
 
-	debugImplementation(libs.androidx.test.fragmentManifest)
+	debugRuntimeOnly(libs.androidx.test.fragmentManifest)
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
-	androidTestImplementation(libs.test.hamcrest.junit)
 	androidTestImplementation(libs.androidx.test.fragment)
 	androidTestImplementation(libs.kotlin.reflect)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"

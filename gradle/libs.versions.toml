@@ -93,7 +93,7 @@ annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref =
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 guava-jre = { module = "com.google.guava:guava", version.ref = "guava-jre" }
-orbit-viewModel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbit" }
+orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
 
 android-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide3" }
 android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" }
