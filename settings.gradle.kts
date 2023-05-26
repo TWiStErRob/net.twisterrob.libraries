@@ -62,6 +62,7 @@ includeAndroid(":basics")
 includeAndroid(":permissions")
 
 includeAndroid(":glide3")
+includeAndroid(":orbit")
 includeAndroid(":widgets")
 includeAndroid(":settings")
 
