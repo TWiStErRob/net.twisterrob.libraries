@@ -46,6 +46,7 @@ dependencySubstitution {
 	substitute module("net.twisterrob.lib:twister-lib-android-logging") with project(":logging")
 	substitute module("net.twisterrob.lib:twister-lib-android-settings") with project(":settings")
 	substitute module("net.twisterrob.lib:twister-lib-android-orbit") with project(":orbit")
+	substitute module("net.twisterrob.lib:twister-lib-android-mad") with project(":mad")
 	substitute module("net.twisterrob.lib:twister-lib-android-permissions") with project(":permissions")
 	substitute module("net.twisterrob.lib:twister-lib-android-slf4j") with project(":slf4j")
 	substitute module("net.twisterrob.lib:twister-lib-android-stringers") with project(":stringers")
