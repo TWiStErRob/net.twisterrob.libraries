@@ -44,6 +44,7 @@ dependencies {
 		apiWithKtx(libs.androidx.transition)
 
 		apiWithKtx(libs.androidx.test.fragment)
+		apiWithKtx(libs.androidx.test.fragmentManifest)
 		apiWithKtx(libs.androidx.test.core)
 		apiWithKtx(libs.androidx.test.runner)
 		apiWithKtx(libs.androidx.test.rules)
@@ -71,7 +72,14 @@ val Provider<MinimalExternalModuleDependency>.ktx: Provider<MinimalExternalModul
 	get() = this.map { it.ktx }
 
 val MinimalExternalModuleDependency.ktx: MinimalExternalModuleDependency
-	get() = DefaultMinimalDependency(
-		DefaultModuleIdentifier.newId(this.module.group, "${this.module.name}-ktx"),
-		DefaultMutableVersionConstraint(this.versionConstraint)
-	)
+	get() {
+		val ktxModuleName = if (this.module.name.endsWith("-ktx")) {
+			this.module.name.removeSuffix("-ktx")
+		} else {
+			"${this.module.name}-ktx"
+		}
+		return DefaultMinimalDependency(
+			DefaultModuleIdentifier.newId(this.module.group, ktxModuleName),
+			DefaultMutableVersionConstraint(this.versionConstraint)
+		)
+	}

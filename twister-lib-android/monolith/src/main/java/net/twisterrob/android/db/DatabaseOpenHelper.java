@@ -230,14 +230,14 @@ public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {
 	}
 
 	@DebugHelper
-	public void restore(File from) throws IOException {
+	public void restore(InputStream from) throws IOException {
 		@SuppressWarnings("resource")
 		File target = new File(getReadableDatabase().getPath());
 		close();
 		if (!target.delete()) {
 			throw new IOException("Couldn't delete current DB file: " + target.getAbsolutePath());
 		}
-		IOTools.copyFile(from, target);
+		IOTools.copyStream(from, new FileOutputStream(target));
 	}
 
 	private void execFiles(SQLiteDatabase db, String... dbFiles) {

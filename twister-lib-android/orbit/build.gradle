@@ -1,0 +1,8 @@
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
+
+dependencies {
+	api(libs.slf4j.api)
+	api(libs.orbit.core)
+}

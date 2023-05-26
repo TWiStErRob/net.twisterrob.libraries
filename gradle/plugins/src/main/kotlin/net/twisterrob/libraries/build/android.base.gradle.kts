@@ -1,5 +1,6 @@
 package net.twisterrob.libraries.build
 
+import com.android.build.api.dsl.AndroidSourceSet
 import net.twisterrob.libraries.build.dsl.android
 import net.twisterrob.libraries.build.dsl.autoNamespace
 
@@ -33,12 +34,10 @@ android {
 	}
 	afterEvaluate {
 		sourceSets.named("androidTest").configure androidTest@{
-			@Suppress("DEPRECATION") // REPORT cannot replace with new interface, missing methods
-			this@androidTest as com.android.build.gradle.api.AndroidSourceSet
-			if (this@androidTest.java.getSourceFiles().isEmpty) {
+			if (this@androidTest.javaSources.isEmpty && this@androidTest.kotlinSources.isEmpty) {
 				logger.info(
 					"Disabling AndroidTest tasks in ${project.path}" +
-						" as it has no sources in ${this@androidTest.java.srcDirs}"
+						" as it has no sources in ${this@androidTest.srcDirs}"
 				)
 				tasks.configureEach {
 					if (this.name.contains("AndroidTest")) {
@@ -58,3 +57,16 @@ tasks.withType<JavaCompile>().configureEach javac@{
 		"-Xlint:-classfile",
 	)
 }
+
+val AndroidSourceSet.javaSources: FileTree
+	@Suppress("DEPRECATION") // REPORT cannot replace with new interface, missing methods
+	get() = (this as com.android.build.gradle.api.AndroidSourceSet).java.getSourceFiles()
+
+val AndroidSourceSet.kotlinSources: FileTree
+	@Suppress("DEPRECATION") // REPORT cannot replace with new interface, missing methods
+	get() = (this.kotlin as com.android.build.gradle.api.AndroidSourceDirectorySet).getSourceFiles()
+
+val AndroidSourceSet.srcDirs: Set<File>
+	@Suppress("DEPRECATION") // REPORT cannot replace with new interface, missing methods
+	get() = (this as com.android.build.gradle.api.AndroidSourceSet).java.srcDirs +
+		(this.kotlin as com.android.build.gradle.api.AndroidSourceDirectorySet).srcDirs

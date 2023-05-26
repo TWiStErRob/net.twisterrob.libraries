@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+	implementation(libs.plugin.kotlin.gradle)
 	implementation(libs.plugin.android.gradle)
 	implementation(libs.plugin.twisterrob.quality)
 	implementation(libs.plugin.twisterrob.android)

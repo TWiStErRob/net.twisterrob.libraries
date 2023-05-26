@@ -40,4 +40,4 @@ dependencies {
 	androidTestImplementation(project(":internal:test:android_instrumentation"))
 }
 
-android.lintOptions.checkDependencies = true
+android.lint.checkDependencies = true

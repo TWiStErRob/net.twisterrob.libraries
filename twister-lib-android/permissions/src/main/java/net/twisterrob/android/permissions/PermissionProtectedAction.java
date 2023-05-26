@@ -53,7 +53,7 @@ public class PermissionProtectedAction {
 			@NonNull PermissionEvents callback
 	) {
 		this.permissionRequestLauncher = requestHost.registerForActivityResult(
-				new RequestMultiplePermissions(), this::onActivityResult);
+				new RequestMultiplePermissions(), this::onRequestPermissionsResult);
 		this.interrogator = new PermissionsInterrogator(requestHost);
 		this.stateCalculator = new PermissionStateCalculator(requestHost);
 		this.denialRemediator =
@@ -86,7 +86,7 @@ public class PermissionProtectedAction {
 		permissionRequestLauncher.launch(permissions);
 	}
 
-	private void onActivityResult(Map<String, Boolean> isGranted) {
+	private void onRequestPermissionsResult(Map<String, Boolean> isGranted) {
 		if (isGranted.isEmpty()) {
 			LOG.trace("Permission request cancelled, unknown permission state -> can't use feature.");
 			callback.denied(PermissionEvents.DeniedReason.CANCELLED);

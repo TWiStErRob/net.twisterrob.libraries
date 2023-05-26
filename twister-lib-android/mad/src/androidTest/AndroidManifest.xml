@@ -1,0 +1,19 @@
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<application>
+
+		<activity android:name="net.twisterrob.android.viewbinding.SetContentViewTest$SetContentViewActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingInflateActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingInflateAutoDestroyActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingInflateNoAutoDestroyActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingInflateDirectActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingConstructorActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingConstructorDirectActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingManualActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingInflateNoSetActivity" />
+		<activity android:name="net.twisterrob.android.viewbinding.ViewBindingsTest$ViewBindingInflateNoSetUsedActivity" />
+
+	</application>
+
+</manifest>

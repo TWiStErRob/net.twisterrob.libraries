@@ -1,0 +1,26 @@
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
+
+dependencies {
+	api(libs.androidx.fragment)
+	api(libs.androidx.activity)
+	api(libs.androidx.viewbinding)
+	implementation(libs.androidx.lifecycleRuntime)
+
+	debugRuntimeOnly(libs.androidx.test.fragmentManifest)
+	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
+	androidTestImplementation(libs.androidx.test.fragment)
+	androidTestImplementation(libs.kotlin.reflect)
+	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
+}
+
+android {
+	buildFeatures {
+		viewBinding = true
+	}
+	// TODEL workaround for https://github.com/TWiStErRob/net.twisterrob.gradle/issues/493
+	packagingOptions {
+		excludes -= "**/*.kotlin_builtins"
+	}
+}

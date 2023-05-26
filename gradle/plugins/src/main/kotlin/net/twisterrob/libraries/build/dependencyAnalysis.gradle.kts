@@ -16,6 +16,8 @@ dependencyAnalysis {
 	}
 	issues {
 		all {
+			// https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/wiki/Customizing-plugin-behavior#ktx-dependencies
+			ignoreKtx(true)
 			onAny {
 				severity("fail")
 			}
