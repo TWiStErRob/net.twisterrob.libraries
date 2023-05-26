@@ -8,8 +8,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import net.twisterrob.android.mad.R
-import net.twisterrob.android.mad.databinding.TestContentBinding
+import net.twisterrob.android.mad.test.R
+import net.twisterrob.android.mad.test.databinding.TestContentBinding
 import org.junit.Test
 import org.junit.runner.RunWith
 
