@@ -76,6 +76,7 @@ test-android-objenesis = "2.6"
 
 
 [libraries]
+plugin-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-android-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 plugin-twisterrob-quality = { module = "net.twisterrob.gradle:twister-quality", version.ref = "twisterrob" }
 plugin-twisterrob-android = { module = "net.twisterrob.gradle:twister-convention-plugins", version.ref = "twisterrob" }

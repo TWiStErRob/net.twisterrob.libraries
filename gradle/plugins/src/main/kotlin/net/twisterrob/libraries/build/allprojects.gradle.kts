@@ -1,6 +1,8 @@
 package net.twisterrob.libraries.build
 
 import net.twisterrob.libraries.build.dsl.libs
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 configurations.configureEach {
 	resolutionStrategy {
@@ -30,6 +32,14 @@ tasks.withType<JavaCompile>().configureEach javac@{
 		// Fail build when any warning pops up.
 		"-Werror",
 	)
+}
+
+tasks.withType<KotlinCompile>().configureEach kotlin@{
+	compilerOptions {
+		allWarningsAsErrors.set(true)
+		jvmTarget.set(JvmTarget.fromTarget(libs.versions.java.get()))
+		freeCompilerArgs.add("-Xcontext-receivers")
+	}
 }
 
 tasks.withType<Test>().configureEach test@{
