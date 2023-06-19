@@ -12,12 +12,13 @@ twisterrob = "0.15.1"
 detekt = "1.22.0"
 dependencyAnalysis = "1.20.0"
 kotlin = "1.8.10"
+kotlin-coroutines = "1.7.1"
 
 jsr305 = "3.0.2"
 jbrAnn = "18.0.0"
 slf4j = "1.7.30"
 guava-jre = "27.0.1-jre"
-orbit = "4.6.1"
+orbit = "6.0.0"
 
 # TODEL SVGWorkarounds on > 1.4
 # TODEL :glide3 consumer.pro on > 1.4
@@ -86,6 +87,7 @@ plugin-dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-g
 
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 
 annotations-jetbrains = { module = "org.jetbrains:annotations", version.ref = "jbrAnn" }
 annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }

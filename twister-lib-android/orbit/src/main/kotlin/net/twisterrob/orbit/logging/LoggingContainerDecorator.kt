@@ -1,5 +1,6 @@
 package net.twisterrob.orbit.logging
 
+import kotlinx.coroutines.Job
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerDecorator
 import org.orbitmvi.orbit.annotation.OrbitInternal
@@ -22,13 +23,12 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 	}
 
 	@OptIn(OrbitInternal::class)
-	override suspend fun orbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit) {
+	override suspend fun orbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit): Job =
 		super.orbit {
 			events.intentStarted(orbitIntent.captured("transformer"))
 			this.logged().orbitIntent()
 			events.intentFinished(orbitIntent.captured("transformer"))
 		}
-	}
 
 	@OptIn(OrbitInternal::class)
 	override suspend fun inlineOrbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit) {

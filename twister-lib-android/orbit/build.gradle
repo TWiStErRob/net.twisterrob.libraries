@@ -5,4 +5,5 @@ plugins {
 dependencies {
 	api(libs.slf4j.api)
 	api(libs.orbit.core)
+	api(libs.kotlin.coroutinesCore) // TODEL https://github.com/orbit-mvi/orbit-mvi/issues/177
 }
