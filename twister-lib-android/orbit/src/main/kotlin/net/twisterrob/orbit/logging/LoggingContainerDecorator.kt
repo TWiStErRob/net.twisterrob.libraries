@@ -1,5 +1,6 @@
 package net.twisterrob.orbit.logging
 
+import kotlinx.coroutines.Job
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerDecorator
 import org.orbitmvi.orbit.annotation.OrbitInternal
@@ -22,13 +23,15 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 	}
 
 	@OptIn(OrbitInternal::class)
-	override suspend fun orbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit) {
+	override suspend fun orbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit): Job =
 		super.orbit {
-			events.intentStarted(orbitIntent.captured("transformer"))
+			// Note need to do a double-capture resolution, because there's an intermediate internal function.
+			// It was introduced in Orbit 6.0.0:
+			// https://github.com/orbit-mvi/orbit-mvi/commit/14b9a9fa46fe62891498058065e5857a17a137f7#diff-be051a3776eb5c87c456768a7827d213e917534872f80832e4ab7020d59dc8bb
+			events.intentStarted(orbitIntent.captured<Function<*>>("transformer").captured("transformer"))
 			this.logged().orbitIntent()
-			events.intentFinished(orbitIntent.captured("transformer"))
+			events.intentFinished(orbitIntent.captured<Function<*>>("transformer").captured("transformer"))
 		}
-	}
 
 	@OptIn(OrbitInternal::class)
 	override suspend fun inlineOrbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit) {

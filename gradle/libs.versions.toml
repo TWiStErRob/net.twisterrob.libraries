@@ -11,13 +11,14 @@ agp = "7.4.2"
 twisterrob = "0.15.1"
 detekt = "1.22.0"
 dependencyAnalysis = "1.20.0"
-kotlin = "1.8.10"
+kotlin = "1.8.22"
+kotlin-coroutines = "1.7.1"
 
 jsr305 = "3.0.2"
 jbrAnn = "18.0.0"
 slf4j = "1.7.30"
 guava-jre = "27.0.1-jre"
-orbit = "4.6.1"
+orbit = "6.0.0"
 
 # TODEL SVGWorkarounds on > 1.4
 # TODEL :glide3 consumer.pro on > 1.4
@@ -62,6 +63,7 @@ test-junit = "4.13.1"
 test-params = "1.1.1"
 test-gwen = "1.0.2"
 test-mockito = "3.3.3"
+test-mockitoKotlin = "3.2.0"
 test-powermock = "2.0.7"
 test-objenesis = "3.0.1"
 test-bytebuddy = "1.10.5"
@@ -86,6 +88,8 @@ plugin-dependencyAnalysis = { module = "com.autonomousapps:dependency-analysis-g
 
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlin-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 
 annotations-jetbrains = { module = "org.jetbrains:annotations", version.ref = "jbrAnn" }
 annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
@@ -93,7 +97,10 @@ annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref =
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 guava-jre = { module = "com.google.guava:guava", version.ref = "guava-jre" }
+
 orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
+orbit-viewModel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbit" }
+orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
 
 android-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide3" }
 android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" }
@@ -161,6 +168,7 @@ test-junit = { module = "junit:junit", version.ref = "test-junit" }
 test-params = { module = "pl.pragmatists:JUnitParams", version.ref = "test-params" }
 test-gwen = { module = "com.shazam:gwen", version.ref = "test-gwen" }
 test-mockito = { module = "org.mockito:mockito-core", version.ref = "test-mockito" }
+test-mockitoKotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "test-mockitoKotlin" }
 test-objenesis = { module = "org.objenesis:objenesis", version.ref = "test-objenesis" }
 test-bytebuddy = { module = "net.bytebuddy:byte-buddy", version.ref = "test-bytebuddy" }
 test-bytebuddyAgent = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "test-bytebuddy" }
