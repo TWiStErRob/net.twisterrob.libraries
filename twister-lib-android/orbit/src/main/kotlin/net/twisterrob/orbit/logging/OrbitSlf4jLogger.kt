@@ -57,5 +57,6 @@ private fun Function<*>.captures(): Map<String, Any?> =
 		.java
 		.declaredFields
 		.filter { it.name.startsWith("$") }
+		.sortedBy { it.name } // Sort to make it deterministic, reflection doesn't guarantee order.
 		.onEach { it.isAccessible = true }
 		.associateBy({ it.name.removePrefix("$") }, { it.get(this) })

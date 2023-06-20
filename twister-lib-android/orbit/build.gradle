@@ -6,4 +6,12 @@ dependencies {
 	api(libs.slf4j.api)
 	api(libs.orbit.core)
 	api(libs.kotlin.coroutinesCore) // TODEL https://github.com/orbit-mvi/orbit-mvi/issues/177
+
+	testImplementation(libs.orbit.viewModel)
+	testImplementation(libs.androidx.lifecycleViewModel) // TODEL https://github.com/orbit-mvi/orbit-mvi/issues/177
+	testImplementation(libs.orbit.test)
+	testImplementation(libs.kotlin.coroutinesTest) // TODEL https://github.com/orbit-mvi/orbit-mvi/issues/177
+	testImplementation(libs.test.junit)
+	testImplementation(libs.test.mockitoKotlin)
+	testRuntimeOnly(libs.slf4j.simple)
 }
