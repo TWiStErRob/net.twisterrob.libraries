@@ -61,6 +61,7 @@ includeAndroid(":defs")
 includeAndroid(":basics")
 includeAndroid(":permissions")
 
+includeAndroid(":color_picker")
 includeAndroid(":glide3")
 includeAndroid(":orbit")
 includeAndroid(":mad")
