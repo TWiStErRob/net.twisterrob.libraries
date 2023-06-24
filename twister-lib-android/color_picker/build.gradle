@@ -3,18 +3,16 @@ plugins {
 }
 
 repositories {
-	maven { // jcenter() deprecated https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
-		name = "jcenter"
-		url = uri("https://jcenter.bintray.com/")
+	maven {
+		name = "jitpack.io"
+		url = uri("https://jitpack.io/")
 		content {
-			includeModule("com.rarepebble", "colorpicker")
+			includeModule(libs.android.colorpicker.get().module.group, libs.android.colorpicker.get().module.name)
 		}
 	}
 }
 
 dependencies {
-	// 2.4.+ is required for API 28+
-	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
 	implementation(libs.android.colorpicker)
 
 	implementation 'net.twisterrob.lib:twister-lib-android-monolith'

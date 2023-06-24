@@ -10,10 +10,4 @@
 	<!-- TODEL for what? -->
 	<!--  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
-	<!--
-		com.rarepebble:colorpicker=11
-		Usages are behind @TargetApi(VERSION_CODES.HONEYCOMB).
-	-->
-	<uses-sdk tools:overrideLibrary="com.rarepebble.colorpicker" />
-
 </manifest>
