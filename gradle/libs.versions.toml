@@ -25,7 +25,7 @@ orbit = "6.0.0"
 android-svg = "1.4"
 android-glide3 = "3.8.0"
 android-guava = "27.0.1-android"
-android-colorpicker = "2.4.2"
+android-colorpicker = "3.0.1"
 
 androidx-activity = "1.6.1" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-annotation = "1.6.0" # https://developer.android.com/jetpack/androidx/releases/annotation
@@ -105,7 +105,7 @@ orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
 android-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide3" }
 android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" }
 android-guava = { module = "com.google.guava:guava", version.ref = "android-guava" }
-android-colorpicker = { module = "com.rarepebble:colorpicker", version.ref = "android-colorpicker" }
+android-colorpicker = { module = "com.github.martin-stone:hsv-alpha-color-picker-android", version.ref = "android-colorpicker" }
 
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }

@@ -1,0 +1,19 @@
+plugins {
+	id("net.twisterrob.libraries.android.library")
+}
+
+repositories {
+	maven {
+		name = "jitpack.io"
+		url = uri("https://jitpack.io/")
+		content {
+			includeModule(libs.android.colorpicker.get().module.group, libs.android.colorpicker.get().module.name)
+		}
+	}
+}
+
+dependencies {
+	implementation(libs.android.colorpicker)
+
+	implementation 'net.twisterrob.lib:twister-lib-android-monolith'
+}

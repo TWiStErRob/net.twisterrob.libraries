@@ -14,8 +14,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.rarepebble.colorpicker.ColorPickerView;
-
 import androidx.annotation.*;
 import androidx.appcompat.app.AlertDialog;
 
@@ -139,39 +137,6 @@ public class DialogTools {
 				}
 			})
 					.setTitle("Pick a number");
-		}
-	}
-
-	@TargetApi(VERSION_CODES.HONEYCOMB) // ColorPickerView (1.7.0) requires API 11 minimum
-	public static AlertDialog.Builder pickColor(@NonNull Context context,
-			@ColorInt int initial, final @NonNull PopupCallbacks<Integer> callbacks) {
-		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
-			final ColorPickerView picker = new ColorPickerView(context);
-			picker.setColor(initial);
-			return new AlertDialog.Builder(context)
-					.setView(picker)
-					.setPositiveButton(android.R.string.ok, new OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-							callbacks.finished(picker.getColor());
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-							callbacks.finished(null);
-						}
-					})
-					.setTitle("Pick a color");
-		} else {
-			return prompt(context, Integer.toHexString(initial), new PopupCallbacks<String>() {
-				@Override public void finished(String value) {
-					try {
-						callbacks.finished(Integer.parseInt(value, 16));
-					} catch (NumberFormatException ex) {
-						callbacks.finished(null);
-					}
-				}
-			})
-					.setTitle("Pick a color");
 		}
 	}
 

@@ -4,16 +4,6 @@ plugins {
 
 android.namespace = "net.twisterrob.android"
 
-repositories {
-	maven { // jcenter() deprecated https://github.com/TWiStErRob/net.twisterrob.libraries/issues/5
-		name = "jcenter"
-		url = uri("https://jcenter.bintray.com/")
-		content {
-			includeModule("com.rarepebble", "colorpicker")
-		}
-	}
-}
-
 dependencies {
 	implementation 'net.twisterrob.lib:twister-lib-general'
 	implementation 'net.twisterrob.lib:twister-lib-android-defs'
@@ -28,10 +18,6 @@ dependencies {
 	api(libs.androidx.material)
 
 	//implementation(libs.androidx.palette)
-
-	// 2.4.+ is required for API 28+
-	// because of HueSatView and SliderViewBase using removed Canvas.save(int) in earlier versions
-	compileOnly(libs.android.colorpicker)
 
 	testImplementation(project(":internal:test:android_unit"))
 	// Replace APK's runtimeOnly sneaking into test runtime
