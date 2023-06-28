@@ -138,7 +138,9 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	@SuppressLint("InlinedApi")
 	private final PermissionProtectedAction pick = new PermissionProtectedAction(
 			this,
-			new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+			VERSION.SDK_INT <= VERSION_CODES.P
+					? new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}
+					: new String[0],
 			new PermissionProtectedAction.PermissionEvents() {
 				@Override public void granted(@NonNull GrantedReason reason) {
 					doPick();

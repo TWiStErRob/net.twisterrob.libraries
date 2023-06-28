@@ -48,7 +48,7 @@ public class PermissionProtectedAction {
 
 	public PermissionProtectedAction(
 			@NonNull ComponentActivity requestHost,
-			@Size(min = 1)
+			@Size(min = 0)
 			@NonNull String[] permissions,
 			@NonNull PermissionEvents callback
 	) {
