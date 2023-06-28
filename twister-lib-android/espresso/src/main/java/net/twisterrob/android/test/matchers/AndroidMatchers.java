@@ -60,6 +60,10 @@ public class AndroidMatchers {
 				matchesPattern("^.*\\b" + Pattern.quote(word) + "\\b.*$"));
 	}
 
+	/**
+	 * This requires the caller to hold the {@link Manifest.permission#QUERY_ALL_PACKAGES} permission.
+	 * Or explicitly list the passed-in package name(s) in the manifest via {@code <queries>}.
+	 */
 	@SuppressLint("InlinedApi")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull Matcher<Context> hasPackageInstalled(@NonNull String packageName) {

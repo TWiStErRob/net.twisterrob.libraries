@@ -15,6 +15,10 @@ import androidx.annotation.RequiresPermission;
 
 import net.twisterrob.android.utils.tools.PackageManagerTools;
 
+/**
+ * This requires the caller to hold the {@link Manifest.permission#QUERY_ALL_PACKAGES} permission.
+ * Or explicitly list the passed-in package name(s) in the manifest via {@code <queries>}.
+ */
 public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 
 	private final String packageName;
