@@ -1,17 +1,16 @@
 package net.twisterrob.android.permissions;
 
-import android.app.Activity;
-
 import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 
 class PermissionStateCalculator {
 
-	private final PermissionsInterrogator interrogator;
+	private final @NonNull PermissionsInterrogator interrogator;
 
-	public PermissionStateCalculator(@NonNull Activity activity) {
-		this.interrogator = new PermissionsInterrogator(activity);
+	public PermissionStateCalculator(@NonNull PermissionsInterrogator interrogator) {
+		this.interrogator = interrogator;
 	}
+
 	@AnyThread
 	public @NonNull PermissionState currentState(@NonNull String... permissions) {
 		if (!interrogator.hasAllPermissions(permissions)) {

@@ -54,8 +54,8 @@ public class PermissionProtectedAction {
 	) {
 		this.permissionRequestLauncher = requestHost.registerForActivityResult(
 				new RequestMultiplePermissions(), this::onRequestPermissionsResult);
-		this.interrogator = new PermissionsInterrogator(requestHost);
-		this.stateCalculator = new PermissionStateCalculator(requestHost);
+		this.interrogator = new PermissionsInterrogator(new PermissionInterrogator(requestHost));
+		this.stateCalculator = new PermissionStateCalculator(interrogator);
 		this.denialRemediator =
 				new PermissionDenialRemediator(requestHost, new RemediatorCallback());
 		this.permissions = permissions;
