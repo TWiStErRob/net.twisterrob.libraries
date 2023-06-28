@@ -38,7 +38,6 @@ public class PermissionProtectedAction {
 	private static final @NonNull Logger LOG = LoggerFactory.getLogger(PermissionProtectedAction.class);
 
 	private final @NonNull PermissionsInterrogator interrogator;
-	private final @NonNull PermissionStateCalculator stateCalculator;
 	private final @NonNull PermissionDenialRemediator denialRemediator;
 	private final @NonNull PermissionEvents callback;
 	@Size(min = 0)
@@ -55,7 +54,6 @@ public class PermissionProtectedAction {
 		this.permissionRequestLauncher = requestHost.registerForActivityResult(
 				new RequestMultiplePermissions(), this::onRequestPermissionsResult);
 		this.interrogator = new PermissionsInterrogator(new PermissionInterrogator(requestHost));
-		this.stateCalculator = new PermissionStateCalculator(interrogator);
 		this.denialRemediator =
 				new PermissionDenialRemediator(requestHost, new RemediatorCallback());
 		this.permissions = permissions;
@@ -64,7 +62,10 @@ public class PermissionProtectedAction {
 
 	@AnyThread
 	public @NonNull PermissionState currentState() {
-		return stateCalculator.currentState(permissions);
+		if (!interrogator.hasAllPermissions(permissions)) {
+			return PermissionState.DENIED;
+		}
+		return PermissionState.GRANTED;
 	}
 
 	@UiThread
