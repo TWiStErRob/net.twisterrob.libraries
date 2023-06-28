@@ -16,6 +16,8 @@ import android.os.*;
 
 import static android.os.Build.VERSION.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 
 /**
@@ -28,6 +30,7 @@ import androidx.annotation.RequiresPermission;
  * but requires
  * <code>adb shell pm grant app.package.id {@value #ANIMATION_PERMISSION}</code>
  *
+ * <p>
  * Usage:
  * <code><pre>
  * SystemAnimations anims = new SystemAnimations();
@@ -50,18 +53,18 @@ public class SystemAnimations {
 	private static final float DISABLED = 0.0f;
 	private static final float DEFAULT = 1.0f;
 
-	private static final Class<?> windowManagerStubClass;
-	private static final Method asInterface;
-	private static final Class<?> serviceManagerClass;
-	private static final Method getService;
-	private static final Class<?> windowManagerClass;
-	private static final Method setAnimationScales;
-	private static final Method getAnimationScales;
+	private static final @NonNull Class<?> windowManagerStubClass;
+	private static final @NonNull Method asInterface;
+	private static final @NonNull Class<?> serviceManagerClass;
+	private static final @NonNull Method getService;
+	private static final @NonNull Class<?> windowManagerClass;
+	private static final @Nullable Method setAnimationScales;
+	private static final @Nullable Method getAnimationScales;
 
-	private static final Method getWindowSession;
-	private static final Field sDurationScale;
-	private static final Method getDurationScale;
-	private static final Method setDurationScale;
+	private static final @Nullable Method getWindowSession;
+	private static final @Nullable Field sDurationScale;
+	private static final @Nullable Method getDurationScale;
+	private static final @Nullable Method setDurationScale;
 
 	static {
 		StrictMode.VmPolicy originalPolicy = StrictMode.getVmPolicy();
@@ -75,8 +78,13 @@ public class SystemAnimations {
 			serviceManagerClass = Class.forName("android.os.ServiceManager");
 			getService = serviceManagerClass.getDeclaredMethod("getService", String.class);
 			windowManagerClass = Class.forName("android.view.IWindowManager");
-			setAnimationScales = windowManagerClass.getDeclaredMethod("setAnimationScales", float[].class);
-			getAnimationScales = windowManagerClass.getDeclaredMethod("getAnimationScales");
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+				setAnimationScales = windowManagerClass.getDeclaredMethod("setAnimationScales", float[].class);
+				getAnimationScales = windowManagerClass.getDeclaredMethod("getAnimationScales");
+			} else {
+				setAnimationScales = null;
+				getAnimationScales = null;
+			}
 		} catch (Throwable ex) {
 			throw new IllegalStateException(ex);
 		} finally {
@@ -140,7 +148,8 @@ public class SystemAnimations {
 			throw new IllegalStateException(ex);
 		}
 		int permStatus = context.checkCallingOrSelfPermission(ANIMATION_PERMISSION);
-		canSetAnimationScales = permStatus == PackageManager.PERMISSION_GRANTED;
+		canSetAnimationScales = permStatus == PackageManager.PERMISSION_GRANTED
+				&& setAnimationScales != null && getAnimationScales != null;
 		canSetDurationScale = getDurationScale != null && setDurationScale != null;
 		if (!canSetAnimationScales) {
 			String resolution = canSetDurationScale

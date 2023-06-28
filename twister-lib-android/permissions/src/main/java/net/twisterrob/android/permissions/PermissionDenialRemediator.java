@@ -63,6 +63,10 @@ class PermissionDenialRemediator {
 		for (String permission : permissions) {
 			try {
 				PermissionInfo info = pm.getPermissionInfo(permission, 0);
+				if ("android.permission-group.UNDEFINED".equals(info.group)) {
+					groups.add(permission + " - " + info.loadLabel(pm).toString());
+					continue;
+				}
 				PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(info.group, 0);
 				groups.add(groupInfo.loadLabel(pm).toString());
 			} catch (PackageManager.NameNotFoundException ex) {

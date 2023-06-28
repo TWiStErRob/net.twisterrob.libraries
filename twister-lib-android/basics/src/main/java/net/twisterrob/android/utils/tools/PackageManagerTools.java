@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -17,15 +18,17 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 
 /**
  * Some methods in this class require a suppression to {@code QueryPermissionsNeeded},
  * because they call specific APIs, and therefore require {@code <queries>} elements in the manifest.
  * Sadly there's no way to propagate this to callers easily (sans writing a custom Lint detector).
- * 
- * <a href="https://googlesamples.github.io/android-custom-lint-rules/checks/QueryPermissionsNeeded.md.html">
- *     The original lint documentation.</a>
- * The {@code QueryPermissionsNeeded} Lint issue is implemented in {@code PackageVisibilityDetector.kt}.
+ *
+ * @see <a href="https://googlesamples.github.io/android-custom-lint-rules/checks/QueryPermissionsNeeded.md.html">
+ * The original lint documentation.</a>
+ * @see <a href="https://android.googlesource.com/platform/tools/base.git/+/refs/heads/mirror-goog-studio-master-dev/lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks/PackageVisibilityDetector.kt">PackageVisibilityDetector</a>
+ * which implements the {@code QueryPermissionsNeeded} Lint issue.
  */
 @SuppressWarnings("unused")
 public /*static*/ abstract class PackageManagerTools {
@@ -36,7 +39,8 @@ public /*static*/ abstract class PackageManagerTools {
 		// static utility class
 	}
 
-	@SuppressLint("QueryPermissionsNeeded")
+	@SuppressLint({"QueryPermissionsNeeded", "InlinedApi"})
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	@SuppressWarnings("deprecation")
 	public static @NonNull List<ResolveInfo> queryIntentActivities(
 			@NonNull PackageManager pm, @NonNull Intent intent, long flags) {
@@ -79,7 +83,9 @@ public /*static*/ abstract class PackageManagerTools {
 		}
 	}
 
-	/** @see PackageManager#getActivityInfo(ComponentName, int) */
+	/**
+	 * @see PackageManager#getActivityInfo(ComponentName, int)
+	 */
 	public static @NonNull ActivityInfo getActivityInfo(@NonNull Activity activity, long flags) {
 		try {
 			PackageManager pm = activity.getPackageManager();
@@ -90,7 +96,12 @@ public /*static*/ abstract class PackageManagerTools {
 		}
 	}
 
-	@SuppressLint("QueryPermissionsNeeded")
+	/**
+	 * Caller must ensure {@code <queries>} is present,
+	 * or that they hold {@link android.Manifest.permission#QUERY_ALL_PACKAGES} permission.
+	 */
+	@SuppressLint({"QueryPermissionsNeeded", "InlinedApi"})
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	@SuppressWarnings("deprecation")
 	public static @NonNull List<PackageInfo> getInstalledPackages(
 			@NonNull PackageManager pm, long flags) {

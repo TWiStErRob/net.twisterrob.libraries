@@ -96,7 +96,9 @@ public class ImageRequest {
 			if (!requestCodeSet) {
 				requestCode |= REQUEST_CODE_PICK;
 			}
-			intents.addAll(AndroidTools.resolveIntents(context, createGalleryIntent(), 0));
+			@SuppressLint("MissingPermission") // Has <queries> in manifest.
+			List<Intent> galleryIntents = AndroidTools.resolveIntents(context, createGalleryIntent(), 0);
+			intents.addAll(galleryIntents);
 			return this;
 		}
 		public Builder addCameraIntents(File file) {
@@ -171,6 +173,7 @@ public class ImageRequest {
 			return Collections.emptyList();
 		}
 		Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		@SuppressLint("MissingPermission") // Has <queries> in manifest.
 		List<Intent> cameraIntents = AndroidTools.resolveIntents(context, captureIntent, 0);
 		for (Intent intent : cameraIntents) {
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);

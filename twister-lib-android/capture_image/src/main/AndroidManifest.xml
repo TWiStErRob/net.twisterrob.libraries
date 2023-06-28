@@ -24,4 +24,19 @@
 
 	</application>
 
+	<queries>
+
+		<!-- net.twisterrob.android.content.ImageRequest.createCameraIntents -->
+		<intent>
+			<action android:name="android.media.action.IMAGE_CAPTURE" />
+		</intent>
+
+		<!-- net.twisterrob.android.content.ImageRequest.Builder.addGalleryIntent -->
+		<intent>
+			<action android:name="android.intent.action.GET_CONTENT" />
+			<data android:mimeType="image/*" />
+		</intent>
+
+	</queries>
+
 </manifest>

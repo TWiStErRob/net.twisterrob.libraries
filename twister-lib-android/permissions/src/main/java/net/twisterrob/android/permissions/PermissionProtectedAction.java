@@ -41,14 +41,14 @@ public class PermissionProtectedAction {
 	private final @NonNull PermissionStateCalculator stateCalculator;
 	private final @NonNull PermissionDenialRemediator denialRemediator;
 	private final @NonNull PermissionEvents callback;
-	@Size(min = 1)
+	@Size(min = 0)
 	private final @NonNull String[] permissions;
 
 	private final @NonNull ActivityResultLauncher<String[]> permissionRequestLauncher;
 
 	public PermissionProtectedAction(
 			@NonNull ComponentActivity requestHost,
-			@Size(min = 1)
+			@Size(min = 0)
 			@NonNull String[] permissions,
 			@NonNull PermissionEvents callback
 	) {

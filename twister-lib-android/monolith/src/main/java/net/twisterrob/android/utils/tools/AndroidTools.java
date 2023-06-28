@@ -11,6 +11,7 @@ import static java.lang.Math.*;
 
 import org.slf4j.*;
 
+import android.Manifest;
 import android.annotation.*;
 import android.app.*;
 import android.content.*;
@@ -71,6 +72,8 @@ public /*static*/ abstract class AndroidTools {
 		}
 	}
 
+	@SuppressLint("InlinedApi")
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull List<Intent> resolveIntents(
 			@NonNull Context context, @NonNull Intent originalIntent, long flags) {
 		PackageManager packageManager = context.getPackageManager();
