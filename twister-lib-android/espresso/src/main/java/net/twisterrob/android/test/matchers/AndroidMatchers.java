@@ -86,13 +86,20 @@ public class AndroidMatchers {
 			}
 		};
 	}
+
+	@SuppressLint("InlinedApi")
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull Matcher<Intent> canBeResolved(final Matcher<? super List<ResolveInfo>> resolveInfoMatcher) {
 		return canBeResolved(0, resolveInfoMatcher);
 	}
+	@SuppressLint("InlinedApi")
+	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull Matcher<Intent> canBeResolved(
 			final int flags, final Matcher<? super List<ResolveInfo>> resolveInfoMatcher) {
 		return new FeatureMatcher<Intent, List<ResolveInfo>>(resolveInfoMatcher,
 				"Intent resolves to activities", "resolved activities") {
+			@SuppressLint("InlinedApi")
+			@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 			@Override protected List<ResolveInfo> featureValueOf(Intent intent) {
 				PackageManager pm = getApplicationContext().getPackageManager();
 				return PackageManagerTools.queryIntentActivities(pm, intent, flags);
