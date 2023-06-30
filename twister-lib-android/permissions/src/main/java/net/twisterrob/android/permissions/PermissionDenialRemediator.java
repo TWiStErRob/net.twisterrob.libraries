@@ -37,6 +37,11 @@ class PermissionDenialRemediator {
 	}
 
 	public void remediatePermanentDenial(@NonNull String[] permissions) {
+		Set<String> groups = getGroups(activity.getPackageManager(), permissions);
+		showRemediationDialog(groups);
+	}
+
+	private void showRemediationDialog(Set<String> groups) {
 		DialogTools
 				.confirm(activity, value -> {
 					if (Boolean.TRUE.equals(value)) {
@@ -49,13 +54,13 @@ class PermissionDenialRemediator {
 				.setMessage(activity.getString(
 						R.string.permissions_permanent_remediation_message,
 						getAppName(activity),
-						getGroups(activity.getPackageManager(), permissions)
+						formatGroupList(groups)
 				))
 				.show()
 		;
 	}
 
-	private static @NonNull String getGroups(
+	private static @NonNull Set<String> getGroups(
 			@NonNull PackageManager pm,
 			@NonNull String[] permissions
 	) {
@@ -73,6 +78,10 @@ class PermissionDenialRemediator {
 				groups.add(permission);
 			}
 		}
+		return groups;
+	}
+
+	private static @NonNull String formatGroupList(@NonNull Set<String> groups) {
 		StringBuilder sb = new StringBuilder();
 		for (String group : groups) {
 			sb.append("\n • ").append(group);
