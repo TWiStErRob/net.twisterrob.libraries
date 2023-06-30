@@ -1,5 +1,6 @@
 package net.twisterrob.android.permissions;
 
+import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -20,8 +21,12 @@ import net.twisterrob.android.utils.tools.PackageManagerTools;
 
 class PermissionDenialRemediator {
 
+	@SuppressWarnings("ComparatorCombinators") // Comparator.comparing is API 24+.
+	private static final Comparator<CharSequence> CS_AS_STRING_COMPARATOR =
+			(o1, o2) -> String.valueOf(o1).compareTo(String.valueOf(o2));
+
 	private final @NonNull ComponentActivity activity;
-	@NonNull private final PermissionEvents.RationaleContinuation continuation;
+	private final @NonNull PermissionEvents.RationaleContinuation continuation;
 	private final @NonNull ActivityResultLauncher<String> settingsLauncher;
 
 	public PermissionDenialRemediator(
@@ -37,11 +42,11 @@ class PermissionDenialRemediator {
 	}
 
 	public void remediatePermanentDenial(@NonNull String[] permissions) {
-		Set<String> groups = getGroups(activity.getPackageManager(), permissions);
+		Set<CharSequence> groups = getGroups(activity.getPackageManager(), permissions);
 		showRemediationDialog(groups);
 	}
 
-	private void showRemediationDialog(Set<String> groups) {
+	private void showRemediationDialog(Set<CharSequence> groups) {
 		DialogTools
 				.confirm(activity, value -> {
 					if (Boolean.TRUE.equals(value)) {
@@ -60,34 +65,37 @@ class PermissionDenialRemediator {
 		;
 	}
 
-	private static @NonNull Set<String> getGroups(
+	private static @NonNull Set<CharSequence> getGroups(
 			@NonNull PackageManager pm,
 			@NonNull String[] permissions
 	) {
-		Set<String> groups = new TreeSet<>();
+		Set<CharSequence> groups = new TreeSet<>(CS_AS_STRING_COMPARATOR);
 		for (String permission : permissions) {
 			groups.add(inferPermissionGroupLabel(pm, permission));
 		}
 		return groups;
 	}
 
-	private static @NonNull String inferPermissionGroupLabel(@NonNull PackageManager pm, @NonNull String permission) {
+	private static @NonNull CharSequence inferPermissionGroupLabel(
+			@NonNull PackageManager pm,
+			@NonNull String permission
+	) {
 		try {
 			PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
 			if ("android.permission-group.UNDEFINED".equals(permissionInfo.group)) {
-				return permission + " - " + permissionInfo.loadLabel(pm).toString();
+				return permission + " - " + permissionInfo.loadLabel(pm);
 			}
 			PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(permissionInfo.group, 0);
-			return groupInfo.loadLabel(pm).toString();
+			return groupInfo.loadLabel(pm);
 		} catch (PackageManager.NameNotFoundException ex) {
 			return permission;
 		}
 	}
 
-	private static @NonNull String formatGroupList(@NonNull Set<String> groups) {
+	private static @NonNull String formatGroupList(@NonNull Set<CharSequence> groups) {
 		StringBuilder sb = new StringBuilder();
-		for (String group : groups) {
-			sb.append("\n • ").append(group);
+		for (CharSequence group : groups) {
+			sb.append("\n • ").append(group.toString());
 		}
 		return sb.toString();
 	}
