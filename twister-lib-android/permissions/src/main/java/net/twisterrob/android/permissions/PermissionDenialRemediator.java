@@ -66,19 +66,22 @@ class PermissionDenialRemediator {
 	) {
 		Set<String> groups = new TreeSet<>();
 		for (String permission : permissions) {
-			try {
-				PermissionInfo info = pm.getPermissionInfo(permission, 0);
-				if ("android.permission-group.UNDEFINED".equals(info.group)) {
-					groups.add(permission + " - " + info.loadLabel(pm).toString());
-					continue;
-				}
-				PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(info.group, 0);
-				groups.add(groupInfo.loadLabel(pm).toString());
-			} catch (PackageManager.NameNotFoundException ex) {
-				groups.add(permission);
-			}
+			groups.add(inferPermissionGroupLabel(pm, permission));
 		}
 		return groups;
+	}
+
+	private static @NonNull String inferPermissionGroupLabel(@NonNull PackageManager pm, @NonNull String permission) {
+		try {
+			PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
+			if ("android.permission-group.UNDEFINED".equals(permissionInfo.group)) {
+				return permission + " - " + permissionInfo.loadLabel(pm).toString();
+			}
+			PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(permissionInfo.group, 0);
+			return groupInfo.loadLabel(pm).toString();
+		} catch (PackageManager.NameNotFoundException ex) {
+			return permission;
+		}
 	}
 
 	private static @NonNull String formatGroupList(@NonNull Set<String> groups) {
