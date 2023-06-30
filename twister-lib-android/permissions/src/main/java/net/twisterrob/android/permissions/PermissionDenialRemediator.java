@@ -129,7 +129,7 @@ class PermissionDenialRemediator {
 		String fakeName = permission.substring(permission.lastIndexOf('.') + 1);
 		if (group == null || "android.permission-group.UNDEFINED".equals(group)) {
 			try {
-				// API 29-30, see https://stackoverflow.com/a/69053542/253468
+				// API 29-30; see https://stackoverflow.com/a/69053542/253468.
 				PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
 				return fakeName + " - " + permissionInfo.loadLabel(pm);
 			} catch (PackageManager.NameNotFoundException ex) {
@@ -138,7 +138,7 @@ class PermissionDenialRemediator {
 			}
 		} else {
 			try {
-				// API 21-28, 31-
+				// API 21-28, 31+; see https://stackoverflow.com/a/69053542/253468.
 				PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(group, 0);
 				return groupInfo.loadLabel(pm);
 			} catch (PackageManager.NameNotFoundException ex) {
