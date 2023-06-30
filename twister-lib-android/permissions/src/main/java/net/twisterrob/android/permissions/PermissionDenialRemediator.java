@@ -54,17 +54,6 @@ class PermissionDenialRemediator {
 		);
 	}
 
-	public void remediatePermanentDenial(@NonNull String[] permissions) {
-		// Chaos spaghetti starts here, because API 31+ introduced async getGroupOfPlatformPermission method.
-		// We need to call that deep in a for loop, then use the result on the UI thread to show a dialog.
-		getGroupsAsync(
-				activity.getPackageManager(),
-				permissions,
-				ContextCompat.getMainExecutor(activity),
-				this::showRemediationDialog
-		);
-	}
-
 	private void showRemediationDialog(Set<CharSequence> groups) {
 		DialogTools
 				.confirm(activity, value -> {
@@ -82,6 +71,17 @@ class PermissionDenialRemediator {
 				))
 				.show()
 		;
+	}
+
+	public void remediatePermanentDenial(@NonNull String[] permissions) {
+		// Chaos spaghetti starts here, because API 31+ introduced async getGroupOfPlatformPermission method.
+		// We need to call that deep in a for loop, then use the result on the UI thread to show a dialog.
+		getGroupsAsync(
+				activity.getPackageManager(),
+				permissions,
+				ContextCompat.getMainExecutor(activity),
+				this::showRemediationDialog
+		);
 	}
 
 	private static void getGroupsAsync(
