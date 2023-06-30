@@ -121,24 +121,27 @@ class PermissionDenialRemediator {
 			@NonNull String permission,
 			@NonNull String group
 	) {
+		// Assumption is that we have `android.group.FOO` here, so only keeping "FOO" for the user.
+		String fakeName = permission.substring(permission.lastIndexOf('.') + 1);
 		if ("android.permission-group.UNDEFINED".equals(group)) {
 			try {
+				// API 29-30, see https://stackoverflow.com/a/69053542/253468
 				PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
-				return permissionInfo.loadLabel(pm);
+				return fakeName + " - " + permissionInfo.loadLabel(pm);
 			} catch (PackageManager.NameNotFoundException ex) {
 				LOG.warn("Permission not found: {}", permission, ex);
-				// Ignore, we'll return a fallback value.
+				return fakeName;
 			}
 		} else {
 			try {
+				// API 21-28, 31-
 				PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(group, 0);
 				return groupInfo.loadLabel(pm);
 			} catch (PackageManager.NameNotFoundException ex) {
 				LOG.warn("Permission group not found: {}", group, ex);
-				// Ignore, we'll return a fallback value.
+				return fakeName;
 			}
 		}
-		return permission.substring(permission.lastIndexOf('.') + 1);
 	}
 
 	private static @Nullable String getPermissionGroupOrNull(@NonNull PackageManager pm,
