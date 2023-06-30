@@ -4,6 +4,9 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -13,6 +16,7 @@ import android.content.pm.PermissionInfo;
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.twisterrob.android.contracts.SettingsContracts;
 import net.twisterrob.android.permissions.PermissionProtectedAction.PermissionEvents;
@@ -20,6 +24,8 @@ import net.twisterrob.android.utils.tools.DialogTools;
 import net.twisterrob.android.utils.tools.PackageManagerTools;
 
 class PermissionDenialRemediator {
+
+	private static final Logger LOG = LoggerFactory.getLogger(PermissionDenialRemediator.class);
 
 	@SuppressWarnings("ComparatorCombinators") // Comparator.comparing is API 24+.
 	private static final Comparator<CharSequence> CS_AS_STRING_COMPARATOR =
@@ -76,19 +82,39 @@ class PermissionDenialRemediator {
 		return groups;
 	}
 
-	private static @NonNull CharSequence inferPermissionGroupLabel(
+	private static @Nullable CharSequence inferPermissionGroupLabel(
 			@NonNull PackageManager pm,
 			@NonNull String permission
 	) {
+		String group = getPermissionGroupOrNull(pm, permission);
+		if (group == null || "android.permission-group.UNDEFINED".equals(group)) {
+			try {
+				PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
+				return permissionInfo.loadLabel(pm);
+			} catch (PackageManager.NameNotFoundException ex) {
+				LOG.warn("Permission not found: {}", permission, ex);
+				// Ignore, we'll return a fallback value.
+			}
+		} else {
+			try {
+				PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(group, 0);
+				return groupInfo.loadLabel(pm);
+			} catch (PackageManager.NameNotFoundException ex) {
+				LOG.warn("Permission group not found: {}", group, ex);
+				// Ignore, we'll return a fallback value.
+			}
+		}
+		return permission.substring(permission.lastIndexOf('.') + 1);
+	}
+
+	private static @Nullable String getPermissionGroupOrNull(@NonNull PackageManager pm,
+			@NonNull String permission) {
 		try {
 			PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
-			if ("android.permission-group.UNDEFINED".equals(permissionInfo.group)) {
-				return permission + " - " + permissionInfo.loadLabel(pm);
-			}
-			PermissionGroupInfo groupInfo = pm.getPermissionGroupInfo(permissionInfo.group, 0);
-			return groupInfo.loadLabel(pm);
+			return permissionInfo.group;
 		} catch (PackageManager.NameNotFoundException ex) {
-			return permission;
+			LOG.warn("Permission not found: {}", permission, ex);
+			return null;
 		}
 	}
 
