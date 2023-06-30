@@ -1,8 +1,12 @@
 package net.twisterrob.android.permissions;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +16,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionGroupInfo;
 import android.content.pm.PermissionInfo;
+import android.os.Build;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.util.Consumer;
 
 import net.twisterrob.android.contracts.SettingsContracts;
 import net.twisterrob.android.permissions.PermissionProtectedAction.PermissionEvents;
@@ -28,7 +35,7 @@ class PermissionDenialRemediator {
 	private static final Logger LOG = LoggerFactory.getLogger(PermissionDenialRemediator.class);
 
 	@SuppressWarnings("ComparatorCombinators") // Comparator.comparing is API 24+.
-	private static final Comparator<CharSequence> CS_AS_STRING_COMPARATOR =
+	private static final Comparator<? super Object> AS_STRING_COMPARATOR =
 			(o1, o2) -> String.valueOf(o1).compareTo(String.valueOf(o2));
 
 	private final @NonNull ComponentActivity activity;
@@ -48,8 +55,14 @@ class PermissionDenialRemediator {
 	}
 
 	public void remediatePermanentDenial(@NonNull String[] permissions) {
-		Set<CharSequence> groups = getGroups(activity.getPackageManager(), permissions);
-		showRemediationDialog(groups);
+		// Chaos spaghetti starts here, because API 31+ introduced async getGroupOfPlatformPermission method.
+		// We need to call that deep in a for loop, then use the result on the UI thread to show a dialog.
+		getGroupsAsync(
+				activity.getPackageManager(),
+				permissions,
+				ContextCompat.getMainExecutor(activity),
+				this::showRemediationDialog
+		);
 	}
 
 	private void showRemediationDialog(Set<CharSequence> groups) {
@@ -71,23 +84,44 @@ class PermissionDenialRemediator {
 		;
 	}
 
-	private static @NonNull Set<CharSequence> getGroups(
+	private static void getGroupsAsync(
 			@NonNull PackageManager pm,
-			@NonNull String[] permissions
+			@NonNull String[] permissions,
+			@NonNull Executor executor,
+			@NonNull Consumer<Set<CharSequence>> callback
 	) {
-		Set<CharSequence> groups = new TreeSet<>(CS_AS_STRING_COMPARATOR);
+		Set<CharSequence> groups = Collections.synchronizedSet(new TreeSet<>(AS_STRING_COMPARATOR));
+		ExecutorService loopExecutor = Executors.newSingleThreadExecutor(); // Sequential execution.
 		for (String permission : permissions) {
-			groups.add(inferPermissionGroupLabel(pm, permission));
+			queryGroupAsync(pm, permission, loopExecutor, group ->
+					groups.add(inferPermissionGroupLabel(pm, permission, group))
+			);
 		}
-		return groups;
+		// Assumes sequential execution, so the last callback will observe all the groups from loop.
+		loopExecutor.execute(() -> executor.execute(() -> callback.accept(groups)));
+	}
+
+	private static void queryGroupAsync(
+			@NonNull PackageManager pm,
+			@NonNull String permission,
+			@NonNull Executor executor,
+			@NonNull Consumer<String> callback
+	) {
+		if (Build.VERSION_CODES.S <= Build.VERSION.SDK_INT) {
+			pm.getGroupOfPlatformPermission(permission, executor, callback::accept);
+		} else {
+			String group = getPermissionGroupOrNull(pm, permission);
+			// Emulate async behaviour of getGroupOfPlatformPermission.
+			executor.execute(() -> callback.accept(group));
+		}
 	}
 
 	private static @Nullable CharSequence inferPermissionGroupLabel(
 			@NonNull PackageManager pm,
-			@NonNull String permission
+			@NonNull String permission,
+			@NonNull String group
 	) {
-		String group = getPermissionGroupOrNull(pm, permission);
-		if (group == null || "android.permission-group.UNDEFINED".equals(group)) {
+		if ("android.permission-group.UNDEFINED".equals(group)) {
 			try {
 				PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
 				return permissionInfo.loadLabel(pm);
