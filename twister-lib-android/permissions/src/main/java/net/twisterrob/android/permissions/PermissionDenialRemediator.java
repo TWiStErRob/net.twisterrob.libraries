@@ -5,8 +5,6 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,14 +89,20 @@ class PermissionDenialRemediator {
 			@NonNull Consumer<Set<CharSequence>> callback
 	) {
 		Set<CharSequence> groups = Collections.synchronizedSet(new TreeSet<>(AS_STRING_COMPARATOR));
-		ExecutorService loopExecutor = Executors.newSingleThreadExecutor(); // Sequential execution.
 		for (String permission : permissions) {
-			queryGroupAsync(pm, permission, loopExecutor, group ->
-					groups.add(inferPermissionGroupLabel(pm, permission, group))
-			);
+			queryGroupAsync(pm, permission, executor, group -> {
+				groups.add(inferPermissionGroupLabel(pm, permission, group));
+				if (groups.size() == permissions.length) {
+					// We have no idea when the the callbacks will be called.
+					// The executor doesn't receive a submit call until the data is ready,
+					// so it's not possible to wait for all of them to be submitted
+					// and simply rely on an executor to serialize the calls.
+					// Moreover there are no guarantees the callbacks will execute in order.
+					// The only way we know we're done is if received all callbacks.
+					executor.execute(() -> callback.accept(groups));
+				}
+			});
 		}
-		// Assumes sequential execution, so the last callback will observe all the groups from loop.
-		loopExecutor.execute(() -> executor.execute(() -> callback.accept(groups)));
 	}
 
 	private static void queryGroupAsync(
