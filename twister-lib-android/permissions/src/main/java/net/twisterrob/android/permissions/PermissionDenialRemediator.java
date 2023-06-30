@@ -119,11 +119,11 @@ class PermissionDenialRemediator {
 	private static @Nullable CharSequence inferPermissionGroupLabel(
 			@NonNull PackageManager pm,
 			@NonNull String permission,
-			@NonNull String group
+			@Nullable String group
 	) {
 		// Assumption is that we have `android.group.FOO` here, so only keeping "FOO" for the user.
 		String fakeName = permission.substring(permission.lastIndexOf('.') + 1);
-		if ("android.permission-group.UNDEFINED".equals(group)) {
+		if (group == null || "android.permission-group.UNDEFINED".equals(group)) {
 			try {
 				// API 29-30, see https://stackoverflow.com/a/69053542/253468
 				PermissionInfo permissionInfo = pm.getPermissionInfo(permission, 0);
