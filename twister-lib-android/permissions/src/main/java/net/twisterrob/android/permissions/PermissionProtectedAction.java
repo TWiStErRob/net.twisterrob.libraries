@@ -69,6 +69,12 @@ public class PermissionProtectedAction {
 
 	@UiThread
 	public void executeBehindPermissions() {
+		if (permissions.length == 0) {
+			// Special handling so that we don't have to adjust for empty array everywhere later.
+			LOG.trace("Permission request not necessary, nothing to ask for -> continue with feature.");
+			callback.granted(PermissionEvents.GrantedReason.PERMANENT);
+			return;
+		}
 		if (interrogator.hasAllPermissions(permissions)) {
 			LOG.trace("Permission request not necessary, granted already -> continue with feature.");
 			callback.granted(PermissionEvents.GrantedReason.PERMANENT);
