@@ -38,7 +38,6 @@ public class PermissionProtectedAction {
 	private static final @NonNull Logger LOG = LoggerFactory.getLogger(PermissionProtectedAction.class);
 
 	private final @NonNull PermissionsInterrogator interrogator;
-	private final @NonNull PermissionStateCalculator stateCalculator;
 	private final @NonNull PermissionDenialRemediator denialRemediator;
 	private final @NonNull PermissionEvents callback;
 	@Size(min = 0)
@@ -54,8 +53,7 @@ public class PermissionProtectedAction {
 	) {
 		this.permissionRequestLauncher = requestHost.registerForActivityResult(
 				new RequestMultiplePermissions(), this::onRequestPermissionsResult);
-		this.interrogator = new PermissionsInterrogator(requestHost);
-		this.stateCalculator = new PermissionStateCalculator(requestHost);
+		this.interrogator = new PermissionsInterrogator(new PermissionInterrogator(requestHost));
 		this.denialRemediator =
 				new PermissionDenialRemediator(requestHost, new RemediatorCallback());
 		this.permissions = permissions;
@@ -64,11 +62,20 @@ public class PermissionProtectedAction {
 
 	@AnyThread
 	public @NonNull PermissionState currentState() {
-		return stateCalculator.currentState(permissions);
+		if (!interrogator.hasAllPermissions(permissions)) {
+			return PermissionState.DENIED;
+		}
+		return PermissionState.GRANTED;
 	}
 
 	@UiThread
 	public void executeBehindPermissions() {
+		if (permissions.length == 0) {
+			// Special handling so that we don't have to adjust for empty array everywhere later.
+			LOG.trace("Permission request not necessary, nothing to ask for -> continue with feature.");
+			callback.granted(PermissionEvents.GrantedReason.PERMANENT);
+			return;
+		}
 		if (interrogator.hasAllPermissions(permissions)) {
 			LOG.trace("Permission request not necessary, granted already -> continue with feature.");
 			callback.granted(PermissionEvents.GrantedReason.PERMANENT);

@@ -2,16 +2,14 @@ package net.twisterrob.android.permissions;
 
 import java.util.Map;
 
-import android.app.Activity;
-
 import androidx.annotation.NonNull;
 
 public class PermissionsInterrogator {
 
-	private final PermissionInterrogator interrogator;
+	private final @NonNull PermissionInterrogator interrogator;
 
-	public PermissionsInterrogator(@NonNull Activity activity) {
-		this.interrogator = new PermissionInterrogator(activity);
+	public PermissionsInterrogator(@NonNull PermissionInterrogator interrogator) {
+		this.interrogator = interrogator;
 	}
 
 	public boolean hasAllPermissions(@NonNull String... permissions) {
