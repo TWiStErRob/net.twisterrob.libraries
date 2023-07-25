@@ -35,9 +35,12 @@ public class ScreenshotFailure implements TestRule {
 	public ScreenshotFailure() {
 		this(InstrumentationRegistry.getInstrumentation());
 	}
+
+	@SuppressLint("RestrictedApi")
 	public ScreenshotFailure(@NonNull Instrumentation instrumentation) {
 		this(instrumentation, new OutputDirCalculator().getOutputDir());
 	}
+
 	public ScreenshotFailure(@NonNull Instrumentation instrumentation, @NonNull File targetDir) {
 		this.instrumentation = instrumentation;
 		this.targetDir = targetDir;
