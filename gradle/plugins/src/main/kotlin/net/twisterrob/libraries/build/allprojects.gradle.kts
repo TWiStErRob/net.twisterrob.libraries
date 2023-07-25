@@ -42,21 +42,26 @@ tasks.withType<KotlinCompile>().configureEach kotlin@{
 	}
 }
 
-tasks.withType<Test>().configureEach test@{
-	if (javaVersion.isCompatibleWith(JavaVersion.VERSION_1_9)
-		&& !javaVersion.isCompatibleWith(JavaVersion.VERSION_17)) { // 9 <= Java < 17
-		jvmArgs(
-			"--illegal-access=deny",
-			// PowerMock eagerly calls setAccessible on EVERYTHING 😂.
-			// > WARNING: Illegal reflective access by org.powermock.reflect.internal.WhiteboxImpl
-			// > to method java.lang.Throwable.*
-			// > to method java.lang.Integer.*
-			// > to method java.lang.String.*
-			// > to method java.lang.Object.*
-			// at org.powermock.reflect.internal.WhiteboxImpl.doGetAllMethods(WhiteboxImpl.java:1508)
-			"--add-opens=java.base/java.lang=ALL-UNNAMED",
-			"--add-opens=java.base/java.util=ALL-UNNAMED",
-		)
+afterEvaluate {
+	// Have to apply it later, otherwise Test.javaVersion locks in value,
+	// before JavaBasePlugin has a chance to set up the convention.
+	tasks.withType<Test>().configureEach test@{
+		if (javaVersion.isCompatibleWith(JavaVersion.VERSION_1_9)
+			&& !javaVersion.isCompatibleWith(JavaVersion.VERSION_17)
+		) { // 9 <= Java < 17
+			jvmArgs(
+				"--illegal-access=deny",
+				// PowerMock eagerly calls setAccessible on EVERYTHING 😂.
+				// > WARNING: Illegal reflective access by org.powermock.reflect.internal.WhiteboxImpl
+				// > to method java.lang.Throwable.*
+				// > to method java.lang.Integer.*
+				// > to method java.lang.String.*
+				// > to method java.lang.Object.*
+				// at org.powermock.reflect.internal.WhiteboxImpl.doGetAllMethods(WhiteboxImpl.java:1508)
+				"--add-opens=java.base/java.lang=ALL-UNNAMED",
+				"--add-opens=java.base/java.util=ALL-UNNAMED",
+			)
+		}
 	}
 }
 
