@@ -12,6 +12,14 @@ pluginManagement {
 		google()
 		mavenCentral()
 		gradlePluginPortal()
+		exclusiveContent {
+			forRepository {
+				maven("https://oss.sonatype.org/service/local/repositories/snapshots/content/")
+			}
+			filter {
+				includeModule("com.autonomousapps", "dependency-analysis-gradle-plugin")
+			}
+		}
 	}
 	// TODO when twisterrob-settings add
 	//disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") 
