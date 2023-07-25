@@ -3,9 +3,11 @@ package net.twisterrob.android.test;
 import android.Manifest;
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
 
 /**
@@ -18,12 +20,23 @@ import androidx.annotation.RequiresPermission;
  * </pre></code>
  */
 public class DeviceUnlocker {
-	private final KeyguardManager keyguardManager;
-	private final PowerManager powerManager;
+	private final @NonNull Context context;
+	private final @NonNull KeyguardManager keyguardManager;
+	private final @NonNull PowerManager powerManager;
 
-	public DeviceUnlocker(Context context) {
-		keyguardManager = (KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE);
-		powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+	public DeviceUnlocker(@NonNull Context context) {
+		this.context = context;
+		this.keyguardManager = (KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE);
+		this.powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+	}
+
+	public boolean hasPermissions() {
+		return hasPermission(Manifest.permission.DISABLE_KEYGUARD)
+				&& hasPermission(Manifest.permission.WAKE_LOCK);
+	}
+
+	private boolean hasPermission(String permission) {
+		return context.checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
 	}
 
 	@RequiresPermission(allOf = {
