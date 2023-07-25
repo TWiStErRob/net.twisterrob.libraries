@@ -194,4 +194,3 @@ public class ScreenshotFailure implements TestRule {
 		return viewShot.get();
 	}
 }
-
