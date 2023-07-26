@@ -32,12 +32,15 @@ public class GlideIdlingResource extends AsyncIdlingResource {
 				watcher.unsubscribe(callTransitionToIdle);
 			}
 			EngineIdleWatcher oldWatcher = watcher;
-			watcher = new EngineIdleWatcher(engine);
-			watcher.setLogEvents(isVerbose());
-			if (currentEngine != null) {
-				LOG.warn("Engine changed from {}({}) to {}({})", currentEngine, oldWatcher, engine, watcher);
+			try {
+				watcher = new EngineIdleWatcher(engine);
+				watcher.setLogEvents(isVerbose());
+			} finally {
+				if (currentEngine != null) {
+					LOG.warn("Engine changed from {}({}) to {}({})", currentEngine, oldWatcher, engine, watcher);
+				}
+				currentEngine = engine;
 			}
-			currentEngine = engine;
 		}
 		return isIdleCore();
 	}

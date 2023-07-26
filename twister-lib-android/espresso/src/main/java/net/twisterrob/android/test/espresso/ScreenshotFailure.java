@@ -10,10 +10,8 @@ import org.junit.runner.Description;
 import org.junit.runners.model.*;
 import org.slf4j.*;
 
-import android.Manifest;
 import android.annotation.*;
 import android.app.*;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Build.*;
@@ -22,41 +20,30 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.platform.io.OutputDirCalculator;
 import androidx.test.runner.lifecycle.Stage;
 
 import net.twisterrob.android.test.junit.InstrumentationExtensions;
-import net.twisterrob.android.utils.tools.AndroidTools;
 import net.twisterrob.java.annotations.DebugHelper;
 import net.twisterrob.java.io.IOTools;
 
 public class ScreenshotFailure implements TestRule {
 	private static final Logger LOG = LoggerFactory.getLogger(ScreenshotFailure.class);
-	public static final String DEFAULT_FOLDER_NAME = "testruns";
 	private final File targetDir;
 	private final Instrumentation instrumentation;
 
 	public ScreenshotFailure() {
 		this(InstrumentationRegistry.getInstrumentation());
 	}
+
+	@SuppressLint("RestrictedApi")
 	public ScreenshotFailure(@NonNull Instrumentation instrumentation) {
-		this(instrumentation, getDefaultDir(instrumentation));
+		this(instrumentation, new OutputDirCalculator().getOutputDir());
 	}
+
 	public ScreenshotFailure(@NonNull Instrumentation instrumentation, @NonNull File targetDir) {
 		this.instrumentation = instrumentation;
 		this.targetDir = targetDir;
-	}
-
-	private static @NonNull File getDefaultDir(@NonNull Instrumentation instrumentation) {
-		Context context = instrumentation.getContext();
-
-		File result = null;
-		if (AndroidTools.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-			result = context.getExternalFilesDir(DEFAULT_FOLDER_NAME);
-		}
-		if (result == null) {
-			result = new File(context.getFilesDir(), DEFAULT_FOLDER_NAME);
-		}
-		return result;
 	}
 
 	@DebugHelper
@@ -194,4 +181,3 @@ public class ScreenshotFailure implements TestRule {
 		return viewShot.get();
 	}
 }
-

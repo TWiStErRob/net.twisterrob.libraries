@@ -49,7 +49,7 @@ public class SensibleActivityTestRule<T extends Activity> extends androidx.test.
 		// LIFECYCLE: Anything after this point will be called BEFORE the activity is launched!
 
 		// Outside of ActivityTestRule, because it should be run before the Activity has started.
-		base = new DeviceUnlockerRule().apply(base, description);
+		base = new DeviceUnlockerRule(true).apply(base, description);
 		base = new WaitForEverythingToDestroyRule().apply(base, description);
 		base = new SystemAnimationsRule().apply(base, description);
 		base = new ChattyLogCatRule().apply(base, description);
