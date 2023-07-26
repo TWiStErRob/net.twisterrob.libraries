@@ -6,7 +6,7 @@ dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.re
 project = "1.0"
 
 java = "1.8"
-agp = "8.0.2"
+agp = "8.1.0"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.16"
 detekt = "1.22.0"
