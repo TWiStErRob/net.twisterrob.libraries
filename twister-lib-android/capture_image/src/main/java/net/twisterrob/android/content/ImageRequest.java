@@ -84,7 +84,7 @@ public class ImageRequest {
 		public Builder(Context context) {
 			this.context = context;
 			String title = context.getString(R.string.image__choose_external__title);
-			this.chooserIntent = Intent.createChooser(new Intent(CaptureImage.ACTION), title);
+			this.chooserIntent = Intent.createChooser(new Intent(context, CaptureImage.class), title);
 		}
 
 		public Builder withRequestCode(int requestCode) {
