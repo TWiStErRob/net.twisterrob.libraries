@@ -8,7 +8,10 @@ dependencies {
 	implementation(libs.plugin.android.gradle)
 	implementation(libs.plugin.twisterrob.quality)
 	implementation(libs.plugin.twisterrob.android)
-	implementation(libs.plugin.dependencyAnalysis)
+	implementation(libs.plugin.dependencyAnalysis) {
+		// REPORT plugin enforces Kotlin 1.9 on buildEnvironment
+		exclude(group = "org.jetbrains.kotlin", module = "kotlin-bom")
+	}
 	// TODEL https://github.com/gradle/gradle/issues/15383
 	implementation(files(libs::class.java.superclass.protectionDomain.codeSource.location))
 }
