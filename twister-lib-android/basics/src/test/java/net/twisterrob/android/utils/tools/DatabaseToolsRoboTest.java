@@ -30,7 +30,7 @@ public class DatabaseToolsRoboTest {
 
 		String result = DatabaseTools.dbToString(db);
 
-		assertEquals("v0(1)::3.7.10@" + dbFile.getAbsolutePath(), result);
+		assertEquals("v0(1)::3.8.7@" + dbFile.getAbsolutePath(), result);
 	}
 
 	@Test
