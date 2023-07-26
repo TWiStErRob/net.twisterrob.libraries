@@ -51,6 +51,10 @@ afterEvaluate {
 		) { // 9 <= Java < 17
 			jvmArgs(
 				"--illegal-access=deny",
+			)
+		}
+		if (javaVersion.isCompatibleWith(JavaVersion.VERSION_1_9)) { // 9 <= Java
+			jvmArgs(
 				// PowerMock eagerly calls setAccessible on EVERYTHING 😂.
 				// > WARNING: Illegal reflective access by org.powermock.reflect.internal.WhiteboxImpl
 				// > to method java.lang.Throwable.*
