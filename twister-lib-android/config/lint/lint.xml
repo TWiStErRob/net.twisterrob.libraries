@@ -45,11 +45,12 @@
 	<issue id="InvalidPackage">
 		<!--
 			These are coming from :internal:test:android_instrumentation
-			which is meant to be used on androidTestImplementation,
-			and is generally considered safe.
+			which is meant to be used on androidTestImplementation configuration as a dependency,
+			and is generally considered safe for using even invalid packages.
 		-->
 		<ignore regexp="Invalid package reference in net.bytebuddy:byte-buddy-agent; not included in Android: `java.lang.instrument`. Referenced from `net.bytebuddy.agent.ByteBuddyAgent`." />
 		<ignore regexp="Invalid package reference in net.bytebuddy:byte-buddy-agent; not included in Android: `java.lang.management`. Referenced from `net.bytebuddy.agent.ByteBuddyAgent.ProcessProvider.ForCurrentVm.ForLegacyVm`." />
 		<ignore regexp="Invalid package reference in org.mockito:mockito-core; not included in Android: `javax.tools`. Referenced from `org.mockito.internal.creation.bytebuddy.InlineByteBuddyMockMaker`." />
+		<ignore regexp="Invalid package reference in org.mockito:mockito-core; not included in Android: `java.lang.instrument`. Referenced from `org.mockito.internal.creation.bytebuddy.InlineByteBuddyMockMaker`." />
 	</issue>
 </lint>
