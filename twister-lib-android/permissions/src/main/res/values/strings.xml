@@ -2,7 +2,7 @@
 
 	<string name="permissions_permanent_remediation_title">Permission permanently denied</string>
 	<string name="permissions_permanent_remediation_message">
-		You permanently denied some permissions required for the feature you\'re trying to access.
+		You permanently denied some permissions required for the feature you’re trying to access.
 		\n\nPlease go to device Settings > Apps > %1$s > Permissions to enable them:
 		%2$s"
 		\n\nDo you want to do that now?

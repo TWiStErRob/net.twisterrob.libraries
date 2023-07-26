@@ -18,7 +18,7 @@
 	<string name="image__permissions__disk_read_title">Read storage permission</string>
 	<string name="image__permissions__disk_read_message">
 		To import images from external sources,
-		the app needs to read from your device\'s external storage.
+		the app needs to read from your device’s external storage.
 		Alternatively, you can take pictures with the built-in camera in the app.
 		Press OK if you would like to import external images.
 	</string>
