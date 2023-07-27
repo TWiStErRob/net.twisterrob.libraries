@@ -6,7 +6,6 @@ rootProject.name = "net-twisterrob-libraries"
 //enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
-	@Suppress("UnstableApiUsage")
 	includeBuild("gradle/plugins")
 	repositories {
 		google()
