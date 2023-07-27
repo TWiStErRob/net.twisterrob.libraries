@@ -6,17 +6,17 @@ dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.re
 project = "1.0"
 
 java = "1.8"
-agp = "8.0.2"
+agp = "8.1.0"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.16"
-detekt = "1.22.0"
+detekt = "1.23.0"
 dependencyAnalysis = "1.20.1-20230724.233423-17"
-kotlin = "1.8.22"
-kotlin-coroutines = "1.7.1"
+kotlin = "1.9.0"
+kotlin-coroutines = "1.7.3"
 
 jsr305 = "3.0.2"
-jbrAnn = "18.0.0"
-slf4j = "1.7.30"
+jbrAnn = "24.0.1"
+slf4j = "1.7.36"
 guava-jre = "27.0.1-jre"
 orbit = "6.0.0"
 
@@ -59,7 +59,7 @@ androidx-test-rules = "1.5.0" # https://developer.android.com/jetpack/androidx/r
 androidx-test-runner = "1.5.2" # https://developer.android.com/jetpack/androidx/releases/test
 androidx-test-uiautomator = "2.3.0-alpha03" # https://developer.android.com/jetpack/androidx/releases/test-uiautomator
 
-test-junit = "4.13.1"
+test-junit = "4.13.2"
 test-params = "1.1.1"
 test-gwen = "1.0.2"
 test-mockito = "3.3.3"

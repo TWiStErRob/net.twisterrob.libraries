@@ -1,192 +1,27 @@
-name: CI
+name: "CI"
+
 on:
   push
+
 concurrency:
   # Documentation suggests ${{ github.head_ref }}, but that's only available on pull_request/pull_request_target triggers, so using ${{ github.ref }}.
   # On master, we want all builds to complete even if merging happens faster to make it easier to discover at which point something broke.
   # More info: https://stackoverflow.com/a/68422069/253468:
   group: ${{ github.ref == 'refs/heads/master' && format('ci-master-{0}', github.sha) || format('ci-{0}', github.ref) }}
   cancel-in-progress: true
+
 jobs:
+
   validate:
     name: "🦺 Validation"
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    permissions:
-      # actions/checkout
-      contents: read
-    steps:
-      - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
-        uses: actions/checkout@v3
-
-      - name: "Validate Gradle Wrapper JARs."
-        uses: gradle/wrapper-validation-action@v1
-
+    uses: TWiStErRob/github-workflows/.github/workflows/validate.yml@v1
 
   build:
     name: "🔨 Build & Verify"
     needs: validate
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      # actions/checkout
-      contents: read
-      # EnricoMi/publish-unit-test-result-action -> https://github.com/EnricoMi/publish-unit-test-result-action#permissions
-      checks: write
-      # github/codeql-action/upload-sarif -> https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github
-      security-events: write
-    steps:
-      - name: "Set up JDK 17."
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: zulu
-
-      - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
-        uses: actions/checkout@v3
-
-      - name: "Build & Verify."
-        run: >
-          ./gradlew
-          --no-daemon
-          --no-configuration-cache
-          --no-build-cache
-          --stacktrace
-          --continue
-          build
-          buildHealth
-          lint
-          violationCountFile
-          violationReportConsole
-          violationReportHtml
-
-      - name: "Upload 'Lint Results HTMLs' artifact."
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: 'Lint Results HTMLs'
-          path: ${{ github.workspace }}/**/build/reports/lint-results*.html
-
-      - name: "Upload 'Lint Merged Results' artifact."
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: 'Lint Merged Results'
-          path: ${{ github.workspace }}/build/reports/violations.*
-
-      - name: "Fail if there are violations."
-        if: success() || failure()
-        run: |
-          count=$(cat "${{ github.workspace }}/build/reports/violations.count")
-          if [[ "$count" != "0" ]]; then
-            echo "::error file=twister-lib-android/config/lint/lint.xml,title=Android Lint::There were $count violations."
-            exit 1
-          else
-            echo "No violations found."
-            exit 0
-          fi
-
-      - name: Upload "Detekt Results" artifact.
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: Detekt Results
-          path: |
-            ${{ github.workspace }}/**/build/reports/detekt/detekt.*
-
-      - name: Publish "Code scanning results / detekt" GitHub Code Scanning analysis.
-        uses: github/codeql-action/upload-sarif@v2
-        if: success() || failure()
-        with:
-          sarif_file: ${{ github.workspace }}/gradle/plugins/build/reports/detekt/detekt.sarif
-
-      - name: "Upload 'Unit Test Results' artifact."
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: 'Unit Test Results'
-          path: ${{ github.workspace }}/**/build/reports/tests/*/
-
-      - name: "Publish 'Unit Results' check suite."
-        if: success() || failure()
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        with:
-          check_name: '🔔 Test: Unit Results'
-          comment_mode: off
-          report_individual_runs: true
-          test_changes_limit: 0
-          junit_files: ${{ github.workspace }}/**/build/test-results/*/TEST-*.xml
-
-      - name: "Upload 'Build Health' artifact."
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: 'Build Health'
-          path: ${{ github.workspace }}/build/reports/dependency-analysis/
-
+    uses: ./.github/workflows/CI-build.yml
 
   instrumentation:
-    name: "🧪 Instrumentation Tests on ${{ matrix.android-api }}"
+    name: "🧪 Instrumentation Tests on" # / API ${{ matrix.api }} will be appended by used workflow.
     needs: validate
-    runs-on: macos-latest
-    timeout-minutes: 60
-    permissions:
-      # actions/checkout
-      contents: read
-      # EnricoMi/publish-unit-test-result-action -> https://github.com/EnricoMi/publish-unit-test-result-action#permissions
-      checks: write
-    strategy:
-      fail-fast: false
-      matrix:
-        # The API level, see https://apilevels.com/.
-        android-api:
-          # A stable version for now.
-          - 21
-    steps:
-      - name: "Set up JDK 17."
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: zulu
-
-      - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
-        uses: actions/checkout@v3
-
-      - name: "Run Instrumentation Tests on emulator."
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.android-api }}
-          # TODEL Some are not available: https://issuetracker.google.com/issues/267458959
-          target: ${{ matrix.android-api >= 32 && 'google_apis' || 'default' }}
-          arch: ${{ matrix.android-api >= 21 && 'x86_64' || 'x86' }}
-          profile: pixel
-          script: |
-            adb devices -l
-            ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace connectedCheck
-
-      - name: "Upload 'Instrumentation Test Results ${{ matrix.android-api }}' artifact."
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: 'Instrumentation Test Results ${{ matrix.android-api }}'
-          # 1: AGP 7.4 HTML, 2: AGP 7.4 XML, 3: AGP 7.4 binary results, 4: AGP 7.4 details
-          # 5: Exclude names with colon: https://issuetracker.google.com/issues/223643506
-          path: |
-            ${{ github.workspace }}/**/build/reports/androidTests/connected/
-            ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/TEST-*.xml
-            ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/test-result.pb
-            ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/*/
-            !**/*:*
-          # AGP 4.1 XML: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/
-          # AGP 4.1 HTML: ${{ github.workspace }}/**/build/reports/androidTests/connected/flavors/debugAndroidTest/
-
-      - name: "Publish 'Instrumentation Results ${{ matrix.android-api }}' check suite."
-        if: success() || failure()
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        with:
-          check_name: '🔔 Test: Instrumentation Results ${{ matrix.android-api }}'
-          comment_mode: off
-          report_individual_runs: true
-          test_changes_limit: 0
-          junit_files: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/TEST-*.xml
-          # AGP 4.1: ${{ github.workspace }}/**/build/outputs/androidTest-results/connected/flavors/debugAndroidTest/TEST-*.xml
+    uses: ./.github/workflows/CI-instrumentation.yml
