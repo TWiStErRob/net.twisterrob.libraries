@@ -99,29 +99,107 @@ fun Settings.includeAndroidWithTestHelpers(modulePath: String) {
 
 val gradleVersion: String = GradleVersion.current().version
 
-// TODEL Gradle sync in AS EE 2022.1.1 https://youtrack.jetbrains.com/issue/IDEA-301430, fixed in AS Giraffe.
-if ((System.getProperty("idea.version") ?: "") < "2022.3") {
-	doNotNagAbout(
-		"The org.gradle.util.GUtil type has been deprecated. " +
-			"This is scheduled to be removed in Gradle 9.0. " +
-			"Consult the upgrading guide for further information: " +
-			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_7.html#org_gradle_util_reports_deprecations",
-		//"at org.jetbrains.plugins.gradle.tooling.builder.ExternalProjectBuilderImpl\$_getSourceSets_closure"
-	)
-} else {
-	error("Android Studio version changed, please remove hack.")
-}
+// TODEL Gradle sync in AS EE 2022.1.1 / AS GI 2022.3.1, maybe fixed in AS H.
+// https://youtrack.jetbrains.com/issue/IDEA-306975
+@Suppress("MaxLineLength")
+doNotNagAbout(
+	"The AbstractArchiveTask.archivePath property has been deprecated. " +
+		"This is scheduled to be removed in Gradle 9.0. " +
+		"Please use the archiveFile property instead. " +
+		"For more information, please refer to " +
+		"https://docs.gradle.org/${gradleVersion}/dsl/org.gradle.api.tasks.bundling.AbstractArchiveTask.html#org.gradle.api.tasks.bundling.AbstractArchiveTask:archivePath" +
+		" in the Gradle documentation.",
+	"at org.jetbrains.plugins.gradle.tooling.builder.ExternalProjectBuilderImpl\$_getSourceSets_closure"
+)
 
-// TODEL Gradle sync in AS EE 2022.1.1 https://youtrack.jetbrains.com/issue/IDEA-284158
+// TODEL Gradle sync in AS EE 2022.1.1 / AS GI 2022.3.1, maybe fixed in AS H.
+// https://youtrack.jetbrains.com/issue/IDEA-306975
+@Suppress("MaxLineLength")
+doNotNagAbout(
+	"The AbstractArchiveTask.archivePath property has been deprecated. " +
+		"This is scheduled to be removed in Gradle 9.0. " +
+		"Please use the archiveFile property instead. " +
+		"For more information, please refer to " +
+		"https://docs.gradle.org/${gradleVersion}/dsl/org.gradle.api.tasks.bundling.AbstractArchiveTask.html#org.gradle.api.tasks.bundling.AbstractArchiveTask:archivePath" +
+		" in the Gradle documentation.",
+	"at org.jetbrains.plugins.gradle.tooling.util.SourceSetCachedFinder.createArtifactsMap"
+)
+
+// TODEL Gradle 8.2 sync in AS FL 2022.2.1 / AS GI 2022.3.1 / IDEA 2023.1, fixed in 2023.2.
+// https://youtrack.jetbrains.com/issue/IDEA-320266
+@Suppress("MaxLineLength")
 if ((System.getProperty("idea.version") ?: "") < "2023.2") {
 	doNotNagAbout(
-		"Resolution of the configuration :tools:transform:detachedConfiguration1 " +
-			"was attempted from a context different than the project context. " +
-			"Have a look at the documentation to understand why this is a problem and how it can be resolved. " +
-			"This behaviour has been deprecated and is scheduled to be removed in Gradle 8.0. " +
-			"See https://docs.gradle.org/${gradleVersion}/userguide/viewing_debugging_dependencies.html#sub:resolving-unsafe-configuration-resolution-errors for more details.",
-		//	at org.jetbrains.plugins.gradle.model.ProjectImportAction$MyBuildController.findModel(ProjectImportAction.java:618)
+		"The org.gradle.api.plugins.JavaPluginConvention type has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#java_convention_deprecation",
+		"at org.jetbrains.kotlin.idea.gradleTooling.KotlinTasksPropertyUtilsKt.getPureKotlinSourceRoots(KotlinTasksPropertyUtils.kt:59)"
+	)
+	doNotNagAbout(
+		"The Project.getConvention() method has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#deprecated_access_to_conventions",
+		"at org.jetbrains.kotlin.idea.gradleTooling.KotlinTasksPropertyUtilsKt.getPureKotlinSourceRoots(KotlinTasksPropertyUtils.kt:59)"
+	)
+	doNotNagAbout(
+		"The org.gradle.api.plugins.Convention type has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#deprecated_access_to_conventions",
+		"at org.jetbrains.kotlin.idea.gradleTooling.KotlinTasksPropertyUtilsKt.getPureKotlinSourceRoots(KotlinTasksPropertyUtils.kt:59)"
+	)
+
+	doNotNagAbout(
+		"The Project.getConvention() method has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#deprecated_access_to_conventions",
+		"at org.jetbrains.plugins.gradle.tooling.builder.ProjectExtensionsDataBuilderImpl.buildAll(ProjectExtensionsDataBuilderImpl.groovy:40)"
+	)
+	doNotNagAbout(
+		"The org.gradle.api.plugins.Convention type has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#deprecated_access_to_conventions",
+		"at org.jetbrains.plugins.gradle.tooling.builder.ProjectExtensionsDataBuilderImpl.buildAll(ProjectExtensionsDataBuilderImpl.groovy:41)"
+	)
+	doNotNagAbout(
+		"The org.gradle.api.plugins.JavaPluginConvention type has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#java_convention_deprecation",
+		// at org.jetbrains.plugins.gradle.tooling.builder.ExternalProjectBuilderImpl.doBuild(ExternalProjectBuilderImpl.groovy:108)
+		// at org.jetbrains.plugins.gradle.tooling.builder.ExternalProjectBuilderImpl.doBuild(ExternalProjectBuilderImpl.groovy:117)
+		// at org.jetbrains.plugins.gradle.tooling.builder.ExternalProjectBuilderImpl.doBuild(ExternalProjectBuilderImpl.groovy:118)
+		"at org.jetbrains.plugins.gradle.tooling.builder.ExternalProjectBuilderImpl.doBuild(ExternalProjectBuilderImpl.groovy:1"
+	)
+	// No method and line number in stack to match all these:
+	//  * JavaPluginUtil.getJavaPluginConvention(JavaPluginUtil.java:13)
+	//  * JavaPluginUtil.getSourceSetContainer(JavaPluginUtil.java:18)
+	//  * JavaPluginUtil.getSourceSetContainer(JavaPluginUtil.java:19)
+	doNotNagAbout(
+		"The org.gradle.api.plugins.JavaPluginConvention type has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#java_convention_deprecation",
+		"at org.jetbrains.plugins.gradle.tooling.util.JavaPluginUtil."
+	)
+	doNotNagAbout(
+		"The Project.getConvention() method has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#deprecated_access_to_conventions",
+		"at org.jetbrains.plugins.gradle.tooling.util.JavaPluginUtil."
+	)
+	doNotNagAbout(
+		"The org.gradle.api.plugins.Convention type has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#deprecated_access_to_conventions",
+		"at org.jetbrains.plugins.gradle.tooling.util.JavaPluginUtil."
 	)
 } else {
-	error("Android Studio version changed, please review hack.")
+	logger.warn("Android Studio version changed, please review hack.")
 }
