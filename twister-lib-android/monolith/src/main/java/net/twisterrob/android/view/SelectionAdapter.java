@@ -113,6 +113,15 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 	}
 
 	@SuppressLint("NotifyDataSetChanged") // The selection is likely non-contiguous, notify to refresh everything. 
+	public void setSelectedIds(@NonNull long[] selection) {
+		selectedItems.clear();
+		for (long id : selection) {
+			selectedItems.add(id);
+		}
+		notifyDataSetChanged();
+	}
+
+	@SuppressLint("NotifyDataSetChanged") // The selection is likely non-contiguous, notify to refresh everything. 
 	public void setSelectedItems(@NonNull Collection<Integer> positions) {
 		selectedItems.clear();
 		for (int position : positions) {
