@@ -427,33 +427,6 @@ public class EspressoExtensions {
 			throw new FlakyTestException(OVERSLEEP_TAG + ": " + OVERSLEEP_MESSAGE);
 		}
 
-		// TODO this is done by default by Espresso 3.x?
-		// wait for a platform popup to become available as root, this is the action bar overflow menu popup
-		for (long waitTime : new long[] {10, 50, 100, 500, 1000, 3000, 5000}) { // ~10 seconds altogether
-			try {
-				onRoot(isPopupMenu())
-						/*
-						 * Avoid the following error, it's not relevant to the test, we're expecting some failure.
-						 * > W/takeScreenshot force redraw failed. Proceeding with screenshot
-						 * > java.util.concurrent.TimeoutException: Waited 5 seconds (plus 1224300 nanoseconds delay) for
-						 * > androidx.concurrent.futures.ResolvableFuture@3c8c4881[status=PENDING, info=[setFuture=[androidx.test.core.app.ListFuture@1a985d26]]]
-						 * >   at androidx.concurrent.futures.AbstractResolvableFuture.get(AbstractResolvableFuture.java:456)
-						 * >   at androidx.test.core.app.DeviceCapture.takeScreenshotNoSync(DeviceCapture.kt:120)
-						 * >   at androidx.test.espresso.base.DefaultFailureHandler.takeScreenshot(DefaultFailureHandler.java:2)
-						 * >   at androidx.test.espresso.base.DefaultFailureHandler.handle(DefaultFailureHandler.java:3)
-						 * >   at net.twisterrob.android.test.junit.AndroidJUnitRunner$DetailedFailureHandler.handle(AndroidJUnitRunner.java:173)
-						 * >   at androidx.test.espresso.ViewInteraction.waitForAndHandleInteractionResults(ViewInteraction.java:8)
-						 * >   at androidx.test.espresso.ViewInteraction.check(ViewInteraction.java:12)
-						 * >   at net.twisterrob.android.test.espresso.EspressoExtensions.openActionBarOverflowOrOptionsMenuWithOversleepProtection(EspressoExtensions.java:434)
-						 */
-						.withFailureHandler(new JustFailFailureHandler())
-						.check(matches(anything()));
-				break;
-			} catch (NoMatchingRootException ex) {
-				LOG.warn("No popup menu is available - waiting: " + waitTime + "ms for one to appear.");
-				onRoot().perform(loopMainThreadForAtLeast(waitTime));
-			}
-		}
 		// double-check the root is available, if test fails here it means the popup didn't show up
 		onRoot(isPopupMenu()).check(matches(isCompletelyDisplayed()));
 		// check that the current default root is the popup
