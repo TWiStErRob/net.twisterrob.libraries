@@ -12,7 +12,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.*;
 
 import net.twisterrob.android.annotation.IdResName;
 
-import static net.twisterrob.android.test.automators.UiAutomatorExtensions.*;
+import static net.twisterrob.android.test.automators.UiAutomatorExtensions.UI_AUTOMATOR_VERSION;
 
 /**
  * Resource names last updated from {@code com.google.android.apps.docs} version 213141016 (2.23.161.1.all.alldpi)
