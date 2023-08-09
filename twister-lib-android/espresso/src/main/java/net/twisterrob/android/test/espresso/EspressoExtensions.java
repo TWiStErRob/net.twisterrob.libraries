@@ -67,7 +67,9 @@ public class EspressoExtensions {
 	/** @see <a href="http://stackoverflow.com/a/39436238/253468">Espresso: return boolean if view exists</a> */
 	public static boolean exists(ViewInteraction interaction) {
 		try {
-			interaction.perform(new ViewExists());
+			interaction
+					.withFailureHandler(new JustFailFailureHandler())
+					.perform(new ViewExists());
 			return true;
 		} catch (AmbiguousViewMatcherException ex) {
 			// if there's any interaction later with the same matcher, that'll fail anyway
@@ -78,7 +80,9 @@ public class EspressoExtensions {
 	}
 	public static boolean exists(DataInteraction interaction) {
 		try {
-			interaction.perform(new ViewExists());
+			interaction
+					//.withFailureHandler(new JustFailFailureHandler()) // No API!
+					.perform(new ViewExists());
 			return true;
 		} catch (AmbiguousViewMatcherException ex) {
 			// if there's any interaction later with the same matcher, that'll fail anyway
