@@ -24,6 +24,10 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 
 	public SelectionAdapter(Adapter<VH> wrapped) {
 		super(wrapped);
+	}
+
+	@Override protected void setWrappedAdapter(@NonNull RecyclerView.Adapter<VH> wrapped) {
+		super.setWrappedAdapter(wrapped);
 		assert hasStableIds();
 	}
 
