@@ -1,11 +1,13 @@
 package net.twisterrob.android.view;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.os.Build.*;
-import android.util.SparseBooleanArray;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +19,12 @@ import net.twisterrob.android.adapter.WrappingAdapter;
 // Changing a single item's category in the category's list keeps selection, but selects different items.
 // based on http://www.grokkingandroid.com/statelistdrawables-for-recyclerview-selection/
 public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends WrappingAdapter<VH> {
-	private final SparseBooleanArray selectedItems = new SparseBooleanArray();
-	private final SparseBooleanArray excludedItems = new SparseBooleanArray();
+	private final Set<Long> selectedItems = new HashSet<>();
+	private final Set<Long> excludedItems = new HashSet<>();
 
 	public SelectionAdapter(Adapter<VH> wrapped) {
 		super(wrapped);
+		assert hasStableIds();
 	}
 
 	@TargetApi(VERSION_CODES.HONEYCOMB)
@@ -42,19 +45,19 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 
 	public void setSelectable(int position, boolean isSelectable) {
 		if (!isSelectable) {
-			excludedItems.put(position, true);
+			excludedItems.add(getItemId(position));
 		} else {
-			excludedItems.delete(position);
+			excludedItems.remove(getItemId(position));
 			setSelected(position, false);
 		}
 	}
 
 	public boolean isSelectable(int position) {
-		return !excludedItems.get(position);
+		return !excludedItems.contains(getItemId(position));
 	}
 
 	public boolean isSelected(int position) {
-		return selectedItems.get(position);
+		return selectedItems.contains(getItemId(position));
 	}
 
 	public void setSelected(int position, boolean isSelected) {
@@ -62,9 +65,9 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 			return;
 		}
 		if (isSelected) {
-			selectedItems.put(position, true);
+			selectedItems.add(getItemId(position));
 		} else {
-			selectedItems.delete(position);
+			selectedItems.remove(getItemId(position));
 		}
 	}
 
@@ -80,7 +83,7 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 		selectedItems.clear();
 		for (int position = positionStart; position < positionStart + itemCount; position++) {
 			if (isSelectable(position)) {
-				selectedItems.append(position, true);
+				selectedItems.add(getItemId(position));
 			}
 		}
 		notifyItemRangeChanged(positionStart, itemCount);
@@ -96,14 +99,13 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 		return selectedItems.size();
 	}
 
-	public @NonNull Collection<Integer> getSelectedPositions() {
-		List<Integer> items = new ArrayList<>(selectedItems.size());
-		for (int i = 0; i < selectedItems.size(); i++) {
-			int key = selectedItems.keyAt(i);
-			assert selectedItems.get(key) : "selected items contains a 'false' element";
-			items.add(key);
+	public @NonNull long[] getSelectedIds() {
+		long[] IDs = new long[selectedItems.size()];
+		int i = 0;
+		for (long id : selectedItems) {
+			IDs[i++] = id;
 		}
-		return items;
+		return IDs;
 	}
 
 	@SuppressLint("NotifyDataSetChanged") // The selection is likely non-contiguous, notify to refresh everything. 
@@ -111,7 +113,7 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 		selectedItems.clear();
 		for (int position : positions) {
 			if (isSelectable(position)) {
-				selectedItems.put(position, true);
+				selectedItems.add(getItemId(position));
 			}
 		}
 		notifyDataSetChanged();
