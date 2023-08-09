@@ -67,7 +67,9 @@ public class EspressoExtensions {
 	/** @see <a href="http://stackoverflow.com/a/39436238/253468">Espresso: return boolean if view exists</a> */
 	public static boolean exists(ViewInteraction interaction) {
 		try {
-			interaction.perform(new ViewExists());
+			interaction
+					.withFailureHandler(new JustFailFailureHandler())
+					.perform(new ViewExists());
 			return true;
 		} catch (AmbiguousViewMatcherException ex) {
 			// if there's any interaction later with the same matcher, that'll fail anyway
@@ -78,7 +80,9 @@ public class EspressoExtensions {
 	}
 	public static boolean exists(DataInteraction interaction) {
 		try {
-			interaction.perform(new ViewExists());
+			interaction
+					//.withFailureHandler(new JustFailFailureHandler()) // No API!
+					.perform(new ViewExists());
 			return true;
 		} catch (AmbiguousViewMatcherException ex) {
 			// if there's any interaction later with the same matcher, that'll fail anyway
@@ -427,17 +431,6 @@ public class EspressoExtensions {
 			throw new FlakyTestException(OVERSLEEP_TAG + ": " + OVERSLEEP_MESSAGE);
 		}
 
-		// TODO this is done by default by Espresso 3.x?
-		// wait for a platform popup to become available as root, this is the action bar overflow menu popup
-		for (long waitTime : new long[] {10, 50, 100, 500, 1000, 3000, 5000}) { // ~10 seconds altogether
-			try {
-				onRoot(isPopupMenu()).check(matches(anything()));
-				break;
-			} catch (NoMatchingRootException ex) {
-				LOG.warn("No popup menu is available - waiting: " + waitTime + "ms for one to appear.");
-				onRoot().perform(loopMainThreadForAtLeast(waitTime));
-			}
-		}
 		// double-check the root is available, if test fails here it means the popup didn't show up
 		onRoot(isPopupMenu()).check(matches(isCompletelyDisplayed()));
 		// check that the current default root is the popup

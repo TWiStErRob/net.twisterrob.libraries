@@ -104,11 +104,17 @@ public class DialogMatchers {
 	}
 
 	public static Matcher<Root> isPopupMenu() {
+		// Hardware key means for emulators that the following are present in hardware-qemu.ini:
+		// hw.mainKeys = true, hw.trackBall = true, hw.dPad = true, hw.keyboard = false
+		// On old Genymotion devices this was also true, but for emulators created with avdmanager,
+		// it can still happen when not using a profile.
 		return anyOf(
 				// normal ActionBar compat overflow popup (e.g. on 5.0 without hardware key)
 				isPlatformPopup(),
 				// support bottom menu popup (e.g. on Genymotion 2.3.7 with hardware key)
 				withDecorView(withClassName(is("android.support.v7.app.AppCompatDelegateImplV7$ListMenuDecorView"))),
+				// androidx bottom menu popup 
+				withDecorView(withClassName(is("androidx.appcompat.app.AppCompatDelegateImpl$ListMenuDecorView"))),
 				// bottom menu popup (e.g. on Genymotion 4.1.1 with hardware key):
 				// application-window-token=android.view.ViewRootImpl$W@537c56c8,
 				// window-token=android.view.ViewRootImpl$W@53804678,
