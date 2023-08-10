@@ -16,6 +16,9 @@ import static net.twisterrob.android.test.automators.UiAutomatorExtensions.*;
 
 public class AndroidAutomator {
 
+	public static final String PACKAGE_CHOOSER = "android";
+	public static final String PACKAGE_SETTINGS = "com.android.settings";
+	public static final String PACKAGE_MARKET = "com.android.vending";
 	public static final String PACKAGE_PACKAGE_INSTALLER = "com.android.packageinstaller";
 	public static final String PACKAGE_PERMISSION_CONTROLLER = "com.android.permissioncontroller";
 

@@ -35,10 +35,12 @@ import static net.twisterrob.android.test.automators.UiAutomatorExtensions.UI_AU
  * </ul>
  */
 public class DocumentsUiAutomator {
+	public static final String PACKAGE_DOCUMENTS_UI_GOOGLE = "com.google.android.documentsui";
+	public static final String PACKAGE_DOCUMENTS_UI_ANDROID = "com.android.documentsui";
 	public static final String PACKAGE_DOCUMENTS_UI =
 			Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT
-					? "com.google.android.documentsui"
-					: "com.android.documentsui";
+					? PACKAGE_DOCUMENTS_UI_GOOGLE
+					: PACKAGE_DOCUMENTS_UI_ANDROID;
 
 	/**
 	 * Toolbar of the activity.
