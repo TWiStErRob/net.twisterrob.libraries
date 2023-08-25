@@ -1,5 +1,6 @@
 package net.twisterrob.android.test.automators;
 
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.widget.ImageButton;
@@ -15,8 +16,10 @@ import net.twisterrob.android.annotation.IdResName;
 import static net.twisterrob.android.test.automators.UiAutomatorExtensions.UI_AUTOMATOR_VERSION;
 
 /**
- * Resource names last updated from {@code com.google.android.apps.docs} version 213141016 (2.23.161.1.all.alldpi)
- * that was installed on my Google Pixel 7 Pro.
+ * Resource names last updated from {@code com.google.android.apps.docs}
+ * version 213141016 (2.23.161.1.all.alldpi) that was installed on my Google Pixel 7 Pro (Android 13).
+ * The UI significantly changed, but still working on 2.23.251.0.all.alldpi on API 28 Store emulator.
+ * TODO extract version detection and UI class(es) based on {@link PackageInfo#versionCode}.
  */
 public class GoogleDriveAutomator {
 	public static final String PACKAGE_GOOGLE_DRIVE = "com.google.android.apps.docs";
