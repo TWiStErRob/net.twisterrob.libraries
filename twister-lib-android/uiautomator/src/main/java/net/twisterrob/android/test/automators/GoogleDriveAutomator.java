@@ -98,7 +98,8 @@ public class GoogleDriveAutomator {
 	 * Title of the item in the system chooser to select uploading to Drive.
 	 */
 	public static String saveToDriveChooserTitle() throws NameNotFoundException {
-		if (Build.VERSION_CODES.Q <= Build.VERSION.SDK_INT) {
+		if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+			// TODO this doesn't really depend on API level, but probably the version of Drive installed.
 			return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "app_name_drive", "Drive");
 		} else {
 			return UiAutomatorExtensions.externalString(PACKAGE_GOOGLE_DRIVE, "upload_shared_item_title", "Save to Drive");
