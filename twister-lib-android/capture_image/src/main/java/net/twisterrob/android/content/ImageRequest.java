@@ -1,6 +1,5 @@
 package net.twisterrob.android.content;
 
-import java.io.File;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -23,7 +22,6 @@ import net.twisterrob.android.activity.CaptureImage;
 import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.utils.tools.*;
 
-// FIXME https://developer.android.com/guide/topics/providers/document-provider.html
 public class ImageRequest {
 	private static final Logger LOG = LoggerFactory.getLogger(ImageRequest.class);
 
@@ -75,11 +73,9 @@ public class ImageRequest {
 		private static final short REQUEST_CODE_BASE = 0x4100;
 		private static final short REQUEST_CODE_PICK = 1 << 1;
 		private static final short REQUEST_CODE_TAKE = 1 << 2;
-		private static final short REQUEST_CODE_CROP = 1 << 3;
 		private final Context context;
 		private final List<Intent> intents = new ArrayList<>();
 		private final Intent chooserIntent;
-		private boolean requestCodeSet = false;
 		private int requestCode = REQUEST_CODE_BASE;
 		public Builder(Context context) {
 			this.context = context;
@@ -87,31 +83,15 @@ public class ImageRequest {
 			this.chooserIntent = Intent.createChooser(new Intent(context, CaptureImage.class), title);
 		}
 
-		public Builder withRequestCode(int requestCode) {
-			this.requestCode = requestCode;
-			this.requestCodeSet = true;
-			return this;
-		}
 		public Builder addGalleryIntent() {
-			if (!requestCodeSet) {
-				requestCode |= REQUEST_CODE_PICK;
-			}
+			requestCode |= REQUEST_CODE_PICK;
 			@SuppressLint("MissingPermission") // Has <queries> in manifest.
 			List<Intent> galleryIntents = AndroidTools.resolveIntents(context, createGalleryIntent(), 0);
 			intents.addAll(galleryIntents);
 			return this;
 		}
-		public Builder addCameraIntents(File file) {
-			if (!requestCodeSet) {
-				requestCode |= REQUEST_CODE_TAKE;
-			}
-			intents.addAll(createCameraIntents(context, Uri.fromFile(file)));
-			return this;
-		}
 		public Builder addCameraIntents(Uri uri) {
-			if (!requestCodeSet) {
-				requestCode |= REQUEST_CODE_TAKE;
-			}
+			requestCode |= REQUEST_CODE_TAKE;
 			intents.addAll(createCameraIntents(context, uri));
 			return this;
 		}
@@ -155,16 +135,6 @@ public class ImageRequest {
 		}
 	}
 
-	public static void openImageInGallery(Activity activity, File sourceFile) {
-		activity.startActivity(createOpenImageIntent(sourceFile));
-	}
-
-	private static Intent createOpenImageIntent(File sourceFile) {
-		Uri base = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-		Uri uri = base.buildUpon().appendPath(sourceFile.getAbsolutePath()).build();
-		return new Intent(Intent.ACTION_VIEW, uri);
-	}
-
 	private static List<Intent> createCameraIntents(Context context, Uri outputFileUri) {
 		if (!canLaunchCameraIntent(context)) {
 			return Collections.emptyList();
@@ -185,17 +155,6 @@ public class ImageRequest {
 		Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 		galleryIntent.setType("image/*");
 		return galleryIntent;
-	}
-
-	public static boolean hasReadPermission(@NonNull Context context) {
-		if (VERSION.SDK_INT < VERSION_CODES.KITKAT) {
-			// This permission is enforced starting in API level 19.
-			// Before API level 19, this permission is not enforced and
-			// all apps still have access to read from external storage. 
-			return true;
-		}
-		int permissionState = PermissionChecker.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
-		return permissionState == PermissionChecker.PERMISSION_GRANTED;
 	}
 	
 	/**
