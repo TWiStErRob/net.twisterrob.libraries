@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="image__choose_external__menu_icon_size">32dp</dimen>
+	<dimen name="image__choose_external__menu_icon_indent">24dp</dimen>
+
+</resources>

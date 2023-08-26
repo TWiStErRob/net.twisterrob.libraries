@@ -9,6 +9,7 @@ import android.animation.*;
 import android.annotation.*;
 import android.app.Activity;
 import android.content.*;
+import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.*;
@@ -33,6 +34,8 @@ import com.bumptech.glide.request.target.*;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.*;
+import androidx.appcompat.graphics.drawable.DrawableWrapperCompat;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.exifinterface.media.ExifInterface;
 
@@ -44,6 +47,7 @@ import net.twisterrob.android.utils.concurrent.Callback;
 import net.twisterrob.android.utils.tools.DialogTools;
 import net.twisterrob.android.utils.tools.ImageTools;
 import net.twisterrob.android.utils.tools.IntentTools;
+import net.twisterrob.android.utils.tools.ViewTools;
 import net.twisterrob.android.view.*;
 import net.twisterrob.android.view.CameraPreview.*;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
@@ -76,6 +80,10 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private static final String STATE_CAPTURING = "capturing";
 	private static final String STATE_CROPPING = "cropping";
 	private static final String STATE_PICKING = "picking";
+	public static final short REQUEST_CODE_BASE = 0x4100;
+	public static final short REQUEST_CODE_PICK = REQUEST_CODE_BASE | (1 << 1);
+	public static final short REQUEST_CODE_GET = REQUEST_CODE_BASE | (1 << 2);
+	public static final short REQUEST_CODE_TAKE = REQUEST_CODE_BASE | (1 << 3);
 	private static final float DEFAULT_MARGIN = 0.10f;
 	private static final boolean DEFAULT_FLASH = false;
 	public static final int EXTRA_MAXSIZE_NO_MAX = 0;
@@ -102,6 +110,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private ImageButton mBtnPick;
 	private ImageButton mBtnCrop;
 	private ToggleButton mBtnFlash;
+	private PopupMenu mPickMenu;
 
 	private final PermissionProtectedAction restartPreview = new PermissionProtectedAction(
 			this,
@@ -190,6 +199,9 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				}
 			}
 		}
+		// TODO properly pass and handle EXTRA_OUTPUT as Uris
+		Uri publicOutput = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT_PUBLIC, Uri.class);
+		request = new ImageRequest(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile));
 
 		setContentView(R.layout.activity_camera);
 		controls = findViewById(R.id.controls);
@@ -266,6 +278,37 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mBtnPick.setOnClickListener(new PickClickListener());
 		mBtnCrop.setOnClickListener(new CropClickListener());
 
+		mPickMenu = new PopupMenu(this, mBtnPick);
+		mPickMenu.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+		mPickMenu.setForceShowIcon(true);
+		mPickMenu.inflate(R.menu.image__choose_external);
+		mPickMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+			@Override public void onDismiss(PopupMenu menu) {
+				mSelection.setSelectionStatus(SelectionStatus.BLURRY);
+				enableControls();
+			}
+		});
+		mPickMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@SuppressWarnings("deprecation")
+			@Override public boolean onMenuItemClick(MenuItem item) {
+				disableControls();
+				if (item.getItemId() == R.id.image__choose_external__get) {
+					startActivityForResult(request.createGetContent(), REQUEST_CODE_GET);
+					return true;
+				} else if (item.getItemId() == R.id.image__choose_external__pick) {
+					startActivityForResult(request.createPick(), REQUEST_CODE_PICK);
+					return true;
+				} else if (item.getItemId() == R.id.image__choose_external__capture) {
+					startActivityForResult(request.createCaptureImage(), REQUEST_CODE_TAKE);
+					return true;
+				} else {
+					// STOPSHIP handle groups.
+					return false;
+				}
+				// Execution continues in onActivityResult.
+			}
+		});
+
 		boolean hasCamera = ImageRequest.canHasCamera(this);
 		if (!hasCamera) {
 			mBtnCapture.setVisibility(View.GONE);
@@ -278,21 +321,19 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 					|| !hasCamera // device doesn't have camera
 					|| userDeclined // device has camera, but user explicitly declined the permission
 			) {
-				mBtnPick.performClick();
+				mBtnPick.post(mBtnPick::performClick);
 			} else {
-				mBtnCapture.performClick();
+				mBtnCapture.post(mBtnCapture::performClick);
 			}
 		} else {
 			state = savedInstanceState.getString(KEY_STATE);
 			if (state != null) {
 				switch (state) {
 					case STATE_CAPTURING:
-						mBtnCapture.performClick();
+						mBtnCapture.post(mBtnCapture::performClick);
 						break;
 					case STATE_PICKING:
-						// Restore ImageRequest in case activity is being re-created with state,
-						// and will go on to onActivityResult where request needs to exist.
-						request = buildRequest();
+						// In case activity is being re-created with state, it will go on to onActivityResult.
 						break;
 					case STATE_CROPPING:
 						mSavedFile = mTargetFile;
@@ -321,11 +362,10 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		}
 		Uri fallback = Uri.fromFile(mTargetFile);
 		Uri result = fallback;
-		if (request != null) {
-			Uri pic = request.getPictureUriFromResult(requestCode, resultCode, data);
-			if (pic != null) {
-				result = pic;
-			}
+		// STOPSHIP handle different codes.
+		Uri pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_PICK, requestCode, resultCode, data);
+		if (pic != null) {
+			result = pic;
 		}
 		if (!fallback.equals(result)) {
 			StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
@@ -479,19 +519,48 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	protected void doPick() {
 		state = STATE_PICKING;
 		mPreview.setVisibility(View.INVISIBLE);
-		disableControls();
 		mSelection.setSelectionStatus(SelectionStatus.FOCUSING);
-		request = buildRequest();
-		request.start(); // continues in onActivityResult
+		resolveIntents(mPickMenu.getMenu());
+		mPickMenu.show();
 	}
 
-	private ImageRequest buildRequest() {
-		// TODO properly pass and handle EXTRA_OUTPUT as Uris
-		Uri publicOutput = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT_PUBLIC, Uri.class);
-		return new ImageRequest.Builder(CaptureImage.this)
-				.addGalleryIntent()
-				.addCameraIntents(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile))
-				.build();
+	// STOPSHIP abstract menu handling
+	private void resolveIntents(@NonNull Menu menu) {
+		populate(menu, R.id.image__choose_external__pick_group, request.createPick(), 2);
+		populate(menu, R.id.image__choose_external__get_group, request.createGetContent(), 4);
+		populate(menu, R.id.image__choose_external__capture_group, request.createCaptureImage(), 6);
+		for (int i = 0; i < menu.size(); i++) {
+			MenuItem item = menu.getItem(i);
+			item.setIcon(fix(item.getIcon(), item.getGroupId() != Menu.NONE, getResources()));
+		}
+
+		MenuItem captureItem = menu.findItem(R.id.image__choose_external__capture);
+		ViewTools.visibleIf(captureItem, ImageRequest.canLaunchCameraIntent(this));
+		menu.setGroupVisible(R.id.image__choose_external__capture_group, captureItem.isVisible());
+	}
+	private void populate(@NonNull Menu menu, int groupId, Intent intent, int order) {
+		menu.addIntentOptions(groupId, Menu.NONE, order, getComponentName(), null, intent, 0, null);
+	}
+
+	private static @Nullable Drawable fix(@Nullable Drawable icon, boolean sub, @NonNull Resources resources) {
+		if (icon == null) {
+			return null;
+		}
+		int indent = sub? resources.getDimensionPixelSize(R.dimen.image__choose_external__menu_icon_indent) : 0;
+		int size = resources.getDimensionPixelSize(R.dimen.image__choose_external__menu_icon_size);
+		return new DrawableWrapperCompat(icon) {
+			@Override public int getIntrinsicWidth() {
+				// Extra indent reserves size.
+				return size + indent;
+			}
+			@Override public int getIntrinsicHeight() {
+				return size;
+			}
+			@Override public void setBounds(int left, int top, int right, int bottom) {
+				// Only shift left by `indent`, so the icon gets back to it's `size`.
+				super.setBounds(left + indent, top, right, bottom);
+			}
+		};
 	}
 
 	protected void doReturn() {
