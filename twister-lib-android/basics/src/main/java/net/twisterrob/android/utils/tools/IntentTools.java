@@ -2,6 +2,8 @@ package net.twisterrob.android.utils.tools;
 
 import java.io.Serializable;
 
+import org.jetbrains.annotations.Contract;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,13 @@ public /*static*/ abstract class IntentTools {
 
 	protected IntentTools() {
 		// static utility class
+	}
+
+	@Contract("_, _, _, !null -> !null")
+	public static @Nullable <T extends Parcelable> T getParcelableExtra(
+			@NonNull Intent intent, @Nullable String name, @NonNull Class<T> clazz, @Nullable T defaultValue) {
+		T extra = getParcelableExtra(intent, name, clazz);
+		return extra != null? extra : defaultValue;
 	}
 
 	// TODEL https://issuetracker.google.com/issues/242048899#comment21 released in androidx-core:1.10.0
@@ -44,6 +53,13 @@ public /*static*/ abstract class IntentTools {
 				return null;
 			}
 		}
+	}
+
+	@Contract("_, _, _, !null -> !null")
+	public static @Nullable <T extends Serializable> T getSerializableExtra(
+			@NonNull Intent intent, @Nullable String name, @NonNull Class<T> clazz, @Nullable T defaultValue) {
+		T extra = getSerializableExtra(intent, name, clazz);
+		return extra != null? extra : defaultValue;
 	}
 
 	@SuppressWarnings("deprecation")

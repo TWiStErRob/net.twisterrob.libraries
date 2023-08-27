@@ -35,9 +35,9 @@ import androidx.activity.ComponentActivity;
 import androidx.annotation.*;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
-import androidx.exifinterface.media.ExifInterface;
 
 import net.twisterrob.android.capture_image.R;
+import net.twisterrob.android.utils.tools.CropTools;
 import net.twisterrob.android.content.ExternalImageMenu;
 import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
@@ -45,7 +45,6 @@ import net.twisterrob.android.permissions.PermissionProtectedAction;
 import net.twisterrob.android.utils.concurrent.Callback;
 import net.twisterrob.android.utils.tools.AndroidTools;
 import net.twisterrob.android.utils.tools.DialogTools;
-import net.twisterrob.android.utils.tools.ImageTools;
 import net.twisterrob.android.utils.tools.IntentTools;
 import net.twisterrob.android.view.*;
 import net.twisterrob.android.view.CameraPreview.*;
@@ -81,7 +80,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private static final String STATE_PICKING = "picking";
 	private static final float DEFAULT_MARGIN = 0.10f;
 	private static final boolean DEFAULT_FLASH = false;
-	public static final int EXTRA_MAXSIZE_NO_MAX = 0;
+	public static final int EXTRA_MAXSIZE_NO_MAX = CropTools.MAX_SIZE_NO_MAX;
 	public static final String ACTION = "net.twisterrob.android.intent.action.CAPTURE_IMAGE";
 
 	private SharedPreferences prefs;
@@ -473,7 +472,10 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	@WorkerThread
 	protected boolean doCrop(RectF rect) {
 		try {
-			mSavedFile = crop(mSavedFile, rect);
+			int maxSize = getIntent().getIntExtra(EXTRA_MAXSIZE, EXTRA_MAXSIZE_NO_MAX);
+			int quality = getIntent().getIntExtra(EXTRA_QUALITY, 85);
+			CompressFormat format = IntentTools.getSerializableExtra(getIntent(), EXTRA_FORMAT, CompressFormat.class, CompressFormat.JPEG);
+			mSavedFile = CropTools.crop(mSavedFile, rect, maxSize, quality, format);
 			return true;
 		} catch (Exception ex) {
 			Toast.makeText(getApplicationContext(), "Cannot crop image: " + ex.getMessage(), Toast.LENGTH_LONG).show();
@@ -575,92 +577,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		return file;
 	}
 
-	@WorkerThread
-	private File crop(File file, RectF sel) throws IOException {
-		if (file == null || sel.isEmpty()) {
-			return null;
-		}
-		final int[] originalSize = ImageTools.getSize(file);
-		LOG.trace("Original image size: {}x{}", originalSize[0], originalSize[1]);
-
-		// keep a single Bitmap variable so the rest could be garbage collected
-		final int orientation = ImageTools.getExifOrientation(file);
-		final RectF rotatedSel = ImageTools.rotateUnitRect(sel, orientation);
-		final Rect imageRect = ImageTools.percentToSize(rotatedSel, originalSize[0], originalSize[1]);
-		final int maxSize = getIntent().getIntExtra(EXTRA_MAXSIZE, EXTRA_MAXSIZE_NO_MAX);
-
-		final float leeway = 0.10f;
-		// calculating a sample size should speed up loading and lessen the probability of OOMs.
-		final int sampleSize = maxSize == EXTRA_MAXSIZE_NO_MAX
-				? 1 : calcSampleSize(maxSize, leeway, imageRect.width(), imageRect.height());
-		LOG.trace("Downsampling by {}x", sampleSize);
-
-		Bitmap bitmap = ImageTools.crop(file, imageRect, sampleSize);
-		LOG.info("Cropped {} = {} to size {}x{}", sel, imageRect, bitmap.getWidth(), bitmap.getHeight());
-		if (maxSize != EXTRA_MAXSIZE_NO_MAX) {
-			bitmap = ImageTools.downscale(bitmap, maxSize, maxSize, leeway);
-			LOG.info("Downscaled to size {}x{} by constraint {}±{}",
-					bitmap.getWidth(), bitmap.getHeight(), maxSize, maxSize * leeway);
-		}
-
-		// @deprecated: experimental for now, don't enable; this would reduce OOMs even more,
-		// because it would skip rotation which create a full copy of the bitmap
-		// on the other hand, rotation should use less memory as saving (getPixels + YCC), so it may be unnecessary.
-		@SuppressWarnings("ConstantConditions")
-		final boolean exifRotate = Boolean.parseBoolean("false");
-		ExifInterface exif = null;
-		if (exifRotate) {
-			exif = new ExifInterface(file.getAbsolutePath());
-		} else {
-			bitmap = ImageTools.rotateImage(bitmap, ImageTools.getExifRotation(orientation));
-			LOG.info("Rotated to size {}x{} because {}({})",
-					bitmap.getWidth(), bitmap.getHeight(), ImageTools.getExifString(orientation), orientation);
-		}
-		CompressFormat format = IntentTools.getSerializableExtra(getIntent(), EXTRA_FORMAT, CompressFormat.class);
-		if (format == null) {
-			format = CompressFormat.JPEG;
-		}
-		int quality = getIntent().getIntExtra(EXTRA_QUALITY, 85);
-
-		ImageTools.savePicture(bitmap, format, quality, true, file);
-		if (exifRotate) {
-			exif.saveAttributes(); // restore original Exif (most importantly the orientation)
-		}
-
-		LOG.info("Saved {}x{} {}@{} into {}", bitmap.getWidth(), bitmap.getHeight(), format, quality, file);
-		return file;
-	}
-	@AnyThread
-	private int calcSampleSize(
-			int maxSize,
-			@SuppressWarnings("SameParameterValue")
-			float leewayPercent,
-			int sourceWidth,
-			int sourceHeight
-	) {
-		// mirror calculations in ImageTools.downscale
-		final float widthPercentage = maxSize / (float)sourceWidth;
-		final float heightPercentage = maxSize / (float)sourceHeight;
-		final float minPercentage = Math.min(widthPercentage, heightPercentage);
-
-		final int targetWidth = Math.round(minPercentage * sourceWidth);
-		final int targetHeight = Math.round(minPercentage * sourceHeight);
-		LOG.trace("Downscale: {}x{} -> {}x{} ({}%) ± {}x{} ({}%)",
-				sourceWidth, sourceHeight, targetWidth, targetHeight, minPercentage * 100,
-				targetWidth * leewayPercent, targetHeight * leewayPercent, leewayPercent * 100);
-		final int exactSampleSize = Math.min(sourceWidth / targetWidth, sourceHeight / targetHeight);
-		int sampleSize = exactSampleSize <= 1? 1 : Integer.highestOneBit(exactSampleSize); // round down to 2^x
-		LOG.trace("Chosen sample size based on size is {} rounded to {}", exactSampleSize, sampleSize);
-		int longerSide = Math.max(sourceWidth, sourceHeight);
-		int targetLongerSide = Math.max(targetWidth, targetHeight);
-		if (Math.abs((float)longerSide / (sampleSize * 2) - targetLongerSide) < targetLongerSide * leewayPercent) {
-			LOG.trace("The longer side {}px allows for leeway ({}%) of {}px when using sample size {}",
-					longerSide, leewayPercent * 100, targetLongerSide * leewayPercent, sampleSize * 2);
-			// this allows the loaded image size to be between [targetLongerSide * (1-leewayPercent), targetLongerSide]
-			sampleSize = sampleSize * 2;
-		}
-		return sampleSize;
-	}
 	private @NonNull RectF getPictureRect() {
 		float width = mSelection.getWidth();
 		float height = mSelection.getHeight();
