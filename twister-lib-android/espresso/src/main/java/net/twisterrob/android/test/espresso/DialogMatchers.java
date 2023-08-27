@@ -157,9 +157,14 @@ public class DialogMatchers {
 		clickInDialog(BUTTON_NEUTRAL);
 	}
 	public static void clickOutsideDialog() {
-		onView(isRoot())
-				.inRoot(isDialog())
-				.perform(clickRelativeScreen(GeneralLocation.TOP_CENTER, 0, -16));
+		// The ideal way would be:
+		//onView(isRoot()).inRoot(isDialog()).perform(clickRelativeScreen(GeneralLocation.TOP_CENTER, 0, -16));
+		// But that yields: https://stackoverflow.com/a/36986273/253468
+		// InjectEventSecurityException: Check if Espresso is clicking outside the app
+		// (system dialog, navigation bar if edge-to-edge is enabled, etc.).
+		
+		// As best effort, assuming the dialog is cancellable:
+		Espresso.pressBack();
 	}
 
 	/**
