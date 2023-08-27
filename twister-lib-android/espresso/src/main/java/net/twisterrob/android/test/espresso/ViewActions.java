@@ -4,6 +4,7 @@ import android.view.InputDevice;
 import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Px;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.CoordinatesProvider;
 import androidx.test.espresso.action.GeneralClickAction;
@@ -53,7 +54,7 @@ public final class ViewActions {
 	 * @param offsetY by how much to offset the click, use negative values for top, positive for bottom.
 	 * @see #clickRelativeView(float, float, CoordinatesProvider) for a version that is based on view size.
 	 */
-	public static @NonNull ViewAction clickRelativePx(float offsetX, float offsetY, @NonNull CoordinatesProvider side) {
+	public static @NonNull ViewAction clickRelativePx(@Px float offsetX, @Px float offsetY, @NonNull CoordinatesProvider side) {
 		return actionWithAssertions(
 				new GeneralClickAction(
 						Tap.SINGLE,
