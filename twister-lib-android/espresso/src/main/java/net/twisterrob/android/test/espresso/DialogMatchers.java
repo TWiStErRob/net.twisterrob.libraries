@@ -11,6 +11,7 @@ import static android.view.WindowManager.LayoutParams.*;
 import androidx.annotation.IdRes;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.*;
+import androidx.test.espresso.action.GeneralLocation;
 import androidx.test.espresso.util.*;
 import androidx.test.runner.lifecycle.Stage;
 
@@ -28,8 +29,10 @@ import net.twisterrob.android.test.espresso.idle.ToastIdlingResource;
 import net.twisterrob.android.utils.tools.ResourceTools;
 
 import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
+import static net.twisterrob.android.test.espresso.ViewActions.clickRelativeScreen;
 import static net.twisterrob.android.test.junit.InstrumentationExtensions.*;
 import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
+
 public class DialogMatchers {
 	public static final int BUTTON_POSITIVE = android.R.id.button1;
 	public static final int BUTTON_NEGATIVE = android.R.id.button2;
@@ -152,6 +155,11 @@ public class DialogMatchers {
 	}
 	public static void clickNeutralInDialog() {
 		clickInDialog(BUTTON_NEUTRAL);
+	}
+	public static void clickOutsideDialog() {
+		onView(isRoot())
+				.inRoot(isDialog())
+				.perform(clickRelativeScreen(GeneralLocation.TOP_CENTER, 0, -16));
 	}
 
 	/**
