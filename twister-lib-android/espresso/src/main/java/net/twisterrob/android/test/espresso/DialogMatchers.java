@@ -11,7 +11,6 @@ import static android.view.WindowManager.LayoutParams.*;
 import androidx.annotation.IdRes;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.*;
-import androidx.test.espresso.action.GeneralLocation;
 import androidx.test.espresso.util.*;
 import androidx.test.runner.lifecycle.Stage;
 
@@ -29,7 +28,6 @@ import net.twisterrob.android.test.espresso.idle.ToastIdlingResource;
 import net.twisterrob.android.utils.tools.ResourceTools;
 
 import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
-import static net.twisterrob.android.test.espresso.ViewActions.clickRelativeScreen;
 import static net.twisterrob.android.test.junit.InstrumentationExtensions.*;
 import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
 
