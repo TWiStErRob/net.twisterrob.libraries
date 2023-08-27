@@ -30,11 +30,24 @@ public /*internal*/ final class CropTools {
 		throw new InternalError("Do not instantiate a utility class.");
 	}
 
+	/**
+	 * In-place crop:
+	 * <ol>
+	 *     <li>{@param file} is loaded into memory<ul>
+	 *         <li>including downsampling as necessary based on {@param maxSize}</li>
+	 *         <li>the {@param sel}ection is cropped out of the input file</li>
+	 *     </ul></li>
+	 *     <li>if too big, the cropped selection is downscaled to match {@param maxSize}</li>
+	 *     <li>the cropped image is rotated in memory according to exif orientation</li>
+	 *     <li>the rotated image is saved with {@param format} and {@param quality} into {@param file}.</li>
+	 * </ol>
+	 * @param file the file to crop, also the result will be saved into the same file.
+	 */
 	@WorkerThread
-	public static File crop(File file, RectF sel, int maxSize, int quality, @NonNull Bitmap.CompressFormat format) throws
-			IOException {
-		if (file == null || sel.isEmpty()) {
-			return null;
+	public static void crop(@NonNull File file, @NonNull RectF sel, int maxSize, int quality, @NonNull Bitmap.CompressFormat format)
+			throws IOException {
+		if (sel.isEmpty()) {
+			throw new IllegalArgumentException("Cannot crop empty selection: " + sel);
 		}
 		final int[] originalSize = ImageTools.getSize(file);
 		LOG.trace("Original image size: {}x{}", originalSize[0], originalSize[1]);
@@ -78,7 +91,6 @@ public /*internal*/ final class CropTools {
 		}
 
 		LOG.info("Saved {}x{} {}@{} into {}", bitmap.getWidth(), bitmap.getHeight(), format, quality, file);
-		return file;
 	}
 
 	@AnyThread
