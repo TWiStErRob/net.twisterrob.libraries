@@ -12,9 +12,12 @@ import android.view.View;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultCaller;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.PickVisualMediaRequestKt;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -34,12 +37,15 @@ public class ExternalImageMenu {
 
 	private final @NonNull ComponentActivity activity;
 	private final @NonNull Uri target;
+	private final @NonNull Listeners listeners;
 
 	private final @NonNull PopupMenu menu;
 	private final @NonNull ActivityResultLauncher<Uri> captureImage;
+	private final @NonNull ActivityResultLauncher<Intent> captureImageSpecific;
 	private final @NonNull ActivityResultLauncher<String> getContent;
-	private final @NonNull ActivityResultLauncher<PickVisualMediaRequest> pickImage;
 	private final @NonNull ActivityResultLauncher<Intent> getContentSpecific;
+	private final @NonNull ActivityResultLauncher<PickVisualMediaRequest> pickImage;
+	private final @NonNull ActivityResultLauncher<Intent> pickImageSpecific;
 
 	public ExternalImageMenu(
 			@NonNull ComponentActivity activity,
@@ -49,48 +55,22 @@ public class ExternalImageMenu {
 	) {
 		this.activity = activity;
 		this.target = target;
+		this.listeners = listeners;
 		this.pickImage = activity.registerForActivityResult(
 				new ActivityResultContracts.PickVisualMedia(), // STOPSHIP real pick?
-				(@Nullable Uri result) -> {
-					if (result != null) {
-						listeners.onPick(result);
-					} else {
-						listeners.onCancelled();
-					}
-				}
+				this::handlePick
 		);
+		this.pickImageSpecific = registerDelegate(activity, pickImage, this::handlePick);
 		this.getContent = activity.registerForActivityResult(
 				new ActivityResultContracts.GetContent(),
-				(@Nullable Uri result) -> {
-					if (result != null) {
-						listeners.onGetContent(result);
-					} else {
-						listeners.onCancelled();
-					}
-				}
+				this::handleGetContent
 		);
+		this.getContentSpecific = registerDelegate(activity, getContent, this::handleGetContent);
 		this.captureImage = activity.registerForActivityResult(
 				new ActivityResultContracts.TakePicture(),
-				(@Nullable Boolean result) -> {
-					if (Boolean.TRUE.equals(result)) {
-						listeners.onCapture(target);
-					} else {
-						listeners.onCancelled();
-					}
-				}
+				this::handleCaptureImage
 		);
-		this.getContentSpecific = activity.registerForActivityResult( // STOPSHIP generalize
-				new ActivityResultContracts.StartActivityForResult(),
-				(@NonNull ActivityResult ar) ->
-				{
-					Uri result = (Uri)getContent.getContract().parseResult(ar.getResultCode(), ar.getData());
-					if (result != null) {
-						listeners.onGetContent(result);
-					} else {
-						listeners.onCancelled();
-					}
-				}
-		);
+		this.captureImageSpecific = registerDelegate(activity, captureImage, this::handleCaptureImage);
 		menu = createMenu(activity, anchor);
 		menu.setOnDismissListener(menu -> listeners.onCancelled());
 		menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -107,13 +87,13 @@ public class ExternalImageMenu {
 					pickImage.launch(IMAGE_ONLY);
 					return true;
 				} else if (item.getGroupId() == R.id.image__choose_external__pick_group) {
-					pickImage.launch(IMAGE_ONLY); // STOPSHIP
+					pickImageSpecific.launch(item.getIntent());
 					return true;
 				} else if (item.getItemId() == R.id.image__choose_external__capture) {
 					captureImage.launch(target);
 					return true;
 				} else if (item.getGroupId() == R.id.image__choose_external__capture_group) {
-					captureImage.launch(target); // STOPSHIP
+					captureImageSpecific.launch(item.getIntent());
 					return true;
 				} else {
 					throw new IllegalArgumentException("Unknown menu item: " + item);
@@ -122,6 +102,48 @@ public class ExternalImageMenu {
 			}
 		});
 	}
+
+	private void handlePick(@Nullable Uri result) {
+		if (result != null) {
+			listeners.onPick(result);
+		} else {
+			listeners.onCancelled();
+		}
+	}
+
+	private void handleCaptureImage(@Nullable Boolean result) {
+		if (Boolean.TRUE.equals(result)) {
+			listeners.onCapture(target);
+		} else {
+			listeners.onCancelled();
+		}
+	}
+
+	private void handleGetContent(@Nullable Uri result) {
+		if (result != null) {
+			listeners.onGetContent(result);
+		} else {
+			listeners.onCancelled();
+		}
+	}
+
+	private static <I, O> @NonNull ActivityResultLauncher<Intent> registerDelegate(
+			@NonNull ActivityResultCaller activity,
+			ActivityResultLauncher<I> other,
+			ActivityResultCallback<O> handler
+	) {
+		return activity.registerForActivityResult(
+				new ActivityResultContracts.StartActivityForResult(),
+				(@NonNull ActivityResult ar) ->
+				{
+					@SuppressWarnings("unchecked")
+					ActivityResultContract<I, O> contract = (ActivityResultContract<I, O>)other.getContract();
+					O result = contract.parseResult(ar.getResultCode(), ar.getData());
+					handler.onActivityResult(result);
+				}
+		);
+	}
+
 	private static @NonNull PopupMenu createMenu(@NonNull Activity activity, @NonNull View anchor) {
 		@NonNull PopupMenu menu = new PopupMenu(activity, anchor);
 		menu.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
