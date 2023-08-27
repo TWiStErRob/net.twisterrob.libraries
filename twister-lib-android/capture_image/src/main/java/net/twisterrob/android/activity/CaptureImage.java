@@ -83,7 +83,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	public static final short REQUEST_CODE_BASE = 0x4100;
 	public static final short REQUEST_CODE_PICK = REQUEST_CODE_BASE | (1 << 1);
 	public static final short REQUEST_CODE_GET = REQUEST_CODE_BASE | (1 << 2);
-	public static final short REQUEST_CODE_TAKE = REQUEST_CODE_BASE | (1 << 3);
+	public static final short REQUEST_CODE_CAPTURE = REQUEST_CODE_BASE | (1 << 3);
 	private static final float DEFAULT_MARGIN = 0.10f;
 	private static final boolean DEFAULT_FLASH = false;
 	public static final int EXTRA_MAXSIZE_NO_MAX = 0;
@@ -282,8 +282,12 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mPickMenu.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
 		mPickMenu.setForceShowIcon(true);
 		mPickMenu.inflate(R.menu.image__choose_external);
+		mPickMenu.getMenu().findItem(R.id.image__choose_external__capture).setIntent(request.createCaptureImage());
+		mPickMenu.getMenu().findItem(R.id.image__choose_external__get).setIntent(request.createGetContent());
+		mPickMenu.getMenu().findItem(R.id.image__choose_external__pick).setIntent(request.createPick());
 		mPickMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
 			@Override public void onDismiss(PopupMenu menu) {
+				// STOPSHIP only do this when item was NOT selected
 				mSelection.setSelectionStatus(SelectionStatus.BLURRY);
 				enableControls();
 			}
@@ -292,18 +296,20 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			@SuppressWarnings("deprecation")
 			@Override public boolean onMenuItemClick(MenuItem item) {
 				disableControls();
-				if (item.getItemId() == R.id.image__choose_external__get) {
-					startActivityForResult(request.createGetContent(), REQUEST_CODE_GET);
+				if (item.getItemId() == R.id.image__choose_external__get
+						|| item.getGroupId() == R.id.image__choose_external__get_group) {
+					startActivityForResult(item.getIntent(), REQUEST_CODE_GET);
 					return true;
-				} else if (item.getItemId() == R.id.image__choose_external__pick) {
-					startActivityForResult(request.createPick(), REQUEST_CODE_PICK);
+				} else if (item.getItemId() == R.id.image__choose_external__pick
+						|| item.getGroupId() == R.id.image__choose_external__pick_group) {
+					startActivityForResult(item.getIntent(), REQUEST_CODE_PICK);
 					return true;
-				} else if (item.getItemId() == R.id.image__choose_external__capture) {
-					startActivityForResult(request.createCaptureImage(), REQUEST_CODE_TAKE);
+				} else if (item.getItemId() == R.id.image__choose_external__capture
+						|| item.getGroupId() == R.id.image__choose_external__capture_group) {
+					startActivityForResult(item.getIntent(), REQUEST_CODE_CAPTURE);
 					return true;
 				} else {
-					// STOPSHIP handle groups.
-					return false;
+					throw new IllegalArgumentException("Unknown menu item: " + item);
 				}
 				// Execution continues in onActivityResult.
 			}
@@ -364,6 +370,14 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		Uri result = fallback;
 		// STOPSHIP handle different codes.
 		Uri pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_PICK, requestCode, resultCode, data);
+		if (pic != null) {
+			result = pic;
+		}
+		pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_GET, requestCode, resultCode, data);
+		if (pic != null) {
+			result = pic;
+		}
+		pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_CAPTURE, requestCode, resultCode, data);
 		if (pic != null) {
 			result = pic;
 		}
@@ -526,9 +540,9 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 
 	// STOPSHIP abstract menu handling
 	private void resolveIntents(@NonNull Menu menu) {
-		populate(menu, R.id.image__choose_external__pick_group, request.createPick(), 2);
-		populate(menu, R.id.image__choose_external__get_group, request.createGetContent(), 4);
-		populate(menu, R.id.image__choose_external__capture_group, request.createCaptureImage(), 6);
+		populate(menu, R.id.image__choose_external__pick_group, R.id.image__choose_external__pick, 2);
+		populate(menu, R.id.image__choose_external__get_group, R.id.image__choose_external__get, 4);
+		populate(menu, R.id.image__choose_external__capture_group, R.id.image__choose_external__capture, 6);
 		for (int i = 0; i < menu.size(); i++) {
 			MenuItem item = menu.getItem(i);
 			item.setIcon(fix(item.getIcon(), item.getGroupId() != Menu.NONE, getResources()));
@@ -538,7 +552,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		ViewTools.visibleIf(captureItem, ImageRequest.canLaunchCameraIntent(this));
 		menu.setGroupVisible(R.id.image__choose_external__capture_group, captureItem.isVisible());
 	}
-	private void populate(@NonNull Menu menu, int groupId, Intent intent, int order) {
+	private void populate(@NonNull Menu menu, @IdRes int groupId, @IdRes int itemRes, int order) {
+		Intent intent = menu.findItem(itemRes).getIntent();
 		menu.addIntentOptions(groupId, Menu.NONE, order, getComponentName(), null, intent, 0, null);
 	}
 
