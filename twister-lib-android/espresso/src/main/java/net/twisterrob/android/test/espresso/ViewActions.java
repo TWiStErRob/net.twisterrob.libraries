@@ -29,9 +29,9 @@ public final class ViewActions {
 	 * @param side    which side of the view to click on, use {@link GeneralLocation} constants.
 	 * @param offsetX by how much to offset the click, use negative values for left, positive for right.
 	 * @param offsetY by how much to offset the click, use negative values for top, positive for bottom.
-	 * @see #clickRelativeScreen(CoordinatesProvider, float, float) for a version that uses absolute pixels.
+	 * @see #clickRelativeScreen(float, float, CoordinatesProvider) for a version that uses absolute pixels.
 	 */
-	public static @NonNull ViewAction clickRelativeView(@NonNull CoordinatesProvider side, float offsetX, float offsetY) {
+	public static @NonNull ViewAction clickRelativeView(float offsetX, float offsetY, @NonNull CoordinatesProvider side) {
 		return actionWithAssertions(
 				new GeneralClickAction(
 						Tap.SINGLE,
@@ -51,13 +51,13 @@ public final class ViewActions {
 	 * @param side    which side of the view to click on, use {@link GeneralLocation} constants.
 	 * @param offsetX by how much to offset the click, use negative values for left, positive for right.
 	 * @param offsetY by how much to offset the click, use negative values for top, positive for bottom.
-	 * @see #clickRelativeView(CoordinatesProvider, float, float) for a version that is based on view size.
+	 * @see #clickRelativeView(float, float, CoordinatesProvider) for a version that is based on view size.
 	 */
-	public static @NonNull ViewAction clickRelativeScreen(@NonNull CoordinatesProvider side, float offsetX, float offsetY) {
+	public static @NonNull ViewAction clickRelativeScreen(float offsetX, float offsetY, @NonNull CoordinatesProvider side) {
 		return actionWithAssertions(
 				new GeneralClickAction(
 						Tap.SINGLE,
-						new ScreenTranslatedCoordinatesProvider(side, offsetX, offsetY),
+						new ScreenTranslatedCoordinatesProvider(offsetX, offsetY, side),
 						Press.FINGER,
 						InputDevice.SOURCE_UNKNOWN,
 						MotionEvent.BUTTON_PRIMARY

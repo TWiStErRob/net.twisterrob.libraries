@@ -15,8 +15,8 @@ import androidx.test.espresso.action.GeneralLocation;
  * which translates by a fraction of the view's width and height.
  *
  * @see GeneralLocation#translate(CoordinatesProvider, float, float)
- * @see net.twisterrob.android.test.espresso.ViewActions#clickRelativeScreen(CoordinatesProvider, float, float)
- * @see net.twisterrob.android.test.espresso.ViewActions#clickRelativeView(CoordinatesProvider, float, float)
+ * @see net.twisterrob.android.test.espresso.ViewActions#clickRelativeScreen(float, float, CoordinatesProvider)
+ * @see net.twisterrob.android.test.espresso.ViewActions#clickRelativeView(float, float, CoordinatesProvider)
  */
 public class ScreenTranslatedCoordinatesProvider implements CoordinatesProvider {
 
@@ -32,9 +32,9 @@ public class ScreenTranslatedCoordinatesProvider implements CoordinatesProvider 
 	 * @param dy the distance in y direction in pixels
 	 */
 	public ScreenTranslatedCoordinatesProvider(
-			@NonNull CoordinatesProvider coordinatesProvider,
 			float dx,
-			float dy
+			float dy,
+			@NonNull CoordinatesProvider coordinatesProvider
 	) {
 		this.coordinatesProvider = coordinatesProvider;
 		this.dx = dx;
