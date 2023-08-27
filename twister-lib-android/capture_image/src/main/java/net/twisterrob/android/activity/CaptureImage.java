@@ -193,7 +193,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		}
 		// TODO properly pass and handle EXTRA_OUTPUT as Uris
 		Uri publicOutput = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT_PUBLIC, Uri.class);
-		ImageRequest request = new ImageRequest(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile));
 
 		setContentView(R.layout.activity_camera);
 		controls = findViewById(R.id.controls);
@@ -272,7 +271,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mExternalMenu = new ExternalImageMenu(
 				this,
 				mBtnPick,
-				request,
+				publicOutput != null? publicOutput : Uri.fromFile(mTargetFile),
 				new ExternalImageMenu.Listeners() {
 					@Override public void onCancelled() {
 						// STOPSHIP only do this when item was NOT selected
@@ -281,6 +280,15 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 					}
 					@Override public void itemSelected() {
 						disableControls();
+					}
+					@Override public void onGetContent(Uri result) {
+						onResult(result);
+					}
+					@Override public void onPick(Uri result) {
+						onResult(result);
+					}
+					@Override public void onCapture(Uri result) {
+						onResult(result);
 					}
 				}
 		);
@@ -327,38 +335,33 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	@SuppressWarnings("deprecation")
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK) {
-			if (data != null && ACTION.equals(data.getAction())) {
-				mBtnCapture.performClick();
-			} else {
-				mSelection.setSelectionStatus(SelectionStatus.BLURRY);
-				enableControls();
-			}
-			return;
+		if (resultCode != Activity.RESULT_OK && data != null && ACTION.equals(data.getAction())) {
+			mBtnCapture.performClick();
 		}
-		Uri fallback = Uri.fromFile(mTargetFile);
-		Uri result = fallback;
-		Uri pic = mExternalMenu.onActivityResult(requestCode, resultCode, data);
-		if (pic != null) {
-			result = pic;
-		}
-		if (!fallback.equals(result)) {
-			StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
-			try {
-				LOG.trace("Loading image from {} to {}", result, mTargetFile);
-				InputStream stream = getContentResolver().openInputStream(result);
-				//noinspection RedundantSuppression
-				//noinspection IOStreamConstructor only API 26 and above.
-				IOTools.copyStream(stream, new FileOutputStream(mTargetFile));
-			} catch (IOException ex) {
-				LOG.error("Cannot grab data from {} into {}", result, mTargetFile, ex);
-			} finally {
-				StrictMode.setThreadPolicy(originalPolicy);
-			}
+	}
+
+	private void onResult(Uri result) {
+		if (!Uri.fromFile(mTargetFile).equals(result)) {
+			// STOPSHIP is condition necessary?
+			copyResultToTarget(this, result, mTargetFile);
 		}
 		mSavedFile = mTargetFile;
 		prepareCrop();
 		enableControls();
+	}
+	private static void copyResultToTarget(Context context, Uri result, File target) {
+		StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
+		try {
+			LOG.trace("Loading image from {} to {}", result, target);
+			InputStream stream = context.getContentResolver().openInputStream(result);
+			//noinspection RedundantSuppression
+			//noinspection IOStreamConstructor only API 26 and above.
+			IOTools.copyStream(stream, new FileOutputStream(target));
+		} catch (IOException ex) {
+			LOG.error("Cannot grab data from {} into {}", result, target, ex);
+		} finally {
+			StrictMode.setThreadPolicy(originalPolicy);
+		}
 	}
 
 	private void prepareCrop() {

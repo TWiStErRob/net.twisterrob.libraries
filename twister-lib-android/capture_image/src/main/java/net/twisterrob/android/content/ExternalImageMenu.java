@@ -1,5 +1,6 @@
 package net.twisterrob.android.content;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.ComponentActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.PickVisualMediaRequestKt;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,56 +25,87 @@ import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.utils.tools.ViewTools;
 
 public class ExternalImageMenu {
-	private static final short REQUEST_CODE_BASE = 0x4100;
-	private static final short REQUEST_CODE_PICK = REQUEST_CODE_BASE | (1 << 1);
-	private static final short REQUEST_CODE_GET = REQUEST_CODE_BASE | (1 << 2);
-	private static final short REQUEST_CODE_CAPTURE = REQUEST_CODE_BASE | (1 << 3);
+	private static final String IMAGE_MIME_TYPE = "image/*";
+	private static final PickVisualMediaRequest IMAGE_ONLY = // PickVisualMediaRequest(ImageOnly)
+			PickVisualMediaRequestKt.PickVisualMediaRequest(
+					ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE
+			);
+
+	private final @NonNull ComponentActivity activity;
+	private final @NonNull Uri target;
 
 	private final @NonNull PopupMenu menu;
-	private final @NonNull ComponentActivity activity;
+	private final @NonNull ActivityResultLauncher<Uri> captureImage;
+	private final @NonNull ActivityResultLauncher<String> getContent;
+	private final @NonNull ActivityResultLauncher<PickVisualMediaRequest> pickImage;
 
 	public ExternalImageMenu(
 			@NonNull ComponentActivity activity,
 			@NonNull View anchor,
-			@NonNull ImageRequest request,
+			@NonNull Uri target,
 			@NonNull Listeners listeners
 	) {
 		this.activity = activity;
-
-		menu = new PopupMenu(activity, anchor);
-		menu.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-		menu.setForceShowIcon(true);
-		menu.inflate(net.twisterrob.android.capture_image.R.menu.image__choose_external);
-		menu.getMenu().findItem(R.id.image__choose_external__capture).setIntent(request.createCaptureImage());
-		menu.getMenu().findItem(R.id.image__choose_external__get).setIntent(request.createGetContent());
-		menu.getMenu().findItem(R.id.image__choose_external__pick).setIntent(request.createPick());
-		menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-			@Override public void onDismiss(PopupMenu menu) {
-				listeners.onCancelled();
-			}
-		});
+		this.target = target;
+		this.pickImage = activity.registerForActivityResult(
+				new ActivityResultContracts.PickVisualMedia(),
+				(Uri result) -> {
+					if (result != null) {
+						listeners.onPick(result);
+					} else {
+						listeners.onCancelled();
+					}
+				}
+		);
+		this.getContent = activity.registerForActivityResult(
+				new ActivityResultContracts.GetContent(),
+				(Uri result) -> {
+					if (result != null) {
+						listeners.onGetContent(result);
+					} else {
+						listeners.onCancelled();
+					}
+				}
+		);
+		this.captureImage = activity.registerForActivityResult(
+				new ActivityResultContracts.TakePicture(),
+				(Boolean result) -> {
+					if (Boolean.TRUE.equals(result)) {
+						listeners.onCapture(target);
+					} else {
+						listeners.onCancelled();
+					}
+				}
+		);
+		menu = createMenu(activity, anchor);
+		menu.setOnDismissListener(menu -> listeners.onCancelled());
 		menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-			@SuppressWarnings("deprecation") // STOPSHIP contracts
 			@Override public boolean onMenuItemClick(MenuItem item) {
 				listeners.itemSelected();
 				if (item.getItemId() == R.id.image__choose_external__get
 						|| item.getGroupId() == R.id.image__choose_external__get_group) {
-					activity.startActivityForResult(item.getIntent(), REQUEST_CODE_GET);
-					return true;
+					getContent.launch(IMAGE_MIME_TYPE);
+					return true; // Execution continues in registerForActivityResult callback.
 				} else if (item.getItemId() == R.id.image__choose_external__pick
 						|| item.getGroupId() == R.id.image__choose_external__pick_group) {
-					activity.startActivityForResult(item.getIntent(), REQUEST_CODE_PICK);
-					return true;
+					pickImage.launch(IMAGE_ONLY);
+					return true; // Execution continues in registerForActivityResult callback.
 				} else if (item.getItemId() == R.id.image__choose_external__capture
 						|| item.getGroupId() == R.id.image__choose_external__capture_group) {
-					activity.startActivityForResult(item.getIntent(), REQUEST_CODE_CAPTURE);
-					return true;
+					captureImage.launch(target);
+					return true; // Execution continues in registerForActivityResult callback.
 				} else {
 					throw new IllegalArgumentException("Unknown menu item: " + item);
 				}
-				// Execution continues in onActivityResult.
 			}
 		});
+	}
+	private static @NonNull PopupMenu createMenu(@NonNull Activity activity, @NonNull View anchor) {
+		@NonNull PopupMenu menu = new PopupMenu(activity, anchor);
+		menu.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+		menu.setForceShowIcon(true);
+		menu.inflate(R.menu.image__choose_external);
+		return menu;
 	}
 
 	public void show() {
@@ -77,15 +113,14 @@ public class ExternalImageMenu {
 	}
 
 	private void resolveIntents(@NonNull Menu menu) {
-		populate(menu, R.id.image__choose_external__pick_group, R.id.image__choose_external__pick, 2);
-		populate(menu, R.id.image__choose_external__get_group, R.id.image__choose_external__get, 4);
-		populate(menu, R.id.image__choose_external__capture_group, R.id.image__choose_external__capture, 6);
+		populate(menu, R.id.image__choose_external__pick_group, pickImage.getContract().createIntent(activity, IMAGE_ONLY), 2);
+		populate(menu, R.id.image__choose_external__get_group, getContent.getContract().createIntent(activity, IMAGE_MIME_TYPE), 4);
+		populate(menu, R.id.image__choose_external__capture_group, captureImage.getContract().createIntent(activity, target), 6);
 		fixIcons(menu);
 		showCapture(menu, ImageRequest.canLaunchCameraIntent(activity));
 	}
 
-	private void populate(@NonNull Menu menu, @IdRes int groupId, @IdRes int itemRes, int order) {
-		Intent intent = menu.findItem(itemRes).getIntent();
+	private void populate(@NonNull Menu menu, @IdRes int groupId, Intent intent, int order) {
 		menu.addIntentOptions(groupId, Menu.NONE, order, activity.getComponentName(), null, intent, 0, null);
 	}
 
@@ -123,27 +158,11 @@ public class ExternalImageMenu {
 		};
 	}
 
-	public @Nullable Uri onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-		Uri pic;
-
-		pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_PICK, requestCode, resultCode, data);
-		if (pic != null) {
-			return pic;
-		}
-		pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_GET, requestCode, resultCode, data);
-		if (pic != null) {
-			return pic;
-		}
-		pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_CAPTURE, requestCode, resultCode,
-				data);
-		if (pic != null) {
-			return pic;
-		}
-		return null;
-	}
-
 	public interface Listeners {
 		void onCancelled();
 		void itemSelected();
+		void onGetContent(Uri result);
+		void onPick(Uri result);
+		void onCapture(Uri result);
 	}
 }

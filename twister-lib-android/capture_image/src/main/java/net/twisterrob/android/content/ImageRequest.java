@@ -1,54 +1,22 @@
 package net.twisterrob.android.content;
 
 import android.Manifest;
-import android.annotation.*;
-import android.app.Activity;
-import android.content.*;
-import android.content.pm.*;
-import android.net.Uri;
-import android.os.Build.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.PermissionChecker;
 
-import net.twisterrob.android.utils.tools.*;
+import net.twisterrob.android.utils.tools.AndroidTools;
 
-public class ImageRequest {
-	private final @NonNull Uri target;
-
-	public ImageRequest(@NonNull Uri target) {
-		this.target = target;
-	}
-
-	public @NonNull Intent createGetContent() {
-		return new Intent(Intent.ACTION_GET_CONTENT)
-				.addCategory(Intent.CATEGORY_OPENABLE)
-				.setType("image/*");
-	}
-
-	public @NonNull Intent createPick() {
-		return  new Intent(Intent.ACTION_PICK)
-				.setType("image/*");
-	}
-
-	public @NonNull Intent createCaptureImage() {
-		return new Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-				.putExtra(MediaStore.EXTRA_OUTPUT, target);
-	}
-
-	public static @Nullable Uri getPictureUriFromResult(int expectedRequestCode, int requestCode, int resultCode, Intent data) {
-		Uri selectedImageUri = null;
-		if (resultCode == Activity.RESULT_OK && requestCode == expectedRequestCode && data != null) {
-			boolean isCamera = MediaStore.ACTION_IMAGE_CAPTURE.equals(data.getAction());
-			if (isCamera) {
-				selectedImageUri = IntentTools.getParcelableExtra(data, MediaStore.EXTRA_OUTPUT, Uri.class);
-			} else {
-				selectedImageUri = data.getData();
-			}
-		}
-		return selectedImageUri;
+public final class ImageRequest {
+	private ImageRequest() {
+		throw new InternalError("Utility class cannot be instantiated.");
 	}
 
 	/**
