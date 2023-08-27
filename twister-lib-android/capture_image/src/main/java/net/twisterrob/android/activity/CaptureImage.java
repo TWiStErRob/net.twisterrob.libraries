@@ -64,7 +64,6 @@ import net.twisterrob.java.io.IOTools;
 public class CaptureImage extends ComponentActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 	private static final Logger LOG = LoggerFactory.getLogger(CaptureImage.class);
 	public static final String EXTRA_OUTPUT = MediaStore.EXTRA_OUTPUT;
-	public static final String EXTRA_OUTPUT_PUBLIC = MediaStore.EXTRA_OUTPUT + "-public";
 	public static final String EXTRA_MAXSIZE = MediaStore.EXTRA_SIZE_LIMIT;
 	public static final String EXTRA_QUALITY = "quality";
 	public static final String EXTRA_FORMAT = "format";
@@ -80,7 +79,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private static final String STATE_PICKING = "picking";
 	private static final float DEFAULT_MARGIN = 0.10f;
 	private static final boolean DEFAULT_FLASH = false;
-	public static final int EXTRA_MAXSIZE_NO_MAX = CropTools.MAX_SIZE_NO_MAX;
+	public static final @Px int EXTRA_MAXSIZE_NO_MAX = CropTools.MAX_SIZE_NO_MAX;
 	public static final String ACTION = "net.twisterrob.android.intent.action.CAPTURE_IMAGE";
 
 	private SharedPreferences prefs;
@@ -173,13 +172,13 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			StrictMode.setThreadPolicy(originalPolicy);
 		}
 
-		String output = getIntent().getStringExtra(EXTRA_OUTPUT);
+		Uri output = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT, Uri.class);
 		if (output == null) {
-			LOG.warn("Missing extra: CaptureImage.EXTRA_OUTPUT, cancelling capture.");
+			LOG.warn("Missing Uri typed extra: CaptureImage.EXTRA_OUTPUT, cancelling capture.");
 			doReturn();
 			return;
 		} else {
-			mTargetFile = new File(output);
+			mTargetFile = output;
 			if (savedInstanceState == null) {
 				StrictMode.ThreadPolicy originalPolicy2 = StrictMode.allowThreadDiskWrites();
 				try {
@@ -591,11 +590,14 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	}
 
 	/** @param maxSize pixel size or {@link #EXTRA_MAXSIZE_NO_MAX} */
-	public static @NonNull Intent saveTo(
-			@NonNull Context context, @NonNull File targetFile, @NonNull Uri publicTarget, int maxSize) {
+	public static @NonNull Intent saveTo(@NonNull Context context, @NonNull Uri target, @Px int maxSize) {
+		if ("file".equals(target.getScheme())) {
+			throw new FileUriExposedException(
+					"File Uri is not supported, use a content Uri instead: " + target
+							+ "\nSee https://developer.android.com/reference/android/os/FileUriExposedException for more.");
+		}
 		Intent intent = new Intent(context, CaptureImage.class);
-		intent.putExtra(CaptureImage.EXTRA_OUTPUT, targetFile.getAbsolutePath());
-		intent.putExtra(CaptureImage.EXTRA_OUTPUT_PUBLIC, publicTarget);
+		intent.putExtra(CaptureImage.EXTRA_OUTPUT, target);
 		intent.putExtra(CaptureImage.EXTRA_MAXSIZE, maxSize);
 		return intent;
 	}

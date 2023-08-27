@@ -12,6 +12,7 @@ import android.graphics.RectF;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
+import androidx.annotation.Px;
 import androidx.annotation.WorkerThread;
 import androidx.exifinterface.media.ExifInterface;
 
@@ -23,7 +24,7 @@ public /*internal*/ final class CropTools {
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(CaptureImage.class);
 
-	public static final int MAX_SIZE_NO_MAX = 0;
+	public static final @Px int MAX_SIZE_NO_MAX = 0;
 
 	private CropTools() {
 		throw new InternalError("Do not instantiate a utility class.");
