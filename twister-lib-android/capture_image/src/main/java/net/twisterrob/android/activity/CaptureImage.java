@@ -9,7 +9,6 @@ import android.animation.*;
 import android.annotation.*;
 import android.app.Activity;
 import android.content.*;
-import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.*;
@@ -34,12 +33,11 @@ import com.bumptech.glide.request.target.*;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.*;
-import androidx.appcompat.graphics.drawable.DrawableWrapperCompat;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.exifinterface.media.ExifInterface;
 
 import net.twisterrob.android.capture_image.R;
+import net.twisterrob.android.content.ExternalImageMenu;
 import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.permissions.PermissionProtectedAction;
@@ -47,7 +45,6 @@ import net.twisterrob.android.utils.concurrent.Callback;
 import net.twisterrob.android.utils.tools.DialogTools;
 import net.twisterrob.android.utils.tools.ImageTools;
 import net.twisterrob.android.utils.tools.IntentTools;
-import net.twisterrob.android.utils.tools.ViewTools;
 import net.twisterrob.android.view.*;
 import net.twisterrob.android.view.CameraPreview.*;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
@@ -80,10 +77,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private static final String STATE_CAPTURING = "capturing";
 	private static final String STATE_CROPPING = "cropping";
 	private static final String STATE_PICKING = "picking";
-	public static final short REQUEST_CODE_BASE = 0x4100;
-	public static final short REQUEST_CODE_PICK = REQUEST_CODE_BASE | (1 << 1);
-	public static final short REQUEST_CODE_GET = REQUEST_CODE_BASE | (1 << 2);
-	public static final short REQUEST_CODE_CAPTURE = REQUEST_CODE_BASE | (1 << 3);
 	private static final float DEFAULT_MARGIN = 0.10f;
 	private static final boolean DEFAULT_FLASH = false;
 	public static final int EXTRA_MAXSIZE_NO_MAX = 0;
@@ -104,13 +97,12 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private ImageView mImage;
 	private View controls;
 	private String state;
-	private ImageRequest request;
 
 	private ImageButton mBtnCapture;
 	private ImageButton mBtnPick;
 	private ImageButton mBtnCrop;
 	private ToggleButton mBtnFlash;
-	private PopupMenu mPickMenu;
+	private ExternalImageMenu mExternalMenu;
 
 	private final PermissionProtectedAction restartPreview = new PermissionProtectedAction(
 			this,
@@ -201,7 +193,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		}
 		// TODO properly pass and handle EXTRA_OUTPUT as Uris
 		Uri publicOutput = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT_PUBLIC, Uri.class);
-		request = new ImageRequest(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile));
+		ImageRequest request = new ImageRequest(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile));
 
 		setContentView(R.layout.activity_camera);
 		controls = findViewById(R.id.controls);
@@ -277,43 +269,21 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mBtnCapture.setOnClickListener(new CaptureClickListener());
 		mBtnPick.setOnClickListener(new PickClickListener());
 		mBtnCrop.setOnClickListener(new CropClickListener());
-
-		mPickMenu = new PopupMenu(this, mBtnPick);
-		mPickMenu.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-		mPickMenu.setForceShowIcon(true);
-		mPickMenu.inflate(R.menu.image__choose_external);
-		mPickMenu.getMenu().findItem(R.id.image__choose_external__capture).setIntent(request.createCaptureImage());
-		mPickMenu.getMenu().findItem(R.id.image__choose_external__get).setIntent(request.createGetContent());
-		mPickMenu.getMenu().findItem(R.id.image__choose_external__pick).setIntent(request.createPick());
-		mPickMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-			@Override public void onDismiss(PopupMenu menu) {
-				// STOPSHIP only do this when item was NOT selected
-				mSelection.setSelectionStatus(SelectionStatus.BLURRY);
-				enableControls();
-			}
-		});
-		mPickMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-			@SuppressWarnings("deprecation")
-			@Override public boolean onMenuItemClick(MenuItem item) {
-				disableControls();
-				if (item.getItemId() == R.id.image__choose_external__get
-						|| item.getGroupId() == R.id.image__choose_external__get_group) {
-					startActivityForResult(item.getIntent(), REQUEST_CODE_GET);
-					return true;
-				} else if (item.getItemId() == R.id.image__choose_external__pick
-						|| item.getGroupId() == R.id.image__choose_external__pick_group) {
-					startActivityForResult(item.getIntent(), REQUEST_CODE_PICK);
-					return true;
-				} else if (item.getItemId() == R.id.image__choose_external__capture
-						|| item.getGroupId() == R.id.image__choose_external__capture_group) {
-					startActivityForResult(item.getIntent(), REQUEST_CODE_CAPTURE);
-					return true;
-				} else {
-					throw new IllegalArgumentException("Unknown menu item: " + item);
+		mExternalMenu = new ExternalImageMenu(
+				this,
+				mBtnPick,
+				request,
+				new ExternalImageMenu.Listeners() {
+					@Override public void onCancelled() {
+						// STOPSHIP only do this when item was NOT selected
+						mSelection.setSelectionStatus(SelectionView.SelectionStatus.BLURRY);
+						enableControls();
+					}
+					@Override public void itemSelected() {
+						disableControls();
+					}
 				}
-				// Execution continues in onActivityResult.
-			}
-		});
+		);
 
 		boolean hasCamera = ImageRequest.canHasCamera(this);
 		if (!hasCamera) {
@@ -368,16 +338,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		}
 		Uri fallback = Uri.fromFile(mTargetFile);
 		Uri result = fallback;
-		// STOPSHIP handle different codes.
-		Uri pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_PICK, requestCode, resultCode, data);
-		if (pic != null) {
-			result = pic;
-		}
-		pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_GET, requestCode, resultCode, data);
-		if (pic != null) {
-			result = pic;
-		}
-		pic = ImageRequest.getPictureUriFromResult(REQUEST_CODE_CAPTURE, requestCode, resultCode, data);
+		Uri pic = mExternalMenu.onActivityResult(requestCode, resultCode, data);
 		if (pic != null) {
 			result = pic;
 		}
@@ -534,48 +495,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		state = STATE_PICKING;
 		mPreview.setVisibility(View.INVISIBLE);
 		mSelection.setSelectionStatus(SelectionStatus.FOCUSING);
-		resolveIntents(mPickMenu.getMenu());
-		mPickMenu.show();
-	}
-
-	// STOPSHIP abstract menu handling
-	private void resolveIntents(@NonNull Menu menu) {
-		populate(menu, R.id.image__choose_external__pick_group, R.id.image__choose_external__pick, 2);
-		populate(menu, R.id.image__choose_external__get_group, R.id.image__choose_external__get, 4);
-		populate(menu, R.id.image__choose_external__capture_group, R.id.image__choose_external__capture, 6);
-		for (int i = 0; i < menu.size(); i++) {
-			MenuItem item = menu.getItem(i);
-			item.setIcon(fix(item.getIcon(), item.getGroupId() != Menu.NONE, getResources()));
-		}
-
-		MenuItem captureItem = menu.findItem(R.id.image__choose_external__capture);
-		ViewTools.visibleIf(captureItem, ImageRequest.canLaunchCameraIntent(this));
-		menu.setGroupVisible(R.id.image__choose_external__capture_group, captureItem.isVisible());
-	}
-	private void populate(@NonNull Menu menu, @IdRes int groupId, @IdRes int itemRes, int order) {
-		Intent intent = menu.findItem(itemRes).getIntent();
-		menu.addIntentOptions(groupId, Menu.NONE, order, getComponentName(), null, intent, 0, null);
-	}
-
-	private static @Nullable Drawable fix(@Nullable Drawable icon, boolean sub, @NonNull Resources resources) {
-		if (icon == null) {
-			return null;
-		}
-		int indent = sub? resources.getDimensionPixelSize(R.dimen.image__choose_external__menu_icon_indent) : 0;
-		int size = resources.getDimensionPixelSize(R.dimen.image__choose_external__menu_icon_size);
-		return new DrawableWrapperCompat(icon) {
-			@Override public int getIntrinsicWidth() {
-				// Extra indent reserves size.
-				return size + indent;
-			}
-			@Override public int getIntrinsicHeight() {
-				return size;
-			}
-			@Override public void setBounds(int left, int top, int right, int bottom) {
-				// Only shift left by `indent`, so the icon gets back to it's `size`.
-				super.setBounds(left + indent, top, right, bottom);
-			}
-		};
+		mExternalMenu.show();
 	}
 
 	protected void doReturn() {
