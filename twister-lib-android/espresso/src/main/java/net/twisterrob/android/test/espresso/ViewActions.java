@@ -29,7 +29,7 @@ public final class ViewActions {
 	 * @param side    which side of the view to click on, use {@link GeneralLocation} constants.
 	 * @param offsetX by how much to offset the click, use negative values for left, positive for right.
 	 * @param offsetY by how much to offset the click, use negative values for top, positive for bottom.
-	 * @see #clickRelativeScreen(float, float, CoordinatesProvider) for a version that uses absolute pixels.
+	 * @see #clickRelativePx(float, float, CoordinatesProvider) for a version that uses absolute pixels.
 	 */
 	public static @NonNull ViewAction clickRelativeView(float offsetX, float offsetY, @NonNull CoordinatesProvider side) {
 		return actionWithAssertions(
@@ -53,7 +53,7 @@ public final class ViewActions {
 	 * @param offsetY by how much to offset the click, use negative values for top, positive for bottom.
 	 * @see #clickRelativeView(float, float, CoordinatesProvider) for a version that is based on view size.
 	 */
-	public static @NonNull ViewAction clickRelativeScreen(float offsetX, float offsetY, @NonNull CoordinatesProvider side) {
+	public static @NonNull ViewAction clickRelativePx(float offsetX, float offsetY, @NonNull CoordinatesProvider side) {
 		return actionWithAssertions(
 				new GeneralClickAction(
 						Tap.SINGLE,

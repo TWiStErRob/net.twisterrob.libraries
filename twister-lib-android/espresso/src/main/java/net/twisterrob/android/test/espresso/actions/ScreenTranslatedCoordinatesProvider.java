@@ -15,7 +15,7 @@ import androidx.test.espresso.action.GeneralLocation;
  * which translates by a fraction of the view's width and height.
  *
  * @see GeneralLocation#translate(CoordinatesProvider, float, float)
- * @see net.twisterrob.android.test.espresso.ViewActions#clickRelativeScreen(float, float, CoordinatesProvider)
+ * @see net.twisterrob.android.test.espresso.ViewActions#clickRelativePx(float, float, CoordinatesProvider)
  * @see net.twisterrob.android.test.espresso.ViewActions#clickRelativeView(float, float, CoordinatesProvider)
  */
 public class ScreenTranslatedCoordinatesProvider implements CoordinatesProvider {
