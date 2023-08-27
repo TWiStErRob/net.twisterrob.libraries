@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.ComponentActivity;
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.PickVisualMediaRequestKt;
@@ -38,6 +39,7 @@ public class ExternalImageMenu {
 	private final @NonNull ActivityResultLauncher<Uri> captureImage;
 	private final @NonNull ActivityResultLauncher<String> getContent;
 	private final @NonNull ActivityResultLauncher<PickVisualMediaRequest> pickImage;
+	private final @NonNull ActivityResultLauncher<Intent> getContentSpecific;
 
 	public ExternalImageMenu(
 			@NonNull ComponentActivity activity,
@@ -48,8 +50,8 @@ public class ExternalImageMenu {
 		this.activity = activity;
 		this.target = target;
 		this.pickImage = activity.registerForActivityResult(
-				new ActivityResultContracts.PickVisualMedia(),
-				(Uri result) -> {
+				new ActivityResultContracts.PickVisualMedia(), // STOPSHIP real pick?
+				(@Nullable Uri result) -> {
 					if (result != null) {
 						listeners.onPick(result);
 					} else {
@@ -59,7 +61,7 @@ public class ExternalImageMenu {
 		);
 		this.getContent = activity.registerForActivityResult(
 				new ActivityResultContracts.GetContent(),
-				(Uri result) -> {
+				(@Nullable Uri result) -> {
 					if (result != null) {
 						listeners.onGetContent(result);
 					} else {
@@ -69,9 +71,21 @@ public class ExternalImageMenu {
 		);
 		this.captureImage = activity.registerForActivityResult(
 				new ActivityResultContracts.TakePicture(),
-				(Boolean result) -> {
+				(@Nullable Boolean result) -> {
 					if (Boolean.TRUE.equals(result)) {
 						listeners.onCapture(target);
+					} else {
+						listeners.onCancelled();
+					}
+				}
+		);
+		this.getContentSpecific = activity.registerForActivityResult( // STOPSHIP generalize
+				new ActivityResultContracts.StartActivityForResult(),
+				(@NonNull ActivityResult ar) ->
+				{
+					Uri result = (Uri)getContent.getContract().parseResult(ar.getResultCode(), ar.getData());
+					if (result != null) {
+						listeners.onGetContent(result);
 					} else {
 						listeners.onCancelled();
 					}
@@ -83,21 +97,28 @@ public class ExternalImageMenu {
 			@Override public boolean onMenuItemClick(MenuItem item) {
 				menu.setOnDismissListener(null);
 				listeners.itemSelected();
-				if (item.getItemId() == R.id.image__choose_external__get
-						|| item.getGroupId() == R.id.image__choose_external__get_group) {
+				if (item.getItemId() == R.id.image__choose_external__get) {
 					getContent.launch(IMAGE_MIME_TYPE);
-					return true; // Execution continues in registerForActivityResult callback.
-				} else if (item.getItemId() == R.id.image__choose_external__pick
-						|| item.getGroupId() == R.id.image__choose_external__pick_group) {
+					return true;
+				} else if (item.getGroupId() == R.id.image__choose_external__get_group) {
+					getContentSpecific.launch(item.getIntent());
+					return true;
+				} else if (item.getItemId() == R.id.image__choose_external__pick) {
 					pickImage.launch(IMAGE_ONLY);
-					return true; // Execution continues in registerForActivityResult callback.
-				} else if (item.getItemId() == R.id.image__choose_external__capture
-						|| item.getGroupId() == R.id.image__choose_external__capture_group) {
+					return true;
+				} else if (item.getGroupId() == R.id.image__choose_external__pick_group) {
+					pickImage.launch(IMAGE_ONLY); // STOPSHIP
+					return true;
+				} else if (item.getItemId() == R.id.image__choose_external__capture) {
 					captureImage.launch(target);
-					return true; // Execution continues in registerForActivityResult callback.
+					return true;
+				} else if (item.getGroupId() == R.id.image__choose_external__capture_group) {
+					captureImage.launch(target); // STOPSHIP
+					return true;
 				} else {
 					throw new IllegalArgumentException("Unknown menu item: " + item);
 				}
+				// Execution continues in registerForActivityResult callback.
 			}
 		});
 	}
