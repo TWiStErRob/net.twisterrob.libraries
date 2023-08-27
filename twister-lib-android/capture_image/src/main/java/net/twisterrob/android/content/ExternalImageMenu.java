@@ -81,6 +81,7 @@ public class ExternalImageMenu {
 		menu.setOnDismissListener(menu -> listeners.onCancelled());
 		menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 			@Override public boolean onMenuItemClick(MenuItem item) {
+				menu.setOnDismissListener(null);
 				listeners.itemSelected();
 				if (item.getItemId() == R.id.image__choose_external__get
 						|| item.getGroupId() == R.id.image__choose_external__get_group) {
@@ -110,6 +111,7 @@ public class ExternalImageMenu {
 
 	public void show() {
 		resolveIntents(menu.getMenu());
+		menu.show();
 	}
 
 	private void resolveIntents(@NonNull Menu menu) {

@@ -34,6 +34,7 @@ import com.bumptech.glide.request.target.*;
 import androidx.activity.ComponentActivity;
 import androidx.annotation.*;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.exifinterface.media.ExifInterface;
 
 import net.twisterrob.android.capture_image.R;
@@ -42,6 +43,7 @@ import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.permissions.PermissionProtectedAction;
 import net.twisterrob.android.utils.concurrent.Callback;
+import net.twisterrob.android.utils.tools.AndroidTools;
 import net.twisterrob.android.utils.tools.DialogTools;
 import net.twisterrob.android.utils.tools.ImageTools;
 import net.twisterrob.android.utils.tools.IntentTools;
@@ -340,27 +342,33 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		}
 	}
 
-	private void onResult(Uri result) {
-		if (!Uri.fromFile(mTargetFile).equals(result)) {
-			// STOPSHIP is condition necessary?
-			copyResultToTarget(this, result, mTargetFile);
+	private void onResult(@NonNull Uri result) {
+		StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
+		try {
+			Uri fileUri = Uri.fromFile(mTargetFile);
+			// STOPSHIP this is hacky
+			String authority = AndroidTools.findProviderAuthority(this, FileProvider.class).authority;
+			Uri fileProviderUri = FileProvider.getUriForFile(this, authority, mTargetFile);
+			if (!result.equals(fileUri) && !result.equals(fileProviderUri)) {
+				// STOPSHIP is condition necessary?
+				copyResultToTarget(this, result, mTargetFile);
+			}
+			mSavedFile = mTargetFile;
+		} finally {
+			StrictMode.setThreadPolicy(originalPolicy);
 		}
-		mSavedFile = mTargetFile;
 		prepareCrop();
 		enableControls();
 	}
-	private static void copyResultToTarget(Context context, Uri result, File target) {
-		StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
+	private static void copyResultToTarget(@NonNull Context context, @NonNull Uri result, @NonNull File target) {
 		try {
 			LOG.trace("Loading image from {} to {}", result, target);
 			InputStream stream = context.getContentResolver().openInputStream(result);
 			//noinspection RedundantSuppression
 			//noinspection IOStreamConstructor only API 26 and above.
 			IOTools.copyStream(stream, new FileOutputStream(target));
-		} catch (IOException ex) {
+		} catch (IOException ex){
 			LOG.error("Cannot grab data from {} into {}", result, target, ex);
-		} finally {
-			StrictMode.setThreadPolicy(originalPolicy);
 		}
 	}
 
