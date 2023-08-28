@@ -31,6 +31,7 @@ import net.twisterrob.android.utils.tools.ViewTools;
 public class ExternalImageMenu {
 
 	private final @NonNull Context context;
+	private final @NonNull Listeners listeners;
 	private final @NonNull PopupMenu menu;
 
 	public ExternalImageMenu(
@@ -40,6 +41,7 @@ public class ExternalImageMenu {
 			@NonNull Listeners listeners
 	) {
 		this.context = activity;
+		this.listeners = listeners;
 		ExplicitAbleActivityResultLauncher<PickVisualMediaRequest> pickImage = new ExplicitAbleActivityResultLauncher<>(
 				activity,
 				new ActivityResultContracts.PickVisualMedia(), // STOPSHIP real pick?
@@ -82,40 +84,42 @@ public class ExternalImageMenu {
 		menu.getMenu().findItem(R.id.image__choose_external__get).setIntent(getContent.createIntent());
 		menu.getMenu().findItem(R.id.image__choose_external__pick).setIntent(pickImage.createIntent());
 		menu.getMenu().findItem(R.id.image__choose_external__capture).setIntent(captureImage.createIntent());
-		menu.setOnDismissListener(menu -> listeners.onCancelled());
-		menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-			@Override public boolean onMenuItemClick(@NonNull MenuItem item) {
-				menu.setOnDismissListener(null);
-				listeners.itemSelected();
-				if (item.getItemId() == R.id.image__choose_external__get
-						|| item.getGroupId() == R.id.image__choose_external__get_group) {
-					getContent.launch(item.getIntent());
-					return true;
-				} else if (item.getItemId() == R.id.image__choose_external__pick
-						|| item.getGroupId() == R.id.image__choose_external__pick_group) {
-					pickImage.launch(item.getIntent());
-					return true;
-				} else if (item.getItemId() == R.id.image__choose_external__capture
-						|| item.getGroupId() == R.id.image__choose_external__capture_group) {
-					captureImage.launch(item.getIntent());
-					return true;
-				} else {
-					throw new IllegalArgumentException("Unknown menu item: " + item);
-				}
-				// Execution continues in registerForActivityResult callbacks.
+		menu.setOnMenuItemClickListener((@NonNull MenuItem item) -> {
+			// Clear the dismiss listener, so it doesn't get called after this method returns.
+			// We only want to call it when the user cancels the menu, not when they select something.
+			menu.setOnDismissListener(null);
+			listeners.itemSelected();
+			if (item.getItemId() == R.id.image__choose_external__get
+					|| item.getGroupId() == R.id.image__choose_external__get_group) {
+				getContent.launch(item.getIntent());
+				return true;
+			} else if (item.getItemId() == R.id.image__choose_external__pick
+					|| item.getGroupId() == R.id.image__choose_external__pick_group) {
+				pickImage.launch(item.getIntent());
+				return true;
+			} else if (item.getItemId() == R.id.image__choose_external__capture
+					|| item.getGroupId() == R.id.image__choose_external__capture_group) {
+				captureImage.launch(item.getIntent());
+				return true;
+			} else {
+				throw new IllegalArgumentException("Unknown menu item: " + item);
 			}
+			// Execution continues in registerForActivityResult callbacks.
 		});
 	}
 
 	private static @NonNull PopupMenu createMenu(@NonNull Activity activity, @NonNull View anchor) {
-		@NonNull PopupMenu menu = new PopupMenu(activity, anchor);
-		menu.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-		menu.setForceShowIcon(true);
+		PopupMenu menu = new PopupMenu(activity, anchor);
+		menu.setGravity(Gravity.TOP | Gravity.START);
+		menu.setForceShowIcon(true); // See fixIcons().
 		menu.inflate(R.menu.image__choose_external);
 		return menu;
 	}
 
 	public void show() {
+		// Set dismiss listener right before showing to make sure it exists.
+		// It might be cleared when an item is selected. See #setOnMenuItemClickListener.
+		menu.setOnDismissListener(menu -> listeners.onCancelled());
 		resolveIntents(menu.getMenu());
 		menu.show();
 	}
@@ -146,6 +150,18 @@ public class ExternalImageMenu {
 		}
 	}
 
+	/**
+	 * Ensure all drawables have the same size, otherwise they're misaligned.
+	 * Also add some indentation to resolved package listings, to give some hierarchy without use of submenus.
+	 * <p>
+	 * {@link androidx.appcompat.view.menu.StandardMenuPopup}
+	 * inflates {@link androidx.appcompat.R.layout.abc_popup_menu_item_layout}
+	 * using {@link androidx.appcompat.view.menu.MenuAdapter}.
+	 * Items in the adapter will be {@link androidx.appcompat.view.menu.ListMenuItemView}
+	 * and their icons are added in {@link androidx.appcompat.view.menu.ListMenuItemView#insertIconView}
+	 * from {@link androidx.appcompat.R.layout.abc_list_menu_item_icon}.
+	 * @noinspection JavadocReference
+	 */
 	private static @Nullable Drawable fix(@Nullable Drawable icon, boolean sub, @NonNull Resources resources) {
 		if (icon == null) {
 			return null;
@@ -154,14 +170,14 @@ public class ExternalImageMenu {
 		int size = resources.getDimensionPixelSize(R.dimen.image__choose_external__menu_icon_size);
 		return new DrawableWrapperCompat(icon) {
 			@Override public int getIntrinsicWidth() {
-				// Extra indent reserves size.
+				// Adding indent reserves extra width, because ImageView will take this size.
 				return size + indent;
 			}
 			@Override public int getIntrinsicHeight() {
 				return size;
 			}
 			@Override public void setBounds(int left, int top, int right, int bottom) {
-				// Only shift left by `indent`, so the icon gets back to it's `size`.
+				// Shift left by `indent`, so the icon gets back to it's `size` width, and the left side of it will be empty.
 				super.setBounds(left + indent, top, right, bottom);
 			}
 		};

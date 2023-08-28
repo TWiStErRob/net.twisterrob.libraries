@@ -276,9 +276,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				CaptureImageFileProvider.getUriForFile(this, captureFile),
 				new ExternalImageMenu.Listeners() {
 					@Override public void onCancelled() {
-						// STOPSHIP only do this when item was NOT selected
-						mSelection.setSelectionStatus(SelectionView.SelectionStatus.BLURRY);
-						enableControls();
+						restartPreview.executeBehindPermissions();
 					}
 					@Override public void itemSelected() {
 						disableControls();
