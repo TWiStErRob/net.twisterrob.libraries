@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.graphics.drawable.DrawableWrapperCompat;
 import androidx.appcompat.widget.PopupMenu;
+import kotlin.collections.CollectionsKt;
 
 import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.ImageRequest;
@@ -175,6 +176,18 @@ public class ExternalPicker {
 	private void populate(@NonNull Menu menu, @IdRes int itemId, @IdRes int groupId) {
 		MenuItem item = menu.findItem(itemId);
 		menu.addIntentOptions(groupId, Menu.NONE, item.getOrder() + 1, null, null, item.getIntent(), 0, null);
+
+		int groupSize = CollectionsKt.count(new MenuIterable(menu), it -> it.getGroupId() == groupId);
+		if (groupSize == 0) {
+			item.setVisible(false);
+		} else if (groupSize == 1) {
+			MenuItem groupItem = CollectionsKt.single(new MenuIterable(menu), it -> it.getGroupId() == groupId);
+			item.setVisible(true);
+			item.setIcon(groupItem.getIcon());
+			menu.removeGroup(groupId);
+		} else {
+			item.setVisible(true);
+		}
 	}
 
 	private void showCapture(@NonNull Menu menu, boolean canCapture) {
