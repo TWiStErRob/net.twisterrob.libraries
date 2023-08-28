@@ -17,8 +17,7 @@ import net.twisterrob.java.text.Suggester.DictionaryWord;
 public class SuggesterTest {
 	private static final String IGNORED = null;
 
-	@Rule public final MockitoRule mockito =
-			MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
+	@Rule public MockitoRule mockito = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
 
 	@Mock Indexer<DictionaryWord<String>> indexer;
 

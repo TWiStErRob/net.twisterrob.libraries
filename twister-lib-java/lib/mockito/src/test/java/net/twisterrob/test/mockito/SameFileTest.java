@@ -22,8 +22,7 @@ public class SameFileTest {
 	/** Different than {@link #DUMMY_PATH}. */
 	private static final String DIFFERENT_PATH = "a/c";
 
-	@Rule public MockitoRule mockito =
-			MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
+	@Rule public MockitoRule mockito = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
 
 	/** Irrelevant what this type is, chosen because it accepts an arbitrary argument and is easily mocked. */
 	@Mock Consumer<File> mock;
