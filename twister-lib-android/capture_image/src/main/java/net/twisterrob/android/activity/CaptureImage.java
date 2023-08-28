@@ -287,6 +287,9 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 					@Override public void onPick(@NonNull Uri result) {
 						onResult(result);
 					}
+					@Override public void onPickVisualImage(@NonNull Uri result) {
+						onResult(result);
+					}
 					@Override public void onCapture(@NonNull Uri result) {
 						onResult(result);
 					}

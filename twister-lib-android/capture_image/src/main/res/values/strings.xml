@@ -12,6 +12,9 @@
 	<string name="image__choose_external__capture_title">Capture via Camera app</string>
 	<drawable name="image__choose_external__capture_icon">@android:drawable/ic_menu_camera</drawable>
 
+	<string name="image__choose_external__visual_title">Pick visual media</string>
+	<drawable name="image__choose_external__visual_icon">@android:drawable/ic_menu_gallery</drawable>
+
 	<!-- lint:StringFormatCount see https://github.com/TWiStErRob/net.twisterrob.inventory/issues/148 -->
 	<string name="image__choose_external__intent_label_pick" tools:ignore="StringFormatCount"><xliff:g id="app" example="Photos">%1$s</xliff:g> <font color="#CCCCCC">(select)</font></string>
 	<!-- lint:StringFormatCount see https://github.com/TWiStErRob/net.twisterrob.inventory/issues/148 -->

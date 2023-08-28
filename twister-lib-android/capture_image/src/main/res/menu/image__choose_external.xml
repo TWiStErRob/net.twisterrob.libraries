@@ -25,13 +25,25 @@
 		/>
 
 	<item
-		android:id="@+id/image__choose_external__capture"
-		android:title="@string/image__choose_external__capture_title"
-		android:icon="@drawable/image__choose_external__capture_icon"
+		android:id="@+id/image__choose_external__visual"
+		android:title="@string/image__choose_external__visual_title"
+		android:icon="@drawable/image__choose_external__visual_icon"
 		android:orderInCategory="5"
 		/>
 	<group
-		android:id="@+id/image__choose_external__capture_group"
+		android:id="@+id/image__choose_external__visual_group"
 		android:orderInCategory="6"
 		/>
+
+	<item
+		android:id="@+id/image__choose_external__capture"
+		android:title="@string/image__choose_external__capture_title"
+		android:icon="@drawable/image__choose_external__capture_icon"
+		android:orderInCategory="7"
+		/>
+	<group
+		android:id="@+id/image__choose_external__capture_group"
+		android:orderInCategory="8"
+		/>
+
 </menu>

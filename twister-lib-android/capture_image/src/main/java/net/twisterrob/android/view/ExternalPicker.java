@@ -54,12 +54,20 @@ public class ExternalPicker {
 	) {
 		this.context = activity;
 		this.events = events;
-		ExplicitAbleActivityResultLauncher<PickVisualMediaRequest> pickImage = new ExplicitAbleActivityResultLauncher<>(
+		ExplicitAbleActivityResultLauncher<String> pickImage = new ExplicitAbleActivityResultLauncher<>(
 				activity,
-				new ActivityResultContracts.PickVisualMedia(), // STOPSHIP real pick?
-				PickVisualMediaRequestKt.PickVisualMediaRequest(
-						ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE
-				),
+				new ActivityResultContract<String, Uri>() {
+					@Override public Uri parseResult(int resultCode, @Nullable Intent intent) {
+						// intent.takeIf { resultCode == Activity.RESULT_OK }?.data
+						if (intent == null || resultCode != Activity.RESULT_OK) return null;
+						return intent.getData();
+					}
+					@Override public @NonNull Intent createIntent(@NonNull Context context, @NonNull String mimeType) {
+						return new Intent(Intent.ACTION_PICK)
+								.setType(mimeType);
+					}
+				},
+				"image/*",
 				(@Nullable Uri result) -> {
 					if (result != null) {
 						events.onPick(result);
@@ -80,6 +88,20 @@ public class ExternalPicker {
 					}
 				}
 		);
+		ExplicitAbleActivityResultLauncher<PickVisualMediaRequest> pickVisualImage = new ExplicitAbleActivityResultLauncher<>(
+				activity,
+				new ActivityResultContracts.PickVisualMedia(),
+				PickVisualMediaRequestKt.PickVisualMediaRequest(
+						ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE
+				),
+				(@Nullable Uri result) -> {
+					if (result != null) {
+						events.onPickVisualImage(result);
+					} else {
+						events.onCancelled();
+					}
+				}
+		);
 		ExplicitAbleActivityResultLauncher<Uri> captureImage = new ExplicitAbleActivityResultLauncher<>(
 				activity,
 				new ActivityResultContracts.TakePicture(),
@@ -93,8 +115,9 @@ public class ExternalPicker {
 				}
 		);
 		menu = createMenu(activity, anchor);
-		menu.getMenu().findItem(R.id.image__choose_external__get).setIntent(getContent.createIntent());
 		menu.getMenu().findItem(R.id.image__choose_external__pick).setIntent(pickImage.createIntent());
+		menu.getMenu().findItem(R.id.image__choose_external__get).setIntent(getContent.createIntent());
+		menu.getMenu().findItem(R.id.image__choose_external__visual).setIntent(pickVisualImage.createIntent());
 		menu.getMenu().findItem(R.id.image__choose_external__capture).setIntent(captureImage.createIntent());
 		menu.setOnMenuItemClickListener((@NonNull MenuItem item) -> {
 			// Clear the dismiss listener, so it doesn't get called after this method returns.
@@ -112,6 +135,10 @@ public class ExternalPicker {
 			} else if (item.getItemId() == R.id.image__choose_external__capture
 					|| item.getGroupId() == R.id.image__choose_external__capture_group) {
 				captureImage.launch(item.getIntent());
+				return true;
+			} else if (item.getItemId() == R.id.image__choose_external__visual
+					|| item.getGroupId() == R.id.image__choose_external__visual_group) {
+				pickVisualImage.launch(item.getIntent());
 				return true;
 			} else {
 				throw new IllegalArgumentException("Unknown menu item: " + item);
@@ -139,6 +166,7 @@ public class ExternalPicker {
 	private void resolveIntents(@NonNull Menu menu) {
 		populate(menu, R.id.image__choose_external__pick, R.id.image__choose_external__pick_group);
 		populate(menu, R.id.image__choose_external__get, R.id.image__choose_external__get_group);
+		populate(menu, R.id.image__choose_external__visual, R.id.image__choose_external__visual_group);
 		populate(menu, R.id.image__choose_external__capture, R.id.image__choose_external__capture_group);
 		fixIcons(menu);
 		showCapture(menu, ImageRequest.canLaunchCameraIntent(context));
@@ -200,6 +228,7 @@ public class ExternalPicker {
 		void itemSelected();
 		void onGetContent(@NonNull Uri result);
 		void onPick(@NonNull Uri result);
+		void onPickVisualImage(@NonNull Uri result);
 		void onCapture(@NonNull Uri result);
 	}
 
