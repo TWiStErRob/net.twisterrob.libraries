@@ -30,6 +30,7 @@ import net.twisterrob.android.utils.tools.ResourceTools;
 import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
 import static net.twisterrob.android.test.junit.InstrumentationExtensions.*;
 import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
+
 public class DialogMatchers {
 	public static final int BUTTON_POSITIVE = android.R.id.button1;
 	public static final int BUTTON_NEGATIVE = android.R.id.button2;
@@ -152,6 +153,16 @@ public class DialogMatchers {
 	}
 	public static void clickNeutralInDialog() {
 		clickInDialog(BUTTON_NEUTRAL);
+	}
+	public static void clickOutsideDialog() {
+		// The ideal way would be:
+		//onView(isRoot()).inRoot(isDialog()).perform(clickRelativeScreen(GeneralLocation.TOP_CENTER, 0, -16));
+		// But that yields: https://stackoverflow.com/a/36986273/253468
+		// InjectEventSecurityException: Check if Espresso is clicking outside the app
+		// (system dialog, navigation bar if edge-to-edge is enabled, etc.).
+		
+		// As best effort, assuming the dialog is cancellable:
+		Espresso.pressBack();
 	}
 
 	/**
