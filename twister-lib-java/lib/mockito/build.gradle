@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
 	compileOnly(libs.slf4j.api)
-	api(libs.test.mockito)
+	compileOnly(libs.test.mockito) // TODO api once Inventory has no PowerMock/latest
 	implementation "net.twisterrob.lib:twister-lib-java"
 	
 	testImplementation(libs.test.hamcrest)
