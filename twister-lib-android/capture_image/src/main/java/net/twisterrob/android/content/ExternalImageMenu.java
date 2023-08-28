@@ -1,6 +1,7 @@
 package net.twisterrob.android.content;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -11,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.ComponentActivity;
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultCaller;
 import androidx.activity.result.ActivityResultLauncher;
@@ -29,23 +29,9 @@ import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.utils.tools.ViewTools;
 
 public class ExternalImageMenu {
-	private static final String IMAGE_MIME_TYPE = "image/*";
-	private static final PickVisualMediaRequest IMAGE_ONLY = // PickVisualMediaRequest(ImageOnly)
-			PickVisualMediaRequestKt.PickVisualMediaRequest(
-					ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE
-			);
 
-	private final @NonNull ComponentActivity activity;
-	private final @NonNull Uri target;
-	private final @NonNull Listeners listeners;
-
+	private final @NonNull Context context;
 	private final @NonNull PopupMenu menu;
-	private final @NonNull ActivityResultLauncher<Uri> captureImage;
-	private final @NonNull ActivityResultLauncher<Intent> captureImageSpecific;
-	private final @NonNull ActivityResultLauncher<String> getContent;
-	private final @NonNull ActivityResultLauncher<Intent> getContentSpecific;
-	private final @NonNull ActivityResultLauncher<PickVisualMediaRequest> pickImage;
-	private final @NonNull ActivityResultLauncher<Intent> pickImageSpecific;
 
 	public ExternalImageMenu(
 			@NonNull ComponentActivity activity,
@@ -53,95 +39,72 @@ public class ExternalImageMenu {
 			@NonNull Uri target,
 			@NonNull Listeners listeners
 	) {
-		this.activity = activity;
-		this.target = target;
-		this.listeners = listeners;
-		this.pickImage = activity.registerForActivityResult(
+		this.context = activity;
+		ExplicitAbleActivityResultLauncher<PickVisualMediaRequest> pickImage = new ExplicitAbleActivityResultLauncher<>(
+				activity,
 				new ActivityResultContracts.PickVisualMedia(), // STOPSHIP real pick?
-				this::handlePick
+				PickVisualMediaRequestKt.PickVisualMediaRequest(
+						ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE
+				),
+				(@Nullable Uri result) -> {
+					if (result != null) {
+						listeners.onPick(result);
+					} else {
+						listeners.onCancelled();
+					}
+				}
 		);
-		this.pickImageSpecific = registerDelegate(activity, pickImage, this::handlePick);
-		this.getContent = activity.registerForActivityResult(
+		ExplicitAbleActivityResultLauncher<String> getContent = new ExplicitAbleActivityResultLauncher<>(
+				activity,
 				new ActivityResultContracts.GetContent(),
-				this::handleGetContent
+				"image/*",
+				(@Nullable Uri result) -> {
+					if (result != null) {
+						listeners.onGetContent(result);
+					} else {
+						listeners.onCancelled();
+					}
+				}
 		);
-		this.getContentSpecific = registerDelegate(activity, getContent, this::handleGetContent);
-		this.captureImage = activity.registerForActivityResult(
+		ExplicitAbleActivityResultLauncher<Uri> captureImage = new ExplicitAbleActivityResultLauncher<>(
+				activity,
 				new ActivityResultContracts.TakePicture(),
-				this::handleCaptureImage
+				target,
+				(@Nullable Boolean result) -> {
+					if (Boolean.TRUE.equals(result)) {
+						listeners.onCapture(target);
+					} else {
+						listeners.onCancelled();
+					}
+				}
 		);
-		this.captureImageSpecific = registerDelegate(activity, captureImage, this::handleCaptureImage);
 		menu = createMenu(activity, anchor);
+		menu.getMenu().findItem(R.id.image__choose_external__get).setIntent(getContent.createIntent());
+		menu.getMenu().findItem(R.id.image__choose_external__pick).setIntent(pickImage.createIntent());
+		menu.getMenu().findItem(R.id.image__choose_external__capture).setIntent(captureImage.createIntent());
 		menu.setOnDismissListener(menu -> listeners.onCancelled());
 		menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-			@Override public boolean onMenuItemClick(MenuItem item) {
+			@Override public boolean onMenuItemClick(@NonNull MenuItem item) {
 				menu.setOnDismissListener(null);
 				listeners.itemSelected();
-				if (item.getItemId() == R.id.image__choose_external__get) {
-					getContent.launch(IMAGE_MIME_TYPE);
+				if (item.getItemId() == R.id.image__choose_external__get
+						|| item.getGroupId() == R.id.image__choose_external__get_group) {
+					getContent.launch(item.getIntent());
 					return true;
-				} else if (item.getGroupId() == R.id.image__choose_external__get_group) {
-					getContentSpecific.launch(item.getIntent());
+				} else if (item.getItemId() == R.id.image__choose_external__pick
+						|| item.getGroupId() == R.id.image__choose_external__pick_group) {
+					pickImage.launch(item.getIntent());
 					return true;
-				} else if (item.getItemId() == R.id.image__choose_external__pick) {
-					pickImage.launch(IMAGE_ONLY);
-					return true;
-				} else if (item.getGroupId() == R.id.image__choose_external__pick_group) {
-					pickImageSpecific.launch(item.getIntent());
-					return true;
-				} else if (item.getItemId() == R.id.image__choose_external__capture) {
-					captureImage.launch(target);
-					return true;
-				} else if (item.getGroupId() == R.id.image__choose_external__capture_group) {
-					captureImageSpecific.launch(item.getIntent());
+				} else if (item.getItemId() == R.id.image__choose_external__capture
+						|| item.getGroupId() == R.id.image__choose_external__capture_group) {
+					captureImage.launch(item.getIntent());
 					return true;
 				} else {
 					throw new IllegalArgumentException("Unknown menu item: " + item);
 				}
-				// Execution continues in registerForActivityResult callback.
+				// Execution continues in registerForActivityResult callbacks.
 			}
 		});
-	}
-
-	private void handlePick(@Nullable Uri result) {
-		if (result != null) {
-			listeners.onPick(result);
-		} else {
-			listeners.onCancelled();
-		}
-	}
-
-	private void handleCaptureImage(@Nullable Boolean result) {
-		if (Boolean.TRUE.equals(result)) {
-			listeners.onCapture(target);
-		} else {
-			listeners.onCancelled();
-		}
-	}
-
-	private void handleGetContent(@Nullable Uri result) {
-		if (result != null) {
-			listeners.onGetContent(result);
-		} else {
-			listeners.onCancelled();
-		}
-	}
-
-	private static <I, O> @NonNull ActivityResultLauncher<Intent> registerDelegate(
-			@NonNull ActivityResultCaller activity,
-			ActivityResultLauncher<I> other,
-			ActivityResultCallback<O> handler
-	) {
-		return activity.registerForActivityResult(
-				new ActivityResultContracts.StartActivityForResult(),
-				(@NonNull ActivityResult ar) ->
-				{
-					@SuppressWarnings("unchecked")
-					ActivityResultContract<I, O> contract = (ActivityResultContract<I, O>)other.getContract();
-					O result = contract.parseResult(ar.getResultCode(), ar.getData());
-					handler.onActivityResult(result);
-				}
-		);
 	}
 
 	private static @NonNull PopupMenu createMenu(@NonNull Activity activity, @NonNull View anchor) {
@@ -158,15 +121,16 @@ public class ExternalImageMenu {
 	}
 
 	private void resolveIntents(@NonNull Menu menu) {
-		populate(menu, R.id.image__choose_external__pick_group, pickImage.getContract().createIntent(activity, IMAGE_ONLY), 2);
-		populate(menu, R.id.image__choose_external__get_group, getContent.getContract().createIntent(activity, IMAGE_MIME_TYPE), 4);
-		populate(menu, R.id.image__choose_external__capture_group, captureImage.getContract().createIntent(activity, target), 6);
+		populate(menu, R.id.image__choose_external__pick, R.id.image__choose_external__pick_group);
+		populate(menu, R.id.image__choose_external__get, R.id.image__choose_external__get_group);
+		populate(menu, R.id.image__choose_external__capture, R.id.image__choose_external__capture_group);
 		fixIcons(menu);
-		showCapture(menu, ImageRequest.canLaunchCameraIntent(activity));
+		showCapture(menu, ImageRequest.canLaunchCameraIntent(context));
 	}
 
-	private void populate(@NonNull Menu menu, @IdRes int groupId, Intent intent, int order) {
-		menu.addIntentOptions(groupId, Menu.NONE, order, activity.getComponentName(), null, intent, 0, null);
+	private void populate(@NonNull Menu menu, @IdRes int itemId, @IdRes int groupId) {
+		MenuItem item = menu.findItem(itemId);
+		menu.addIntentOptions(groupId, Menu.NONE, item.getOrder() + 1, null, null, item.getIntent(), 0, null);
 	}
 
 	private void showCapture(@NonNull Menu menu, boolean canCapture) {
@@ -178,7 +142,7 @@ public class ExternalImageMenu {
 	private void fixIcons(@NonNull Menu menu) {
 		for (int i = 0; i < menu.size(); i++) {
 			MenuItem item = menu.getItem(i);
-			item.setIcon(fix(item.getIcon(), item.getGroupId() != Menu.NONE, activity.getResources()));
+			item.setIcon(fix(item.getIcon(), item.getGroupId() != Menu.NONE, context.getResources()));
 		}
 	}
 
@@ -209,5 +173,43 @@ public class ExternalImageMenu {
 		void onGetContent(Uri result);
 		void onPick(Uri result);
 		void onCapture(Uri result);
+	}
+
+	private static class ExplicitAbleActivityResultLauncher<I> {
+		private final @NonNull Context context;
+		private final @NonNull ActivityResultContract<I, ?> contract;
+		private final @NonNull I input;
+		private final @NonNull ActivityResultLauncher<Intent> launcher;
+
+		private <O, C extends Context & ActivityResultCaller> ExplicitAbleActivityResultLauncher(
+				@NonNull C context,
+				@NonNull ActivityResultContract<I, O> contract,
+				@NonNull I input, @NonNull ActivityResultCallback<O> callback
+		) {
+			this.context = context;
+			this.contract = contract;
+			this.input = input;
+			this.launcher = context.registerForActivityResult(
+					new ActivityResultContracts.StartActivityForResult(),
+					ar -> callback.onActivityResult(
+							contract.parseResult(ar.getResultCode(), ar.getData())
+					)
+			);
+		}
+
+		/**
+		 * Create a generic intent for the {@link #contract} and {@link #input}.
+		 */
+		public @NonNull Intent createIntent() {
+			return contract.createIntent(context, input);
+		}
+
+		/**
+		 * Launch the generic intent generated by {@link #createIntent()},
+		 * or launch a package-specific explicit intent (overridden component) from the same.
+		 */
+		public void launch(@NonNull Intent input) {
+			launcher.launch(input);
+		}
 	}
 }
