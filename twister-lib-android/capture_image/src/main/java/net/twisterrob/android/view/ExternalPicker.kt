@@ -240,14 +240,18 @@ private fun Menu.add(@IdRes groupId: Int, @IdRes headerId: Int) {
 		}
 		1 -> {
 			header.isVisible = true
-			val item = this.asIterable().single { it.groupId == groupId }
-			header.icon = item.icon
-			this.removeGroup(groupId)
+			//header.collapseFromSingletonGroup(this, groupId)
 		}
 		else -> {
 			header.isVisible = true
 		}
 	}
+}
+
+private fun MenuItem.collapseFromSingletonGroup(menu: Menu, groupId: Int) {
+	val item = menu.asIterable().single { it.groupId == groupId }
+	icon = item.icon
+	menu.removeGroup(groupId)
 }
 
 private fun Menu.showCapture(canCapture: Boolean) {

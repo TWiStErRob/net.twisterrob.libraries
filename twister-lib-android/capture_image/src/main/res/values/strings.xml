@@ -6,13 +6,13 @@
 	<string name="image__choose_external__pick_title">Pick existing image</string>
 	<drawable name="image__choose_external__pick_icon">@android:drawable/ic_menu_gallery</drawable>
 
-	<string name="image__choose_external__get_title">Get image content</string>
+	<string name="image__choose_external__get_title">Get image</string>
 	<drawable name="image__choose_external__get_icon">@android:drawable/ic_menu_set_as</drawable>
 
 	<string name="image__choose_external__capture_title">Capture via Camera app</string>
 	<drawable name="image__choose_external__capture_icon">@android:drawable/ic_menu_camera</drawable>
 
-	<string name="image__choose_external__visual_title">Pick visual media</string>
+	<string name="image__choose_external__visual_title">Photo Picker</string>
 	<drawable name="image__choose_external__visual_icon">@android:drawable/ic_menu_gallery</drawable>
 
 	<!-- lint:StringFormatCount see https://github.com/TWiStErRob/net.twisterrob.inventory/issues/148 -->

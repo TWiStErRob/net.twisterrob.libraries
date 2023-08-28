@@ -3,46 +3,46 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<item
-		android:id="@+id/image__choose_external__pick"
-		android:title="@string/image__choose_external__pick_title"
-		android:icon="@drawable/image__choose_external__pick_icon"
-		android:orderInCategory="1"
-		/>
-	<group
-		android:id="@+id/image__choose_external__pick_group"
-		android:orderInCategory="2"
-		/>
-
-	<item
-		android:id="@+id/image__choose_external__get"
-		android:title="@string/image__choose_external__get_title"
-		android:icon="@drawable/image__choose_external__get_icon"
-		android:orderInCategory="3"
-		/>
-	<group
-		android:id="@+id/image__choose_external__get_group"
-		android:orderInCategory="4"
-		/>
-
-	<item
 		android:id="@+id/image__choose_external__visual"
 		android:title="@string/image__choose_external__visual_title"
 		android:icon="@drawable/image__choose_external__visual_icon"
-		android:orderInCategory="5"
+		android:orderInCategory="1"
 		/>
 	<group
 		android:id="@+id/image__choose_external__visual_group"
-		android:orderInCategory="6"
+		android:orderInCategory="2"
 		/>
 
 	<item
 		android:id="@+id/image__choose_external__capture"
 		android:title="@string/image__choose_external__capture_title"
 		android:icon="@drawable/image__choose_external__capture_icon"
-		android:orderInCategory="7"
+		android:orderInCategory="3"
 		/>
 	<group
 		android:id="@+id/image__choose_external__capture_group"
+		android:orderInCategory="4"
+		/>
+
+	<item
+		android:id="@+id/image__choose_external__pick"
+		android:title="@string/image__choose_external__pick_title"
+		android:icon="@drawable/image__choose_external__pick_icon"
+		android:orderInCategory="5"
+		/>
+	<group
+		android:id="@+id/image__choose_external__pick_group"
+		android:orderInCategory="6"
+		/>
+
+	<item
+		android:id="@+id/image__choose_external__get"
+		android:title="@string/image__choose_external__get_title"
+		android:icon="@drawable/image__choose_external__get_icon"
+		android:orderInCategory="7"
+		/>
+	<group
+		android:id="@+id/image__choose_external__get_group"
 		android:orderInCategory="8"
 		/>
 
