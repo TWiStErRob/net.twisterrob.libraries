@@ -32,10 +32,6 @@
 	<issue id="ObsoleteSdkInt" severity="ignore">
 		<!-- Keeping historical code for documentation purposes for now. -->
 	</issue>
-	<issue id="NewerVersionAvailable">
-		<!-- It's complex to find matching versions of PowerMock / Robolectric and Mockito. -->
-		<ignore regexp="^A newer version of org.mockito:mockito-core" />
-	</issue>
 	<issue id="GradleDependency" severity="ignore">
 		<!-- Known issue, ignore for now until there's Renovate. -->
 	</issue>
