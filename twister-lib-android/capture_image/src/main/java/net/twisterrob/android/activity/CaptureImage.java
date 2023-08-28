@@ -38,7 +38,7 @@ import androidx.core.app.ActivityCompat;
 import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.CaptureImageFileProvider;
 import net.twisterrob.android.utils.tools.CropTools;
-import net.twisterrob.android.content.ExternalImageMenu;
+import net.twisterrob.android.view.ExternalPicker;
 import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.permissions.PermissionProtectedAction;
@@ -106,7 +106,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private ImageButton mBtnPick;
 	private ImageButton mBtnCrop;
 	private ToggleButton mBtnFlash;
-	private ExternalImageMenu mExternalMenu;
+	private ExternalPicker mExternalPicker;
 
 	private final PermissionProtectedAction restartPreview = new PermissionProtectedAction(
 			this,
@@ -270,11 +270,11 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mBtnCapture.setOnClickListener(new CaptureClickListener());
 		mBtnPick.setOnClickListener(new PickClickListener());
 		mBtnCrop.setOnClickListener(new CropClickListener());
-		mExternalMenu = new ExternalImageMenu(
+		mExternalPicker = new ExternalPicker(
 				this,
 				mBtnPick,
 				CaptureImageFileProvider.getUriForFile(this, captureFile),
-				new ExternalImageMenu.Listeners() {
+				new ExternalPicker.Events() {
 					@Override public void onCancelled() {
 						restartPreview.executeBehindPermissions();
 					}
@@ -515,7 +515,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		state = STATE_PICKING;
 		mPreview.setVisibility(View.INVISIBLE);
 		mSelection.setSelectionStatus(SelectionStatus.FOCUSING);
-		mExternalMenu.show();
+		mExternalPicker.show();
+		// Execution continues in `ExternalPicker.Events.*()` methods.
 	}
 
 	protected void doReturn() {

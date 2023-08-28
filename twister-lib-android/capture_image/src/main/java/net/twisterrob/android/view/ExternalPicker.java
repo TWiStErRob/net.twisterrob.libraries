@@ -1,4 +1,4 @@
-package net.twisterrob.android.content;
+package net.twisterrob.android.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,22 +26,34 @@ import androidx.appcompat.graphics.drawable.DrawableWrapperCompat;
 import androidx.appcompat.widget.PopupMenu;
 
 import net.twisterrob.android.capture_image.R;
+import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.utils.tools.ViewTools;
 
-public class ExternalImageMenu {
+/**
+ * Abstraction for handling for picking from external image source.
+ * Currently implemented via a {@link PopupMenu}.
+ * <p> 
+ * Note: "pick" is an overloaded term.
+ * <ul>
+ *     <li>"External Picker" and "pick" in CaptureImage activity means to import from external image sources.</li>
+ *     <li>PickVisualMedia / MediaStore.ACTION_PICK_IMAGES is a new way of selecting images via the Photo Picker.</li>
+ *     <li>Intent.ACTION_PICK is an old API for selecting anything from any other app.</li>
+ * </ul>
+ */
+public class ExternalPicker {
 
 	private final @NonNull Context context;
-	private final @NonNull Listeners listeners;
+	private final @NonNull Events events;
 	private final @NonNull PopupMenu menu;
 
-	public ExternalImageMenu(
+	public ExternalPicker(
 			@NonNull ComponentActivity activity,
 			@NonNull View anchor,
 			@NonNull Uri target,
-			@NonNull Listeners listeners
+			@NonNull Events events
 	) {
 		this.context = activity;
-		this.listeners = listeners;
+		this.events = events;
 		ExplicitAbleActivityResultLauncher<PickVisualMediaRequest> pickImage = new ExplicitAbleActivityResultLauncher<>(
 				activity,
 				new ActivityResultContracts.PickVisualMedia(), // STOPSHIP real pick?
@@ -50,9 +62,9 @@ public class ExternalImageMenu {
 				),
 				(@Nullable Uri result) -> {
 					if (result != null) {
-						listeners.onPick(result);
+						events.onPick(result);
 					} else {
-						listeners.onCancelled();
+						events.onCancelled();
 					}
 				}
 		);
@@ -62,9 +74,9 @@ public class ExternalImageMenu {
 				"image/*",
 				(@Nullable Uri result) -> {
 					if (result != null) {
-						listeners.onGetContent(result);
+						events.onGetContent(result);
 					} else {
-						listeners.onCancelled();
+						events.onCancelled();
 					}
 				}
 		);
@@ -74,9 +86,9 @@ public class ExternalImageMenu {
 				target,
 				(@Nullable Boolean result) -> {
 					if (Boolean.TRUE.equals(result)) {
-						listeners.onCapture(target);
+						events.onCapture(target);
 					} else {
-						listeners.onCancelled();
+						events.onCancelled();
 					}
 				}
 		);
@@ -88,7 +100,7 @@ public class ExternalImageMenu {
 			// Clear the dismiss listener, so it doesn't get called after this method returns.
 			// We only want to call it when the user cancels the menu, not when they select something.
 			menu.setOnDismissListener(null);
-			listeners.itemSelected();
+			events.itemSelected();
 			if (item.getItemId() == R.id.image__choose_external__get
 					|| item.getGroupId() == R.id.image__choose_external__get_group) {
 				getContent.launch(item.getIntent());
@@ -119,7 +131,7 @@ public class ExternalImageMenu {
 	public void show() {
 		// Set dismiss listener right before showing to make sure it exists.
 		// It might be cleared when an item is selected. See #setOnMenuItemClickListener.
-		menu.setOnDismissListener(menu -> listeners.onCancelled());
+		menu.setOnDismissListener(menu -> events.onCancelled());
 		resolveIntents(menu.getMenu());
 		menu.show();
 	}
@@ -183,7 +195,7 @@ public class ExternalImageMenu {
 		};
 	}
 
-	public interface Listeners {
+	public interface Events {
 		void onCancelled();
 		void itemSelected();
 		void onGetContent(@NonNull Uri result);
