@@ -23,7 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Consumer;
 
-import net.twisterrob.android.contracts.SettingsContracts;
+import net.twisterrob.android.contracts.OpenApplicationDetailsInSettings;
 import net.twisterrob.android.permissions.PermissionProtectedAction.PermissionEvents;
 import net.twisterrob.android.utils.tools.DialogTools;
 import net.twisterrob.android.utils.tools.PackageManagerTools;
@@ -47,7 +47,7 @@ class PermissionDenialRemediator {
 		this.activity = activity;
 		this.continuation = continuation;
 		this.settingsLauncher = activity.registerForActivityResult(
-				new SettingsContracts.OpenApplicationDetails(),
+				new OpenApplicationDetailsInSettings(),
 				result -> continuation.rationaleAcceptedRetryRequest()
 		);
 	}
