@@ -2,6 +2,8 @@ package net.twisterrob.java.text;
 
 import org.junit.*;
 import org.mockito.*;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
@@ -13,11 +15,14 @@ import net.twisterrob.java.text.Suggester.DictionaryWord;
 @SuppressWarnings("SpellCheckingInspection")
 public class SuggesterTest {
 	private static final String IGNORED = null;
+
+	@Rule public final MockitoRule mockito = MockitoJUnit.rule();
+
 	@Mock Indexer<DictionaryWord<String>> indexer;
+
 	private Suggester<String> suggester;
 
-	@Before public void initMocks() {
-		MockitoAnnotations.initMocks(this);
+	@Before public void setUp() {
 		suggester = new Suggester<>(indexer, 1);
 	}
 
