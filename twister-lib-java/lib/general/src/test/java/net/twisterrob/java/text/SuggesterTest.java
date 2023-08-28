@@ -4,6 +4,7 @@ import org.junit.*;
 import org.mockito.*;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.mockito.quality.Strictness;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
@@ -16,7 +17,8 @@ import net.twisterrob.java.text.Suggester.DictionaryWord;
 public class SuggesterTest {
 	private static final String IGNORED = null;
 
-	@Rule public final MockitoRule mockito = MockitoJUnit.rule();
+	@Rule public final MockitoRule mockito =
+			MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
 
 	@Mock Indexer<DictionaryWord<String>> indexer;
 
