@@ -14,6 +14,7 @@ dependencies {
 		exclude module: 'guava'
 	}
 	api(libs.test.mockito)
+	api(libs.test.mockitoKotlin)
 	api(libs.test.gwen) // Gwen.given, Gwen.when, Gwen.then
 	runtimeOnly(libs.slf4j.simple)
 	api(libs.test.params)
