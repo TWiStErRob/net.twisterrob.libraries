@@ -15,6 +15,23 @@ class CaptureImageFileProvider : FileProvider() {
 
 	override fun attachInfo(context: Context, info: ProviderInfo) {
 		allowThreadDiskReads {
+			// > StrictMode policy violation; ~duration=27 ms: android.os.strictmode.DiskReadViolation
+			// > at java.io.File.exists(File.java:813)
+			// > at android.app.ContextImpl.ensurePrivateDirExists(ContextImpl.java:759)
+			// > at android.app.ContextImpl.ensurePrivateCacheDirExists(ContextImpl.java:755)
+			// > at android.app.ContextImpl.getCacheDir(ContextImpl.java:866)
+			// > at android.content.ContextWrapper.getCacheDir(ContextWrapper.java:322)
+			// > at androidx.core.content.FileProvider.parsePathStrategy(FileProvider.java:712)
+			// > at androidx.core.content.FileProvider.getPathStrategy(FileProvider.java:645)
+			// > at androidx.core.content.FileProvider.attachInfo(FileProvider.java:424)
+			// > at android.app.ActivityThread.installProvider(ActivityThread.java:7508)
+			// > at android.app.ActivityThread.installContentProviders(ActivityThread.java:7019)
+			// > at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6790)
+			// > at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2132)
+			// > at android.os.Handler.dispatchMessage(Handler.java:106)
+			// > at android.os.Looper.loop(Looper.java:288)
+			// > at android.app.ActivityThread.main(ActivityThread.java:7918)
+			// > at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:936)
 			super.attachInfo(context, info)
 		}
 	}
