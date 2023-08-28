@@ -170,9 +170,9 @@ public class ExternalImageMenu {
 	public interface Listeners {
 		void onCancelled();
 		void itemSelected();
-		void onGetContent(Uri result);
-		void onPick(Uri result);
-		void onCapture(Uri result);
+		void onGetContent(@NonNull Uri result);
+		void onPick(@NonNull Uri result);
+		void onCapture(@NonNull Uri result);
 	}
 
 	private static class ExplicitAbleActivityResultLauncher<I> {

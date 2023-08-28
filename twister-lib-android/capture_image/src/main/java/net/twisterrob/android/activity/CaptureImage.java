@@ -283,13 +283,13 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 					@Override public void itemSelected() {
 						disableControls();
 					}
-					@Override public void onGetContent(Uri result) {
+					@Override public void onGetContent(@NonNull Uri result) {
 						onResult(result);
 					}
-					@Override public void onPick(Uri result) {
+					@Override public void onPick(@NonNull Uri result) {
 						onResult(result);
 					}
-					@Override public void onCapture(Uri result) {
+					@Override public void onCapture(@NonNull Uri result) {
 						onResult(result);
 					}
 				}
