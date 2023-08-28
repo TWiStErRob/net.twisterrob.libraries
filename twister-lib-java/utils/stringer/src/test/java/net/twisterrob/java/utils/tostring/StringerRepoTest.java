@@ -28,9 +28,9 @@ public class StringerRepoTest {
 		repo.register("java.lang.Object", null);
 	}
 
+	@SuppressWarnings("RedundantTypeArguments")
 	@Test public void registerValid() {
 		repo.register(DirectFromObject.class, StringerRepoTest.<DirectFromObject>stringer());
-		//noinspection RedundantTypeArguments let's be explicit
 		repo.register(DirectFromObject.class, StringerRepoTest.<Object>stringer());
 
 		repo.register(GrandChild.class, StringerRepoTest.<GrandChild>stringer());
@@ -112,7 +112,6 @@ public class StringerRepoTest {
 		assertSame(superStringer, repo.find(Super.class));
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Test public void findsInterfaceOnChild() {
 		Stringer<ChildInterface1> ifaceStringer1 = stringer("child1");
 		Stringer<ChildInterface2> ifaceStringer2 = stringer("child2");
@@ -124,7 +123,6 @@ public class StringerRepoTest {
 				either(sameInstance(ifaceStringer1)).or(sameInstance(ifaceStringer2)));
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Test public void findsInterfaceOnSuper() {
 		Stringer<SuperInterface1> ifaceStringer1 = stringer("super1");
 		Stringer<SuperInterface2> ifaceStringer2 = stringer("super2");
@@ -136,7 +134,6 @@ public class StringerRepoTest {
 				either(sameInstance(ifaceStringer1)).or(sameInstance(ifaceStringer2)));
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Test public void findsExtendedInterface() {
 		Stringer<BaseInterface> stringer = stringer();
 
@@ -146,25 +143,25 @@ public class StringerRepoTest {
 	}
 
 	// @formatter:off
-	class DirectFromObject {}
+	static class DirectFromObject {}
 
-	class Super {}
-	class Child extends Super {}
-	class GrandChild extends Child {}
+	static class Super {}
+	static class Child extends Super {}
+	static class GrandChild extends Child {}
 
 	interface SuperInterface1 {}
 	interface SuperInterface2 {}
-	class SuperInterfaces implements SuperInterface1, SuperInterface2 {}
-	class ChildSuperInterfaces extends SuperInterfaces {}
+	static class SuperInterfaces implements SuperInterface1, SuperInterface2 {}
+	static class ChildSuperInterfaces extends SuperInterfaces {}
 
 	interface ChildInterface1 {}
 	interface ChildInterface2 {}
-	class ChildInterfacesSuper {}
-	class ChildInterfaces extends ChildInterfacesSuper implements ChildInterface1, ChildInterface2 {}
+	static class ChildInterfacesSuper {}
+	static class ChildInterfaces extends ChildInterfacesSuper implements ChildInterface1, ChildInterface2 {}
 
 	interface BaseInterface {}
 	interface ExtendedInterface extends BaseInterface {}
-	class ExtendedInterfaceImpl implements ExtendedInterface {}
+	static class ExtendedInterfaceImpl implements ExtendedInterface {}
 	// @formatter:on
 
 	@SuppressWarnings("unchecked")
