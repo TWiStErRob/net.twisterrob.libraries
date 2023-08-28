@@ -13,8 +13,8 @@ import org.junit.Test
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.verifyNoMoreInteractions
-import org.mockito.kotlin.verifyZeroInteractions
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.annotation.OrbitExperimental
@@ -34,7 +34,7 @@ class LoggingContainerDecoratorTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
 			expectInitialState()
-			verifyZeroInteractions(mockEvents)
+			verifyNoInteractions(mockEvents)
 
 			invokeIntent { testReduce() }
 			expectState(TestState(1))
@@ -64,7 +64,7 @@ class LoggingContainerDecoratorTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
 			expectInitialState()
-			verifyZeroInteractions(mockEvents)
+			verifyNoInteractions(mockEvents)
 
 			invokeIntent { testSideEffect() }
 			expectSideEffect(TestEffect1)
@@ -92,7 +92,7 @@ class LoggingContainerDecoratorTest {
 		val containerHost = TestContainerHost(backgroundScope, mockEvents)
 		containerHost.test(this) {
 			expectInitialState()
-			verifyZeroInteractions(mockEvents)
+			verifyNoInteractions(mockEvents)
 
 			containerHost.testInline()
 			expectState(TestState(1))

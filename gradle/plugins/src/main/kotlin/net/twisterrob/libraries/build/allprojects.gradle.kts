@@ -53,19 +53,6 @@ afterEvaluate {
 				"--illegal-access=deny",
 			)
 		}
-		if (javaVersion.isCompatibleWith(JavaVersion.VERSION_1_9)) { // 9 <= Java
-			jvmArgs(
-				// PowerMock eagerly calls setAccessible on EVERYTHING 😂.
-				// > WARNING: Illegal reflective access by org.powermock.reflect.internal.WhiteboxImpl
-				// > to method java.lang.Throwable.*
-				// > to method java.lang.Integer.*
-				// > to method java.lang.String.*
-				// > to method java.lang.Object.*
-				// at org.powermock.reflect.internal.WhiteboxImpl.doGetAllMethods(WhiteboxImpl.java:1508)
-				"--add-opens=java.base/java.lang=ALL-UNNAMED",
-				"--add-opens=java.base/java.util=ALL-UNNAMED",
-			)
-		}
 	}
 }
 

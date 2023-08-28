@@ -1,10 +1,10 @@
 package net.twisterrob.android.utils.tools;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,9 +18,22 @@ import static org.mockito.Mockito.when;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({DatabaseUtils.class, DatabaseTools.class})
 public class DatabaseToolsTest {
+
+	private MockedStatic<DatabaseTools> mockDatabaseTools;
+	private MockedStatic<DatabaseUtils> mockDatabaseUtils;
+
+	@Before
+	public void setUp() {
+		mockDatabaseTools = Mockito.mockStatic(DatabaseTools.class, Mockito.CALLS_REAL_METHODS);
+		mockDatabaseUtils = Mockito.mockStatic(DatabaseUtils.class, Mockito.CALLS_REAL_METHODS);
+	}
+
+	@After
+	public void tearDown() {
+		mockDatabaseTools.close();
+		mockDatabaseUtils.close();
+	}
 
 	@Test
 	public void nullDatabase() {
@@ -111,19 +124,18 @@ public class DatabaseToolsTest {
 		verify(ex).printStackTrace();
 	}
 
-	private static void stubVersions(SQLiteDatabase db, int version, long schemaVersion,
+	private void stubVersions(SQLiteDatabase db, int version, long schemaVersion,
 			String sqliteVersion) {
 		when(db.getVersion()).thenReturn(version);
 		stubSchemaVersion(db, schemaVersion);
 		stubSqliteVersion(db, sqliteVersion);
 	}
-	private static void stubSchemaVersion(SQLiteDatabase db, long schemaVersion) {
-		PowerMockito.mockStatic(DatabaseUtils.class);
-		when(DatabaseUtils.longForQuery(eq(db), anyString(), any())).thenReturn(schemaVersion);
+	private void stubSchemaVersion(SQLiteDatabase db, long schemaVersion) {
+		mockDatabaseUtils.when(() -> DatabaseUtils.longForQuery(eq(db), anyString(), any()))
+		                 .thenReturn(schemaVersion);
 	}
-	private static void stubSqliteVersion(SQLiteDatabase db, String sqliteVersion) {
-		PowerMockito.spy(DatabaseTools.class); // Calls real methods, except:
-		PowerMockito.doReturn(sqliteVersion).when(DatabaseTools.class);
-		DatabaseTools.getSQLiteVersion(db);
+	private void stubSqliteVersion(SQLiteDatabase db, String sqliteVersion) {
+		mockDatabaseTools.when(() -> DatabaseTools.getSQLiteVersion(db))
+		                 .thenReturn(sqliteVersion);
 	}
 }

@@ -6,9 +6,6 @@
 	<issue id="SyntheticAccessor" severity="ignore">
 		<!-- too many to fix yet -->
 	</issue>
-	<issue id="InvalidPackage" severity="ignore">
-		<ignore regexp="[/\\]byte-buddy-agent-.*\.jar" />
-	</issue>
 	<issue id="LintBaseline">
 		<ignore regexp="(was|were) filtered out because (it is|they are) listed in the baseline file" />
 	</issue>

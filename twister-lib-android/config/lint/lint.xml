@@ -32,10 +32,6 @@
 	<issue id="ObsoleteSdkInt" severity="ignore">
 		<!-- Keeping historical code for documentation purposes for now. -->
 	</issue>
-	<issue id="NewerVersionAvailable">
-		<!-- It's complex to find matching versions of PowerMock / Robolectric and Mockito. -->
-		<ignore regexp="^A newer version of org.mockito:mockito-core" />
-	</issue>
 	<issue id="GradleDependency" severity="ignore">
 		<!-- Known issue, ignore for now until there's Renovate. -->
 	</issue>
@@ -48,9 +44,6 @@
 			which is meant to be used on androidTestImplementation configuration as a dependency,
 			and is generally considered safe for using even invalid packages.
 		-->
-		<ignore regexp="Invalid package reference in net.bytebuddy:byte-buddy-agent; not included in Android: `java.lang.instrument`. Referenced from `net.bytebuddy.agent.ByteBuddyAgent`." />
-		<ignore regexp="Invalid package reference in net.bytebuddy:byte-buddy-agent; not included in Android: `java.lang.management`. Referenced from `net.bytebuddy.agent.ByteBuddyAgent.ProcessProvider.ForCurrentVm.ForLegacyVm`." />
-		<ignore regexp="Invalid package reference in org.mockito:mockito-core; not included in Android: `javax.tools`. Referenced from `org.mockito.internal.creation.bytebuddy.InlineByteBuddyMockMaker`." />
-		<ignore regexp="Invalid package reference in org.mockito:mockito-core; not included in Android: `java.lang.instrument`. Referenced from `org.mockito.internal.creation.bytebuddy.InlineByteBuddyMockMaker`." />
+		<ignore regexp="Invalid package reference in org.mockito:mockito-core; not included in Android: `java.lang.instrument`. Referenced from `org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator`." />
 	</issue>
 </lint>

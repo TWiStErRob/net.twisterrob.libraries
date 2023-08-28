@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.exceptions.verification.junit.ArgumentsAreDifferent;
 import org.mockito.internal.stubbing.answers.ThrowsException;
 import org.mockito.junit.*;
+import org.mockito.quality.Strictness;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
@@ -21,7 +22,7 @@ public class SameFileTest {
 	/** Different than {@link #DUMMY_PATH}. */
 	private static final String DIFFERENT_PATH = "a/c";
 
-	@Rule public MockitoRule mockito = MockitoJUnit.rule();
+	@Rule public MockitoRule mockito = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS);
 
 	/** Irrelevant what this type is, chosen because it accepts an arbitrary argument and is easily mocked. */
 	@Mock Consumer<File> mock;
