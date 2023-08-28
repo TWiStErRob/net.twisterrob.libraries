@@ -2,11 +2,18 @@ package net.twisterrob.test.hamcrest;
 
 import java.util.Random;
 
-import org.hamcrest.*;
-import org.junit.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.junit.After;
+import org.junit.Ignore;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class WrappingMatcherTest {
 
@@ -47,34 +54,32 @@ public class WrappingMatcherTest {
 		verify(mockWrappedMatcher).describeTo(fixtDescription);
 	}
 
-	@Ignore("Cannot do it yet, PowerMock doesn't work")
 	@Test public void testToString() {
 		String fixtString = "toString";
-		when(mockWrappedMatcher.toString()).thenReturn(fixtString);
+		doReturn(fixtString).when(mockWrappedMatcher).toString();
 
 		String result = sut.toString();
 
 		assertEquals(fixtString, result);
-		//noinspection ResultOfMethodCallIgnored
-		verify(mockWrappedMatcher).toString();
+		//verify(mockWrappedMatcher).toString(); // Not possible to verify toString.
 	}
 
-	@Ignore("Cannot do it yet, PowerMock doesn't work")
+	@Ignore("Cannot do it, not possible to stub equals()")
 	@Test public void testEqualsWrappingMatcher() {
 		@SuppressWarnings("unchecked")
 		Matcher<Object> mockOtherWrappedMatcher = mock(Matcher.class);
-		WrappingMatcher<Object> otherWrappingMatcher = new WrappingMatcher<>(mockOtherWrappedMatcher);
+		WrappingMatcher<Object> otherWrappingMatcher =
+				new WrappingMatcher<>(mockOtherWrappedMatcher);
 		boolean fixtEquals = new Random().nextBoolean();
 		doReturn(fixtEquals).when(mockWrappedMatcher).equals(mockOtherWrappedMatcher);
 
 		boolean result = sut.equals(otherWrappingMatcher);
 
 		assertEquals(fixtEquals, result);
-		//noinspection ResultOfMethodCallIgnored
 		verify(mockWrappedMatcher).equals(mockOtherWrappedMatcher);
 	}
 
-	@Ignore("Cannot do it yet, PowerMock doesn't work")
+	@Ignore("Cannot do it, not possible to stub equals()")
 	@Test public void testEqualsSomethingElse() {
 		Object fixtObject = new Object();
 		boolean fixtEquals = new Random().nextBoolean();
@@ -83,19 +88,17 @@ public class WrappingMatcherTest {
 		boolean result = sut.equals(fixtObject);
 
 		assertEquals(fixtEquals, result);
-		//noinspection ResultOfMethodCallIgnored
 		verify(mockWrappedMatcher).equals(fixtObject);
 	}
 
-	@Ignore("Cannot do it yet, PowerMock doesn't work")
+	@Ignore("Cannot do it, not possible to stub hashCode()")
 	@Test public void testHashCode() {
 		int fixtHash = 12345678;
-		when(mockWrappedMatcher.hashCode()).thenReturn(fixtHash);
+		doReturn(fixtHash).when(mockWrappedMatcher).hashCode();
 
 		int result = sut.hashCode();
 
 		assertEquals(fixtHash, result);
-		//noinspection ResultOfMethodCallIgnored
 		verify(mockWrappedMatcher).hashCode();
 	}
 }
