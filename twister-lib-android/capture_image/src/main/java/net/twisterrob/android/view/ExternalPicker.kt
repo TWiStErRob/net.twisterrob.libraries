@@ -25,7 +25,7 @@ import net.twisterrob.android.activity.CaptureImage
 import net.twisterrob.android.capture_image.R
 import net.twisterrob.android.content.ImageRequest
 import net.twisterrob.android.contracts.PickForMimeType
-import net.twisterrob.android.utils.tools.ViewTools
+import net.twisterrob.android.utils.tools.TextTools
 import net.twisterrob.android.utils.tools.asIterable
 
 /**
@@ -151,8 +151,14 @@ class ExternalPicker(
 		menu.add(R.id.image__choose_external__get_group, R.id.image__choose_external__get)
 		menu.add(R.id.image__choose_external__visual_group, R.id.image__choose_external__visual)
 		menu.add(R.id.image__choose_external__capture_group, R.id.image__choose_external__capture)
-		menu.fixIcons(context.resources)
+		menu.asIterable().forEach {
+			it.icon = it.icon?.fixIcon(it.isHeading, context.resources)
+			if (it.isHeading) {
+				it.title = TextTools.bold(it.title)
+			}
+		}
 		menu.showCapture(ImageRequest.canLaunchCameraIntent(context))
+		menu.showPickVisual(ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable())
 	}
 
 	interface Events {
@@ -215,6 +221,16 @@ private fun createMenu(activity: Activity, anchor: View): PopupMenu =
 		inflate(R.menu.image__choose_external)
 	}
 
+/**
+ * Types of menu items:
+ *  * Headings are not in a group, they're just above them.
+ *  * Groups are represented in the [R.menu.image__choose_external] XML.
+ *   They're populated by [add] and they have `groupId` set.
+ *  * There's no third type yet, so being lazy with [Boolean].
+ */
+private val MenuItem.isHeading: Boolean
+	get() = this.groupId == Menu.NONE
+
 private fun Menu.add(@IdRes groupId: Int, @IdRes headerId: Int) {
 	val header = this.findItem(headerId) ?: error("Menu item not found for id: ${headerId}")
 	this.addIntentOptions(groupId, Menu.NONE, header.order + 1, null, null, header.intent, 0, null)
@@ -235,15 +251,13 @@ private fun Menu.add(@IdRes groupId: Int, @IdRes headerId: Int) {
 }
 
 private fun Menu.showCapture(canCapture: Boolean) {
-	val captureItem = this.findItem(R.id.image__choose_external__capture)
-	ViewTools.visibleIf(captureItem, canCapture)
-	this.setGroupVisible(R.id.image__choose_external__capture_group, captureItem.isVisible)
+	this.findItem(R.id.image__choose_external__capture).isVisible = canCapture
+	this.setGroupVisible(R.id.image__choose_external__capture_group, canCapture)
 }
 
-private fun Menu.fixIcons(resources: Resources) {
-	this.asIterable().forEach {
-		it.icon = it.icon?.fixIcon(it.groupId != Menu.NONE, resources)
-	}
+private fun Menu.showPickVisual(hasPhotoPicker: Boolean) {
+	this.findItem(R.id.image__choose_external__visual).isVisible = hasPhotoPicker
+	this.setGroupVisible(R.id.image__choose_external__visual_group, hasPhotoPicker)
 }
 
 /**
@@ -258,10 +272,15 @@ private fun Menu.fixIcons(resources: Resources) {
  * and their icons are added in [androidx.appcompat.view.menu.ListMenuItemView.insertIconView]
  * from [androidx.appcompat.R.layout.abc_list_menu_item_icon].
  */
-private fun Drawable.fixIcon(sub: Boolean, resources: Resources): Drawable {
-	val indent = if (!sub) 0 else
+private fun Drawable.fixIcon(heading: Boolean, resources: Resources): Drawable {
+	val indent = if (heading) 0 else
 		resources.getDimensionPixelSize(R.dimen.image__choose_external__menu_icon_indent)
-	val size = resources.getDimensionPixelSize(R.dimen.image__choose_external__menu_icon_size)
+	val size = resources.getDimensionPixelSize(
+		if (heading)
+			R.dimen.image__choose_external__menu_icon_header_size
+		else 
+			R.dimen.image__choose_external__menu_icon_intent_size
+	)
 	return object : DrawableWrapperCompat(this) {
 		// Adding indent reserves extra width, because ImageView will take this size.
 		override fun getIntrinsicWidth(): Int = size + indent
