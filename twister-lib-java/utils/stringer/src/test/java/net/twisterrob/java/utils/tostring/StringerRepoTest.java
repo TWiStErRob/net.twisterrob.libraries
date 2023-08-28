@@ -12,8 +12,8 @@ import net.twisterrob.java.utils.tostring.stringers.*;
 
 public class StringerRepoTest {
 	private StringerRepo repo;
-	@Before public void setup() {
-		MockitoAnnotations.initMocks(this);
+
+	@Before public void setUp() {
 		repo = new StringerRepo();
 	}
 
