@@ -1,4 +1,4 @@
-package net.twisterrob.android.activity
+package net.twisterrob.android.content
 
 /**
  * @see android.os.FileUriExposedException

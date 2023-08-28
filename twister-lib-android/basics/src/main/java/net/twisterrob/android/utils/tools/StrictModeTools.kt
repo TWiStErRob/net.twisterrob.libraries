@@ -6,6 +6,12 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.StrictMode
 
+fun StrictMode.ThreadPolicy.builder(): StrictMode.ThreadPolicy.Builder =
+	StrictMode.ThreadPolicy.Builder(this)
+
+fun StrictMode.VmPolicy.builder(): StrictMode.VmPolicy.Builder =
+	StrictMode.VmPolicy.Builder(this)
+
 inline fun <R> allowThreadDiskReads(block: () -> R): R {
 	val policy = StrictMode.allowThreadDiskReads()
 	try {
@@ -47,6 +53,3 @@ inline fun <R> allowUnsafeIntentLaunch(block: () -> R): R {
 		StrictMode.setVmPolicy(policy)
 	}
 }
-
-fun StrictMode.VmPolicy.builder(): StrictMode.VmPolicy.Builder =
-	StrictMode.VmPolicy.Builder(this)

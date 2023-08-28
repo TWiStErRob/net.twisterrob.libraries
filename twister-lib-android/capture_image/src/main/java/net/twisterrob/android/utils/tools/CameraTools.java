@@ -1,4 +1,4 @@
-package net.twisterrob.android.content;
+package net.twisterrob.android.utils.tools;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -12,10 +12,8 @@ import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import androidx.core.content.PermissionChecker;
 
-import net.twisterrob.android.utils.tools.AndroidTools;
-
-public final class ImageRequest {
-	private ImageRequest() {
+public final class CameraTools {
+	private CameraTools() {
 		throw new InternalError("Utility class cannot be instantiated.");
 	}
 
@@ -45,7 +43,7 @@ public final class ImageRequest {
 	@SuppressLint("UnsupportedChromeOsCameraSystemFeature") // REPORT it is checked right before
 	@TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
 	@SuppressWarnings("deprecation")
-	public static boolean canHasCamera(Context context) {
+	public static boolean canHasCamera(@NonNull Context context) {
 		PackageManager pm = context.getPackageManager();
 		boolean hasCameraAny = VERSION_CODES.JELLY_BEAN_MR1 < VERSION.SDK_INT;
 		return android.hardware.Camera.getNumberOfCameras() > 0 && (

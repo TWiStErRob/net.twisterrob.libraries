@@ -23,8 +23,8 @@ import androidx.appcompat.graphics.drawable.DrawableWrapperCompat
 import androidx.appcompat.widget.PopupMenu
 import net.twisterrob.android.activity.CaptureImage
 import net.twisterrob.android.capture_image.R
-import net.twisterrob.android.content.ImageRequest
 import net.twisterrob.android.contracts.PickForMimeType
+import net.twisterrob.android.utils.tools.CameraTools
 import net.twisterrob.android.utils.tools.TextTools
 import net.twisterrob.android.utils.tools.asIterable
 
@@ -157,7 +157,7 @@ class ExternalPicker(
 				it.title = TextTools.bold(it.title)
 			}
 		}
-		menu.showCapture(ImageRequest.canLaunchCameraIntent(context))
+		menu.showCapture(CameraTools.canLaunchCameraIntent(context))
 		menu.showPickVisual(ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable())
 	}
 
@@ -248,6 +248,7 @@ private fun Menu.add(@IdRes groupId: Int, @IdRes headerId: Int) {
 	}
 }
 
+@Suppress("unused") // Keep for now.
 private fun MenuItem.collapseFromSingletonGroup(menu: Menu, groupId: Int) {
 	val item = menu.asIterable().single { it.groupId == groupId }
 	icon = item.icon

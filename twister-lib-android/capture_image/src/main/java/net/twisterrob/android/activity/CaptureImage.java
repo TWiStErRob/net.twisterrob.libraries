@@ -7,7 +7,6 @@ import org.slf4j.*;
 import android.Manifest;
 import android.animation.*;
 import android.annotation.*;
-import android.app.Activity;
 import android.content.*;
 import android.graphics.*;
 import android.graphics.Bitmap.CompressFormat;
@@ -36,10 +35,11 @@ import androidx.annotation.*;
 import androidx.core.app.ActivityCompat;
 
 import net.twisterrob.android.capture_image.R;
+import net.twisterrob.android.content.FileUriExposedException;
+import net.twisterrob.android.utils.tools.CameraTools;
 import net.twisterrob.android.content.CaptureImageFileProvider;
 import net.twisterrob.android.utils.tools.CropTools;
 import net.twisterrob.android.view.ExternalPicker;
-import net.twisterrob.android.content.ImageRequest;
 import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.permissions.PermissionProtectedAction;
 import net.twisterrob.android.utils.concurrent.Callback;
@@ -84,7 +84,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private static final float DEFAULT_MARGIN = 0.10f;
 	private static final boolean DEFAULT_FLASH = false;
 	public static final @Px int EXTRA_MAXSIZE_NO_MAX = CropTools.MAX_SIZE_NO_MAX;
-	public static final String ACTION = "net.twisterrob.android.intent.action.CAPTURE_IMAGE";
 
 	private SharedPreferences prefs;
 
@@ -96,7 +95,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	 */
 	private View mPreviewHider;
 	private SelectionView mSelection;
-	private Uri mResult;
+	private Uri mOutputUri;
 	private File mSavedFile;
 	private ImageView mImage;
 	private View controls;
@@ -176,21 +175,21 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			StrictMode.setThreadPolicy(originalPolicy);
 		}
 
-		mResult = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT, Uri.class);
-		File captureFile;
-		if (mResult == null) {
+		mOutputUri = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT, Uri.class);
+		File externalPickerOutputFile;
+		if (mOutputUri == null) {
 			LOG.warn("Missing Uri typed extra: CaptureImage.EXTRA_OUTPUT, cancelling capture.");
 			doReturn();
 			return;
 		} else {
 			StrictMode.ThreadPolicy originalPolicy2 = StrictMode.allowThreadDiskWrites();
 			try {
-				captureFile = CaptureImageFileProvider.getTempFile(this, "capture.jpg");
+				externalPickerOutputFile = CaptureImageFileProvider.getTempFile(this, "capture.jpg");
 				if (savedInstanceState == null) {
-					LOG.trace("Clear image at {}", captureFile);
+					LOG.trace("Clear image at {}", externalPickerOutputFile);
 					// D/StrictMode: StrictMode policy violation; ~duration=33 ms: android.os.strictmode.DiskWriteViolation
 					//noinspection ResultOfMethodCallIgnored best effort, try to prevent leaking old image
-					captureFile.delete();
+					externalPickerOutputFile.delete();
 				}
 			} finally {
 				StrictMode.setThreadPolicy(originalPolicy2);
@@ -273,7 +272,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mExternalPicker = new ExternalPicker(
 				this,
 				mBtnPick,
-				CaptureImageFileProvider.getUriForFile(this, captureFile),
+				CaptureImageFileProvider.getUriForFile(this, externalPickerOutputFile),
 				new ExternalPicker.Events() {
 					@Override public void onCancelled() {
 						restartPreview.executeBehindPermissions();
@@ -296,13 +295,13 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				}
 		);
 
-		boolean hasCamera = ImageRequest.canHasCamera(this);
+		boolean hasCamera = CameraTools.canHasCamera(this);
 		if (!hasCamera) {
 			mBtnCapture.setVisibility(View.GONE);
 		}
 		if (savedInstanceState == null) {
 			boolean userDeclined = hasCamera
-					&& !ImageRequest.hasCameraPermission(this)
+					&& !CameraTools.hasCameraPermission(this)
 					&& prefs.getBoolean(PREF_DENIED, false);
 			if (getIntent().getBooleanExtra(EXTRA_PICK, false) // forcing an immediate pick
 					|| !hasCamera // device doesn't have camera
@@ -334,13 +333,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	@Override protected void onSaveInstanceState(@NonNull Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(KEY_STATE, state);
-	}
-	@SuppressWarnings("deprecation")
-	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK && data != null && ACTION.equals(data.getAction())) {
-			mBtnCapture.performClick();
-		}
 	}
 
 	private void onResult(@NonNull Uri result) {
@@ -524,11 +516,11 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 
 	protected void doReturn() {
 		Intent result = new Intent();
-		result.setData(mResult);
+		result.setData(mOutputUri);
 		if (mSavedFile != null) {
 			try {
 				// TODO background thread once coroutines.
-				copyResultToTarget(this, Uri.fromFile(mSavedFile), mResult);
+				copyResultToTarget(this, Uri.fromFile(mSavedFile), mOutputUri);
 				result.setDataAndType(result.getData(), "image/jpeg");
 				setResult(RESULT_OK, result);
 			} catch (IOException ex) {

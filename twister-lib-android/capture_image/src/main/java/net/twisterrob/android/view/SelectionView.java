@@ -119,19 +119,24 @@ public class SelectionView extends View {
 	}
 
 	/**
-	 * @param margin ratio of view size that should be used as margin [0 .. 0.5)
+	 * @param margin ratio of view size that should be used as margin.
 	 */
-	public void setSelectionMargin(float margin) {
+	public void setSelectionMargin(@FloatRange(from = 0, to = 0.5) float margin) {
 		setSelectionMargin(margin, margin, margin, margin);
 	}
 
 	/**
-	 * @param left ratio of view size that should be used as margin [0 .. 0.5)
-	 * @param top ratio of view size that should be used as margin [0 .. 0.5)
-	 * @param right ratio of view size that should be used as margin [0 .. 0.5)
-	 * @param bottom ratio of view size that should be used as margin [0 .. 0.5)
+	 * @param left ratio of view size that should be used as margin.
+	 * @param top ratio of view size that should be used as margin.
+	 * @param right ratio of view size that should be used as margin.
+	 * @param bottom ratio of view size that should be used as margin.
 	 */
-	public void setSelectionMargin(final float left, final float top, final float right, final float bottom) {
+	public void setSelectionMargin(
+			@FloatRange(from = 0, to = 0.5) final float left,
+			@FloatRange(from = 0, to = 0.5) final float top,
+			@FloatRange(from = 0, to = 0.5) final float right,
+			@FloatRange(from = 0, to = 0.5) final float bottom
+	) {
 		pendingMargin = new PendingMargin() {
 			private final RectF pendingMargin = new RectF(left, top, 1 - right, 1 - bottom);
 			@Override protected Rect produce(int width, int height) {
@@ -166,9 +171,9 @@ public class SelectionView extends View {
 	}
 
 	/**
-	 * @param margin ratio of view size that should be used as margin [0 .. 0.5)
+	 * @param margin ratio of view size that should be used as margin.
 	 */
-	public void setSelectionMarginSquare(final float margin) {
+	public void setSelectionMarginSquare(@FloatRange(from = 0, to = 0.5) final float margin) {
 		pendingMargin = new PendingMargin() {
 			@Override protected Rect produce(int width, int height) {
 				Rect selection = new Rect();

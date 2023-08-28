@@ -15,12 +15,7 @@
 			android:name="net.twisterrob.android.activity.CaptureImage"
 			android:exported="false"
 			android:screenOrientation="fullUser"
-			>
-			<intent-filter>
-				<action android:name="net.twisterrob.android.intent.action.CAPTURE_IMAGE" />
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
+			/>
 
 		<provider
 			android:name="net.twisterrob.android.content.CaptureImageFileProvider"
@@ -37,19 +32,25 @@
 	</application>
 
 	<queries>
-
-		<!-- net.twisterrob.android.content.ExternalImageMenu#STOPSHIP where exactly? -->
+		<!-- net.twisterrob.android.view.ExternalPicker.captureImage via Menu.add-->
 		<intent>
 			<action android:name="android.media.action.IMAGE_CAPTURE" />
 		</intent>
 
-		<!-- net.twisterrob.android.content.ExternalImageMenu#STOPSHIP where exactly? -->
+		<!-- net.twisterrob.android.view.ExternalPicker.pickVisualImage via Menu.add-->
 		<intent>
-			<action android:name="android.intent.action.GET_CONTENT" />
+			<action android:name="android.provider.action.PICK_IMAGES" />
 			<data android:mimeType="image/*" />
 		</intent>
 
-		<!-- net.twisterrob.android.content.ExternalImageMenu#STOPSHIP where exactly? -->
+		<!-- net.twisterrob.android.view.ExternalPicker.getContent via Menu.add-->
+		<intent>
+			<action android:name="android.intent.action.GET_CONTENT" />
+			<category android:name="android.intent.category.OPENABLE" />
+			<data android:mimeType="image/*" />
+		</intent>
+
+		<!-- net.twisterrob.android.view.ExternalPickerKt Menu.add(Int, Int) via ExternalPicker.pickImage -->
 		<intent>
 			<action android:name="android.intent.action.PICK" />
 			<data android:mimeType="image/*" />
