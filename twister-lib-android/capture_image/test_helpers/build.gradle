@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+	api "net.twisterrob.lib:twister-lib-android-basics"
 	api "net.twisterrob.lib:twister-lib-android-espresso_actors"
 	api "net.twisterrob.lib:twister-lib-android-uiautomator"
 	// TODEL this shouldn't be here, because all the dependencies are visible correctly.

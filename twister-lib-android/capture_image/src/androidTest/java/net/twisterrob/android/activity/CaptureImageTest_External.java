@@ -43,6 +43,21 @@ public class CaptureImageTest_External {
 		captureImage.verifyImageColor(equalTo(Color.RED));
 	}
 
+	@Test public void loadsImageFromExternalCamera()
+			throws UiObjectNotFoundException, IOException {
+		activity.launchActivity(null);
+		captureImage.allowPermissions();
+		Uri fakeUri = captureImage.createFakeImage(activity.getTemp().newFile(), Color.RED);
+		captureImage.verifyState(SelectionStatus.NORMAL);
+		PickDialogActor.PopupIntent<Uri> pick = captureImage.pick().captureFromCamera();
+		pick.intend(fakeUri);
+		pick.open();
+		pick.verify(1);
+		captureImage.verifyState(SelectionStatus.FOCUSED);
+		Intents.assertNoUnverifiedIntents();
+		captureImage.verifyImageColor(equalTo(Color.RED));
+	}
+
 	@Test public void fallsBackPreviousImageIfPickCancelled()
 			throws UiObjectNotFoundException, IOException {
 		activity.launchActivity(null);
