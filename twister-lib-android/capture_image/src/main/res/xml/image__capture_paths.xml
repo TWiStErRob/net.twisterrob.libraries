@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths
+	xmlns:tools="http://schemas.android.com/tools"
+	>
+
+	<cache-path
+		name="temp"
+		path="capture_image"
+		tools:path=".CaptureImageFileProvider.PUBLIC_CAPTURE_IMAGE_FOLDER_NAME"
+		/>
+
+</paths>

@@ -7,7 +7,6 @@ import org.slf4j.*;
 import android.Manifest;
 import android.animation.*;
 import android.annotation.*;
-import android.app.Activity;
 import android.content.*;
 import android.graphics.*;
 import android.graphics.Bitmap.CompressFormat;
@@ -34,20 +33,22 @@ import com.bumptech.glide.request.target.*;
 import androidx.activity.ComponentActivity;
 import androidx.annotation.*;
 import androidx.core.app.ActivityCompat;
-import androidx.exifinterface.media.ExifInterface;
 
 import net.twisterrob.android.capture_image.R;
-import net.twisterrob.android.content.ImageRequest;
+import net.twisterrob.android.content.FileUriExposedException;
+import net.twisterrob.android.utils.tools.CameraTools;
+import net.twisterrob.android.content.CaptureImageFileProvider;
+import net.twisterrob.android.utils.tools.CropTools;
+import net.twisterrob.android.view.ExternalPicker;
 import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.permissions.PermissionProtectedAction;
 import net.twisterrob.android.utils.concurrent.Callback;
 import net.twisterrob.android.utils.tools.DialogTools;
-import net.twisterrob.android.utils.tools.ImageTools;
 import net.twisterrob.android.utils.tools.IntentTools;
+import net.twisterrob.android.utils.tools.IOTools;
 import net.twisterrob.android.view.*;
 import net.twisterrob.android.view.CameraPreview.*;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
-import net.twisterrob.java.io.IOTools;
 
 /**
  * TODO check how others did it
@@ -62,7 +63,11 @@ import net.twisterrob.java.io.IOTools;
 public class CaptureImage extends ComponentActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 	private static final Logger LOG = LoggerFactory.getLogger(CaptureImage.class);
 	public static final String EXTRA_OUTPUT = MediaStore.EXTRA_OUTPUT;
-	public static final String EXTRA_OUTPUT_PUBLIC = MediaStore.EXTRA_OUTPUT + "-public";
+	/**
+	 * Extra in the resulting intent {@code data} in {@link #onActivityResult} when {@link #RESULT_CANCELED}.
+	 * Type: Throwable, might be {@code null}, the problem is unknown.
+	 */
+	public static final String EXTRA_ERROR = "error";
 	public static final String EXTRA_MAXSIZE = MediaStore.EXTRA_SIZE_LIMIT;
 	public static final String EXTRA_QUALITY = "quality";
 	public static final String EXTRA_FORMAT = "format";
@@ -78,8 +83,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private static final String STATE_PICKING = "picking";
 	private static final float DEFAULT_MARGIN = 0.10f;
 	private static final boolean DEFAULT_FLASH = false;
-	public static final int EXTRA_MAXSIZE_NO_MAX = 0;
-	public static final String ACTION = "net.twisterrob.android.intent.action.CAPTURE_IMAGE";
+	public static final @Px int EXTRA_MAXSIZE_NO_MAX = CropTools.MAX_SIZE_NO_MAX;
 
 	private SharedPreferences prefs;
 
@@ -91,17 +95,17 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	 */
 	private View mPreviewHider;
 	private SelectionView mSelection;
-	private File mTargetFile;
+	private Uri mOutputUri;
 	private File mSavedFile;
 	private ImageView mImage;
 	private View controls;
 	private String state;
-	private ImageRequest request;
 
 	private ImageButton mBtnCapture;
 	private ImageButton mBtnPick;
 	private ImageButton mBtnCrop;
 	private ToggleButton mBtnFlash;
+	private ExternalPicker mExternalPicker;
 
 	private final PermissionProtectedAction restartPreview = new PermissionProtectedAction(
 			this,
@@ -171,26 +175,26 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			StrictMode.setThreadPolicy(originalPolicy);
 		}
 
-		String output = getIntent().getStringExtra(EXTRA_OUTPUT);
-		if (output == null) {
-			LOG.warn("Missing extra: CaptureImage.EXTRA_OUTPUT, cancelling capture.");
+		mOutputUri = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT, Uri.class);
+		File externalPickerOutputFile;
+		if (mOutputUri == null) {
+			LOG.warn("Missing Uri typed extra: CaptureImage.EXTRA_OUTPUT, cancelling capture.");
 			doReturn();
 			return;
 		} else {
-			mTargetFile = new File(output);
-			if (savedInstanceState == null) {
-				StrictMode.ThreadPolicy originalPolicy2 = StrictMode.allowThreadDiskWrites();
-				try {
-					LOG.trace("Clear image at {}", mTargetFile);
+			StrictMode.ThreadPolicy originalPolicy2 = StrictMode.allowThreadDiskWrites();
+			try {
+				externalPickerOutputFile = CaptureImageFileProvider.getTempFile(this, "capture.jpg");
+				if (savedInstanceState == null) {
+					LOG.trace("Clear image at {}", externalPickerOutputFile);
 					// D/StrictMode: StrictMode policy violation; ~duration=33 ms: android.os.strictmode.DiskWriteViolation
 					//noinspection ResultOfMethodCallIgnored best effort, try to prevent leaking old image
-					mTargetFile.delete();
-				} finally {
-					StrictMode.setThreadPolicy(originalPolicy2);
+					externalPickerOutputFile.delete();
 				}
+			} finally {
+				StrictMode.setThreadPolicy(originalPolicy2);
 			}
 		}
-
 		setContentView(R.layout.activity_camera);
 		controls = findViewById(R.id.controls);
 		final View cameraControls = findViewById(R.id.camera_controls);
@@ -265,37 +269,61 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mBtnCapture.setOnClickListener(new CaptureClickListener());
 		mBtnPick.setOnClickListener(new PickClickListener());
 		mBtnCrop.setOnClickListener(new CropClickListener());
+		mExternalPicker = new ExternalPicker(
+				this,
+				mBtnPick,
+				CaptureImageFileProvider.getUriForFile(this, externalPickerOutputFile),
+				new ExternalPicker.Events() {
+					@Override public void onCancelled() {
+						mSelection.setSelectionStatus(SelectionStatus.BLURRY);
+						enableControls();
+					}
+					@Override public void itemSelected() {
+						disableControls();
+					}
+					@Override public void onGetContent(@NonNull Uri result) {
+						onResult(result);
+					}
+					@Override public void onPick(@NonNull Uri result) {
+						onResult(result);
+					}
+					@Override public void onPickVisualImage(@NonNull Uri result) {
+						onResult(result);
+					}
+					@Override public void onCapture(@NonNull Uri result) {
+						onResult(result);
+					}
+				}
+		);
 
-		boolean hasCamera = ImageRequest.canHasCamera(this);
+		boolean hasCamera = CameraTools.canHasCamera(this);
 		if (!hasCamera) {
 			mBtnCapture.setVisibility(View.GONE);
 		}
 		if (savedInstanceState == null) {
 			boolean userDeclined = hasCamera
-					&& !ImageRequest.hasCameraPermission(this)
+					&& !CameraTools.hasCameraPermission(this)
 					&& prefs.getBoolean(PREF_DENIED, false);
 			if (getIntent().getBooleanExtra(EXTRA_PICK, false) // forcing an immediate pick
 					|| !hasCamera // device doesn't have camera
 					|| userDeclined // device has camera, but user explicitly declined the permission
 			) {
-				mBtnPick.performClick();
+				mBtnPick.post(mBtnPick::performClick);
 			} else {
-				mBtnCapture.performClick();
+				mBtnCapture.post(mBtnCapture::performClick);
 			}
 		} else {
 			state = savedInstanceState.getString(KEY_STATE);
 			if (state != null) {
 				switch (state) {
 					case STATE_CAPTURING:
-						mBtnCapture.performClick();
+						mBtnCapture.post(mBtnCapture::performClick);
 						break;
 					case STATE_PICKING:
-						// Restore ImageRequest in case activity is being re-created with state,
-						// and will go on to onActivityResult where request needs to exist.
-						request = buildRequest();
+						// In case activity is being re-created with state, it will go on to onActivityResult.
 						break;
 					case STATE_CROPPING:
-						mSavedFile = mTargetFile;
+						mSavedFile = getSavedFile();
 						mSelection.setSelectionStatus(SelectionStatus.FOCUSED);
 						prepareCrop();
 						break;
@@ -307,43 +335,37 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		super.onSaveInstanceState(outState);
 		outState.putString(KEY_STATE, state);
 	}
-	@SuppressWarnings("deprecation")
-	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK) {
-			if (data != null && ACTION.equals(data.getAction())) {
-				mBtnCapture.performClick();
-			} else {
-				mSelection.setSelectionStatus(SelectionStatus.BLURRY);
-				enableControls();
-			}
-			return;
+
+	private void onResult(@NonNull Uri result) {
+		StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
+		try {
+			// TODO background thread once coroutines.
+			File copyAsFile = getSavedFile();
+			// Make a copy of the original Uri, so that we have a local file that we can manipulate.
+			// The result might be a content:// Uri, a local file, or a network stream, we don't know.
+			copyResultToTarget(this, result, Uri.fromFile(copyAsFile));
+			// Only assign the variable if the copy was a success.
+			mSavedFile = copyAsFile;
+		} catch (IOException ex) {
+			Toast.makeText(getApplicationContext(), "Cannot save image: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+		} finally {
+			StrictMode.setThreadPolicy(originalPolicy);
 		}
-		Uri fallback = Uri.fromFile(mTargetFile);
-		Uri result = fallback;
-		if (request != null) {
-			Uri pic = request.getPictureUriFromResult(requestCode, resultCode, data);
-			if (pic != null) {
-				result = pic;
-			}
-		}
-		if (!fallback.equals(result)) {
-			StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
-			try {
-				LOG.trace("Loading image from {} to {}", result, mTargetFile);
-				InputStream stream = getContentResolver().openInputStream(result);
-				//noinspection RedundantSuppression
-				//noinspection IOStreamConstructor only API 26 and above.
-				IOTools.copyStream(stream, new FileOutputStream(mTargetFile));
-			} catch (IOException ex) {
-				LOG.error("Cannot grab data from {} into {}", result, mTargetFile, ex);
-			} finally {
-				StrictMode.setThreadPolicy(originalPolicy);
-			}
-		}
-		mSavedFile = mTargetFile;
 		prepareCrop();
 		enableControls();
+	}
+
+	private static void copyResultToTarget(@NonNull Context context, @NonNull Uri result, @NonNull Uri target)
+			throws IOException {
+		try {
+			LOG.trace("Loading image from {} to {}", result, target);
+			InputStream resultStream = context.getContentResolver().openInputStream(result);
+			OutputStream targetStream = context.getContentResolver().openOutputStream(target);
+			IOTools.copyStream(resultStream, targetStream);
+		} catch (IOException ex){
+			LOG.error("Cannot grab data from {} into {}", result, target, ex);
+			throw ex;
+		}
 	}
 
 	private void prepareCrop() {
@@ -433,8 +455,10 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 
 	@WorkerThread
 	protected void doSave(@Nullable byte... data) {
-		mSavedFile = save(mTargetFile, data);
+		File savedFile = getSavedFile();
+		mSavedFile = save(savedFile, data) ? savedFile : null;
 	}
+
 	private void flipSelection() {
 		if (Boolean.TRUE.equals(mPreview.isFrontFacing())) {
 			Rect selection = mSelection.getSelection();
@@ -447,7 +471,14 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	@WorkerThread
 	protected boolean doCrop(RectF rect) {
 		try {
-			mSavedFile = crop(mSavedFile, rect);
+			if (mSavedFile != null) {
+				int maxSize = getIntent().getIntExtra(EXTRA_MAXSIZE, EXTRA_MAXSIZE_NO_MAX);
+				int quality = getIntent().getIntExtra(EXTRA_QUALITY, 85);
+				CompressFormat format = IntentTools.getSerializableExtra(getIntent(), EXTRA_FORMAT, CompressFormat.class, CompressFormat.JPEG);
+				CropTools.crop(mSavedFile, rect, maxSize, quality, format);
+			}
+			// This a is a bit tricky, we always say the crop succeeded, even if there's no file.
+			// Next steps will also check and act accordingly.
 			return true;
 		} catch (Exception ex) {
 			Toast.makeText(getApplicationContext(), "Cannot crop image: " + ex.getMessage(), Toast.LENGTH_LONG).show();
@@ -479,28 +510,26 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	protected void doPick() {
 		state = STATE_PICKING;
 		mPreview.setVisibility(View.INVISIBLE);
-		disableControls();
 		mSelection.setSelectionStatus(SelectionStatus.FOCUSING);
-		request = buildRequest();
-		request.start(); // continues in onActivityResult
-	}
-
-	private ImageRequest buildRequest() {
-		// TODO properly pass and handle EXTRA_OUTPUT as Uris
-		Uri publicOutput = IntentTools.getParcelableExtra(getIntent(), EXTRA_OUTPUT_PUBLIC, Uri.class);
-		return new ImageRequest.Builder(CaptureImage.this)
-				.addGalleryIntent()
-				.addCameraIntents(publicOutput != null? publicOutput : Uri.fromFile(mTargetFile))
-				.build();
+		mExternalPicker.show();
+		// Execution continues in `ExternalPicker.Events.*()` methods.
 	}
 
 	protected void doReturn() {
+		Intent result = new Intent();
+		result.setData(mOutputUri);
 		if (mSavedFile != null) {
-			Intent result = new Intent();
-			result.setDataAndType(Uri.fromFile(mSavedFile), "image/jpeg");
-			setResult(RESULT_OK, result);
+			try {
+				// TODO background thread once coroutines.
+				copyResultToTarget(this, Uri.fromFile(mSavedFile), mOutputUri);
+				result.setDataAndType(result.getData(), "image/jpeg");
+				setResult(RESULT_OK, result);
+			} catch (IOException ex) {
+				result.putExtra(EXTRA_ERROR, ex);
+				setResult(RESULT_CANCELED, result);
+			}
 		} else {
-			setResult(RESULT_CANCELED, getIntent());
+			setResult(RESULT_CANCELED, result);
 		}
 		finish();
 	}
@@ -536,10 +565,23 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		return true;
 	}
 
+	@AnyThread
+	private @NonNull File getSavedFile() {
+		StrictMode.ThreadPolicy originalPolicy = StrictMode.allowThreadDiskWrites();
+		try {
+			return CaptureImageFileProvider.getTempFile(this, "saved.jpg");
+		} finally {
+			StrictMode.setThreadPolicy(originalPolicy);
+		}
+	}
+
+	/**
+	 * @return whether the file was successfully saved.
+	 */
 	@WorkerThread
-	private static @Nullable File save(@NonNull File file, @Nullable byte... data) {
+	private static boolean save(@NonNull File file, @Nullable byte... data) {
 		if (data == null) {
-			return null;
+			return false;
 		}
 		LOG.trace("Saving {} bytes to {}", data.length, file);
 		OutputStream out = null;
@@ -548,104 +590,18 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			out.write(data);
 			out.flush();
 			LOG.info("Raw image ({} bytes) saved at {}", data.length, file);
+			return true;
 		} catch (FileNotFoundException ex) {
 			LOG.error("Cannot find file {}", file, ex);
-			file = null;
+			return false;
 		} catch (IOException ex) {
 			LOG.error("Cannot write file {}", file, ex);
-			file = null;
+			return false;
 		} finally {
 			IOTools.ignorantClose(out);
 		}
-		return file;
 	}
 
-	@WorkerThread
-	private File crop(File file, RectF sel) throws IOException {
-		if (file == null || sel.isEmpty()) {
-			return null;
-		}
-		final int[] originalSize = ImageTools.getSize(file);
-		LOG.trace("Original image size: {}x{}", originalSize[0], originalSize[1]);
-
-		// keep a single Bitmap variable so the rest could be garbage collected
-		final int orientation = ImageTools.getExifOrientation(file);
-		final RectF rotatedSel = ImageTools.rotateUnitRect(sel, orientation);
-		final Rect imageRect = ImageTools.percentToSize(rotatedSel, originalSize[0], originalSize[1]);
-		final int maxSize = getIntent().getIntExtra(EXTRA_MAXSIZE, EXTRA_MAXSIZE_NO_MAX);
-
-		final float leeway = 0.10f;
-		// calculating a sample size should speed up loading and lessen the probability of OOMs.
-		final int sampleSize = maxSize == EXTRA_MAXSIZE_NO_MAX
-				? 1 : calcSampleSize(maxSize, leeway, imageRect.width(), imageRect.height());
-		LOG.trace("Downsampling by {}x", sampleSize);
-
-		Bitmap bitmap = ImageTools.crop(file, imageRect, sampleSize);
-		LOG.info("Cropped {} = {} to size {}x{}", sel, imageRect, bitmap.getWidth(), bitmap.getHeight());
-		if (maxSize != EXTRA_MAXSIZE_NO_MAX) {
-			bitmap = ImageTools.downscale(bitmap, maxSize, maxSize, leeway);
-			LOG.info("Downscaled to size {}x{} by constraint {}±{}",
-					bitmap.getWidth(), bitmap.getHeight(), maxSize, maxSize * leeway);
-		}
-
-		// @deprecated: experimental for now, don't enable; this would reduce OOMs even more,
-		// because it would skip rotation which create a full copy of the bitmap
-		// on the other hand, rotation should use less memory as saving (getPixels + YCC), so it may be unnecessary.
-		@SuppressWarnings("ConstantConditions")
-		final boolean exifRotate = Boolean.parseBoolean("false");
-		ExifInterface exif = null;
-		if (exifRotate) {
-			exif = new ExifInterface(file.getAbsolutePath());
-		} else {
-			bitmap = ImageTools.rotateImage(bitmap, ImageTools.getExifRotation(orientation));
-			LOG.info("Rotated to size {}x{} because {}({})",
-					bitmap.getWidth(), bitmap.getHeight(), ImageTools.getExifString(orientation), orientation);
-		}
-		CompressFormat format = IntentTools.getSerializableExtra(getIntent(), EXTRA_FORMAT, CompressFormat.class);
-		if (format == null) {
-			format = CompressFormat.JPEG;
-		}
-		int quality = getIntent().getIntExtra(EXTRA_QUALITY, 85);
-
-		ImageTools.savePicture(bitmap, format, quality, true, file);
-		if (exifRotate) {
-			exif.saveAttributes(); // restore original Exif (most importantly the orientation)
-		}
-
-		LOG.info("Saved {}x{} {}@{} into {}", bitmap.getWidth(), bitmap.getHeight(), format, quality, file);
-		return file;
-	}
-	@AnyThread
-	private int calcSampleSize(
-			int maxSize,
-			@SuppressWarnings("SameParameterValue")
-			float leewayPercent,
-			int sourceWidth,
-			int sourceHeight
-	) {
-		// mirror calculations in ImageTools.downscale
-		final float widthPercentage = maxSize / (float)sourceWidth;
-		final float heightPercentage = maxSize / (float)sourceHeight;
-		final float minPercentage = Math.min(widthPercentage, heightPercentage);
-
-		final int targetWidth = Math.round(minPercentage * sourceWidth);
-		final int targetHeight = Math.round(minPercentage * sourceHeight);
-		LOG.trace("Downscale: {}x{} -> {}x{} ({}%) ± {}x{} ({}%)",
-				sourceWidth, sourceHeight, targetWidth, targetHeight, minPercentage * 100,
-				targetWidth * leewayPercent, targetHeight * leewayPercent, leewayPercent * 100);
-		final int exactSampleSize = Math.min(sourceWidth / targetWidth, sourceHeight / targetHeight);
-		int sampleSize = exactSampleSize <= 1? 1 : Integer.highestOneBit(exactSampleSize); // round down to 2^x
-		LOG.trace("Chosen sample size based on size is {} rounded to {}", exactSampleSize, sampleSize);
-		int longerSide = Math.max(sourceWidth, sourceHeight);
-		int targetLongerSide = Math.max(targetWidth, targetHeight);
-		if (Math.abs((float)longerSide / (sampleSize * 2) - targetLongerSide) < targetLongerSide * leewayPercent) {
-			LOG.trace("The longer side {}px allows for leeway ({}%) of {}px when using sample size {}",
-					longerSide, leewayPercent * 100, targetLongerSide * leewayPercent, sampleSize * 2);
-			// this allows the loaded image size to be between [targetLongerSide * (1-leewayPercent), targetLongerSide]
-			sampleSize = sampleSize * 2;
-		}
-		return sampleSize;
-	}
 	private @NonNull RectF getPictureRect() {
 		float width = mSelection.getWidth();
 		float height = mSelection.getHeight();
@@ -660,11 +616,14 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	}
 
 	/** @param maxSize pixel size or {@link #EXTRA_MAXSIZE_NO_MAX} */
-	public static @NonNull Intent saveTo(
-			@NonNull Context context, @NonNull File targetFile, @NonNull Uri publicTarget, int maxSize) {
+	public static @NonNull Intent saveTo(@NonNull Context context, @NonNull Uri target, @Px int maxSize) {
+		if ("file".equals(target.getScheme())) {
+			throw new FileUriExposedException(
+					"File Uri is not supported, use a content Uri instead: " + target
+							+ "\nSee https://developer.android.com/reference/android/os/FileUriExposedException for more.");
+		}
 		Intent intent = new Intent(context, CaptureImage.class);
-		intent.putExtra(CaptureImage.EXTRA_OUTPUT, targetFile.getAbsolutePath());
-		intent.putExtra(CaptureImage.EXTRA_OUTPUT_PUBLIC, publicTarget);
+		intent.putExtra(CaptureImage.EXTRA_OUTPUT, target);
 		intent.putExtra(CaptureImage.EXTRA_MAXSIZE, maxSize);
 		return intent;
 	}

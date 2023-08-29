@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
 	<string name="image__choose_external__title">Choose external image source</string>
-	<!-- lint:StringFormatCount see https://github.com/TWiStErRob/net.twisterrob.inventory/issues/148 -->
-	<string name="image__choose_external__intent_label_pick" tools:ignore="StringFormatCount"><xliff:g id="app" example="Photos">%1$s</xliff:g> <font color="#CCCCCC">(select)</font></string>
-	<!-- lint:StringFormatCount see https://github.com/TWiStErRob/net.twisterrob.inventory/issues/148 -->
-	<string name="image__choose_external__intent_label_take" tools:ignore="StringFormatCount"><xliff:g id="app" example="Camera">%1$s</xliff:g> <font color="#CCCCCC">(capture)</font></string>
-	
+
+	<string name="image__choose_external__capture_title">Capture via Camera app</string>
+	<drawable name="image__choose_external__capture_icon">@android:drawable/ic_menu_camera</drawable>
+
+	<string name="image__choose_external__pick_title">Pick existing image</string>
+	<drawable name="image__choose_external__pick_icon">@android:drawable/ic_menu_gallery</drawable>
+
+	<string name="image__choose_external__visual_title">Photo Picker</string>
+	<drawable name="image__choose_external__visual_icon">@android:drawable/ic_menu_gallery</drawable>
+
+	<string name="image__choose_external__get_title">Get image</string>
+	<drawable name="image__choose_external__get_icon">@android:drawable/ic_menu_set_as</drawable>
+
 	<string name="image__permissions__camera_title">Camera permission</string>
 	<string name="image__permissions__camera_message">
 		The app has a built-in camera for taking quick pictures.

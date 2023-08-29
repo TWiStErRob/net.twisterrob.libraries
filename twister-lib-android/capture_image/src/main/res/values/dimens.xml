@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!--
+		Originally these were 32dp, 32dp, 32dp which created a different UI hierarcy.
+		Left the capability here to by dynamic, just in case.
+	-->
+	<dimen name="image__choose_external__menu_icon_header_size">0dp</dimen>
+	<dimen name="image__choose_external__menu_icon_intent_size">28dp</dimen>
+	<dimen name="image__choose_external__menu_icon_indent">0dp</dimen>
+
+</resources>
