@@ -69,15 +69,17 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="@integer/camera__button_bar__location"
+			android:layoutDirection="@integer/camera__button_bar__layoutDirection"
 			android:orientation="@integer/camera__button_bar__orientation"
+			tools:targetApi="jelly_bean_mr1"
 			>
 			<ImageButton
-				android:id="@+id/btn_pick"
+				android:id="@+id/btn_crop"
 				android:layout_width="@dimen/icon_action_button"
 				android:layout_height="@dimen/icon_action_button"
 				android:layout_margin="8dp"
-				android:src="@android:drawable/ic_menu_gallery"
-				android:contentDescription="pick"
+				android:src="@android:drawable/ic_menu_crop"
+				android:contentDescription="crop"
 				/>
 			<ImageButton
 				android:id="@+id/btn_capture"
@@ -88,12 +90,12 @@
 				android:contentDescription="capture"
 				/>
 			<ImageButton
-				android:id="@+id/btn_crop"
+				android:id="@+id/btn_pick"
 				android:layout_width="@dimen/icon_action_button"
 				android:layout_height="@dimen/icon_action_button"
 				android:layout_margin="8dp"
-				android:src="@android:drawable/ic_menu_crop"
-				android:contentDescription="crop"
+				android:src="@android:drawable/ic_menu_gallery"
+				android:contentDescription="pick"
 				/>
 		</LinearLayout>
 	</FrameLayout>
