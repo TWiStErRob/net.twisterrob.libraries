@@ -5,6 +5,11 @@
 	<integer name="orientation__horizontal">0</integer>
 	<integer name="orientation__vertical">1</integer>
 
+	<integer name="layout_direction__ltr">0</integer>
+	<integer name="layout_direction__rtl">1</integer>
+	<integer name="layout_direction__inherit">2</integer>
+	<integer name="layout_direction__locale">3</integer>
+
 	<integer name="gravity__no_gravity">0x0</integer>
 	<integer name="gravity__center">0x11</integer>
 
@@ -35,4 +40,5 @@
 	<integer name="gravity__center_start">0x00800013</integer>
 	<integer name="gravity__center_right">0x15</integer>
 	<integer name="gravity__center_end">0x00800015</integer>
+
 </resources>
