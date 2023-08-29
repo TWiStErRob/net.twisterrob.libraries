@@ -2,10 +2,11 @@ package net.twisterrob.android.activity;
 
 import java.io.IOException;
 
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 import android.graphics.Color;
 import android.net.Uri;
@@ -27,15 +28,16 @@ public class CaptureImageTest_External {
 
 	private final CaptureImageActivityActor captureImage = new CaptureImageActivityActor();
 
-	@Test public void loadsImageFromExternalSource_resultIntentDataUriFile()
+	@Test public void loadsImageFromExternalSource()
 			throws UiObjectNotFoundException, IOException {
 		activity.launchActivity(null);
 		captureImage.allowPermissions();
 		Uri fakeUri = captureImage.createFakeImage(activity.getTemp().newFile(), Color.RED);
 		captureImage.verifyState(SelectionStatus.NORMAL);
-		captureImage.intendExternalChooser(fakeUri);
-		captureImage.pick();
-		captureImage.verifyExternalChooser();
+		PickDialogActor.PopupIntent<Uri> pick = captureImage.pick().pick();
+		pick.intend(fakeUri);
+		pick.open();
+		pick.verify(1);
 		captureImage.verifyState(SelectionStatus.FOCUSED);
 		Intents.assertNoUnverifiedIntents();
 		captureImage.verifyImageColor(equalTo(Color.RED));
@@ -47,13 +49,15 @@ public class CaptureImageTest_External {
 		captureImage.allowPermissions();
 		Uri fakeUri = captureImage.createFakeImage(activity.getTemp().newFile(), Color.GREEN);
 		captureImage.verifyState(SelectionStatus.NORMAL);
-		captureImage.intendExternalChooser(fakeUri);
-		captureImage.pick();
-		captureImage.verifyExternalChooser();
+		PickDialogActor.PopupIntent<Uri> pick1 = captureImage.pick().pick();
+		pick1.intend(fakeUri);
+		pick1.open();
+		pick1.verify(1);
 		captureImage.verifyState(SelectionStatus.FOCUSED);
-		captureImage.intendExternalChooserCancelled();
-		captureImage.pick();
-		captureImage.verifyExternalChooser(2);
+		PickDialogActor.PopupIntent<Uri> pick2 = captureImage.pick().pick();
+		pick2.intendCancelled();
+		pick2.open();
+		pick2.verify(2);
 		captureImage.verifyState(SelectionStatus.BLURRY);
 		Intents.assertNoUnverifiedIntents();
 		captureImage.verifyImageColor(equalTo(Color.GREEN));
@@ -64,17 +68,19 @@ public class CaptureImageTest_External {
 		activity.launchActivity(null);
 		captureImage.allowPermissions();
 		Uri fakeUri = captureImage.createFakeImage(activity.getTemp().newFile(), Color.BLUE);
-		captureImage.intendExternalChooser(fakeUri);
-		captureImage.pick();
-		captureImage.verifyExternalChooser();
+		PickDialogActor.PopupIntent<Uri> pick1 = captureImage.pick().pick();
+		pick1.intend(fakeUri);
+		pick1.open();
+		pick1.verify(1);
 		Intents.assertNoUnverifiedIntents();
 		activity.finishActivity();
 
 		activity.launchActivity(null);
 		captureImage.verifyState(SelectionStatus.NORMAL);
-		captureImage.intendExternalChooserCancelled();
-		captureImage.pick();
-		captureImage.verifyExternalChooser();
+		PickDialogActor.PopupIntent<Uri> pick2 = captureImage.pick().pick();
+		pick2.intendCancelled();
+		pick2.open();
+		pick2.verify(1);
 		Intents.assertNoUnverifiedIntents();
 		captureImage.verifyNoImage();
 		captureImage.verifyState(SelectionStatus.BLURRY);
@@ -85,17 +91,19 @@ public class CaptureImageTest_External {
 		activity.launchActivity(null);
 		captureImage.allowPermissions();
 		Uri fakeUri = captureImage.createFakeImage(activity.getTemp().newFile(), Color.YELLOW);
-		captureImage.intendExternalChooser(fakeUri);
-		captureImage.pick();
-		captureImage.verifyExternalChooser();
+		PickDialogActor.PopupIntent<Uri> pick1 = captureImage.pick().pick();
+		pick1.intend(fakeUri);
+		pick1.open();
+		pick1.verify(1);
 		Intents.assertNoUnverifiedIntents();
 		activity.finishActivity();
 
 		activity.launchActivity(null);
 		captureImage.verifyState(SelectionStatus.NORMAL);
-		captureImage.intendExternalChooser(null);
-		captureImage.pick();
-		captureImage.verifyExternalChooser();
+		PickDialogActor.PopupIntent<Uri> pick2 = captureImage.pick().pick();
+		pick2.intend(Uri.EMPTY);
+		pick2.open();
+		pick2.verify(1);
 		Intents.assertNoUnverifiedIntents();
 		captureImage.verifyErrorImage();
 		captureImage.verifyState(SelectionStatus.BLURRY);

@@ -275,7 +275,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				CaptureImageFileProvider.getUriForFile(this, externalPickerOutputFile),
 				new ExternalPicker.Events() {
 					@Override public void onCancelled() {
-						restartPreview.executeBehindPermissions();
+						mSelection.setSelectionStatus(SelectionStatus.BLURRY);
+						enableControls();
 					}
 					@Override public void itemSelected() {
 						disableControls();
