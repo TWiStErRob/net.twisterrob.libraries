@@ -7,6 +7,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import android.content.Intent;
+import android.net.Uri;
 
 import androidx.test.espresso.intent.Intents;
 
@@ -54,7 +55,7 @@ public class CaptureImageActivityTestRule extends SensibleActivityTestRule<Captu
 
 	@Override protected Intent getActivityIntent() {
 		return new Intent()
-				.putExtra(CaptureImage.EXTRA_OUTPUT, outputFile.getAbsolutePath());
+				.putExtra(CaptureImage.EXTRA_OUTPUT, Uri.fromFile(outputFile));
 	}
 
 	@Override public Statement apply(Statement base, Description description) {
