@@ -10,7 +10,9 @@
 	-->
 	<uses-sdk tools:overrideLibrary="androidx.test.uiautomator" />
 
-	<application>
+	<application
+		android:supportsRtl="true"
+		>
 
 		<activity
 			android:name="net.twisterrob.android.activity.CaptureImage"
