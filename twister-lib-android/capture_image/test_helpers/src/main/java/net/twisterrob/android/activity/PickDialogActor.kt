@@ -5,16 +5,16 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.Intents.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import net.twisterrob.android.capture_image.R
+import net.twisterrob.android.test.espresso.EspressoExtensions.withMenuItemId
 import net.twisterrob.android.utils.tools.IntentTools
 import net.twisterrob.java.io.IOTools
 import java.io.IOException
@@ -28,7 +28,7 @@ class PickDialogActor {
 	fun captureFromCamera(): PopupIntent<Uri> =
 		object : PopupIntent<Uri> {
 			override fun open() {
-				onView(withText(R.string.image__choose_external__capture_title)).perform(click())
+				onData(withMenuItemId(R.id.image__choose_external__capture)).perform(click())
 			}
 
 			override fun intend(output: Uri) {
@@ -52,7 +52,7 @@ class PickDialogActor {
 	fun pick(): PopupIntent<Uri> =
 		object : PopupIntent<Uri> {
 			override fun open() {
-				onView(withText(R.string.image__choose_external__pick_title)).perform(click())
+				onData(withMenuItemId(R.id.image__choose_external__pick)).perform(click())
 			}
 
 			override fun intend(output: Uri) {
