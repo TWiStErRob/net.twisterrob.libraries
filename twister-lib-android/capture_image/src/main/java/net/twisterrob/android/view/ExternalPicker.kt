@@ -21,7 +21,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IdRes
 import androidx.appcompat.graphics.drawable.DrawableWrapperCompat
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.view.ViewCompat
 import net.twisterrob.android.activity.CaptureImage
 import net.twisterrob.android.capture_image.R
 import net.twisterrob.android.contracts.PickForMimeType
@@ -41,7 +40,7 @@ import net.twisterrob.android.utils.tools.asIterable
  */
 class ExternalPicker(
 	activity: ComponentActivity,
-	private val anchor: View,
+	anchor: View,
 	target: Uri,
 	private val events: Events
 ) {
@@ -144,14 +143,7 @@ class ExternalPicker(
 		// It might be cleared when an item is selected. See #setOnMenuItemClickListener.
 		menu.setOnDismissListener { events.onCancelled() }
 		populateGroups(menu.menu)
-		val anchorParent = anchor.parent as View
-		val originalDirection = ViewCompat.getLayoutDirection(anchorParent)
-		try {
-			ViewCompat.setLayoutDirection(anchorParent, ViewCompat.LAYOUT_DIRECTION_LOCALE)
-			menu.show()
-		} finally {
-			ViewCompat.setLayoutDirection(anchorParent, originalDirection)
-		}
+		menu.show()
 	}
 
 	private fun populateGroups(menu: Menu) {
