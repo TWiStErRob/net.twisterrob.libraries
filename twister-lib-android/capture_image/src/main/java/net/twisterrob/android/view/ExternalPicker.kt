@@ -1,11 +1,13 @@
 package net.twisterrob.android.view
 
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.view.Gravity
 import android.view.Menu
@@ -72,6 +74,7 @@ class ExternalPicker(
 		}
 	}
 
+	@TargetApi(Build.VERSION_CODES.KITKAT) // see isPhotoPickerAvailable
 	private val pickVisualImage = ExplicitAbleActivityResultLauncher(
 		activity,
 		ActivityResultContracts.PickVisualMedia(),
@@ -158,7 +161,7 @@ class ExternalPicker(
 			}
 		}
 		menu.showCapture(CameraTools.canLaunchCameraIntent(context))
-		menu.showPickVisual(ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(context))
+		menu.showPickVisual(isPhotoPickerAvailable(context))
 	}
 
 	interface Events {
@@ -264,6 +267,12 @@ private fun Menu.showPickVisual(hasPhotoPicker: Boolean) {
 	this.findItem(R.id.image__choose_external__visual).isVisible = hasPhotoPicker
 	this.setGroupVisible(R.id.image__choose_external__visual_group, hasPhotoPicker)
 }
+
+private fun isPhotoPickerAvailable(context: Context): Boolean =
+	if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT)
+		ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(context)
+	else
+		false
 
 /**
  * Ensure all drawables have the same size, otherwise they're misaligned.
