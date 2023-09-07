@@ -158,7 +158,7 @@ class ExternalPicker(
 			}
 		}
 		menu.showCapture(CameraTools.canLaunchCameraIntent(context))
-		menu.showPickVisual(ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable())
+		menu.showPickVisual(ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(context))
 	}
 
 	interface Events {
