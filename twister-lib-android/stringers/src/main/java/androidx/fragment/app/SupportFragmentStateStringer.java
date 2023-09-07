@@ -1,15 +1,19 @@
 package androidx.fragment.app;
 
-import android.annotation.TargetApi;
-import android.os.Build.VERSION_CODES;
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 
 import net.twisterrob.android.utils.tostring.stringers.name.ResourceNameStringer;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 import net.twisterrob.java.utils.tostring.stringers.DefaultStringer;
 
+/**
+ * androidx.fragment 1.5.5 to 1.6.1 upgrade removed
+ * <ul>
+ *     <li>{@code val mArguments: Bundle?}</li>
+ *     <li>{@code var mSavedFragmentState: Bundle?}</li>
+ * </ul>
+ */
 public class SupportFragmentStateStringer extends Stringer<FragmentState> {
 	@Override public void toString(@NonNull ToStringAppender append, FragmentState state) {
 		append.identity(state.mWho, DefaultStringer.shortenPackageNames(state.mClassName));
@@ -19,7 +23,6 @@ public class SupportFragmentStateStringer extends Stringer<FragmentState> {
 			appendFlags(append, state);
 		}
 		append.endPropertyGroup();
-		appendDetails(append, state);
 	}
 
 	private void appendIdentity(ToStringAppender append, FragmentState state) {
@@ -37,41 +40,5 @@ public class SupportFragmentStateStringer extends Stringer<FragmentState> {
 		append.booleanProperty(state.mDetached, "detached", "attached");
 		append.booleanProperty(state.mHidden, "hidded");
 		append.booleanProperty(state.mRemoving, "removing");
-		appendNullDetails(append, state);
-	}
-
-	private void appendDetails(ToStringAppender append, FragmentState state) {
-		if (state.mArguments != null) {
-			fixClassLoader(state.mArguments);
-			append.item("Arguments", state.mArguments);
-		}
-		if (state.mSavedFragmentState != null) {
-			fixClassLoader(state.mSavedFragmentState);
-			append.item("Saved instance state", state.mSavedFragmentState);
-		}
-	}
-
-	/**
-	 * setClassLoader to mimic proper lifecycle, without this a
-	 * <code>android.os.BadParcelableException:
-	 * ClassNotFoundException when unmarshalling: android.support.v7.widget.RecyclerView$SavedState</code>
-	 * would manifest itself.
-	 * @see Fragment#instantiate
-	 * @see <a href="https://issuetracker.google.com/issues/37073849">ClassNotFoundException when unmarshalling SavedState</a>
-	 */
-	@TargetApi(VERSION_CODES.HONEYCOMB)
-	private void fixClassLoader(@NonNull Bundle bundle) {
-		if (bundle.getClassLoader() == null) {
-			bundle.setClassLoader(FragmentState.class.getClassLoader());
-		}
-	}
-
-	private void appendNullDetails(ToStringAppender append, FragmentState state) {
-		if (state.mArguments == null) {
-			append.rawProperty("args", null);
-		}
-		if (state.mSavedFragmentState == null) {
-			append.rawProperty("saved", null);
-		}
 	}
 }
