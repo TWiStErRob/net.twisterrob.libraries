@@ -1,8 +1,9 @@
 import net.twisterrob.gradle.doNotNagAbout
+import net.twisterrob.libraries.build.dsl.isCI
 
 rootProject.name = "net-twisterrob-libraries"
 
-// TODO enable when AGP 8, see https://github.com/gradle/android-cache-fix-gradle-plugin/issues/466
+// TODO enable when https://issuetracker.google.com/issues/300617088
 //enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
@@ -11,21 +12,12 @@ pluginManagement {
 		google()
 		mavenCentral()
 		gradlePluginPortal()
-		exclusiveContent {
-			forRepository {
-				maven("https://oss.sonatype.org/service/local/repositories/snapshots/content/")
-			}
-			filter {
-				includeModule("com.autonomousapps", "dependency-analysis-gradle-plugin")
-			}
-		}
 	}
-	// TODO when twisterrob-settings add
-	//disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") 
 }
 
 plugins {
 	id("net.twisterrob.gradle.plugin.settings") version "0.16"
+	id("net.twisterrob.libraries.settings")
 }
 
 dependencyResolutionManagement {
@@ -200,5 +192,6 @@ if ((System.getProperty("idea.version") ?: "") < "2023.2") {
 		"at org.jetbrains.plugins.gradle.tooling.util.JavaPluginUtil."
 	)
 } else {
-	logger.warn("Android Studio version changed, please review hack.")
+	val error: (String) -> Unit = if (isCI) ::error else logger::warn
+	error("Android Studio version changed, please review hack.")
 }
