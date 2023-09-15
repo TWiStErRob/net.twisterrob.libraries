@@ -21,8 +21,6 @@ pluginManagement {
 			}
 		}
 	}
-	// TODO when twisterrob-settings add
-	//disableLoggingFor("org.gradle.configurationcache.problems.ConfigurationCacheProblems") 
 }
 
 plugins {
