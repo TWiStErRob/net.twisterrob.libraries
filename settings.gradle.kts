@@ -1,4 +1,5 @@
 import net.twisterrob.gradle.doNotNagAbout
+import net.twisterrob.libraries.build.dsl.isCI
 
 rootProject.name = "net-twisterrob-libraries"
 
@@ -201,5 +202,6 @@ if ((System.getProperty("idea.version") ?: "") < "2023.2") {
 		"at org.jetbrains.plugins.gradle.tooling.util.JavaPluginUtil."
 	)
 } else {
-	logger.warn("Android Studio version changed, please review hack.")
+	val error: (String) -> Unit = if (isCI) ::error else logger::warn
+	error("Android Studio version changed, please review hack.")
 }
