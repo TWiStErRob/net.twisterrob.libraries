@@ -61,18 +61,6 @@ dependencyAnalysis {
 				}
 			}
 		}
-		project(":espresso_glide3") {
-			onUnusedDependencies {
-				// REPORT false positive, it is used with FQCN.
-				exclude(libs.android.guava.get().toString())
-			}
-		}
-		project(":defs") {
-			onUnusedDependencies {
-				// REPORT false positive, TransactionOperationCommandTest uses same-package class reference.
-				exclude(libs.androidx.fragment.get().toString())
-			}
-		}
 		project(":espresso") {
 			onUnusedDependencies {
 				// These dependencies are there to be provided to the consumers, keep them.
