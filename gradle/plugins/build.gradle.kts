@@ -4,11 +4,11 @@ plugins {
 }
 
 dependencies {
-	implementation(libs.plugin.kotlin.gradle)
-	implementation(libs.plugin.android.gradle)
-	implementation(libs.plugin.twisterrob.quality)
-	implementation(libs.plugin.twisterrob.android)
-	implementation(libs.plugin.dependencyAnalysis)
+	implementation(libs.plugins.kotlin.asMarkerArtifact())
+	implementation(libs.plugins.android.asMarkerArtifact())
+	implementation(libs.plugins.twisterrob.quality.asMarkerArtifact())
+	implementation(libs.plugins.twisterrob.android.asMarkerArtifact())
+	implementation(libs.plugins.dependencyAnalysis.asMarkerArtifact())
 	// TODEL https://github.com/gradle/gradle/issues/15383
 	implementation(files(libs::class.java.superclass.protectionDomain.codeSource.location))
 }
@@ -32,4 +32,8 @@ tasks.withType<ValidatePlugins>().configureEach {
 detekt {
 	allRules = true
 	parallel = true
+}
+
+fun Provider<PluginDependency>.asMarkerArtifact(): Provider<String> = map {
+	"${it.pluginId}:${it.pluginId}.gradle.plugin:${it.version}"
 }
