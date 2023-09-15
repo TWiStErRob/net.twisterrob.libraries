@@ -3,7 +3,7 @@ import net.twisterrob.libraries.build.dsl.isCI
 
 rootProject.name = "net-twisterrob-libraries"
 
-// TODO enable when AGP 8, see https://github.com/gradle/android-cache-fix-gradle-plugin/issues/466
+// TODO enable when https://issuetracker.google.com/issues/300617088
 //enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 pluginManagement {
