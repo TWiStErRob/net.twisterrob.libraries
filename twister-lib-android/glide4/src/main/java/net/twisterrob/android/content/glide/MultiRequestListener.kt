@@ -9,6 +9,7 @@ class MultiRequestListener<R : Any>(
 	private val listeners: Collection<RequestListener<R>>,
 ) : RequestListener<R> {
 
+	@SafeVarargs
 	constructor(vararg listeners: RequestListener<R>) : this(listeners.toList())
 
 	override fun onResourceReady(

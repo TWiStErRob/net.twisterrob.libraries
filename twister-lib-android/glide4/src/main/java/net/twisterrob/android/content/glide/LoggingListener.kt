@@ -81,7 +81,7 @@ class LoggingListener<R : Any> @JvmOverloads constructor(
 			Integer.toHexString(System.identityHashCode(resource))
 	}
 
-	fun interface ModelFormatter<T> {
+	fun interface ModelFormatter<in T> {
 		fun toString(model: T): String
 
 		companion object {
