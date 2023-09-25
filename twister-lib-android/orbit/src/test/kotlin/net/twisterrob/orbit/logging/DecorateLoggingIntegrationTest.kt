@@ -224,9 +224,9 @@ class DecorateLoggingIntegrationTest {
 
 	private data class TestState(val value: Int)
 	private sealed interface TestEffect {
-		object TestEffect1 : TestEffect
-		object TestEffect2 : TestEffect
-		object TestEffect3 : TestEffect
+		data object TestEffect1 : TestEffect
+		data object TestEffect2 : TestEffect
+		data object TestEffect3 : TestEffect
 	}
 
 	private class TestContainerHost(

@@ -119,7 +119,7 @@ class LoggingContainerDecoratorTest {
 
 	private data class TestState(val value: Int)
 	private sealed interface TestEffect {
-		object TestEffect1 : TestEffect
+		data object TestEffect1 : TestEffect
 	}
 
 	private class TestContainerHost(
