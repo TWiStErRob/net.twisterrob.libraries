@@ -1,49 +1,34 @@
-package net.twisterrob.android.content.glide;
+package net.twisterrob.android.content.glide
 
-import java.security.MessageDigest;
+import com.bumptech.glide.load.Key
+import java.security.MessageDigest
 
-import com.bumptech.glide.load.Key;
+class LongSignature @JvmOverloads constructor(
+	private val signature: Long = System.currentTimeMillis()
+) : Key {
 
-import androidx.annotation.NonNull;
-
-public class LongSignature implements Key {
-	private final long signature;
-
-	public LongSignature() {
-		this(System.currentTimeMillis());
+	init {
+		check(signature != 0L) { "0 signature, is some data missing?" }
 	}
 
-	public LongSignature(long signature) {
-		super();
-		if (signature == 0) {
-			throw new IllegalStateException("0 signature, is the some data missing?");
+	override fun updateDiskCacheKey(messageDigest: MessageDigest) {
+		messageDigest.update(signature.toString().toByteArray(Key.CHARSET))
+	}
+
+	override fun equals(other: Any?): Boolean {
+		if (this === other) {
+			return true
 		}
-		this.signature = signature;
-	}
-
-	@Override public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-		messageDigest.update(String.valueOf(signature).getBytes(CHARSET));
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
+		if (other == null || this::class.java != other::class.java) {
+			return false
 		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-
-		LongSignature that = (LongSignature)o;
-
-		return signature == that.signature;
+		val that = other as LongSignature
+		return signature == that.signature
 	}
 
-	@Override public int hashCode() {
-		return Long.hashCode(signature);
-	}
+	override fun hashCode(): Int =
+		signature.hashCode()
 
-	@Override public @NonNull String toString() {
-		return "LongSignature(" + signature + ")";
-	}
+	override fun toString(): String =
+		"LongSignature(${signature})"
 }

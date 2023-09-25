@@ -1,82 +1,100 @@
-package net.twisterrob.android.content.glide;
+package net.twisterrob.android.content.glide
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import android.content.Context
+import android.content.res.Resources.NotFoundException
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.VectorDrawable
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import net.twisterrob.android.content.glide.LoggingListener.ModelFormatter
+import net.twisterrob.java.annotations.DebugHelper
+import org.slf4j.LoggerFactory
 
-import android.content.Context;
-import android.content.res.Resources.NotFoundException;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.VectorDrawable;
-import android.os.Build;
-
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import net.twisterrob.java.annotations.DebugHelper;
+private val LOG = LoggerFactory.getLogger(LoggingListener::class.java)
 
 @DebugHelper
-public class LoggingListener<R> implements RequestListener<R> {
-	public interface ModelFormatter<T> {
-		String toString(T model);
+class LoggingListener<R : Any> @JvmOverloads constructor(
+	private val type: String,
+	private val formatter: ModelFormatter<Any?> = ModelFormatter(Any?::toString),
+) : RequestListener<R> {
 
-		static ModelFormatter<Integer> forResources(@NonNull Context context) {
-			return model -> {
-				try {
-					return context.getResources().getResourceName(model)
-					              .replace(context.getPackageName(), "app");
-				} catch (NotFoundException ex) {
-					return Integer.toHexString(model) + "=" + model;
-				}
-			};
+	override fun onLoadFailed(
+		e: GlideException?,
+		model: Any?,
+		target: Target<R>,
+		isFirstResource: Boolean,
+	): Boolean {
+		LOG.warn(
+			"Cannot load {}@{} into {} (first={})",
+			type, formatter.toString(model), target, isFirstResource, e
+		)
+		return false
+	}
+
+	override fun onResourceReady(
+		resource: R,
+		model: Any,
+		target: Target<R>,
+		dataSource: DataSource,
+		isFirstResource: Boolean,
+	): Boolean {
+		LOG.trace(
+			"Loaded {}@{} into {} (first={}, source={}) transcoded={}",
+			type, formatter.toString(model), target, isFirstResource, dataSource, toString(resource)
+		)
+		return false
+	}
+
+	private fun toString(resource: Any?): String =
+		when {
+			resource == null ->
+				"null"
+
+			resource is Bitmap -> {
+				val width = resource.width
+				val height = resource.height
+				"Bitmap(${width}x${height})@${mem(resource)}"
+			}
+
+			resource is BitmapDrawable -> {
+				val bitmap = toString(resource.bitmap)
+				"${bitmap} in BitmapDrawable@${mem(resource)}"
+			}
+
+			VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && resource is VectorDrawable -> {
+				val width = resource.intrinsicWidth
+				val height = resource.intrinsicHeight
+				"VectorDrawable(${width}x$height)@${mem(resource)}"
+			}
+
+			else ->
+				resource.toString()
 		}
+
+	companion object {
+		private fun mem(resource: Any?): String =
+			Integer.toHexString(System.identityHashCode(resource))
 	}
 
-	private static final Logger LOG = LoggerFactory.getLogger(LoggingListener.class);
-	private final String type;
-	private final ModelFormatter<? super Object> formatter;
+	fun interface ModelFormatter<T> {
+		fun toString(model: T): String
 
-	public LoggingListener(String type) {
-		this(type, String::valueOf);
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T> LoggingListener(String type, ModelFormatter<? super T> formatter) {
-		this.type = type;
-		this.formatter = (ModelFormatter<? super Object>)formatter;
-	}
-
-	@Override public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<R> target, boolean isFirstResource) {
-		LOG.warn("Cannot load {}@{} into {} (first={})", type, formatter.toString(model), target, isFirstResource, e);
-		return false;
-	}
-
-	@Override public boolean onResourceReady(@NonNull R resource, @NonNull Object model, Target<R> target, @NonNull DataSource dataSource, boolean isFirstResource) {
-		LOG.trace("Loaded {}@{} into {} (first={}, source={}) transcoded={}",
-				type, formatter.toString(model), target, isFirstResource, dataSource, toString(resource));
-		return false;
-	}
-
-	private @NonNull String toString(@Nullable Object resource) {
-		if (resource instanceof Bitmap) {
-			return "Bitmap(" + ((Bitmap)resource).getWidth() + "x" + ((Bitmap)resource).getHeight() + ")@"
-					+ Integer.toHexString(System.identityHashCode(resource));
-		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-				&& resource instanceof VectorDrawable) {
-			return "VectorDrawable(" + ((VectorDrawable)resource).getIntrinsicWidth() + "x" + ((VectorDrawable)resource).getIntrinsicHeight() + ")@"
-					+ Integer.toHexString(System.identityHashCode(resource));
-		} else if (resource instanceof BitmapDrawable) {
-			return toString(((BitmapDrawable)resource).getBitmap()) + " in " 
-					+ "BitmapDrawable@" + Integer.toHexString(System.identityHashCode(resource));
-		} else if (resource == null) {
-			return "null";
-		} else {
-			return resource.toString();
+		companion object {
+			@JvmStatic
+			fun forResources(context: Context): ModelFormatter<Int> =
+				ModelFormatter { model: Int ->
+					try {
+						context.resources.getResourceName(model)
+							.replace(context.packageName, "app")
+					} catch (ex: NotFoundException) {
+						"${Integer.toHexString(model)}=${model}"
+					}
+				}
 		}
 	}
 }

@@ -1,57 +1,63 @@
-package net.twisterrob.android.content.glide;
+package net.twisterrob.android.content.glide
 
-import android.view.View;
-import android.widget.ImageView;
-
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.CustomViewTarget;
-import com.bumptech.glide.request.target.Target;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.view.View
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.target.Target
+import net.twisterrob.android.content.glide.SoftwareLayerSetter.TargetViewGetter
 
 /**
- * Listener which updates the {@link ImageView} to be software rendered,
- * because {@link com.caverock.androidsvg.SVG SVG}/{@link android.graphics.Picture Picture}
- * can't render on a hardware backed {@link android.graphics.Canvas Canvas}.
+ * Listener which updates the [ImageView][android.widget.ImageView] to be software rendered,
+ * because [SVG][com.caverock.androidsvg.SVG]/[Picture][android.graphics.Picture]
+ * can't render on a hardware backed [Canvas][android.graphics.Canvas].
  *
- * @param <R> not used, exists to prevent unchecked warnings at usage
+ * @param R not used, exists to prevent unchecked warnings at usage
  */
-public class SoftwareLayerSetter<R> implements RequestListener<R> {
-	private final @NonNull TargetViewGetter getter;
+class SoftwareLayerSetter<R : Any> @JvmOverloads constructor(
+	private val getter: TargetViewGetter = TargetViewGetter.VIEW_TARGET,
+) : RequestListener<R> {
 
-	interface TargetViewGetter {
-		@NonNull View getView(Target<?> target);
-
-		@SuppressWarnings("deprecation")
-		// TODEL https://github.com/bumptech/glide/issues/3332 For now RequestBuilder.into returns this.
-		TargetViewGetter VIEW_TARGET = target ->
-				((com.bumptech.glide.request.target.ViewTarget<?, ?>)target).getView();
-
-		TargetViewGetter CUSTOM_VIEW_TARGET = target ->
-				((CustomViewTarget<?, ?>)target).getView();
+	override fun onResourceReady(
+		resource: R,
+		model: Any,
+		target: Target<R>,
+		dataSource: DataSource,
+		isFirstResource: Boolean,
+	): Boolean {
+		val view = getter.getView(target)
+		view.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+		return false
 	}
 
-	public SoftwareLayerSetter() {
-		this(TargetViewGetter.VIEW_TARGET);
-	}
-	public SoftwareLayerSetter(@NonNull TargetViewGetter getter) {
-		this.getter = getter;
-	}
-
-	@Override public boolean onResourceReady(@NonNull R resource, @NonNull Object model,
-			Target<R> target, @NonNull DataSource dataSource, boolean isFirstResource) {
-		View view = getter.getView(target);
-		view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		return false;
+	override fun onLoadFailed(
+		e: GlideException?,
+		model: Any?,
+		target: Target<R>,
+		isFirstResource: Boolean,
+	): Boolean {
+		val view = getter.getView(target)
+		view.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+		return false
 	}
 
-	@Override public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model,
-			@NonNull Target<R> target, boolean isFirstResource) {
-		View view = getter.getView(target);
-		view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		return false;
+	fun interface TargetViewGetter {
+		fun getView(target: Target<*>): View
+
+		companion object {
+
+			@JvmStatic
+			val VIEW_TARGET: TargetViewGetter = TargetViewGetter { target ->
+				// TODEL https://github.com/bumptech/glide/issues/3332 for now RequestBuilder.into returns this.
+				@Suppress("DEPRECATION")
+				(target as com.bumptech.glide.request.target.ViewTarget<*, *>).view
+			}
+
+			@JvmStatic
+			val CUSTOM_VIEW_TARGET: TargetViewGetter = TargetViewGetter { target ->
+				(target as CustomViewTarget<*, *>).view
+			}
+		}
 	}
 }

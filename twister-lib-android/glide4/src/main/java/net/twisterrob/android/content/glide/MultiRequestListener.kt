@@ -1,47 +1,30 @@
-package net.twisterrob.android.content.glide;
+package net.twisterrob.android.content.glide
 
-import java.util.Arrays;
-import java.util.Collection;
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+class MultiRequestListener<R : Any>(
+	private val listeners: Collection<RequestListener<R>>,
+) : RequestListener<R> {
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+	constructor(vararg listeners: RequestListener<R>) : this(listeners.toList())
 
-public class MultiRequestListener<R> implements RequestListener<R> {
-	private final Collection<? extends RequestListener<R>> listeners;
+	override fun onResourceReady(
+		resource: R,
+		model: Any,
+		target: Target<R>,
+		dataSource: DataSource,
+		isFirstResource: Boolean,
+	): Boolean =
+		listeners.any { it.onResourceReady(resource, model, target, dataSource, isFirstResource) }
 
-	@SuppressWarnings("varargs")
-	@SafeVarargs
-	public MultiRequestListener(RequestListener<R>... listeners) {
-		this(Arrays.asList(listeners));
-	}
-
-	public MultiRequestListener(Collection<? extends RequestListener<R>> listeners) {
-		this.listeners = listeners;
-	}
-
-	@Override public boolean onResourceReady(@NonNull R resource, @NonNull Object model,
-			Target<R> target, @NonNull DataSource dataSource, boolean isFirstResource) {
-		for (RequestListener<R> listener : listeners) {
-			if (listener != null && listener.onResourceReady(resource, model, target, dataSource,
-					isFirstResource)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model,
-			@NonNull Target<R> target, boolean isFirstResource) {
-		for (RequestListener<R> listener : listeners) {
-			if (listener != null && listener.onLoadFailed(e, model, target, isFirstResource)) {
-				return true;
-			}
-		}
-		return false;
-	}
+	override fun onLoadFailed(
+		e: GlideException?,
+		model: Any?,
+		target: Target<R>,
+		isFirstResource: Boolean,
+	): Boolean =
+		listeners.any { it.onLoadFailed(e, model, target, isFirstResource) }
 }
