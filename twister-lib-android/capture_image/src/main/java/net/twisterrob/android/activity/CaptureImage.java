@@ -450,13 +450,14 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				// need the special target/listener.
 				.thumbnail(image
 						.clone() // inherit everything, but load lower quality
-						.listener(target)
+						.addListener(target)
 						// STOPSHIP .decoder(new NonPoolingImageVideoBitmapDecoder(DecodeFormat.PREFER_RGB_565))
 						.sizeMultiplier(0.1f)
 						// Fade thumbnail in (=crossFade from background):
 						.transition(GenericTransitionOptions.with(android.R.anim.fade_in))
 				)
-				.listener(new MultiRequestListener<>(visualFeedbackListener, target))
+				.addListener(visualFeedbackListener)
+				.addListener(target)
 				.error(R.drawable.image_error)
 				// Fade from thumb to image:
 				.transition(BitmapTransitionOptions.withCrossFade(150))
