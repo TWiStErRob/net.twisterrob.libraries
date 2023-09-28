@@ -4,14 +4,16 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.MenuItem
+import android.view.View
 import com.bumptech.glide.request.Request
 import com.bumptech.glide.request.target.SizeReadyCallback
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.request.transition.Transition.ViewAdapter
 
 open class MenuItemTarget(
 	private val menuItem: MenuItem,
-) : Target<Drawable> {
+) : Target<Drawable>, ViewAdapter {
 
 	private var request: Request? = null
 
@@ -22,20 +24,32 @@ open class MenuItemTarget(
 		this.request = request
 	}
 
+	override fun getView(): View =
+		error("MenuItem has no view, but supports animations via Drawables.")
+
+	override fun getCurrentDrawable(): Drawable? =
+		menuItem.icon
+
+	override fun setDrawable(drawable: Drawable?) {
+		menuItem.icon = drawable
+	}
+
 	override fun onLoadStarted(placeholder: Drawable?) {
-		menuItem.icon = placeholder
+		setDrawable(placeholder)
 	}
 
 	override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-		menuItem.icon = resource
+		if (transition == null || !transition.transition(resource, this)) {
+			setDrawable(resource)
+		}
 	}
 
 	override fun onLoadFailed(errorDrawable: Drawable?) {
-		menuItem.icon = errorDrawable
+		setDrawable(errorDrawable)
 	}
 
 	override fun onLoadCleared(placeholder: Drawable?) {
-		menuItem.icon = placeholder
+		setDrawable(placeholder)
 	}
 
 	override fun getSize(cb: SizeReadyCallback) {
