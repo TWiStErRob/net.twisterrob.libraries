@@ -9,6 +9,16 @@ import org.slf4j.LoggerFactory
 
 private val LOG = LoggerFactory.getLogger("glide.BitmapPool")
 
+/**
+ * ```
+ * override fun applyOptions(context: Context, builder: GlideBuilder) {
+ *     val calculator = MemorySizeCalculator.Builder(context).build()
+ *     val originalPool = LruBitmapPool(calculator.bitmapPoolSize.toLong())
+ *     builder.setBitmapPool(LoggingBitmapPool(originalPool))
+ * }
+ * ```
+ * @see com.bumptech.glide.module.AppGlideModule.applyOptions
+ */
 class LoggingBitmapPool(
 	private val wrapped: BitmapPool,
 ) : BitmapPool {

@@ -43,6 +43,7 @@ import androidx.core.app.ActivityCompat;
 import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.CaptureImageFileProvider;
 import net.twisterrob.android.content.FileUriExposedException;
+import net.twisterrob.android.content.glide.pooling.BitmapPools;
 import net.twisterrob.android.utils.tools.CameraTools;
 import net.twisterrob.android.utils.tools.CropTools;
 import net.twisterrob.android.view.ExternalPicker;
@@ -438,7 +439,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				.transform(new FitCenter() {
 					@Override protected Bitmap transform(@NonNull BitmapPool pool,
 							@NonNull Bitmap toTransform, int outWidth, int outHeight) {
-						return super.transform(GlideHelpers.NO_POOL, toTransform, outWidth, outHeight);
+						return super.transform(BitmapPools.NO_POOL, toTransform, outWidth, outHeight);
 					}
 				}) // make sure full image is visible
 				;
