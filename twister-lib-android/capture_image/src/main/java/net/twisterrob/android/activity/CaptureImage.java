@@ -523,7 +523,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mSavedFile = null;
 		mSelection.setSelectionStatus(SelectionStatus.NORMAL);
 		mPreview.cancelTakePicture();
-		Glide.with(this).clear(mImage);
+		// FIXME replace this with proper Glide.with calls
+		Glide.with(getApplicationContext()).clear(mImage);
 		mImage.setImageDrawable(null); // remove Glide placeholder for the view to be transparent
 		enableControls();
 	}
@@ -695,7 +696,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private class CropClickListener implements OnClickListener {
 		@Override public void onClick(View v) {
 			final RectF selection = getPictureRect();
-			Glide.with(CaptureImage.this).clear(mImage); // free up memory for crop op
+			// FIXME replace this with proper Glide.with calls
+			Glide.with(getApplicationContext()).clear(mImage); // free up memory for crop op
 			if (mSavedFile != null) {
 				StrictMode.ThreadPolicy originalThreadPolicy = StrictMode.allowThreadDiskWrites();
 				try {
