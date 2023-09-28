@@ -8,6 +8,7 @@ import net.twisterrob.android.capture_image.R
 import net.twisterrob.android.utils.tools.AndroidTools
 import net.twisterrob.android.utils.tools.IOTools
 import net.twisterrob.android.utils.tools.allowThreadDiskReads
+import net.twisterrob.android.utils.tools.allowThreadDiskWrites
 import java.io.File
 import java.io.IOException
 
@@ -46,7 +47,10 @@ class CaptureImageFileProvider : FileProvider() {
 		@JvmStatic
 		fun getUriForFile(context: Context, file: File): Uri {
 			val provider = AndroidTools.findProviderAuthority(context, CaptureImageFileProvider::class.java)
-			return getUriForFile(context, provider.authority, file)
+			allowThreadDiskWrites {
+				// FileProvider.getPathStrategy -> Context.getCacheDir -> ensure -> File.exists
+				return getUriForFile(context, provider.authority, file)
+			}
 		}
 
 		@JvmStatic
