@@ -1,4 +1,4 @@
-package net.twisterrob.android.content.glide
+package net.twisterrob.android.content.glide.svg
 
 import android.graphics.Picture
 import android.graphics.drawable.PictureDrawable

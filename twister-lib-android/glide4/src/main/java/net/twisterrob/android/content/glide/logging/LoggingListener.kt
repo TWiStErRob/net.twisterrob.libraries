@@ -1,4 +1,4 @@
-package net.twisterrob.android.content.glide
+package net.twisterrob.android.content.glide.logging
 
 import android.content.Context
 import android.content.res.Resources.NotFoundException
@@ -11,7 +11,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import net.twisterrob.android.content.glide.LoggingListener.ModelFormatter
+import net.twisterrob.android.content.glide.logging.LoggingListener.ModelFormatter
 import net.twisterrob.java.annotations.DebugHelper
 import org.slf4j.LoggerFactory
 

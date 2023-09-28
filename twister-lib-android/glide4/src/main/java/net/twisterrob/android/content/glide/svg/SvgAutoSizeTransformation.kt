@@ -1,39 +1,38 @@
-package net.twisterrob.android.content.glide
+package net.twisterrob.android.content.glide.svg
 
-import com.bumptech.glide.load.Options
-import com.bumptech.glide.load.ResourceDecoder
+import android.content.Context
+import com.bumptech.glide.load.Key
+import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.Resource
 import com.bumptech.glide.load.resource.SimpleResource
 import com.bumptech.glide.request.target.Target
 import com.caverock.androidsvg.SVG
-import com.caverock.androidsvg.SVGParseException
-import java.io.IOException
-import java.io.InputStream
+import java.security.MessageDigest
 
-/**
- * Decodes an SVG internal representation from an [InputStream].
- */
-class SvgDecoder : ResourceDecoder<InputStream, SVG> {
+class SvgAutoSizeTransformation : Transformation<SVG> {
 
-	override fun handles(source: InputStream, options: Options): Boolean = true
-
-	@Throws(IOException::class)
-	override fun decode(
-		source: InputStream,
-		width: Int,
-		height: Int,
-		options: Options,
+	override fun transform(
+		context: Context,
+		resource: Resource<SVG>,
+		outWidth: Int,
+		outHeight: Int
 	): Resource<SVG> {
-		try {
-			val svg = SVG.getFromInputStream(source) ?: error("Cannot load SVG from stream")
-			val (renderWidth, renderHeight) = svg.calculateRenderSize(width, height)
-			svg.documentWidth = renderWidth.toFloat()
-			svg.documentHeight = renderHeight.toFloat()
-			return SimpleResource(svg)
-		} catch (ex: SVGParseException) {
-			throw IOException("Cannot load SVG from stream", ex)
-		}
+		val svg = resource.get() // This should .clone(), but SVG does not support it, not even manually.
+		val (width, height) = svg.calculateRenderSize(outWidth, outHeight)
+		svg.documentWidth = width.toFloat()
+		svg.documentHeight = height.toFloat()
+		return SimpleResource(svg)
 	}
+
+	override fun updateDiskCacheKey(messageDigest: MessageDigest) {
+		messageDigest.update("SvgAutoSizeTransformation".toByteArray(Key.CHARSET))
+	}
+
+	override fun equals(other: Any?): Boolean =
+		other is SvgAutoSizeTransformation
+
+	override fun hashCode(): Int =
+		this::class.java.hashCode()
 }
 
 private fun SVG.calculateRenderSize(width: Int, height: Int): Pair<Int, Int> {

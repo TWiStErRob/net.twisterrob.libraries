@@ -25,7 +25,12 @@ class PaddingTransformation(
 	}
 
 	override fun updateDiskCacheKey(messageDigest: MessageDigest) {
-		val signature = this::class.java.simpleName + padding
-		messageDigest.update(signature.toByteArray(CHARSET))
+		messageDigest.update("PaddingTransformation${padding}".toByteArray(CHARSET))
 	}
+
+	override fun equals(other: Any?): Boolean =
+		other is PaddingTransformation && this.padding == other.padding
+
+	override fun hashCode(): Int =
+		padding
 }

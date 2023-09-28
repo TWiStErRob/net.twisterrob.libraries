@@ -1,4 +1,4 @@
-package net.twisterrob.android.content.glide
+package net.twisterrob.android.content.glide.logging
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.Config

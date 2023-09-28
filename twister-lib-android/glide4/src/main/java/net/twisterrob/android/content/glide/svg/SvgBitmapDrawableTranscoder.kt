@@ -1,8 +1,7 @@
-package net.twisterrob.android.content.glide
+package net.twisterrob.android.content.glide.svg
 
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.Picture
 import android.graphics.drawable.BitmapDrawable
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.engine.Resource
@@ -11,7 +10,8 @@ import com.bumptech.glide.load.resource.transcode.ResourceTranscoder
 import com.caverock.androidsvg.SVG
 
 /**
- * Convert the [SVG]'s internal representation to an Android-compatible one ([Picture]).
+ * Render the [SVG] on an [Bitmap] using [bitmapTranscoder].
+ * @see SvgBitmapTranscoder for the default implementation.
  */
 class SvgBitmapDrawableTranscoder(
 	private val resources: Resources,

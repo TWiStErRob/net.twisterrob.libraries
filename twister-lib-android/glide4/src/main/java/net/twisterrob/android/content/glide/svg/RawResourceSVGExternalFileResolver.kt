@@ -1,4 +1,4 @@
-package net.twisterrob.android.content.glide
+package net.twisterrob.android.content.glide.svg
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -29,7 +29,7 @@ open class RawResourceSVGExternalFileResolver(
 	private fun resolveImageViaGlideFlow(filename: String): Bitmap {
 		@RawRes val resId = resolveRawResourceId(filename)
 		val resStream = context.resources.openRawResource(resId)
-		val decoder = SvgDecoder()
+		val decoder = SvgDecoder(context, SvgAutoSizeTransformation())
 		val transcoder = SvgBitmapTranscoder(bitmapPool)
 		val options = Options()
 		val svg = decoder.decode(resStream, Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL, options)

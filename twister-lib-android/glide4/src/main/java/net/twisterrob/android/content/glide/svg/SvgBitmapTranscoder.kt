@@ -1,4 +1,4 @@
-package net.twisterrob.android.content.glide
+package net.twisterrob.android.content.glide.svg
 
 import android.graphics.Bitmap
 import android.graphics.Bitmap.Config.ARGB_8888
