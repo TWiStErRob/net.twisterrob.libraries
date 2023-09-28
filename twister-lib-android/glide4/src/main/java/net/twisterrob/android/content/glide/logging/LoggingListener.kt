@@ -20,7 +20,7 @@ private val LOG = LoggerFactory.getLogger(LoggingListener::class.java)
 @DebugHelper
 class LoggingListener<R : Any> @JvmOverloads constructor(
 	private val type: String,
-	private val formatter: ModelFormatter<Any?> = ModelFormatter(Any?::toString),
+	private val formatter: ModelFormatter = ModelFormatter(Any?::toString),
 ) : RequestListener<R> {
 
 	override fun onLoadFailed(
@@ -81,13 +81,20 @@ class LoggingListener<R : Any> @JvmOverloads constructor(
 			Integer.toHexString(System.identityHashCode(resource))
 	}
 
-	fun interface ModelFormatter<in T> {
-		fun toString(model: T): String
+	fun interface ModelFormatter {
+		fun toString(model: Any?): String
 
 		companion object {
 			@JvmStatic
-			fun forResources(context: Context): ModelFormatter<Int> =
-				ModelFormatter { model: Int ->
+			@JvmOverloads
+			fun forResources(
+				context: Context,
+				fallback: ModelFormatter = ModelFormatter(Any?::toString),
+			): ModelFormatter =
+				ModelFormatter { model ->
+					if (model !is Int) {
+						return@ModelFormatter fallback.toString(model)
+					}
 					try {
 						context.resources.getResourceName(model)
 							.replace(context.packageName, "app")
