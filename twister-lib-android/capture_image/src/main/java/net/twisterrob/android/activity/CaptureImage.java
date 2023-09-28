@@ -421,7 +421,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		};
 		mPreviewHider.setVisibility(View.VISIBLE);
 		RequestBuilder<Bitmap> image = Glide
-				.with(this)
+				// FIXME replace this with proper Glide.with calls
+				.with(getApplicationContext())
 				// No matter the format, just a single frame of bitmap.
 				.asBitmap()
 				// Don't use the default pool, single-use bitmap is likely throw-away, prevent OOM.
