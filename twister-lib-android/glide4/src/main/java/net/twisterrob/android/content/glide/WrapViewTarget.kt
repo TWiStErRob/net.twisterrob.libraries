@@ -10,6 +10,7 @@ import com.bumptech.glide.request.target.SizeReadyCallback
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 
+@Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE") // kotlinc wants p0 and p1 everywhere...
 open class WrapViewTarget<Z : Any>
 /**
  * [ImageView] must be part of the hierarchy, it's parent will be used to measure the Glide load.
@@ -32,30 +33,30 @@ constructor(
 	}
 
 	override fun onLoadFailed(errorDrawable: Drawable?) {
-		update(LayoutParams.MATCH_PARENT)
+		update(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 		super.onLoadFailed(errorDrawable)
 	}
 
 	override fun onResourceReady(resource: Z, transition: Transition<in Z>?) {
-		update(LayoutParams.WRAP_CONTENT)
+		update(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
 		super.onResourceReady(resource, transition)
 	}
 
 	override fun onLoadCleared(placeholder: Drawable?) {
-		update(LayoutParams.MATCH_PARENT)
+		update(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 		super.onLoadCleared(placeholder)
 	}
 
 	override fun onLoadStarted(placeholder: Drawable?) {
-		update(LayoutParams.MATCH_PARENT)
+		update(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 		super.onLoadStarted(placeholder)
 	}
 
-	protected fun update(size: Int) {
+	protected fun update(width: Int, height: Int) {
 		imageView.layout(0, 0, 0, 0)
 		imageView.updateLayoutParams {
-			width = size
-			height = size
+			this.width = width
+			this.height = height
 		}
 	}
 }

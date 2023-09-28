@@ -756,7 +756,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		) {
 			super.onResourceReady(resource, transition);
 			if (isThumbnail) {
-				update(LayoutParams.MATCH_PARENT);
+				update(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			}
 		}
 
