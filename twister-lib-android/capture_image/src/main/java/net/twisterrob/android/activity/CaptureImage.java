@@ -25,11 +25,10 @@ import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.ImageViewTarget;
@@ -43,7 +42,7 @@ import androidx.core.app.ActivityCompat;
 import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.CaptureImageFileProvider;
 import net.twisterrob.android.content.FileUriExposedException;
-import net.twisterrob.android.content.glide.pooling.BitmapPools;
+import net.twisterrob.android.content.glide.pooling.NonPooledBitmap;
 import net.twisterrob.android.utils.tools.CameraTools;
 import net.twisterrob.android.utils.tools.CropTools;
 import net.twisterrob.android.view.ExternalPicker;
@@ -423,27 +422,30 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mPreviewHider.setVisibility(View.VISIBLE);
 		RequestBuilder<Bitmap> image = Glide
 				.with(this)
-				.asBitmap() // no matter the format, just a single frame of bitmap
+				// No matter the format, just a single frame of bitmap.
+				.asBitmap()
+				// Don't use the default pool, single-use bitmap is likely throw-away, prevent OOM.
+				.decode(NonPooledBitmap.class)
 				.load(mSavedFile)
-				.diskCacheStrategy(DiskCacheStrategy.NONE) // no need to cache, it's on disk already
-				.skipMemoryCache(true) // won't ever be loaded again, or if it is, probably contains different bytes
-				//.placeholder(new ColorDrawable(Color.BLACK)) // immediately hide the preview to prevent weird jump
-				.transform(new FitCenter() {
-					@Override protected Bitmap transform(@NonNull BitmapPool pool,
-							@NonNull Bitmap toTransform, int outWidth, int outHeight) {
-						return super.transform(BitmapPools.NO_POOL, toTransform, outWidth, outHeight);
-					}
-				}) // make sure full image is visible
+				// No need to cache, it's on disk already.
+				.diskCacheStrategy(DiskCacheStrategy.NONE)
+				// Won't ever be loaded again, or if it is, probably contains different bytes.
+				.skipMemoryCache(true)
+				// Immediately hide the preview to prevent weird jump.
+				//.placeholder(new ColorDrawable(Color.BLACK))
+				// REPORT FIXME BitmapTransformation uses hardcoded pool, so it'll always be pooled.
+				// Make sure full image is visible.
+				.fitCenter()
 				;
 
 		image
-				// STOPSHIP .decoder(new NonPoolingImageVideoBitmapDecoder(DecodeFormat.PREFER_ARGB_8888))
 				// Don't lose quality (may be disabled to gain memory for crop),
 				// need the special target/listener.
 				.thumbnail(image
-						.clone() // inherit everything, but load lower quality
+						// Inherit everything, but load lower quality.
+						.clone()
 						.addListener(target)
-						// STOPSHIP .decoder(new NonPoolingImageVideoBitmapDecoder(DecodeFormat.PREFER_RGB_565))
+						.format(DecodeFormat.PREFER_RGB_565)
 						.sizeMultiplier(0.1f)
 						// Fade thumbnail in (=crossFade from background):
 						.transition(GenericTransitionOptions.with(android.R.anim.fade_in))
