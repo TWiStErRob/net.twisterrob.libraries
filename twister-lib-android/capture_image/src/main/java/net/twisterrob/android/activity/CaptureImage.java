@@ -392,15 +392,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		// Use a special target that will adjust the size of the ImageView to wrap the image (adjustViewBounds).
 		// The selection view's size will match this hence the user can only select part of the image.
 		// Used as listener to know if it's the thumbnail load or not, also needs skipMemoryCache to work
-		ThumbWrapViewTarget<Bitmap> target = new ThumbWrapViewTarget<>(new BitmapImageViewTarget(mImage) {
-			@Override public void setDrawable(Drawable drawable) {
-				if (drawable instanceof TransitionDrawable) {
-					// TODEL see https://github.com/bumptech/glide/issues/943
-					((TransitionDrawable)drawable).setCrossFadeEnabled(false);
-				}
-				super.setDrawable(drawable);
-			}
-		});
+		ThumbWrapViewTarget<Bitmap> target = new ThumbWrapViewTarget<>(new BitmapImageViewTarget(mImage));
 
 		final SelectionStatus oldStatus = mSelection.getSelectionStatus();
 		mSelection.setSelectionStatus(SelectionStatus.FOCUSING);
