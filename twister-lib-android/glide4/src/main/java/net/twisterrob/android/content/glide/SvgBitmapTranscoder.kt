@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
  * Assumes that the SVG has a document size set, see [SvgDecoder].
  */
 class SvgBitmapTranscoder(
-	private val bitmapPool: BitmapPool
+	private val bitmapPool: BitmapPool,
 ) : ResourceTranscoder<SVG, Bitmap> {
 
 	override fun transcode(toTranscode: Resource<SVG>, options: Options): Resource<Bitmap> {
