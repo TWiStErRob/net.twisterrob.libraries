@@ -25,6 +25,7 @@ jbrAnn = "24.0.1"
 slf4j = "1.7.36"
 guava-jre = "27.0.1-jre"
 orbit = "6.0.0"
+okhttp = "4.11.0"
 
 # TODEL SVGWorkarounds on > 1.4
 # TODEL :glide3 consumer.pro on > 1.4
@@ -174,6 +175,7 @@ test-mockitoKotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref
 test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }
 test-hamcrest-junit = { module = "org.hamcrest:hamcrest-junit", version.ref = "test-hamcrest" }
 test-shazamcrest = { module = "com.shazam:shazamcrest", version.ref = "test-shazamcrest" }
+test-mockServer = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
 
 deprecated-hamcrestCore = { module = "org.hamcrest:hamcrest-core" }
 deprecated-hamcrestLibrary = { module = "org.hamcrest:hamcrest-library" }

@@ -13,6 +13,11 @@ import com.bumptech.glide.manager.RequestManagerRetriever;
 import net.twisterrob.android.test.junit.InstrumentationExtensions;
 import net.twisterrob.java.utils.ReflectionTools;
 
+/**
+ * Destroys Glide state.
+ * Any currently running or stored Activities will need to be recreated to clear their {@link com.bumptech.glide.RequestManager}s.
+ * This is normally not a problem because in instrumentation tests each test runs a separate Activity.
+ */
 public class GlideResetter {
 	private static final Logger LOG = LoggerFactory.getLogger(GlideResetter.class);
 
