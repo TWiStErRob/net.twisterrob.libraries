@@ -5,6 +5,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 twisterrob-quality = { id = "net.twisterrob.gradle.plugin.quality", version.ref = "twisterrob" }
 twisterrob-android = { id = "net.twisterrob.gradle.plugin.android-app", version.ref = "twisterrob" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 
 [versions]
 project = "1.0"
@@ -16,6 +17,7 @@ twisterrob = "0.16"
 detekt = "1.23.0"
 dependencyAnalysis = "1.22.0"
 kotlin = "1.9.10"
+kotlin-ksp = "1.9.10-1.0.13"
 kotlin-coroutines = "1.7.3"
 
 jsr305 = "3.0.2"
@@ -101,6 +103,7 @@ orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
 
 android-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide3" }
 android-glide4 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide4" }
+android-glide4-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "android-glide4" }
 android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" }
 android-guava = { module = "com.google.guava:guava", version.ref = "android-guava" }
 android-colorpicker = { module = "com.github.martin-stone:hsv-alpha-color-picker-android", version.ref = "android-colorpicker" }

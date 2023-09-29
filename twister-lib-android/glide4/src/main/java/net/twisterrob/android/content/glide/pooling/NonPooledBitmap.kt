@@ -5,14 +5,17 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
+import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.ResourceDecoder
 import com.bumptech.glide.load.engine.Resource
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.Downsampler
 import com.bumptech.glide.load.resource.bitmap.StreamBitmapDecoder
 import com.bumptech.glide.load.resource.transcode.BitmapDrawableTranscoder
 import com.bumptech.glide.load.resource.transcode.ResourceTranscoder
 import com.bumptech.glide.load.resource.transcode.UnitTranscoder
+import com.bumptech.glide.module.LibraryGlideModule
 import net.twisterrob.android.content.glide.append
 import net.twisterrob.android.content.glide.register
 import java.io.InputStream
@@ -32,38 +35,38 @@ import java.io.InputStream
  */
 class NonPooledBitmap(
 	internal val bitmap: Resource<Bitmap>,
-) {
-	companion object {
-		@JvmStatic
-		fun register(context: Context, glide: Glide, registry: Registry) {
-			// Based on com.bumptech.glide.RegistryFactory.initializeDefaults()
-			registry.append(
-				InputStream::class,
-				NonPooledBitmap::class,
-				NonPooledBitmapResourceDecoder(
-					StreamBitmapDecoder(
-						Downsampler(
-							registry.imageHeaderParsers,
-							context.resources.displayMetrics,
-							// Not glide.bitmapPool, so the resource returned is not tracked.
-							BitmapPools.NO_POOL,
-							glide.arrayPool
-						),
-						glide.arrayPool,
-					)
+)
+
+@GlideModule
+class NonPooledBitmapModule : LibraryGlideModule() {
+	override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
+		// Based on com.bumptech.glide.RegistryFactory.initializeDefaults()
+		registry.append(
+			InputStream::class,
+			NonPooledBitmap::class,
+			NonPooledBitmapResourceDecoder(
+				StreamBitmapDecoder(
+					Downsampler(
+						registry.imageHeaderParsers,
+						context.resources.displayMetrics,
+						// Not glide.bitmapPool, so the resource returned is not tracked.
+						BitmapPools.NO_POOL,
+						glide.arrayPool
+					),
+					glide.arrayPool,
 				)
 			)
-			registry.register(
-				NonPooledBitmap::class,
-				BitmapDrawable::class,
-				NonPooledBitmapTranscoder(BitmapDrawableTranscoder(context))
-			)
-			registry.register(
-				NonPooledBitmap::class,
-				Bitmap::class,
-				NonPooledBitmapTranscoder(UnitTranscoder.get())
-			)
-		}
+		)
+		registry.register(
+			NonPooledBitmap::class,
+			BitmapDrawable::class,
+			NonPooledBitmapTranscoder(BitmapDrawableTranscoder(context))
+		)
+		registry.register(
+			NonPooledBitmap::class,
+			Bitmap::class,
+			NonPooledBitmapTranscoder(UnitTranscoder.get())
+		)
 	}
 }
 

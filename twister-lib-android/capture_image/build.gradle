@@ -1,5 +1,6 @@
 plugins {
 	id("net.twisterrob.libraries.android.library")
+	id("com.google.devtools.ksp")
 }
 
 dependencies {
@@ -16,7 +17,7 @@ dependencies {
 	androidTestImplementation(libs.androidx.test.espressoIntents)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_glide3"
-	androidTestCompileOnly(libs.androidx.fragment)
+	kspAndroidTest(libs.android.glide4.ksp)
 }
 
 // REPORT disabled here, because it's not possible to suppress in manifest.
