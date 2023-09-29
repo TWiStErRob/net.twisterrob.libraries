@@ -18,6 +18,8 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
 
 /**
+ * Note: all tests have a different color to make sure there are no images loaded from cache.
+ *
  * @see CaptureImage
  */
 @RunWith(AndroidJUnit4.class)
@@ -47,7 +49,7 @@ public class CaptureImageTest_External {
 			throws UiObjectNotFoundException, IOException {
 		activity.launchActivity(null);
 		captureImage.allowPermissions();
-		Uri fakeUri = captureImage.createFakeImage(activity.getTemp().newFile(), Color.RED);
+		Uri fakeUri = captureImage.createFakeImage(activity.getTemp().newFile(), Color.CYAN);
 		captureImage.verifyState(SelectionStatus.NORMAL);
 		PickDialogActor.PopupIntent<Uri> pick = captureImage.pick().captureFromCamera();
 		pick.intend(fakeUri);
@@ -55,7 +57,7 @@ public class CaptureImageTest_External {
 		pick.verify(1);
 		captureImage.verifyState(SelectionStatus.FOCUSED);
 		Intents.assertNoUnverifiedIntents();
-		captureImage.verifyImageColor(equalTo(Color.RED));
+		captureImage.verifyImageColor(equalTo(Color.CYAN));
 	}
 
 	@Test public void fallsBackPreviousImageIfPickCancelled()
