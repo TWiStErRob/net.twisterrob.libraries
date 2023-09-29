@@ -2,14 +2,13 @@ package net.twisterrob.android.test.espresso.idle
 
 import androidx.test.core.app.ApplicationProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.engine
 import com.bumptech.glide.load.engine.Engine
-import org.slf4j.LoggerFactory
-
-private val LOG = LoggerFactory.getLogger(GlideIdlingResource::class.java)
+import com.bumptech.glide.load.engine.EngineIdleWatcher
 
 class GlideIdlingResource : AsyncIdlingResource() {
 	private val callTransitionToIdle = Runnable { transitionToIdle() }
-//	private var watcher: EngineIdleWatcher? = null
+	private var watcher: EngineIdleWatcher? = null
 	private var currentEngine: Engine? = null
 
 	override fun getName(): String = "Glide"
@@ -18,39 +17,31 @@ class GlideIdlingResource : AsyncIdlingResource() {
 		// Glide is a singleton, hence Engine should be too; just lazily initialize when needed.
 		// In case Glide is replaced, this will still work.
 		val glide = Glide.get(ApplicationProvider.getApplicationContext())
-		println(glide)
-//STOPSHIP		val engine: Engine = GlideAccessor.getEngine(glide)
-//		if (currentEngine !== engine) {
-//			if (watcher != null) {
-//				watcher.unsubscribe(callTransitionToIdle)
-//			}
-//			val oldWatcher = watcher
-//			try {
-//				watcher = EngineIdleWatcher(engine)
-//				watcher.setLogEvents(isVerbose)
-//			} finally {
-//				if (currentEngine != null) {
-//					LOG.warn(
-//						"Engine changed from {}({}) to {}({})",
-//						currentEngine, oldWatcher, engine, watcher
-//					)
-//				}
-//				currentEngine = engine
-//			}
-//		}
+		val engine = glide.engine
+		if (currentEngine !== engine) {
+			watcher?.unsubscribe(callTransitionToIdle)
+			val oldWatcher = watcher
+			try {
+				watcher = EngineIdleWatcher(engine).apply { setLogEvents(isVerbose) }
+			} finally {
+				if (currentEngine != null) {
+					error("Engine changed from ${currentEngine}(${oldWatcher}) to ${engine}(${watcher})")
+				}
+				currentEngine = engine
+			}
+		}
 		return isIdleCore()
 	}
 
 	private fun isIdleCore(): Boolean =
-		true
-//STOPSHIP		watcher.isIdle()
+		watcher!!.isIdle
 
 	override fun waitForIdleAsync() {
-//STOPSHIP		watcher.subscribe(callTransitionToIdle)
+		watcher!!.subscribe(callTransitionToIdle)
 	}
 
 	override fun transitionToIdle() {
-//STOPSHIP		watcher.unsubscribe(callTransitionToIdle)
+		watcher!!.unsubscribe(callTransitionToIdle)
 		super.transitionToIdle()
 	}
 }

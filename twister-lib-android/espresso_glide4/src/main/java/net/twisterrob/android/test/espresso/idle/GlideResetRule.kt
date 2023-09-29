@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import org.junit.rules.ExternalResource
 
-class GlideResetRule @JvmOverloads constructor(
+open class GlideResetRule @JvmOverloads constructor(
 	private val appContext: Context = ApplicationProvider.getApplicationContext()
 ) : ExternalResource() {
 
