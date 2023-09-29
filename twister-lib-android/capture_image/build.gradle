@@ -16,7 +16,7 @@ dependencies {
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
 	androidTestImplementation(libs.androidx.test.espressoIntents)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
-	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_glide3"
+	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso_glide4"
 	kspAndroidTest(libs.android.glide4.ksp)
 }
 
