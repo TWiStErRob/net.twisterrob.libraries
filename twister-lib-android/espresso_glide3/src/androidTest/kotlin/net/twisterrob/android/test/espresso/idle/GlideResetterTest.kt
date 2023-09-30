@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.manager.RequestManagerRetriever
 import net.twisterrob.android.content.glide.LoggingListener
 import net.twisterrob.android.content.glide.MultiRequestListener
-import net.twisterrob.android.test.espresso.ImageViewMatchers.hasBitmap
+import net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Matchers.equalTo
@@ -155,12 +155,12 @@ class GlideResetterTest {
 
 	private fun checkImageViewNotLoaded() {
 		onView(withId(TestGlideActivity.IMAGE_VIEW_ID))
-			.check(matches(hasBitmap(nullValue())))
+			.check(matches(withBitmap(nullValue())))
 	}
 
 	private fun checkRenderedImageView(color: Int) {
 		onView(withId(TestGlideActivity.IMAGE_VIEW_ID))
-			.check(matches(hasBitmap(withPixelAt(0, 0, equalTo(color)))))
+			.check(matches(withBitmap(withPixelAt(0, 0, equalTo(color)))))
 	}
 
 	private fun ActivityScenario<TestGlideActivity>.load(path: String) {

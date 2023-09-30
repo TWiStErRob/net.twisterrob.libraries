@@ -7,6 +7,7 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.view.View;
@@ -17,7 +18,7 @@ import net.twisterrob.java.utils.ReflectionTools;
 public class ImageViewMatchers {
 
 	@SuppressWarnings("unchecked")
-	public static Matcher<View> hasDrawable(Matcher<? super Drawable> drawableMatcher) {
+	public static Matcher<View> withDrawable(Matcher<? super Drawable> drawableMatcher) {
 		return (Matcher<View>)(Matcher<?>)new FeatureMatcher<ImageView, Drawable>(
 				drawableMatcher, "drawable", "drawable") {
 			@Override protected Drawable featureValueOf(ImageView actual) {
@@ -27,7 +28,17 @@ public class ImageViewMatchers {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Matcher<View> hasBitmap(final Matcher<? super Bitmap> bitmapMatcher) {
+	public static Matcher<Drawable> withColor(Matcher<? super Integer> colorMatcher) {
+		return (Matcher<Drawable>)(Matcher<?>)new FeatureMatcher<ColorDrawable, Integer>(
+				colorMatcher, "drawable color", "color") {
+			@Override protected Integer featureValueOf(ColorDrawable actual) {
+				return actual.getColor();
+			}
+		};
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Matcher<View> withBitmap(final Matcher<? super Bitmap> bitmapMatcher) {
 		return (Matcher<View>)(Matcher<?>)new FeatureMatcher<ImageView, Bitmap>(
 				bitmapMatcher, "bitmap in drawable", "bitmap") {
 			@Override protected Bitmap featureValueOf(ImageView actual) {

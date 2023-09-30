@@ -40,8 +40,8 @@ import net.twisterrob.java.io.IOTools;
 
 import static net.twisterrob.android.test.automators.AndroidAutomator.*;
 import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
-import static net.twisterrob.android.test.espresso.ImageViewMatchers.hasBitmap;
-import static net.twisterrob.android.test.espresso.ImageViewMatchers.hasDrawable;
+import static net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap;
+import static net.twisterrob.android.test.espresso.ImageViewMatchers.withDrawable;
 import static net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt;
 import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
 
@@ -190,11 +190,11 @@ public class CaptureImageActivityActor extends ActivityActor {
 	}
 
 	public void verifyNoImage() {
-		onView(withId(R.id.image)).check(matches(hasBitmap(nullValue())));
+		onView(withId(R.id.image)).check(matches(withBitmap(nullValue())));
 	}
 
 	public void verifyImageColor(Matcher<? super Integer> colorMatcher) {
-		onView(withId(R.id.image)).check(matches(hasBitmap(withPixelAt(0, 0, colorMatcher))));
+		onView(withId(R.id.image)).check(matches(withBitmap(withPixelAt(0, 0, colorMatcher))));
 	}
 
 	// TODO hasDrawable(R.drawable.image_error)
@@ -204,11 +204,11 @@ public class CaptureImageActivityActor extends ActivityActor {
 	);
 
 	public void verifyErrorImage() {
-		onView(withId(R.id.image)).check(matches(hasDrawable(ERROR_DRAWABLE)));
+		onView(withId(R.id.image)).check(matches(withDrawable(ERROR_DRAWABLE)));
 	}
 
 	public void verifyNotErrorImage() {
-		onView(withId(R.id.image)).check(matches(not(hasDrawable(ERROR_DRAWABLE))));
+		onView(withId(R.id.image)).check(matches(not(withDrawable(ERROR_DRAWABLE))));
 	}
 
 	public void intendExternalChooser(Uri fakeUri) {
