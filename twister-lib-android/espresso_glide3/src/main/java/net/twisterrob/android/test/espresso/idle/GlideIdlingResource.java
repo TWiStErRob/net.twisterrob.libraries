@@ -10,11 +10,7 @@ import androidx.test.core.app.ApplicationProvider;
 public class GlideIdlingResource extends AsyncIdlingResource {
 	private static final Logger LOG = LoggerFactory.getLogger(GlideIdlingResource.class);
 
-	private final Runnable callTransitionToIdle = new Runnable() {
-		@Override public void run() {
-			transitionToIdle();
-		}
-	};
+	private final Runnable callTransitionToIdle = this::transitionToIdle;
 	private EngineIdleWatcher watcher;
 	private Engine currentEngine;
 

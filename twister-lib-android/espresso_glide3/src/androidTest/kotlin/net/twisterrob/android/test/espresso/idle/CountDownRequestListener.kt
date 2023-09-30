@@ -22,23 +22,24 @@ import java.util.concurrent.CountDownLatch
  * ```
  */
 class CountDownRequestListener<T, R>(
-	private val latch: CountDownLatch
+	private val latch: CountDownLatch,
 ) : RequestListener<T, R> {
-	override fun onException(
-		e: Exception?,
-		model: T?,
-		target: Target<R>?,
-		isFirstResource: Boolean
-	): Boolean {
-		latch.countDown()
-		return false
-	}
 
 	override fun onResourceReady(
 		resource: R?,
 		model: T?,
 		target: Target<R>?,
 		isFromMemoryCache: Boolean,
+		isFirstResource: Boolean
+	): Boolean {
+		latch.countDown()
+		return false
+	}
+
+	override fun onException(
+		e: Exception?,
+		model: T?,
+		target: Target<R>?,
 		isFirstResource: Boolean
 	): Boolean {
 		latch.countDown()
