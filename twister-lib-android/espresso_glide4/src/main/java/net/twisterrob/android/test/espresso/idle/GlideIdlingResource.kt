@@ -22,7 +22,7 @@ class GlideIdlingResource : AsyncIdlingResource() {
 			watcher?.unsubscribe(callTransitionToIdle)
 			val oldWatcher = watcher
 			try {
-				watcher = EngineIdleWatcher(engine).apply { setLogEvents(isVerbose) }
+				watcher = EngineIdleWatcher(engine, isVerbose)
 			} finally {
 				if (currentEngine != null) {
 					error("Engine changed from ${currentEngine}(${oldWatcher}) to ${engine}(${watcher})")

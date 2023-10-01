@@ -18,16 +18,13 @@ public class EngineIdleWatcher implements EngineExternalLifecycle.PhaseCallbacks
 	private static final Logger LOG = LoggerFactory.getLogger("EngineIdleWatcher");
 	private final Set<Runnable> idleCallbacks = new HashSet<>();
 	private final EngineExternalLifecycle lifecycle;
+	private final boolean logEvents;
 
-	private boolean logEvents = false;
-
-	public EngineIdleWatcher(Engine engine) {
-		lifecycle = new EngineExternalLifecycle(engine, this);
-	}
-
-	public void setLogEvents(boolean logEvents) {
+	public EngineIdleWatcher(@NonNull Engine engine, boolean logEvents) {
 		this.logEvents = logEvents;
+		this.lifecycle = new EngineExternalLifecycle(engine, this);
 	}
+
 	public void subscribe(Runnable callback) {
 		idleCallbacks.add(callback);
 	}
