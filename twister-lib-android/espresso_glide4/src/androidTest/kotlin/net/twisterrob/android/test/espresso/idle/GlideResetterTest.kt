@@ -10,8 +10,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import net.twisterrob.android.content.glide.LoggingListener
 import net.twisterrob.android.content.glide.MultiRequestListener
+import net.twisterrob.android.content.glide.logging.LoggingListener
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt
 import okhttp3.mockwebserver.MockWebServer
@@ -146,6 +146,29 @@ class GlideResetterTest {
 				val ex = assertThrows(UnsupportedOperationException::class.java) {
 					cachedManager
 						.load("not used")
+						.into(it.imageView)
+				}
+				assertEquals("This engine is dead.", ex.message)
+			}
+			checkImageViewNotLoaded()
+			assertEquals(0, server.requestCount)
+		}
+	}
+
+	@Test fun testWithLoadWithCachedAndResetManagerOnlyFromCache() {
+		launchActivity<TestGlideActivity>().use { scenario ->
+			lateinit var cachedManager: RequestManager
+			scenario.onActivity {
+				cachedManager = Glide.with(it)
+			}
+
+			GlideResetter.resetGlide(ApplicationProvider.getApplicationContext())
+
+			scenario.onActivity {
+				val ex = assertThrows(UnsupportedOperationException::class.java) {
+					cachedManager
+						.load("not used")
+						.onlyRetrieveFromCache(true)
 						.into(it.imageView)
 				}
 				assertEquals("This engine is dead.", ex.message)

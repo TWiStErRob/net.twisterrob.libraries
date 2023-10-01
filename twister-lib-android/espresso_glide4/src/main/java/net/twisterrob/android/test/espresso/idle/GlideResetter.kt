@@ -3,6 +3,9 @@ package net.twisterrob.android.test.espresso.idle
 import android.annotation.SuppressLint
 import android.content.Context
 import com.bumptech.glide.Glide
+import com.bumptech.glide.engine
+import com.bumptech.glide.load.engine.jobs
+import com.bumptech.glide.load.engine.onlyCacheJobs
 import net.twisterrob.android.test.junit.InstrumentationExtensions
 import org.slf4j.LoggerFactory
 
@@ -36,18 +39,18 @@ object GlideResetter {
 	}
 	private fun restrictGlide(context: Context) {
 		val glide = Glide.get(context)
-		println(glide)
-		//STOPSHIP
-//		val engine = ReflectionTools.get<Engine>(glide, "engine")!!
-//		ReflectionTools.set(engine, "jobs", object : HashMap<Any?, Any>() {
-//
-//			override fun put(key: Any?, value: Any): Any {
-//				throw UnsupportedOperationException("This engine is dead.")
-//			}
-//
-//			override fun remove(key: Any?): Any {
-//				throw UnsupportedOperationException("This engine is dead.")
-//			}
-//		})
+		val deadJobs = object : HashMap<Any?, Any>() {
+			override fun put(key: Any?, value: Any): Any {
+				throw UnsupportedOperationException("This engine is dead.")
+			}
+
+			override fun remove(key: Any?): Any {
+				throw UnsupportedOperationException("This engine is dead.")
+			}
+		}
+		@Suppress("TYPE_MISMATCH", "INACCESSIBLE_TYPE")
+		glide.engine.jobs.jobs = deadJobs
+		@Suppress("TYPE_MISMATCH", "INACCESSIBLE_TYPE")
+		glide.engine.jobs.onlyCacheJobs = deadJobs
 	}
 }

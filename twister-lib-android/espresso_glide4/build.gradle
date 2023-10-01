@@ -12,4 +12,9 @@ dependencies {
 	implementation(libs.android.glide4)
 	implementation(libs.slf4j.api)
 	implementation(libs.android.guava)
+
+	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
+	androidTestImplementation "net.twisterrob.lib:twister-lib-android-glide4"
+	androidTestImplementation(libs.test.mockServer)
+	androidTestRuntimeOnly("net.twisterrob.lib:twister-lib-android-slf4j")
 }
