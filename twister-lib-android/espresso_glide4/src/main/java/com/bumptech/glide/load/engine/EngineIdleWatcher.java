@@ -7,8 +7,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bumptech.glide.request.ResourceCallback;
-
 import androidx.annotation.NonNull;
 
 /**
@@ -34,8 +32,8 @@ public class EngineIdleWatcher implements EngineExternalLifecycle.PhaseCallbacks
 	}
 
 	public boolean isIdle() {
-		Collection<EngineJob<?>> jobs = lifecycle.getJobs();
-		Collection<? extends ResourceCallback> active = lifecycle.getActive();
+		Collection<?> jobs = lifecycle.getJobs();
+		Collection<?> active = lifecycle.getActive();
 		if (logEvents) {
 			LOG.trace("{}/{}: active={}, jobs={}", this, lifecycle, active.size(), jobs.size());
 		}

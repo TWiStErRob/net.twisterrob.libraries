@@ -1,11 +1,11 @@
 package com.bumptech.glide.load.engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.hasValue;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -28,9 +29,9 @@ import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.engine.EngineJob.ResourceCallbackAndExecutor;
 import com.bumptech.glide.request.ResourceCallback;
 import com.bumptech.glide.util.Executors;
-import com.bumptech.glide.util.Util;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 
 // CONSIDER get rid of twisterrob dependency? and share on Github Glide issues
@@ -45,7 +46,7 @@ public class EngineExternalLifecycle {
 	private final PhaseCallbacks callback;
 	private final Engine engine;
 	private final EngineJobsReplacement replacementJobs = new EngineJobsReplacement();
-	private final Collection<LoadEndListener> endListeners = new HashSet<>();
+	private final Collection<LoadEndListener> endListeners = Collections.newSetFromMap(new IdentityHashMap<>());
 
 	public EngineExternalLifecycle(@NonNull Engine engine, @NonNull PhaseCallbacks callback) {
 		this.callback = callback;
@@ -71,14 +72,14 @@ public class EngineExternalLifecycle {
 			// catch up in case they're already done when we're created
 			finishing(key, job);
 			// call the corresponding callback method
-			job.addCallback(endListener, Executors.mainThreadExecutor()); // STOPSHIP wrong executor
+			job.addCallback(endListener, Executors.directExecutor());
 		}
 	}
 
 	private void finishing(EngineKey key, EngineJob<?> job) {
 		assertThat(replacementJobs, not(hasKey((Key)key)));
 		assertThat(replacementJobs, not(hasValue(job)));
-		assertThat(endListeners, hasItem(getSignUp(job)));
+		assertThat(endListeners, hasItem(sameInstance(getSignUp(job))));
 		if (job.isCancelled()) {
 			assertTrue(endListeners.remove(getSignUp(job)));
 			callback.cancelled(engine, key, job);
@@ -88,7 +89,8 @@ public class EngineExternalLifecycle {
 	}
 
 	private void loadSuccess(LoadEndListener signup) {
-		assertTrue(endListeners.remove(signup));
+		endListeners.remove(signup);
+		//STOPSHIP assertTrue(endListeners.remove(signup));
 		callback.loadSuccess(engine, signup.key, signup.job);
 	}
 
@@ -125,10 +127,13 @@ public class EngineExternalLifecycle {
 		//STOPSHIP Util.assertMainThread();
 		List<ResourceCallbackAndExecutor> cbs = EngineJobAccessor.getCallbacks(job);
 		if (cbs instanceof ExtraItemList) {
-			throw new IllegalStateException(job + " already being listened to by " + cbs);
+			// EngineJobs are recycled, see EngineJob#release not re-setting cbs.
+			if (!cbs.isEmpty()) {
+				throw new IllegalStateException(job + " already being listened to by " + cbs);
+			}
 		}
 		LoadEndListener extra = new LoadEndListener(key, job);
-		Executor executor = Executors.mainThreadExecutor(); // STOPSHIP wrong executor
+		Executor executor = Executors.directExecutor();
 		cbs = new ExtraItemList(cbs, new ResourceCallbackAndExecutor(extra, executor));
 		EngineJobAccessor.setCallbacks(job, cbs);
 		return extra;
@@ -151,21 +156,36 @@ public class EngineExternalLifecycle {
 	}
 
 	/**
-	 * Appends and extra item to the end of the list, but only when iterating. Size and other queries won't report it.
-	 * This is only useful with {@link EngineJob}s, because we know that only {@link #add}, {@link #remove},
-	 * {@link #isEmpty} and {@link #iterator} are going to be called.
+	 * Appends and extra item to the end of the list, most queries like size won't report it.
+	 * Exceptions:
+	 *  * Visible in {@link #toArray} so that it's visible when
+	 *  this list is copied in {@link EngineJob#notifyCallbacksOfResult}
+	 *  * Visible for {@link #contains} so that {@link EngineJob.CallResourceReady#run} executes callback.
 	 */
-	@SuppressWarnings("serial") // won't be serialized
+	@SuppressWarnings({
+			"serial",  // won't be serialized
+			"JavadocReference"
+	})
 	private static class ExtraItemList extends ArrayList<ResourceCallbackAndExecutor> {
-		private final ResourceCallbackAndExecutor extra;
-		public ExtraItemList(Collection<ResourceCallbackAndExecutor> callbacks, ResourceCallbackAndExecutor extra) {
+		private final @NonNull ResourceCallbackAndExecutor extra;
+
+		public ExtraItemList(
+				@NonNull Collection<ResourceCallbackAndExecutor> callbacks,
+				@NonNull ResourceCallbackAndExecutor extra
+		) {
 			super(callbacks);
 			this.extra = extra;
 		}
-		@Override public @NonNull Iterator<ResourceCallbackAndExecutor> iterator() {
-			Iterator<ResourceCallbackAndExecutor> extraIt =
-					androidx.test.espresso.core.internal.deps.guava.collect.Iterators.singletonIterator(extra);
-			return com.google.common.collect.Iterators.concat(super.iterator(), extraIt);
+
+		@Override public boolean contains(@Nullable Object o) {
+			return super.contains(o) || extra.equals(o);
+		}
+
+		@Override public @NonNull Object[] toArray() {
+			Object[] a = super.toArray();
+			Object[] b = Arrays.copyOf(a, a.length + 1);
+			b[a.length] = extra;
+			return b;
 		}
 	}
 
@@ -211,7 +231,7 @@ public class EngineExternalLifecycle {
 		}
 
 		@Override public void onResourceReady(Resource<?> resource, DataSource dataSource, boolean isLoadedFromAlternateCacheKey) {
-			// this "target" won't ever be cleared, so let's clean up real quick after ourselves
+			// This "target" won't ever be cleared, so let's clean up real quick after ourselves.
 			((EngineResource<?>)resource).release();
 			loadSuccess(this);
 		}
