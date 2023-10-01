@@ -30,6 +30,9 @@ import org.junit.rules.TestName
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
+/**
+ * @see GlideIdlingResource
+ */
 class GlideIdlingResourceTest {
 
 	@get:Rule val server = MockWebServer()
@@ -68,8 +71,12 @@ class GlideIdlingResourceTest {
 				assertEquals(1, callback.count)
 				callback.countDown()
 			}
+			// Sanity check that the callback is not called yet.
+			assertEquals(1, callback.count)
 			// This isIdleNow should attach whatever listeners needed into Glide.
 			scenario.onActivity { assertFalse(resource.isIdleNow) }
+			// Sanity check that the callback is not called yet.
+			assertEquals(1, callback.count)
 			// Unblock Glide by giving it an image.
 			server.enqueue(createColorResponse(Color.GREEN))
 			// Block until Glide finishes, ResourceCallback.onTransitionToIdle should be called.
@@ -127,8 +134,12 @@ class GlideIdlingResourceTest {
 				assertEquals(1, callback.count)
 				callback.countDown()
 			}
+			// Sanity check that the callback is not called yet.
+			assertEquals(1, callback.count)
 			// This isIdleNow should attach whatever listeners needed into Glide.
 			scenario.onActivity { assertFalse(resource.isIdleNow) }
+			// Sanity check that the callback is not called yet.
+			assertEquals(1, callback.count)
 			// Unblock Glide by letting it finish the job calling the listener.
 			listener.countDown()
 			// Block until ResourceCallback.onTransitionToIdle is called, this might've already happened.
