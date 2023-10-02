@@ -7,11 +7,11 @@ import net.twisterrob.java.utils.ReflectionTools
 internal fun EngineKey.toStringHack(): String =
 	"${model}[${width}x${height}]"
 
-private val EngineKey.model: Any?
+internal val EngineKey.model: Any?
 	get() = ReflectionTools.get(this, "model")
 
-private val EngineKey.height: Int
+internal val EngineKey.height: Int
 	get() = ReflectionTools.get(this, "height")
 
-private val EngineKey.width: Int
+internal val EngineKey.width: Int
 	get() = ReflectionTools.get(this, "width")

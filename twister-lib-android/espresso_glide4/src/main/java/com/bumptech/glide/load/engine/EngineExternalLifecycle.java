@@ -61,7 +61,7 @@ public class EngineExternalLifecycle {
 		return Collections.unmodifiableCollection(endListeners);
 	}
 
-	private void starting(EngineKey key, EngineJob<?> job) {
+	private void starting(@NonNull EngineKey key, @NonNull EngineJob<?> job) {
 		LoadEndListener endListener = setSignUp(key, job);
 		assertTrue(endListeners.add(endListener));
 		assertThat(replacementJobs, hasEntry((Key)key, job));
@@ -76,7 +76,7 @@ public class EngineExternalLifecycle {
 		}
 	}
 
-	private void finishing(EngineKey key, EngineJob<?> job) {
+	private void finishing(@NonNull EngineKey key, @NonNull EngineJob<?> job) {
 		assertThat(replacementJobs, not(hasKey((Key)key)));
 		assertThat(replacementJobs, not(hasValue(job)));
 		assertThat(endListeners, hasItem(sameInstance(getSignUp(job))));
@@ -123,7 +123,7 @@ public class EngineExternalLifecycle {
 	}
 
 	/** {@code job.cbs += new LoadEndListener()} */
-	private LoadEndListener setSignUp(EngineKey key, EngineJob<?> job) {
+	private @NonNull LoadEndListener setSignUp(@NonNull EngineKey key, @NonNull EngineJob<?> job) {
 		//STOPSHIP Util.assertMainThread();
 		List<ResourceCallbackAndExecutor> cbs = EngineJobAccessor.getCallbacks(job);
 		if (cbs instanceof ExtraItemList) {
@@ -140,7 +140,7 @@ public class EngineExternalLifecycle {
 	}
 
 	/** {@code job.cbs.iterator().last()} */
-	private LoadEndListener getSignUp(EngineJob<?> job) {
+	private @NonNull LoadEndListener getSignUp(@NonNull EngineJob<?> job) {
 		//STOPSHIP Util.assertMainThread();
 		List<ResourceCallbackAndExecutor> cbs = EngineJobAccessor.getCallbacks(job);
 		if (cbs instanceof ExtraItemList) {
@@ -210,6 +210,10 @@ public class EngineExternalLifecycle {
 
 		@Override public EngineJob<?> remove(Object key) {
 			EngineJob<?> removed = super.remove(key);
+			assertNotNull(
+					"key should exist, a job is removed only once, and unknown jobs shouldn't be removed",
+					removed
+			);
 			finishing((EngineKey)key, removed);
 			return removed;
 		}
@@ -223,9 +227,9 @@ public class EngineExternalLifecycle {
 	 * Called back at the end of a job when all other resources are notified.
 	 */
 	private class LoadEndListener implements ResourceCallback {
-		private final EngineKey key;
-		private final EngineJob<?> job;
-		public LoadEndListener(EngineKey key, EngineJob<?> job) {
+		private final @NonNull EngineKey key;
+		private final @NonNull EngineJob<?> job;
+		public LoadEndListener(@NonNull EngineKey key, @NonNull EngineJob<?> job) {
 			this.key = key;
 			this.job = job;
 		}
