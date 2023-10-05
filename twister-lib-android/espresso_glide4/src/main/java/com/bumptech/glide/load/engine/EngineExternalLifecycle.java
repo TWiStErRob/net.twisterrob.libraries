@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -21,6 +20,7 @@ import static org.hamcrest.Matchers.hasValue;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -29,10 +29,12 @@ import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.engine.EngineJob.ResourceCallbackAndExecutor;
 import com.bumptech.glide.request.ResourceCallback;
 import com.bumptech.glide.util.Executors;
+import com.google.common.collect.ConcurrentHashMultiset;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+import kotlin.collections.CollectionsKt;
 
 // CONSIDER get rid of twisterrob dependency? and share on Github Glide issues
 
@@ -46,7 +48,7 @@ public class EngineExternalLifecycle {
 	private final PhaseCallbacks callback;
 	private final Engine engine;
 	private final EngineJobsReplacement replacementJobs = new EngineJobsReplacement();
-	private final Collection<LoadEndListener> endListeners = Collections.newSetFromMap(new IdentityHashMap<>());
+	private final ConcurrentHashMultiset<LoadEndListener> endListeners = ConcurrentHashMultiset.create();
 
 	public EngineExternalLifecycle(@NonNull Engine engine, @NonNull PhaseCallbacks callback) {
 		this.callback = callback;
@@ -63,7 +65,9 @@ public class EngineExternalLifecycle {
 
 	private void starting(@NonNull EngineKey key, @NonNull EngineJob<?> job) {
 		LoadEndListener endListener = setSignUp(key, job);
-		assertTrue(endListeners.add(endListener));
+		dump(endListener, "starting");
+		assertTrue(endListeners.add(endListener, 1) == 0);
+		dump(endListener, "starting added");
 		assertThat(replacementJobs, hasEntry((Key)key, job));
 		callback.starting(engine, key, job);
 		if (job.isCancelled()
@@ -75,27 +79,46 @@ public class EngineExternalLifecycle {
 			job.addCallback(endListener, Executors.directExecutor());
 		}
 	}
+	void dump(LoadEndListener listener, String action) {
+		List<String> map = CollectionsKt.map(endListeners, this::f);
+		System.out.println(action + " on " + f(listener) + " " + map);
+	}
+	String f(LoadEndListener listener) {
+		// Investigate scratch_11.txt, "finishing" changes the model of the key.
+		return String.format("%08X -> %s",
+				listener.job.hashCode(),
+				EngineKeyAccessor.getModel(listener.key)
+		);
+	}
 
 	private void finishing(@NonNull EngineKey key, @NonNull EngineJob<?> job) {
 		assertThat(replacementJobs, not(hasKey((Key)key)));
 		assertThat(replacementJobs, not(hasValue(job)));
-		assertThat(endListeners, hasItem(sameInstance(getSignUp(job))));
+		LoadEndListener endListener = getSignUp(job);
+		assertThat(endListeners, hasItem(sameInstance(endListener)));
 		if (job.isCancelled()) {
-			assertTrue(endListeners.remove(getSignUp(job)));
+			dump(endListener, "finishing cancelled");
+			assertTrue(endListeners.remove(endListener));
+			dump(endListener, "finishing removed");
 			callback.cancelled(engine, key, job);
 		} else {
+			dump(endListener, "finishing");
 			callback.finishing(engine, key, job);
 		}
 	}
 
 	private void loadSuccess(LoadEndListener signup) {
-		endListeners.remove(signup);
-		//STOPSHIP assertTrue(endListeners.remove(signup));
+		dump(signup, "loadSuccess removing");
+		boolean remove = endListeners.remove(signup, 1) == 1;
+		dump(signup, "loadSuccess removed");
+		assertTrue(remove);
 		callback.loadSuccess(engine, signup.key, signup.job);
 	}
 
 	private void loadFailure(LoadEndListener signup) {
-		assertTrue(endListeners.remove(signup));
+		dump(signup, "loadFailure removing");
+		assertTrue(endListeners.remove(signup, 1) == 1);
+		dump(signup, "loadFailure removed");
 		callback.loadFailure(engine, signup.key, signup.job);
 	}
 
@@ -236,7 +259,7 @@ public class EngineExternalLifecycle {
 
 		@Override public void onResourceReady(Resource<?> resource, DataSource dataSource, boolean isLoadedFromAlternateCacheKey) {
 			// This "target" won't ever be cleared, so let's clean up real quick after ourselves.
-			((EngineResource<?>)resource).release();
+			// STOPSHIP is this stil necessary after changing from iteration to toArray hack? ((EngineResource<?>)resource).release();
 			loadSuccess(this);
 		}
 
