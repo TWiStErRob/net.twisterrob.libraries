@@ -17,7 +17,7 @@ import kotlin.reflect.KMutableProperty0
 
 private val LOG = LoggerFactory.getLogger(GlideIdlingResourceRule::class.java)
 
-internal fun Any.logReplace(field: Field, newValue: Any) {
+internal fun Any?.logReplace(field: Field, newValue: Any) {
 	LOG.trace("Replacing ${field}:\n${field.get(this)}\nto\n${newValue}")
 }
 
@@ -29,8 +29,8 @@ internal fun replaceExecutors(glide: Glide): List<IdlingResource> =
 			add(idleExecutor(this::sourceUnlimitedExecutorHack, "Glide sourceUnlimitedExecutor"))
 			add(idleExecutor(this::animationExecutorHack, "Glide animationExecutor"))
 		}
-		add(idleExecutor(glide::mainThreadExecutor, "Glide mainThreadExecutor"))
-		add(idleExecutor(glide::directExecutor, "Glide directExecutor"))
+		add(idleExecutor(::mainThreadExecutor, "Glide mainThreadExecutor"))
+		add(idleExecutor(::directExecutor, "Glide directExecutor"))
 	}
 
 @JvmName("idleGlideExecutor")

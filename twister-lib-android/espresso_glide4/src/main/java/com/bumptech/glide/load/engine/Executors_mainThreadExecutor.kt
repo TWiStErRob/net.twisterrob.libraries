@@ -1,15 +1,14 @@
 package com.bumptech.glide.load.engine
 
-import com.bumptech.glide.Glide
 import com.bumptech.glide.util.Executors
 import java.lang.reflect.Field
 import java.util.concurrent.Executor
 
-internal var Glide.mainThreadExecutor: Executor
+internal var mainThreadExecutor: Executor
 	get() = Executors.mainThreadExecutor()
 	set(value) {
-		logReplace(mainThreadExecutorField, value)
-		mainThreadExecutorField.set(this, value)
+		null.logReplace(mainThreadExecutorField, value)
+		mainThreadExecutorField.set(null, value)
 	}
 
 private val mainThreadExecutorField: Field by lazy {
