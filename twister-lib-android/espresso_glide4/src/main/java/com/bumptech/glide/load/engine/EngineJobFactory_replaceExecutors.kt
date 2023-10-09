@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.engine
 import com.bumptech.glide.load.engine.executor.GlideExecutor
 import com.bumptech.glide.load.engine.executor.delegate
+import net.twisterrob.android.test.espresso.idle.CompositeIdlingResource
 import net.twisterrob.android.test.espresso.idle.CountingExecutorService
 import net.twisterrob.android.test.espresso.idle.GlideIdlingResourceRule
 import net.twisterrob.android.test.espresso.idle.named
@@ -19,15 +20,18 @@ internal fun Any?.logReplace(field: Field, newValue: Any) {
 	LOG.trace("Replacing ${field}:\n${field.get(this)}\nto\n${newValue}")
 }
 
-internal fun replaceExecutors(glide: Glide): List<IdlingResource> =
-	buildList {
-		with(glide.engine.engineJobFactory) {
-			add(idleExecutor(this::diskCacheExecutorHack, "Glide diskCacheExecutor"))
-			add(idleExecutor(this::sourceExecutorHack, "Glide sourceExecutor"))
-			add(idleExecutor(this::sourceUnlimitedExecutorHack, "Glide sourceUnlimitedExecutor"))
-			add(idleExecutor(this::animationExecutorHack, "Glide animationExecutor"))
+internal fun idleExecutors(glide: Glide): IdlingResource =
+	CompositeIdlingResource(
+		"Glide executors",
+		*with(glide.engine.engineJobFactory) {
+			arrayOf(
+				idleExecutor(this::diskCacheExecutorHack, "Glide diskCacheExecutor"),
+				idleExecutor(this::sourceExecutorHack, "Glide sourceExecutor"),
+				idleExecutor(this::sourceUnlimitedExecutorHack, "Glide sourceUnlimitedExecutor"),
+				idleExecutor(this::animationExecutorHack, "Glide animationExecutor"),
+			)
 		}
-	}
+	)
 
 @JvmName("idleGlideExecutor")
 private fun idleExecutor(prop: KMutableProperty0<GlideExecutor>, name: String): IdlingResource {
