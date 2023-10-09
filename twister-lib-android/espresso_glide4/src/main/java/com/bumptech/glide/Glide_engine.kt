@@ -1,6 +1,3 @@
-@file:JvmMultifileClass
-@file:JvmName("GlideAccessor")
-
 package com.bumptech.glide
 
 import com.bumptech.glide.load.engine.Engine

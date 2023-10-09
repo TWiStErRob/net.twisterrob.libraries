@@ -25,6 +25,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.RejectedExecutionException
 
 /**
  * @see GlideResetter
@@ -143,12 +144,11 @@ class GlideResetterTest {
 			GlideResetter.resetGlide(ApplicationProvider.getApplicationContext())
 
 			scenario.onActivity {
-				val ex = assertThrows(UnsupportedOperationException::class.java) {
+				assertThrows(RejectedExecutionException::class.java) {
 					cachedManager
 						.load("not used")
 						.into(it.imageView)
 				}
-				assertEquals("This engine is dead.", ex.message)
 			}
 			checkImageViewNotLoaded()
 			assertEquals(0, server.requestCount)
@@ -165,13 +165,12 @@ class GlideResetterTest {
 			GlideResetter.resetGlide(ApplicationProvider.getApplicationContext())
 
 			scenario.onActivity {
-				val ex = assertThrows(UnsupportedOperationException::class.java) {
+				assertThrows(RejectedExecutionException::class.java) {
 					cachedManager
 						.load("not used")
 						.onlyRetrieveFromCache(true)
 						.into(it.imageView)
 				}
-				assertEquals("This engine is dead.", ex.message)
 			}
 			checkImageViewNotLoaded()
 			assertEquals(0, server.requestCount)

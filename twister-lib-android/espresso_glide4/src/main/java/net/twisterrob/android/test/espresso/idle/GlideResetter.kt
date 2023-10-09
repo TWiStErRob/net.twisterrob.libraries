@@ -3,9 +3,6 @@ package net.twisterrob.android.test.espresso.idle
 import android.annotation.SuppressLint
 import android.content.Context
 import com.bumptech.glide.Glide
-import com.bumptech.glide.engine
-import com.bumptech.glide.load.engine.jobs
-import com.bumptech.glide.load.engine.onlyCacheJobs
 import net.twisterrob.android.test.junit.InstrumentationExtensions
 import org.slf4j.LoggerFactory
 
@@ -21,7 +18,6 @@ object GlideResetter {
 		}
 		LOG.info("Resetting Glide for {}", context)
 		cleanupGlide(context)
-		restrictGlide(context)
 		forgetGlide()
 	}
 
@@ -36,21 +32,5 @@ object GlideResetter {
 	private fun forgetGlide() {
 		// make sure Glide.get(...) never returns the old one
 		Glide.tearDown()
-	}
-	private fun restrictGlide(context: Context) {
-		val glide = Glide.get(context)
-		val deadJobs = object : HashMap<Any?, Any>() {
-			override fun put(key: Any?, value: Any): Any {
-				throw UnsupportedOperationException("This engine is dead.")
-			}
-
-			override fun remove(key: Any?): Any {
-				throw UnsupportedOperationException("This engine is dead.")
-			}
-		}
-		@Suppress("TYPE_MISMATCH", "INACCESSIBLE_TYPE")
-		glide.engine.jobs.jobs = deadJobs
-		@Suppress("TYPE_MISMATCH", "INACCESSIBLE_TYPE")
-		glide.engine.jobs.onlyCacheJobs = deadJobs
 	}
 }
