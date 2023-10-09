@@ -3,7 +3,6 @@ package net.twisterrob.android.test.espresso.idle
 import android.annotation.SuppressLint
 import android.content.Context
 import com.bumptech.glide.Glide
-import com.bumptech.glide.util.Executors
 import net.twisterrob.android.test.junit.InstrumentationExtensions
 import org.slf4j.LoggerFactory
 
