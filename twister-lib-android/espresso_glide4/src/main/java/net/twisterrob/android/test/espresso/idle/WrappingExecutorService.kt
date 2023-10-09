@@ -65,24 +65,28 @@ abstract class WrappingExecutorService protected constructor(
 
 	override fun toString(): String =
 		"${this::class.java}(${delegate})"
+
+	companion object {
+		@JvmStatic
+		protected fun Runnable.asCallable(): Callable<Unit> =
+			Callable {
+				this.run()
+			}
+
+		@JvmStatic
+		protected fun Callable<Unit>.asRunnable(): Runnable =
+			Runnable {
+				try {
+					this.call()
+				} catch (ex: InterruptedException) {
+					Thread.currentThread().interrupt()
+				} catch (e: Error) {
+					throw e
+				} catch (e: RuntimeException) {
+					throw e
+				} catch (e: Exception) {
+					throw InvocationTargetException(e)
+				}
+			}
+	}
 }
-
-private fun Runnable.asCallable(): Callable<Unit> =
-	Callable {
-		this.run()
-	}
-
-private fun Callable<Unit>.asRunnable(): Runnable =
-	Runnable {
-		try {
-			this.call()
-		} catch (ex: InterruptedException) {
-			Thread.currentThread().interrupt()
-		} catch (e: Error) {
-			throw e
-		} catch (e: RuntimeException) {
-			throw e
-		} catch (e: Exception) {
-			throw InvocationTargetException(e)
-		}
-	}
