@@ -167,13 +167,11 @@ public class ReflectionTools {
 
 	public static <T extends AccessibleObject> T trySetAccessible(T reflected) {
 		try {
-			if (reflected != null) {
-				reflected.setAccessible(true);
-			}
+			ensureAccessible(reflected);
+			return reflected;
 		} catch (Exception ex) {
 			return null;
 		}
-		return reflected;
 	}
 
 	public static <T extends AccessibleObject> T ensureAccessible(T reflected) {
