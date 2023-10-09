@@ -154,8 +154,8 @@ androidx-test-espressoIntents = { module = "androidx.test.espresso:espresso-inte
 androidx-test-espressoContrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-test-espresso" }
 androidx-test-espressoWeb = { module = "androidx.test.espresso:espresso-web", version.ref = "androidx-test-espresso" }
 androidx-test-espressoAccessibility = { module = "androidx.test.espresso:espresso-accessibility", version.ref = "androidx-test-espresso" }
-androidx-test-espressoConcurrent = { module = "androidx.test.espresso:espresso-concurrent", version.ref = "androidx-test-espresso" }
-androidx-test-espressoNet = { module = "androidx.test.espresso:espresso-net", version.ref = "androidx-test-espresso" }
+androidx-test-espressoConcurrent = { module = "androidx.test.espresso.idling:idling-concurrent", version.ref = "androidx-test-espresso" }
+androidx-test-espressoNet = { module = "androidx.test.espresso.idling:idling-net", version.ref = "androidx-test-espresso" }
 
 test-android-mockito = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
 test-android-dexmaker = { module = "com.google.dexmaker:dexmaker", version.ref = "test-android-dexmaker" }
