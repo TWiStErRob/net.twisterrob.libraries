@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
@@ -50,7 +49,7 @@ class GlideIdlingResourceTest {
 		assertTrue(resource.isIdleNow)
 	}
 
-	@Test//(timeout = 30_000)
+	@Test(timeout = 30_000)
 	fun testNotIdleWhenGlideIsLoading() {
 		val resource: IdlingResource = sut()
 		launchActivity<TestGlideActivity>().use { scenario ->
@@ -226,14 +225,5 @@ class GlideIdlingResourceTest {
 					.check(matches(withDrawable(withColor(equalTo(Color.BLACK)))))
 			}
 		}
-	}
-}
-
-private inline fun IdlingResource.whileRegistered(block: () -> Unit) {
-	try {
-		IdlingRegistry.getInstance().register(this)
-		block()
-	} finally {
-		IdlingRegistry.getInstance().unregister(this)
 	}
 }
