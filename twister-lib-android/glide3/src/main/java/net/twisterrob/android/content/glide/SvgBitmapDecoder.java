@@ -1,12 +1,16 @@
 package net.twisterrob.android.content.glide;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.RectF;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.ResourceDecoder;
@@ -14,7 +18,8 @@ import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 import com.bumptech.glide.request.target.Target;
-import com.caverock.androidsvg.*;
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
 
 import androidx.annotation.NonNull;
 

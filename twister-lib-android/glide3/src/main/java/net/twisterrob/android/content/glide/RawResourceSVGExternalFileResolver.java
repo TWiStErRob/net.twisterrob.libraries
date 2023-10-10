@@ -8,9 +8,12 @@ import android.graphics.Bitmap;
 import com.bumptech.glide.load.ResourceDecoder;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.request.target.Target;
-import com.caverock.androidsvg.*;
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGExternalFileResolver;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RawRes;
 
 import net.twisterrob.android.utils.tools.ResourceTools;
 

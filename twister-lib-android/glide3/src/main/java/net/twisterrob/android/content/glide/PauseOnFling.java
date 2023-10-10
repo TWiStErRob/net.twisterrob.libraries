@@ -4,7 +4,9 @@ import com.bumptech.glide.RequestManager;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import static androidx.recyclerview.widget.RecyclerView.*;
+import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 public class PauseOnFling extends OnScrollListener {
 	private static final int FLING_JUMP_LOW_THRESHOLD = 80;

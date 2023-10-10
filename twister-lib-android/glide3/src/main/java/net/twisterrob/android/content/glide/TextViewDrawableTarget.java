@@ -4,9 +4,14 @@ import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.*;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.target.ViewTarget;
 
-import static net.twisterrob.android.content.glide.TextViewDrawableTarget.Location.*;
+import static net.twisterrob.android.content.glide.TextViewDrawableTarget.Location.BOTTOM;
+import static net.twisterrob.android.content.glide.TextViewDrawableTarget.Location.LEFT;
+import static net.twisterrob.android.content.glide.TextViewDrawableTarget.Location.RIGHT;
+import static net.twisterrob.android.content.glide.TextViewDrawableTarget.Location.TOP;
 
 public class TextViewDrawableTarget<Z extends Drawable>
 		extends ViewTarget<TextView, Z>

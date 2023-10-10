@@ -1,6 +1,7 @@
 package net.twisterrob.android.content.glide;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
 
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;

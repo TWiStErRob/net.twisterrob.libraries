@@ -3,7 +3,9 @@ package net.twisterrob.android.content.glide;
 import android.content.Context;
 
 import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.resource.bitmap.*;
+import com.bumptech.glide.load.resource.bitmap.FileDescriptorBitmapDecoder;
+import com.bumptech.glide.load.resource.bitmap.ImageVideoBitmapDecoder;
+import com.bumptech.glide.load.resource.bitmap.StreamBitmapDecoder;
 
 /**
  * Prevent polluting the bitmap pool with large bitmaps for temporary loads.
