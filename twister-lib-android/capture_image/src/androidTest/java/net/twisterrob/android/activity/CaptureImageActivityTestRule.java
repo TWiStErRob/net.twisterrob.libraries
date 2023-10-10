@@ -11,7 +11,7 @@ import android.net.Uri;
 
 import androidx.test.espresso.intent.Intents;
 
-import net.twisterrob.android.test.espresso.idle.GlideIdlingResourceRule;
+import net.twisterrob.android.test.espresso.idle.GlideIdlingRule;
 import net.twisterrob.android.test.espresso.idle.GlideResetRule;
 import net.twisterrob.android.test.junit.SensibleActivityTestRule;
 
@@ -62,7 +62,7 @@ public class CaptureImageActivityTestRule extends SensibleActivityTestRule<Captu
 		base = super.apply(base, description);
 		// Wrap activity rule in temp so that folder is available throughout.
 		base = temp.apply(base, description);
-		base = new GlideIdlingResourceRule().apply(base, description);
+		base = new GlideIdlingRule().apply(base, description);
 		base = new GlideResetRule().apply(base, description);
 		return base;
 	}

@@ -9,13 +9,13 @@ import com.bumptech.glide.load.engine.executor.GlideExecutor
 import com.bumptech.glide.load.engine.executor.delegate
 import net.twisterrob.android.test.espresso.idle.CompositeIdlingResource
 import net.twisterrob.android.test.espresso.idle.CountingExecutorService
-import net.twisterrob.android.test.espresso.idle.GlideIdlingResourceRule
+import net.twisterrob.android.test.espresso.idle.GlideIdlingResource
 import net.twisterrob.android.test.espresso.idle.named
 import org.slf4j.LoggerFactory
 import java.lang.reflect.Field
 import kotlin.reflect.KMutableProperty0
 
-private val LOG = LoggerFactory.getLogger(GlideIdlingResourceRule::class.java)
+private val LOG = LoggerFactory.getLogger(GlideIdlingResource::class.java)
 
 private var verboseReplace: Boolean = false
 
