@@ -3,11 +3,11 @@ package net.twisterrob.android.test.espresso.idle
 import org.junit.rules.RuleChain
 
 /**
- * @see GlideIdlingResourceRule
+ * @see GlideIdlingRule
  */
-class GlideIdlingResourceRuleTest : BaseGlideIdlingRuleTest(
+class GlideIdlingRuleTest : BaseGlideIdlingRuleTest(
 	RuleChain
 		.emptyRuleChain()
 		.around(GlideResetRule())
-		.around(GlideIdlingResourceRule())
+		.around(GlideIdlingRule())
 )

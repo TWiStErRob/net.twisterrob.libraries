@@ -1,22 +1,19 @@
 package net.twisterrob.android.test.espresso.idle
 
-import androidx.test.core.app.ApplicationProvider
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.idleExecutors
-import org.junit.rules.TestRule
+import androidx.test.espresso.Espresso
+import net.twisterrob.android.test.junit.IdlingResourceRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-class GlideIdlingResourceRule(
-	private val verbose: Boolean = false
-) : TestRule {
-	override fun apply(base: Statement, description: Description): Statement =
-		object : Statement() {
+class GlideIdlingResourceRule : IdlingResourceRule(GlideIdlingResource(strict = true)) {
+	override fun apply(base: Statement, description: Description): Statement {
+		val statement = object : Statement() {
+			// This will execute while the idling resource is registered.
 			override fun evaluate() {
-				val glide = Glide.get(ApplicationProvider.getApplicationContext())
-				whileRegistered(idleExecutors(glide, verbose)) {
-					base.evaluate()
-				}
+				Espresso.onIdle() // See GlideIdlingResource for more info why this is necessary.
+				base.evaluate()
 			}
 		}
+		return super.apply(statement, description)
+	}
 }
