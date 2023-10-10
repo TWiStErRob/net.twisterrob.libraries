@@ -4,6 +4,7 @@ import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 import com.bumptech.glide.Glide
 import com.bumptech.glide.engine
+import com.bumptech.glide.load.engine.Engine.EngineJobFactory
 import com.bumptech.glide.load.engine.executor.GlideExecutor
 import com.bumptech.glide.load.engine.executor.delegate
 import net.twisterrob.android.test.espresso.idle.CompositeIdlingResource
@@ -16,28 +17,42 @@ import kotlin.reflect.KMutableProperty0
 
 private val LOG = LoggerFactory.getLogger(GlideIdlingResourceRule::class.java)
 
+private var verboseReplace: Boolean = false
+
 internal fun Any?.logReplace(field: Field, newValue: Any) {
-	LOG.trace("Replacing ${field}:\n${field.get(this)}\nto\n${newValue}")
+	if (verboseReplace) {
+		LOG.trace("Replacing ${field}:\n${field.get(this)}\nto\n${newValue}")
+	}
 }
 
-internal fun idleExecutors(glide: Glide): IdlingResource =
+internal fun idleExecutors(glide: Glide, verbose: Boolean): IdlingResource =
 	CompositeIdlingResource(
 		"Glide executors",
-		*with(glide.engine.engineJobFactory) {
-			arrayOf(
-				idleExecutor(this::diskCacheExecutorHack, "Glide diskCacheExecutor"),
-				idleExecutor(this::sourceExecutorHack, "Glide sourceExecutor"),
-				idleExecutor(this::sourceUnlimitedExecutorHack, "Glide sourceUnlimitedExecutor"),
-				idleExecutor(this::animationExecutorHack, "Glide animationExecutor"),
-			)
-		}
+		*glide.engine.engineJobFactory.idleExecutors(verbose),
+		verbose = verbose
+	)
+
+private fun EngineJobFactory.idleExecutors(verbose: Boolean): Array<IdlingResource> =
+	arrayOf(
+		this::diskCacheExecutorHack.replace("Glide diskCacheExecutor", verbose),
+		this::sourceExecutorHack.replace("Glide sourceExecutor", verbose),
+		this::sourceUnlimitedExecutorHack.replace("Glide sourceUnlimitedExecutor", verbose),
+		this::animationExecutorHack.replace("Glide animationExecutor", verbose),
 	)
 
 @JvmName("idleGlideExecutor")
-private fun idleExecutor(prop: KMutableProperty0<GlideExecutor>, name: String): IdlingResource {
-	val glideExecutor = prop.get()
-	check(glideExecutor.delegate !is CountingExecutorService) { "Already wrapped ${name}: ${glideExecutor.delegate}" }
-	val resource = CountingIdlingResource(name, true)
-	prop.set(GlideExecutor(CountingExecutorService(resource, glideExecutor)))
-	return resource.named()
+private fun KMutableProperty0<GlideExecutor>.replace(name: String, verbose: Boolean)
+	: IdlingResource {
+	val glideExecutor = this.get()
+	check(glideExecutor.delegate !is CountingExecutorService) {
+		"Already wrapped ${name}: ${glideExecutor.delegate}"
+	}
+	verboseReplace = verbose
+	try {
+		val resource = CountingIdlingResource(name, verbose)
+		this.set(GlideExecutor(CountingExecutorService(resource, glideExecutor)))
+		return resource.named()
+	} finally {
+		verboseReplace = false
+	}
 }

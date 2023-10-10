@@ -39,7 +39,7 @@ class GlideIdlingResourceTest {
 	@get:Rule val testName = TestName()
 
 	private fun sut(): IdlingResource =
-		GlideIdlingResource().beVerbose()
+		GlideIdlingResource()
 
 	@Test fun testIdleWhenNothingIsHappening() {
 		val resource: IdlingResource = sut()

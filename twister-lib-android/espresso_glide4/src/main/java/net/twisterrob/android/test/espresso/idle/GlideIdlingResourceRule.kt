@@ -7,12 +7,14 @@ import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-class GlideIdlingResourceRule : TestRule {
+class GlideIdlingResourceRule(
+	private val verbose: Boolean = false
+) : TestRule {
 	override fun apply(base: Statement, description: Description): Statement =
 		object : Statement() {
 			override fun evaluate() {
 				val glide = Glide.get(ApplicationProvider.getApplicationContext())
-				whileRegistered(idleExecutors(glide)) {
+				whileRegistered(idleExecutors(glide, verbose)) {
 					base.evaluate()
 				}
 			}

@@ -16,7 +16,7 @@ private val LOG = LoggerFactory.getLogger(CompositeIdlingResource::class.java)
 class CompositeIdlingResource(
 	private val name: String,
 	private vararg val resources: IdlingResource,
-	private val debug: Boolean = false,
+	private val verbose: Boolean = false,
 ) : IdlingResource {
 
 	init {
@@ -40,16 +40,16 @@ class CompositeIdlingResource(
 	private fun onTransitionToIdle(resource: IdlingResource) {
 		val isIdle = synchronized(this) {
 			idled.add(resource)
-			if (debug) {
-				LOG.info("Resource: ${resource.name} transitioned to idle in ${name}, ${idled.size}/${resources.size} are idle.")
+			if (verbose) {
+				LOG.debug("Resource: ${resource.name} transitioned to idle in ${name}, ${idled.size}/${resources.size} are idle.")
 			}
 			// isIdleCore is here only for performance short-circuit.
 			// If the idled set is not full, we don't need to re-check everything.
 			isIdleCore() && updateIdled()
 		}
 		if (isIdle) {
-			if (debug) {
-				LOG.info("All resources in ${this} have transitioned to idle.")
+			if (verbose) {
+				LOG.debug("All resources in ${this} have transitioned to idle.")
 			}
 			callback.onTransitionToIdle()
 		}
