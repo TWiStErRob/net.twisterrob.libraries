@@ -86,7 +86,7 @@ class GlideIdlingResourceTest {
 				Glide
 					.with(activity)
 					.load(url.toString())
-					.timeout(Integer.MAX_VALUE)
+					.timeout(Int.MAX_VALUE)
 					.listener(LoggingListener("Test ${path}"))
 					.into(activity.imageView)
 			}

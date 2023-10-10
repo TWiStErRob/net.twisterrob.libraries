@@ -5,7 +5,6 @@ import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
@@ -18,6 +17,7 @@ import net.twisterrob.android.test.espresso.ImageViewMatchers.withColor
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withDrawable
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt
 import okhttp3.mockwebserver.MockWebServer
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -28,6 +28,7 @@ import org.junit.Test
 import org.junit.rules.TestName
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * @see GlideIdlingResource
@@ -41,9 +42,20 @@ class GlideIdlingResourceTest {
 	private fun sut(): IdlingResource =
 		GlideIdlingResource()
 
-	@Test fun testIdleWhenNothingIsHappening() {
+	@Test(timeout = 5_000)
+	fun testIdleWhenNothingIsHappening() {
 		val resource: IdlingResource = sut()
+		val called = AtomicInteger()
+		resource.registerIdleTransitionCallback {
+			called.incrementAndGet()
+		}
+		assertEquals(0, called.get())
 		assertTrue(resource.isIdleNow)
+		assertEquals(1, called.get())
+		assertTrue(resource.isIdleNow)
+		assertEquals(2, called.get())
+		assertTrue(resource.isIdleNow)
+		assertEquals(3, called.get())
 	}
 
 	@Test(timeout = 30_000)

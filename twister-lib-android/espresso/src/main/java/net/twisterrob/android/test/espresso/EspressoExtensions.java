@@ -41,6 +41,7 @@ import static androidx.test.core.app.ApplicationProvider.*;
 import static androidx.test.espresso.Espresso.*;
 import static androidx.test.espresso.assertion.ViewAssertions.*;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.*;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import net.twisterrob.android.test.espresso.recyclerview.RecyclerViewDataInteraction;
