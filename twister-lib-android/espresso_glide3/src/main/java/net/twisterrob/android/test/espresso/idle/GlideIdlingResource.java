@@ -1,9 +1,12 @@
 package net.twisterrob.android.test.espresso.idle;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.bumptech.glide.*;
-import com.bumptech.glide.load.engine.*;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideAccessor;
+import com.bumptech.glide.load.engine.Engine;
+import com.bumptech.glide.load.engine.EngineIdleWatcher;
 
 import androidx.test.core.app.ApplicationProvider;
 

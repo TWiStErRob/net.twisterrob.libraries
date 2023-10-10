@@ -20,7 +20,7 @@ fun IdlingResource.named(nameOverride: String? = null): IdlingResource =
  * Registering idling resources: [counter, override]
  * ```
  *
- * *WARNING*: Be careful not to register `.named()` and unregister the original.
+ * *WARNING*: Be careful not to accidentally register `.named()` and unregister the original.
  */
 class NamedIdlingResource(
 	idlingResource: IdlingResource,

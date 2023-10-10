@@ -10,7 +10,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import net.twisterrob.android.content.glide.MultiRequestListener
 import net.twisterrob.android.content.glide.logging.LoggingListener
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertEquals
@@ -69,10 +68,10 @@ class GlideIdlingResourceTest {
 			// IdlingResourceRegistry.IdlingState.registerSelf calls register + isIdleNow.
 			resource.registerIdleTransitionCallback {
 				callbacks.incrementAndGet()
-				// Cannot check this here, because it becomes recursive. Checking after await.
+				// Cannot check this here, because it becomes recursive.
 				//assertTrue(resource.isIdleNow)
-				// Unblock test for completion, if it asked (helps to ignore some callbacks).
 				if (unblockCallback.get()) {
+					// Unblock test for completion, if it asked (helps to ignore some callbacks).
 					callback.countDown()
 				}
 			}
@@ -94,7 +93,7 @@ class GlideIdlingResourceTest {
 			assertNotNull("No request made", server.takeRequest(10, TimeUnit.SECONDS))
 			// Sanity check that the callback is not called yet.
 			assertEquals(1, callbacks.get())
-			// This isIdleNow should attach whatever listeners needed into Glide.
+			// The resource is not idle yet, because of the blocked response.
 			scenario.onActivity { assertFalse(resource.isIdleNow) }
 			// Sanity check that the callback is not called yet.
 			assertEquals(1, callbacks.get())
@@ -131,14 +130,14 @@ class GlideIdlingResourceTest {
 			// IdlingResourceRegistry.IdlingState.registerSelf calls register + isIdleNow.
 			resource.registerIdleTransitionCallback {
 				callbacks.incrementAndGet()
-				// Cannot check this here, because it becomes recursive. Checking after await.
+				// Cannot check this here, because it becomes recursive.
 				//assertTrue(resource.isIdleNow)
-				// Unblock test for completion, if it asked (helps to ignore some callbacks).
 				if (unblockCallback.get()) {
+					// Unblock test for completion, if it asked (helps to ignore some callbacks).
 					callback.countDown()
 				}
 			}
-			// Glide didn't make a request yet, so it's idle. Required to register the executors.
+			// Glide didn't make a request yet, so it's idle.
 			assertTrue(resource.isIdleNow)
 			// By contract isIdleNow == true calls the callback too.
 			assertEquals(1, callbacks.get())
@@ -147,36 +146,35 @@ class GlideIdlingResourceTest {
 				Glide
 					.with(activity)
 					.load(Resources.ID_NULL)
-					.listener(
-						MultiRequestListener(
-							LoggingListener("invalid model in " + testName.methodName),
-							object : RequestListener<Drawable> {
-								override fun onResourceReady(
-									resource: Drawable,
-									model: Any,
-									target: Target<Drawable>?,
-									dataSource: DataSource,
-									isFirstResource: Boolean
-								): Boolean =
-									error("Should never happen, because model is not valid.")
+					.addListener(LoggingListener("invalid model in " + testName.methodName))
+					.addListener(
+						object : RequestListener<Drawable> {
+							override fun onResourceReady(
+								resource: Drawable,
+								model: Any,
+								target: Target<Drawable>?,
+								dataSource: DataSource,
+								isFirstResource: Boolean
+							): Boolean =
+								error("Should never happen, because model is not valid.")
 
-								override fun onLoadFailed(
-									e: GlideException?,
-									model: Any?,
-									target: Target<Drawable>,
-									isFirstResource: Boolean
-								): Boolean {
-									// Block Glide from completing until we tell it to finish.
-									assertTrue(listener.await(10, TimeUnit.SECONDS))
-									return false
-								}
-							})
+							override fun onLoadFailed(
+								e: GlideException?,
+								model: Any?,
+								target: Target<Drawable>,
+								isFirstResource: Boolean
+							): Boolean {
+								// Block Glide from completing until we tell it to finish.
+								assertTrue("Timed out", listener.await(10, TimeUnit.SECONDS))
+								return false
+							}
+						}
 					)
 					.into(activity.imageView)
 			}
 			// Sanity check that the callback is not called yet.
 			assertEquals(1, callbacks.get())
-			// This isIdleNow should attach whatever listeners needed into Glide.
+			// The resource is not idle yet, because of the blocked response.
 			scenario.onActivity { assertFalse(resource.isIdleNow) }
 			// Sanity check that the callback is not called yet.
 			assertEquals(1, callbacks.get())

@@ -42,11 +42,11 @@ import androidx.core.app.ActivityCompat;
 import net.twisterrob.android.capture_image.R;
 import net.twisterrob.android.content.CaptureImageFileProvider;
 import net.twisterrob.android.content.FileUriExposedException;
+import net.twisterrob.android.content.glide.WrapViewTarget;
 import net.twisterrob.android.content.glide.pooling.NonPooledBitmap;
 import net.twisterrob.android.utils.tools.CameraTools;
 import net.twisterrob.android.utils.tools.CropTools;
 import net.twisterrob.android.view.ExternalPicker;
-import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.permissions.PermissionProtectedAction;
 import net.twisterrob.android.utils.concurrent.Callback;
 import net.twisterrob.android.utils.tools.DialogTools;
@@ -434,7 +434,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 				.skipMemoryCache(true)
 				// Immediately hide the preview to prevent weird jump.
 				//.placeholder(new ColorDrawable(Color.BLACK))
-				// REPORT FIXME BitmapTransformation uses hardcoded pool, so it'll always be pooled.
+				// FIXME REPORT Glide BitmapTransformation uses hardcoded pool, so it'll always be pooled.
 				// Make sure full image is visible.
 				.fitCenter()
 				;

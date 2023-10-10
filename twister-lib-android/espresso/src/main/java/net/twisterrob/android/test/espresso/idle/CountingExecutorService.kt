@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit
 
 class CountingExecutorService(
 	private val countingIdlingResource: CountingIdlingResource,
-	executorService: ExecutorService,
-) : WrappingExecutorService(executorService) {
+	delegate: ExecutorService,
+) : WrappingExecutorService(delegate) {
 
 	override fun <T> wrapTask(task: Callable<T>): Callable<T> {
 		countingIdlingResource.increment()

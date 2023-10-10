@@ -7,7 +7,7 @@ open class WrappingTarget<R : Any>(
 ) : Target<R> by wrapped {
 
 	override fun toString(): String =
-		"Wrapped $wrapped"
+		"Wrapped ${wrapped}"
 
 	override fun equals(other: Any?): Boolean =
 		if (other is WrappingTarget<*>) {

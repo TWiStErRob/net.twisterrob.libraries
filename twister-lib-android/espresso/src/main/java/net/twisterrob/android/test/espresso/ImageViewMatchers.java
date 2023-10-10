@@ -13,35 +13,39 @@ import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import net.twisterrob.java.utils.ReflectionTools;
 
 public class ImageViewMatchers {
 
 	@SuppressWarnings("unchecked")
-	public static Matcher<View> withDrawable(Matcher<? super Drawable> drawableMatcher) {
+	public static @NonNull Matcher<View> withDrawable(@NonNull Matcher<? super Drawable> drawableMatcher) {
 		return (Matcher<View>)(Matcher<?>)new FeatureMatcher<ImageView, Drawable>(
 				drawableMatcher, "drawable", "drawable") {
-			@Override protected Drawable featureValueOf(ImageView actual) {
+			@Override protected @Nullable Drawable featureValueOf(@NonNull ImageView actual) {
 				return actual.getDrawable();
 			}
 		};
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Matcher<Drawable> withColor(Matcher<? super Integer> colorMatcher) {
+	public static @NonNull Matcher<Drawable> withColor(@NonNull Matcher<? super Integer> colorMatcher) {
 		return (Matcher<Drawable>)(Matcher<?>)new FeatureMatcher<ColorDrawable, Integer>(
 				colorMatcher, "drawable color", "color") {
-			@Override protected Integer featureValueOf(ColorDrawable actual) {
+			@Override protected @ColorInt @NonNull Integer featureValueOf(@NonNull ColorDrawable actual) {
 				return actual.getColor();
 			}
 		};
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Matcher<View> withBitmap(final Matcher<? super Bitmap> bitmapMatcher) {
+	public static @NonNull Matcher<View> withBitmap(final @NonNull Matcher<? super Bitmap> bitmapMatcher) {
 		return (Matcher<View>)(Matcher<?>)new FeatureMatcher<ImageView, Bitmap>(
 				bitmapMatcher, "bitmap in drawable", "bitmap") {
-			@Override protected Bitmap featureValueOf(ImageView actual) {
+			@Override protected @Nullable Bitmap featureValueOf(@NonNull ImageView actual) {
 				Drawable drawable = actual.getDrawable();
 				while (drawable instanceof LayerDrawable) {
 					// In case Glide is animating from thumbnail (0) to main result (1), use result.
@@ -69,11 +73,11 @@ public class ImageViewMatchers {
 		};
 	}
 
-	public static Matcher<Bitmap> withPixelAt(
-			final int x, final int y, Matcher<? super Integer> colorMatcher) {
+	public static @NonNull Matcher<Bitmap> withPixelAt(
+			final int x, final int y, @NonNull Matcher<? super Integer> colorMatcher) {
 		return new FeatureMatcher<Bitmap, Integer>(
 				colorMatcher, "pixel at " + x + ", " + y, "pixel color") {
-			@Override protected Integer featureValueOf(Bitmap actual) {
+			@Override protected @ColorInt @NonNull Integer featureValueOf(@NonNull Bitmap actual) {
 				return actual.getPixel(x, y);
 			}
 		};

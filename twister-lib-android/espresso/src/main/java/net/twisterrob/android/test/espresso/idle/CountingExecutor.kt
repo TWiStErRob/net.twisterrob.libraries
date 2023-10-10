@@ -5,8 +5,8 @@ import java.util.concurrent.Executor
 
 class CountingExecutor(
 	private val countingIdlingResource: CountingIdlingResource,
-	executor: Executor,
-) : WrappingExecutor(executor) {
+	delegate: Executor,
+) : WrappingExecutor(delegate) {
 
 	override fun wrapCommand(command: Runnable): Runnable {
 		countingIdlingResource.increment()

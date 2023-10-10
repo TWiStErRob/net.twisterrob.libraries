@@ -10,7 +10,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import net.twisterrob.android.content.glide.MultiRequestListener
 import net.twisterrob.android.content.glide.logging.LoggingListener
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt
@@ -21,11 +20,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotSame
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.RejectedExecutionException
+import java.util.concurrent.TimeUnit
 
 /**
  * @see GlideResetter
@@ -196,18 +197,14 @@ class GlideResetterTest {
 				Glide
 					.with(it)
 					.load(url.toString())
-					.listener(
-						MultiRequestListener(
-							LoggingListener("Test ${path}"),
-							CountDownRequestListener(latch),
-						)
-					)
+					.addListener(LoggingListener("Test ${path}"))
+					.addListener(CountDownRequestListener(latch))
 					.into(it.imageView)
 			} catch (ex: Throwable) {
 				generateSequence(ex, Throwable::cause).last().initCause(asyncStack)
 				throw ex
 			}
 		}
-		latch.await()
+		assertTrue("Timed out", latch.await(10, TimeUnit.SECONDS))
 	}
 }

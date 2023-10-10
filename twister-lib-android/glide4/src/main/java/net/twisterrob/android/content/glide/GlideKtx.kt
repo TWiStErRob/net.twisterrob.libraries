@@ -10,6 +10,7 @@ import kotlin.reflect.KClass
 @Deprecated(
 	"Not recommended, registered classes are hidden. Use 'replace with' to infer types.",
 	ReplaceWith("this.append(Data::class, TResource::class, decoder)"),
+	level = DeprecationLevel.ERROR,
 )
 inline fun <reified Data, reified TResource> Registry.append(
 	decoder: ResourceDecoder<Data, TResource>
@@ -26,6 +27,7 @@ inline fun <Data : Any, TResource : Any> Registry.append(
 @Deprecated(
 	"Not recommended, registered classes are hidden. Use 'replace with' to infer types.",
 	ReplaceWith("this.register(TResource::class, Transcode::class, transcoder)"),
+	level = DeprecationLevel.ERROR,
 )
 inline fun <reified TResource, reified Transcode> Registry.register(
 	transcoder: ResourceTranscoder<TResource, Transcode>

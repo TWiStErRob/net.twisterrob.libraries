@@ -19,9 +19,6 @@ private val sourceUnlimitedExecutorField: Field by lazy {
 			.getDeclaredField("sourceUnlimitedExecutor")
 			.apply { isAccessible = true }
 	} catch (ex: Exception) {
-		throw IllegalStateException(
-			"Glide EngineJobFactory sourceUnlimitedExecutor cannot be found",
-			ex
-		)
+		throw IllegalStateException("Glide EngineJobFactory sourceUnlimitedExecutor cannot be found", ex)
 	}
 }

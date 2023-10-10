@@ -5,6 +5,7 @@ import androidx.test.espresso.IdlingRegistry
 import com.bumptech.glide.Glide
 import org.junit.AfterClass
 import org.junit.BeforeClass
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.OrderWith
 import org.junit.runner.manipulation.Alphanumeric
@@ -16,6 +17,8 @@ import org.junit.runner.manipulation.Alphanumeric
  */
 @OrderWith(Alphanumeric::class)
 class GlideIdlingResourceTest_GlobalLenient {
+
+	@get:Rule val resetter = GlideResetRule()
 
 	@Test fun test1() {
 		Espresso.onIdle()

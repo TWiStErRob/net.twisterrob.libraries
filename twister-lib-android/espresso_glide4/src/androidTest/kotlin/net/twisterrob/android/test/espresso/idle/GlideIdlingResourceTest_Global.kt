@@ -11,7 +11,7 @@ import org.junit.rules.RuleChain
  * @see GlideIdlingResource
  */
 class GlideIdlingResourceTest_Global : BaseGlideIdlingRuleTest(
-	RuleChain
+	glide = RuleChain
 		.emptyRuleChain()
 		.around(GlideResetRule())
 ) {

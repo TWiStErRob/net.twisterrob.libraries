@@ -6,9 +6,9 @@ import java.util.concurrent.ExecutorService
 internal val GlideExecutor.delegate: ExecutorService
 	get() =
 		try {
-			delegateField[this] as ExecutorService
+			delegateField.get(this) as ExecutorService
 		} catch (ex: IllegalAccessException) {
-			throw IllegalStateException("Cannot hack Engine.jobs", ex)
+			throw IllegalStateException("Cannot hack GlideExecutor.delegate", ex)
 		}
 
 private val delegateField: Field by lazy {

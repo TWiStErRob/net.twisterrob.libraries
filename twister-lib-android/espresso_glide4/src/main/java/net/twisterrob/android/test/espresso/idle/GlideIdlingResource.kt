@@ -1,5 +1,6 @@
 package net.twisterrob.android.test.espresso.idle
 
+import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.IdlingRegistry
@@ -26,6 +27,7 @@ private val LOG = LoggerFactory.getLogger(GlideIdlingResource::class.java)
  * In case of `true`, it's recommended to use [GlideIdlingRule] instead.
  */
 class GlideIdlingResource(
+	private val context: Context = ApplicationProvider.getApplicationContext(),
 	private val strict: Boolean,
 	private val verbose: Boolean = false,
 ) : IdlingResource {
@@ -43,7 +45,7 @@ class GlideIdlingResource(
 	override fun isIdleNow(): Boolean {
 		// Glide is a singleton, just lazily retrieve when needed.
 		// In case Glide is replaced (e.g. via GlideResetter), this will still work (if not strict).
-		val glide = Glide.get(ApplicationProvider.getApplicationContext())
+		val glide = Glide.get(context)
 		if (currentGlide !== glide) {
 			idlingResourceCallback?.cancel()
 			val oldIdlingResource = idlingResource
@@ -56,7 +58,7 @@ class GlideIdlingResource(
 				if (currentGlide != null) {
 					val old = format(currentGlide, oldIdlingResource)
 					val new = format(glide, idlingResource)
-					val message = "Glide changed from ${old} to ${new}"
+					val message = "Glide changed from ${old} to ${new}."
 					if (strict) {
 						error(message)
 					} else {

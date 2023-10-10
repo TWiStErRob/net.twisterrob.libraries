@@ -8,11 +8,18 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.request.transition.TransitionFactory
 
-//.transition(GenericTransitionOptions.with(new ColorFilterApplyingTransitionFactory(filter)))
-//.transition(ColorFilterApplyingTransitionFactory.with(filter))
+/**
+ * Example usages:
+ * ```
+ * .transition(GenericTransitionOptions.with(new ColorFilterApplyingTransitionFactory(filter)))
+ * ```
+ * ```
+ * .transition(ColorFilterApplyingTransitionFactory.applyFilter(filter))
+ * ```
+ */
 class ColorFilterApplyingTransitionFactory(
-	private val filter: ColorFilter
-) :	TransitionFactory<Drawable> {
+	private val filter: ColorFilter,
+) : TransitionFactory<Drawable> {
 
 	override fun build(dataSource: DataSource, isFirstResource: Boolean): Transition<Drawable> =
 		Transition { current, _ ->
@@ -24,8 +31,9 @@ class ColorFilterApplyingTransitionFactory(
 		}
 
 	companion object {
+
 		@JvmStatic
-		fun with(filter: ColorFilter): GenericTransitionOptions<Drawable> =
+		fun applyFilter(filter: ColorFilter): GenericTransitionOptions<Drawable> =
 			GenericTransitionOptions.with(ColorFilterApplyingTransitionFactory(filter))
 	}
 }

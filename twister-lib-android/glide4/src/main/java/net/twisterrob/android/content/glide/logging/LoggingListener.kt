@@ -15,7 +15,7 @@ import net.twisterrob.android.content.glide.logging.LoggingListener.ModelFormatt
 import net.twisterrob.java.annotations.DebugHelper
 import org.slf4j.LoggerFactory
 
-private val LOG = LoggerFactory.getLogger(LoggingListener::class.java)
+private val LOG = LoggerFactory.getLogger("glide.RequestListener")
 
 @DebugHelper
 class LoggingListener<R : Any> @JvmOverloads constructor(
@@ -77,14 +77,19 @@ class LoggingListener<R : Any> @JvmOverloads constructor(
 		}
 
 	companion object {
+
+		@OptIn(ExperimentalStdlibApi::class)
 		private fun mem(resource: Any?): String =
-			Integer.toHexString(System.identityHashCode(resource))
+			System.identityHashCode(resource).toHexString()
 	}
 
 	fun interface ModelFormatter {
+
 		fun toString(model: Any?): String
 
 		companion object {
+
+			@OptIn(ExperimentalStdlibApi::class)
 			@JvmStatic
 			@JvmOverloads
 			fun forResources(
@@ -99,7 +104,7 @@ class LoggingListener<R : Any> @JvmOverloads constructor(
 						context.resources.getResourceName(model)
 							.replace(context.packageName, "app")
 					} catch (ex: NotFoundException) {
-						"${Integer.toHexString(model)}=${model}"
+						"${model.toHexString()}=${model}"
 					}
 				}
 		}

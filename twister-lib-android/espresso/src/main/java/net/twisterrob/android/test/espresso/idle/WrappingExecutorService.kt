@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException
  * For example, [invokeAny] wraps all tasks, and [execute] doesn't guarantee execution.
  */
 abstract class WrappingExecutorService protected constructor(
-	private val delegate: ExecutorService
+	protected val delegate: ExecutorService,
 ) : ExecutorService by delegate {
 
 	/**

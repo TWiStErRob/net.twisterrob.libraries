@@ -11,6 +11,11 @@ import java.util.IdentityHashMap
 private val LOG = LoggerFactory.getLogger(CompositeIdlingResource::class.java)
 
 /**
+ * A composite [IdlingResource] that waits for all of its resources to be idle.
+ *
+ * This pretty much duplicates the logic in [IdlingRegistry], but it's useful to reduce the noise,
+ * or otherwise combine multiple [IdlingResource]s as if they were one.
+ *
  * @param resources WARNING: do not register these resources in the [IdlingRegistry]!
  */
 class CompositeIdlingResource(
@@ -26,8 +31,7 @@ class CompositeIdlingResource(
 	}
 
 	@GuardedBy("this")
-	private val idled: MutableSet<IdlingResource> =
-		Collections.synchronizedSet(Collections.newSetFromMap(IdentityHashMap()))
+	private val idled: MutableSet<IdlingResource> = Collections.newSetFromMap(IdentityHashMap())
 
 	private lateinit var callback: ResourceCallback
 

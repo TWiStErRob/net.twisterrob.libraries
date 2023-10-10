@@ -6,7 +6,7 @@ import org.junit.rules.RuleChain
  * @see GlideIdlingRule
  */
 class GlideIdlingRuleTest : BaseGlideIdlingRuleTest(
-	RuleChain
+	glide = RuleChain
 		.emptyRuleChain()
 		.around(GlideResetRule())
 		.around(GlideIdlingRule())

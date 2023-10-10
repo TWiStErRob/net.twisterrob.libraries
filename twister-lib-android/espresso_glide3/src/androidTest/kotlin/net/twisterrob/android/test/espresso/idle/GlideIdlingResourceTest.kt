@@ -129,7 +129,7 @@ class GlideIdlingResourceTest {
 									isFirstResource: Boolean
 								): Boolean {
 									// Block Glide from completing until we tell it to finish.
-									assertTrue(listener.await(10, TimeUnit.SECONDS))
+									assertTrue("Timed out", listener.await(10, TimeUnit.SECONDS))
 									return false
 								}
 							})
@@ -221,7 +221,7 @@ class GlideIdlingResourceTest {
 										isFirstResource: Boolean
 									): Boolean {
 										// Block Glide from completing for a few seconds.
-										Thread.sleep(3_000)
+										Thread.sleep(2_000)
 										return false
 									}
 								})

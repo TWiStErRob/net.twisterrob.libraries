@@ -16,7 +16,7 @@ import java.util.concurrent.CountDownLatch
  *             .listener(CountDownRequestListener(latch))
  *             .into(activity.imageView)
  *     }
- *     latch.await()
+ *     assertTrue("Timed out", latch.await(10, TimeUnit.SECONDS))
  *     // At this point we can be sure that the Glide load finished (success or failure).
  * }
  * ```

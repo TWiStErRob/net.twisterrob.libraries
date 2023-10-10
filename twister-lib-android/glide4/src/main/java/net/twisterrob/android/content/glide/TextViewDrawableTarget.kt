@@ -1,7 +1,6 @@
 package net.twisterrob.android.content.glide
 
 import android.graphics.drawable.Drawable
-import android.view.View
 import android.widget.TextView
 import com.bumptech.glide.request.Request
 import com.bumptech.glide.request.target.SizeReadyCallback
@@ -20,7 +19,7 @@ open class TextViewDrawableTarget<R : Drawable>(
 	private var request: Request? = null
 	private val internalCallbacks: MutableMap<SizeReadyCallback, Callback> = IdentityHashMap()
 
-	override fun getView(): View =
+	override fun getView(): TextView =
 		view
 
 	override fun getRequest(): Request? =

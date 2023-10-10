@@ -8,8 +8,8 @@ import java.util.concurrent.Executor
  *
  * Some task wrapping might happen without execution as [execute] doesn't guarantee execution.
  */
-abstract class WrappingExecutor(
-	private val delegate: Executor,
+abstract class WrappingExecutor protected constructor(
+	protected val delegate: Executor,
 ) : Executor {
 
 	/**

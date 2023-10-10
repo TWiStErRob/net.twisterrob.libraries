@@ -10,8 +10,6 @@ import com.bumptech.glide.request.target.SizeReadyCallback
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 
-@Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE") // kotlinc wants p0 and p1 everywhere...
-open class WrapViewTarget<Z : Any>
 /**
  * [ImageView] must be part of the hierarchy, it's parent will be used to measure the Glide load.
  * The size of it will match parent when it has no contents and wrap content when the resource is set in it.
@@ -19,7 +17,7 @@ open class WrapViewTarget<Z : Any>
  *
  * @param target containing the view
  */
-constructor(
+open class WrapViewTarget<Z : Any>(
 	target: ImageViewTarget<Z>,
 ) : WrappingTarget<Z>(target) {
 
@@ -30,6 +28,10 @@ constructor(
 		// Using the parent for sizing because otherwise the placeholder would be measured.
 		// For example: if that's a ColorDrawable it has no intrinsic size and the ImageView lays out as 1x1 
 		subsitute.getSize(cb)
+	}
+
+	override fun removeCallback(cb: SizeReadyCallback) {
+		subsitute.removeCallback(cb)
 	}
 
 	override fun onLoadFailed(errorDrawable: Drawable?) {

@@ -13,7 +13,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import net.twisterrob.android.content.glide.MultiRequestListener
 import net.twisterrob.android.content.glide.logging.LoggingListener
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withColor
@@ -74,31 +73,29 @@ abstract class BaseGlideIdlingRuleTest(
 					.load(Resources.ID_NULL)
 					.placeholder(android.R.color.white)
 					.error(android.R.color.black)
-					.listener(
-						MultiRequestListener(
-							LoggingListener("invalid model in " + testName.methodName),
-							object : RequestListener<Drawable> {
+					.addListener(LoggingListener("invalid model in " + testName.methodName))
+					.addListener(
+						object : RequestListener<Drawable> {
+							override fun onResourceReady(
+								resource: Drawable,
+								model: Any,
+								target: Target<Drawable>?,
+								dataSource: DataSource,
+								isFirstResource: Boolean
+							): Boolean =
+								error("Should never happen, because model is not valid.")
 
-								override fun onResourceReady(
-									resource: Drawable,
-									model: Any,
-									target: Target<Drawable>?,
-									dataSource: DataSource,
-									isFirstResource: Boolean
-								): Boolean =
-									error("Should never happen, because model is not valid.")
-
-								override fun onLoadFailed(
-									e: GlideException?,
-									model: Any?,
-									target: Target<Drawable>,
-									isFirstResource: Boolean
-								): Boolean {
-									// Block Glide from completing for a few seconds.
-									Thread.sleep(3_000)
-									return false
-								}
-							})
+							override fun onLoadFailed(
+								e: GlideException?,
+								model: Any?,
+								target: Target<Drawable>,
+								isFirstResource: Boolean
+							): Boolean {
+								// Block Glide from completing for a few seconds.
+								Thread.sleep(2_000)
+								return false
+							}
+						}
 					)
 					.into(activity.imageView)
 			}

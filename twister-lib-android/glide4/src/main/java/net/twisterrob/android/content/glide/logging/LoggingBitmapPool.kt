@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 private val LOG = LoggerFactory.getLogger("glide.BitmapPool")
 
 /**
+ * Example usage:
  * ```
  * override fun applyOptions(context: Context, builder: GlideBuilder) {
  *     val calculator = MemorySizeCalculator.Builder(context).build()
@@ -17,6 +18,7 @@ private val LOG = LoggerFactory.getLogger("glide.BitmapPool")
  *     builder.setBitmapPool(LoggingBitmapPool(originalPool))
  * }
  * ```
+ *
  * @see com.bumptech.glide.module.AppGlideModule.applyOptions
  */
 class LoggingBitmapPool(
@@ -40,7 +42,7 @@ class LoggingBitmapPool(
 	}
 
 	override fun get(width: Int, height: Int, config: Config): Bitmap {
-		val result = wrapped[width, height, config]
+		val result = wrapped.get(width, height, config)
 		LOG.trace("get({}, {}, {}): {}", width, height, config, StringerTools.toString(result))
 		return result
 	}

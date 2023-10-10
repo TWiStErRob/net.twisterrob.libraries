@@ -21,10 +21,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotSame
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 /**
  * @see GlideResetter
@@ -186,6 +188,6 @@ class GlideResetterTest {
 				throw ex
 			}
 		}
-		latch.await()
+		assertTrue("Timed out", latch.await(10, TimeUnit.SECONDS))
 	}
 }

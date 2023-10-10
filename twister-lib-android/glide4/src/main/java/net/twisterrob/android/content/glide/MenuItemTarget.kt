@@ -12,7 +12,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.request.transition.Transition.ViewAdapter
 
 open class MenuItemTarget(
-	private val menuItem: MenuItem,
+	val menuItem: MenuItem,
 ) : Target<Drawable>, ViewAdapter {
 
 	private var request: Request? = null

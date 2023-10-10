@@ -41,8 +41,7 @@ private fun EngineJobFactory.idleExecutors(verbose: Boolean): Array<IdlingResour
 	)
 
 @JvmName("idleGlideExecutor")
-private fun KMutableProperty0<GlideExecutor>.replace(name: String, verbose: Boolean)
-	: IdlingResource {
+private fun KMutableProperty0<GlideExecutor>.replace(name: String, verbose: Boolean) : IdlingResource {
 	val glideExecutor = this.get()
 	check(glideExecutor.delegate !is CountingExecutorService) {
 		"Already wrapped ${name}: ${glideExecutor.delegate}"

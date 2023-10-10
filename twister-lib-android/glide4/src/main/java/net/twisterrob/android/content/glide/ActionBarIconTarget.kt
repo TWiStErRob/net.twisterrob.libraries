@@ -9,8 +9,8 @@ import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import net.twisterrob.android.utils.tools.ResourceTools
 
-class ActionBarIconTarget(
-	private val actionBar: ActionBar,
+open class ActionBarIconTarget(
+	val actionBar: ActionBar,
 ) : Target<Drawable> {
 
 	private var request: Request? = null

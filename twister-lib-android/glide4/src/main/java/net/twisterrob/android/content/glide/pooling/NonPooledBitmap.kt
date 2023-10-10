@@ -39,6 +39,7 @@ class NonPooledBitmap(
 
 @GlideModule
 class NonPooledBitmapModule : LibraryGlideModule() {
+
 	override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
 		// Based on com.bumptech.glide.RegistryFactory.initializeDefaults()
 		registry.append(
@@ -85,7 +86,7 @@ private class NonPooledBitmapResourceDecoder(
 }
 
 private class NonPooledBitmapResource(
-	private val data: NonPooledBitmap
+	private val data: NonPooledBitmap,
 ) : Resource<NonPooledBitmap> {
 
 	override fun getResourceClass(): Class<NonPooledBitmap> =
