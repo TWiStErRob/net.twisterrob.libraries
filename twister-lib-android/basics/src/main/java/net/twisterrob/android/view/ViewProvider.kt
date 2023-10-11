@@ -1,51 +1,32 @@
-package net.twisterrob.android.view;
+package net.twisterrob.android.view
 
-import android.annotation.TargetApi;
-import android.os.Build.VERSION_CODES;
-import android.view.View;
+import android.annotation.TargetApi
+import android.os.Build.VERSION_CODES
+import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 
-import androidx.annotation.*;
+interface ViewProvider {
+	val view: View?
 
-@SuppressWarnings("UnnecessaryInterfaceModifier")
-public interface ViewProvider {
-	@Nullable View getView();
+	class StaticViewProvider(
+		override val view: View?,
+	) : ViewProvider
 
-	public class StaticViewProvider implements ViewProvider {
-		private final View view;
-
-		public StaticViewProvider(@Nullable View view) {
-			this.view = view;
-		}
-
-		@Override public @Nullable View getView() {
-			return view;
-		}
-	}
-
-	public class SupportFragmentViewProvider implements ViewProvider {
-		private final androidx.fragment.app.Fragment fragment;
-
-		public SupportFragmentViewProvider(@NonNull androidx.fragment.app.Fragment fragment) {
-			this.fragment = fragment;
-		}
-
-		@Override public @Nullable View getView() {
-			return fragment.getView();
-		}
+	class SupportFragmentViewProvider(
+		private val fragment: Fragment,
+	) : ViewProvider {
+		override val view: View?
+			get() = fragment.view
 	}
 
 	@TargetApi(VERSION_CODES.HONEYCOMB)
 	@RequiresApi(VERSION_CODES.HONEYCOMB)
-	@SuppressWarnings("deprecation")
-	public class FragmentViewProvider implements ViewProvider {
-		private final android.app.Fragment fragment;
-
-		public FragmentViewProvider(@NonNull android.app.Fragment fragment) {
-			this.fragment = fragment;
-		}
-
-		@Override public @Nullable View getView() {
-			return fragment.getView();
-		}
+	class FragmentViewProvider(
+		@Suppress("DEPRECATION")
+		private val fragment: android.app.Fragment,
+	) : ViewProvider {
+		override val view: View?
+			get() = fragment.view
 	}
 }

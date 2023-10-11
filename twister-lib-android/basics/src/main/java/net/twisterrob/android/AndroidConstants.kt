@@ -1,19 +1,23 @@
-package net.twisterrob.android;
+package net.twisterrob.android
 
-import android.annotation.SuppressLint;
-import android.content.res.Resources;
+import android.annotation.SuppressLint
+import android.content.res.Resources
+import androidx.annotation.AnyRes
 
-import androidx.annotation.AnyRes;
+object AndroidConstants {
 
-public class AndroidConstants {
-	public static final int INVALID_POSITION = -1;
+	const val INVALID_POSITION: Int = -1
+
 	@SuppressLint("InlinedApi")
-	public static final @AnyRes int INVALID_RESOURCE_ID = Resources.ID_NULL;
-	public static final String ANDROID_PACKAGE = "android";
-	public static final String RES_TYPE_ID = "id";
-	public static final String RES_TYPE_STRING = "string";
-	public static final String RES_TYPE_RAW = "raw";
-	public static final String RES_TYPE_DRAWABLE = "drawable";
-	public static final String RES_TYPE_COLOR = "color";
-	public static final String RES_TYPE_DIMEN = "dimen";
+	@AnyRes
+	const val INVALID_RESOURCE_ID: Int = Resources.ID_NULL
+
+	const val ANDROID_PACKAGE: String = "android"
+
+	const val RES_TYPE_ID: String = "id"
+	const val RES_TYPE_STRING: String = "string"
+	const val RES_TYPE_RAW: String = "raw"
+	const val RES_TYPE_DRAWABLE: String = "drawable"
+	const val RES_TYPE_COLOR: String = "color"
+	const val RES_TYPE_DIMEN: String = "dimen"
 }
