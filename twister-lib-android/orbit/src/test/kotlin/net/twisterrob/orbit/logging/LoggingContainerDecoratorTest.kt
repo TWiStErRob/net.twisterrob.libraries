@@ -36,7 +36,7 @@ class LoggingContainerDecoratorTest {
 			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
-			invokeIntent { testReduce() }
+			containerHost.testReduce()
 			expectState(TestState(1))
 
 			val transformerStart = captureSingle {
@@ -66,7 +66,7 @@ class LoggingContainerDecoratorTest {
 			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
-			invokeIntent { testSideEffect() }
+			containerHost.testSideEffect()
 			expectSideEffect(TestEffect1)
 
 			val transformerStart = captureSingle {
@@ -89,8 +89,7 @@ class LoggingContainerDecoratorTest {
 	@Test
 	fun testInline() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
-		val containerHost = TestContainerHost(backgroundScope, mockEvents)
-		containerHost.test(this) {
+		TestContainerHost(backgroundScope, mockEvents).test(this) {
 			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
