@@ -27,6 +27,7 @@ interface ViewProvider {
 		private val fragment: android.app.Fragment,
 	) : ViewProvider {
 		override val view: View?
+		        @Suppress("DEPRECATION")
 			get() = fragment.view
 	}
 }
