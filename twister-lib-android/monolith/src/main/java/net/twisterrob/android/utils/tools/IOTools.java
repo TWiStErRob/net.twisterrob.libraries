@@ -16,16 +16,21 @@ import android.os.Build.*;
 import android.os.ParcelFileDescriptor;
 import android.system.*;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools {
 	private static final Logger LOG = LoggerFactory.getLogger(IOTools.class);
 
+	protected IOTools() {
+		// prevent instantiation
+	}
+
 	// TODO merge with Cineworld
 	//public static String getEncoding(final org.apache.http.HttpEntity entity);
 
-	public static Bitmap getImage(final URL url) throws IOException {
+	public static @Nullable Bitmap getImage(@NonNull final URL url) throws IOException {
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		InputStream input = null;
 		try {
@@ -38,8 +43,7 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 		}
 	}
 
-	@SuppressWarnings("resource")
-	public static String getAssetAsString(Context context, String fileName) {
+	public static @Nullable String getAssetAsString(@NonNull Context context, @NonNull String fileName) {
 		InputStream stream = null;
 		try {
 			stream = context.getAssets().open(fileName, AssetManager.ACCESS_STREAMING);
@@ -58,7 +62,7 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 	 * @see <a href="https://android.googlesource.com/platform/libcore/+/9902f3494c6d983879d8b9cfe6b1f771cfefe703%5E%21/#F7">Finish off AutoCloseable.</a>
 	 */
 	@TargetApi(VERSION_CODES.KITKAT)
-	public static void ignorantClose(ZipFile closeMe) {
+	public static void ignorantClose(@SuppressWarnings("TypeMayBeWeakened") @Nullable ZipFile closeMe) {
 		if (closeMe != null) {
 			try {
 				closeMe.close();
@@ -74,7 +78,7 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 	 * @see <a href="https://github.com/android/platform_frameworks_base/commit/03bd302aebbb77f4f95789a269c8a5463ac5a840">Don't close the database until all references released.</a>
 	 */
 	@TargetApi(VERSION_CODES.JELLY_BEAN)
-	public static void ignorantClose(Cursor closeMe) {
+	public static void ignorantClose(@SuppressWarnings("TypeMayBeWeakened") @Nullable Cursor closeMe) {
 		if (closeMe != null) {
 			closeMe.close(); // doesn't declare to throw IOException
 		}
@@ -89,7 +93,7 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 	 * @see <a href="https://github.com/android/platform_frameworks_base/commit/e861b423790e5bf2d5a55b096065c6ad0541d5bb">Add Closeable to ParcelFileDescriptor, and always close any incoming PFDs when dumping.</a>
 	 */
 	@TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-	public static void ignorantClose(ParcelFileDescriptor closeMe) {
+	public static void ignorantClose(@SuppressWarnings("TypeMayBeWeakened") @Nullable ParcelFileDescriptor closeMe) {
 		if (closeMe != null) {
 			try {
 				closeMe.close();
@@ -100,7 +104,7 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 	}
 
 	@TargetApi(VERSION_CODES.KITKAT)
-	public static void closeWithError(ParcelFileDescriptor pfd, String message) throws IOException {
+	public static void closeWithError(@NonNull ParcelFileDescriptor pfd, @NonNull String message) throws IOException {
 		if (VERSION.SDK_INT < VERSION_CODES.KITKAT) {
 			pfd.close();
 		} else {
@@ -109,16 +113,12 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 	}
 
 	@TargetApi(VERSION_CODES.KITKAT)
-	public static void ignorantCloseWithError(ParcelFileDescriptor pfd, String message) {
+	public static void ignorantCloseWithError(@NonNull ParcelFileDescriptor pfd, @NonNull String message) {
 		try {
 			closeWithError(pfd, message);
 		} catch (IOException e) {
 			LOG.warn("Cannot close " + pfd + " with error: " + message, e);
 		}
-	}
-
-	protected IOTools() {
-		// prevent instantiation
 	}
 
 	@TargetApi(VERSION_CODES.LOLLIPOP)

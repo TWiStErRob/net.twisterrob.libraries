@@ -7,18 +7,23 @@ import java.util.zip.*;
 
 import javax.annotation.*;
 
+@SuppressWarnings("unused")
 public /*static*/ abstract class IOTools {
 	// TODO check if UTF-8 is used by cineworld
 	public static final String ENCODING = Charset.forName("UTF-8").name();
 
+	protected IOTools() {
+		// static utility class
+	}
+
 	@SuppressWarnings("UnusedReturnValue") // optional convenience value
-	public static long copyFile(final String sourceFileName, final String destinationFileName) throws IOException {
+	public static long copyFile(final @Nonnull String sourceFileName, final @Nonnull String destinationFileName) throws IOException {
 		File sourceFile = new File(sourceFileName);
 		File destinationFile = new File(destinationFileName);
 		return IOTools.copyFile(sourceFile, destinationFile);
 	}
 
-	public static void ensure(File dir) throws IOException {
+	public static void ensure(@Nonnull File dir) throws IOException {
 		if (!dir.mkdirs() && (!dir.exists() || !dir.isDirectory())) {
 			throw new FileNotFoundException("Failed to ensure directory: " + dir
 					+ "\n" + "exists=" + dir.exists()
@@ -28,7 +33,7 @@ public /*static*/ abstract class IOTools {
 	}
 
 	@SuppressWarnings("resource")
-	public static long copyFile(final File sourceFile, final File destinationFile) throws IOException {
+	public static long copyFile(final @Nonnull File sourceFile, final @Nonnull File destinationFile) throws IOException {
 		ensure(destinationFile.getParentFile());
 		InputStream in = new FileInputStream(sourceFile);
 		OutputStream out = new FileOutputStream(destinationFile);
@@ -39,11 +44,11 @@ public /*static*/ abstract class IOTools {
 		}
 	}
 
-	public static long copyStream(InputStream in, OutputStream out) throws IOException {
+	public static long copyStream(@Nonnull InputStream in, @Nonnull OutputStream out) throws IOException {
 		return copyStream(in, out, true);
 	}
 
-	public static long copyStream(final InputStream in, final OutputStream out, boolean autoClose) throws IOException {
+	public static long copyStream(final @Nonnull InputStream in, final @Nonnull OutputStream out, boolean autoClose) throws IOException {
 		try {
 			byte[] buf = new byte[16 * 1024];
 			long total = 0;
@@ -62,32 +67,35 @@ public /*static*/ abstract class IOTools {
 		}
 	}
 
-	public static String readAll(Reader reader) throws IOException {
+	public static @Nonnull String readAll(@Nonnull Reader reader) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		for (int c = reader.read(); c != -1; c = reader.read()) {
 			sb.append((char)c);
 		}
 		return sb.toString();
 	}
-	public static String readAll(InputStream stream) throws IOException {
+	public static @Nonnull String readAll(@Nonnull InputStream stream) throws IOException {
 		return readAll(new InputStreamReader(stream, ENCODING));
 	}
-	public static String readAll(InputStream stream, String charsetName) throws IOException {
+	public static @Nonnull String readAll(@Nonnull InputStream stream, @Nonnull String charsetName) throws IOException {
 		return readAll(new InputStreamReader(stream, charsetName));
 	}
-	public static byte[] readBytes(File input) throws IOException {
+	public static @Nonnull byte[] readBytes(@Nonnull File input) throws IOException {
 		return readBytes(new FileInputStream(input), input.length());
 	}
-	public static byte[] readBytes(InputStream input) throws IOException {
+	public static @Nonnull byte[] readBytes(@Nonnull InputStream input) throws IOException {
 		return readBytes(input, 0);
 	}
-	public static byte[] readBytes(InputStream input, long size) throws IOException {
+	public static @Nonnull byte[] readBytes(@Nonnull InputStream input, long size) throws IOException {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream((int)size);
 		IOTools.copyStream(input, bytes);
 		return bytes.toByteArray();
 	}
 
-	public static void ignorantClose(Closeable closeMe) {
+	/**
+	 * @soft-deprecated Consider using {@link kotlin.io.CloseableKt#use} instead, it handles exceptions better.
+	 */
+	public static void ignorantClose(@Nullable Closeable closeMe) {
 		if (closeMe != null) {
 			try {
 				closeMe.close();
@@ -97,7 +105,10 @@ public /*static*/ abstract class IOTools {
 		}
 	}
 
-	public static void ignorantClose(Closeable... closeMes) {
+	/**
+	 * @soft-deprecated Consider using {@link kotlin.io.CloseableKt#use} instead, it handles exceptions better.
+	 */
+	public static void ignorantClose(@Nullable Closeable... closeMes) {
 		if (closeMes == null) {
 			return;
 		}
@@ -106,14 +117,14 @@ public /*static*/ abstract class IOTools {
 		}
 	}
 
-	public static void closeConnection(HttpURLConnection connection, Closeable... resources) {
+	public static void closeConnection(@Nullable HttpURLConnection connection, @Nullable Closeable... resources) {
 		IOTools.ignorantClose(resources);
 		if (connection != null) {
 			connection.disconnect();
 		}
 	}
 
-	public static void writeAll(OutputStream stream, String contents) throws IOException {
+	public static void writeAll(@Nonnull OutputStream stream, @Nonnull String contents) throws IOException {
 		try {
 			writeAll(stream, contents.getBytes(ENCODING));
 		} catch (UnsupportedEncodingException ex) {
@@ -121,7 +132,7 @@ public /*static*/ abstract class IOTools {
 		}
 	}
 
-	public static void writeAll(OutputStream stream, byte... contents) throws IOException {
+	public static void writeAll(@Nonnull OutputStream stream, @Nonnull byte... contents) throws IOException {
 		try {
 			stream.write(contents);
 		} finally {
@@ -129,7 +140,7 @@ public /*static*/ abstract class IOTools {
 		}
 	}
 
-	public static String[] getNames(File... files) {
+	public static @Nonnull String[] getNames(@Nonnull File... files) {
 		String[] names = new String[files.length];
 		for (int i = 0; i < files.length; ++i) {
 			names[i] = files[i].getName();
@@ -138,7 +149,7 @@ public /*static*/ abstract class IOTools {
 	}
 
 	/** @see #delete(File, boolean) */
-	public static boolean delete(File dir) {
+	public static boolean delete(@Nonnull File dir) {
 		return delete(dir, false);
 	}
 
@@ -152,7 +163,7 @@ public /*static*/ abstract class IOTools {
 	 *
 	 * @see File#delete()
 	 */
-	public static boolean delete(File dir, boolean stopOnError) {
+	public static boolean delete(@Nullable File dir, boolean stopOnError) {
 		boolean result = false;
 		if (dir != null) {
 			if (!dir.isDirectory()) {
@@ -173,7 +184,7 @@ public /*static*/ abstract class IOTools {
 		return result;
 	}
 
-	public static long calculateSize(File dir) {
+	public static long calculateSize(@Nullable File dir) {
 		long result = 0;
 		if (dir != null) {
 			if (!dir.isDirectory()) {
@@ -192,7 +203,7 @@ public /*static*/ abstract class IOTools {
 
 	/**
 	 * Convenience method to write a full zip file at once.
-	 * 
+	 * <p>
 	 * For example to zip a folder's contents in place:
 	 * <pre><code>
 	 * zip(new File(dir.getParentFile(), dir.getName() + ".zip"), false, dir);
@@ -201,7 +212,7 @@ public /*static*/ abstract class IOTools {
 	 * @param zipFile the target archive file, existing file will be overwritten
 	 * @see #zip(ZipOutputStream, boolean, File...)
 	 */
-	public static void zip(File zipFile, boolean includeSelf, File... entries) throws IOException {
+	public static void zip(@Nonnull File zipFile, boolean includeSelf, @Nonnull File... entries) throws IOException {
 		ZipOutputStream zip = null;
 		try {
 			zip = new ZipOutputStream(new FileOutputStream(zipFile));
@@ -217,7 +228,7 @@ public /*static*/ abstract class IOTools {
 	 * @param zipOut target zip file stream
 	 * @see #zip(ZipOutputStream, boolean, File)
 	 */
-	public static void zip(ZipOutputStream zipOut, boolean includeSelf, File... entries) throws IOException {
+	public static void zip(@Nonnull ZipOutputStream zipOut, boolean includeSelf, @Nonnull File... entries) throws IOException {
 		for (File entry : entries) {
 			zip(zipOut, includeSelf, entry);
 		}
@@ -230,7 +241,7 @@ public /*static*/ abstract class IOTools {
 	 * @param includeSelf whether to include the folder or just its contents
 	 * @param entry file or folder
 	 */
-	public static void zip(ZipOutputStream zipOut, boolean includeSelf, File entry) throws IOException {
+	public static void zip(@Nonnull ZipOutputStream zipOut, boolean includeSelf, @Nonnull File entry) throws IOException {
 		if (includeSelf || !entry.isDirectory()) {
 			addToZip(zipOut, "", entry.getParentFile(), entry);
 		} else {
@@ -244,7 +255,7 @@ public /*static*/ abstract class IOTools {
 	 * @param zipRelativePath path and name of the entry in the zip file
 	 * @param entry file or folder
 	 */
-	public static void zip(ZipOutputStream zipOut, String zipRelativePath, File entry) throws IOException {
+	public static void zip(@Nonnull ZipOutputStream zipOut, @Nonnull String zipRelativePath, @Nonnull File entry) throws IOException {
 		ZipEntry zipEntry = new ZipEntry(zipRelativePath);
 		zipEntry.setTime(entry.lastModified());
 		zipOut.putNextEntry(zipEntry);
@@ -261,7 +272,7 @@ public /*static*/ abstract class IOTools {
 	 * @param zipRelativePath path and name of the entry in the zip file
 	 * @param entry file or folder
 	 */
-	public static void zip(ZipOutputStream zipOut, String zipRelativePath, InputStream entry) throws IOException {
+	public static void zip(@Nonnull ZipOutputStream zipOut, @Nonnull String zipRelativePath, @Nonnull InputStream entry) throws IOException {
 		ZipEntry zipEntry = new ZipEntry(zipRelativePath);
 		zipOut.putNextEntry(zipEntry);
 		copyStream(entry, zipOut, false);
@@ -274,7 +285,7 @@ public /*static*/ abstract class IOTools {
 	 * @param zipOut target zip file stream
 	 * @param subDir relative parent path of the entry
 	 */
-	public static void zip(ZipOutputStream zipOut, File entry, String subDir) throws IOException {
+	public static void zip(@Nonnull ZipOutputStream zipOut, @Nonnull File entry, @Nonnull String subDir) throws IOException {
 		if (!subDir.endsWith("/")) {
 			subDir += "/";
 		}
@@ -294,7 +305,7 @@ public /*static*/ abstract class IOTools {
 	 * @param entry the current entry inside the root folder
 	 * @throws IOException if something fails
 	 */
-	private static void addToZip(ZipOutputStream zipOut, String subDir, File rootDir, File entry) throws IOException {
+	private static void addToZip(@Nonnull ZipOutputStream zipOut, @Nonnull String subDir, @Nonnull File rootDir, @Nonnull File entry) throws IOException {
 		String relativePath = rootDir.toURI().relativize(entry.toURI()).getPath();
 		zip(zipOut, subDir + relativePath, entry);
 		if (entry.isDirectory()) {
@@ -309,7 +320,7 @@ public /*static*/ abstract class IOTools {
 	 * @param rootDir the original root folder of the source files
 	 * @param dir the current entry inside the root folder
 	 */
-	private static void addChildren(ZipOutputStream zipOut, String subDir, File rootDir, File dir) throws IOException {
+	private static void addChildren(@Nonnull ZipOutputStream zipOut, @Nonnull String subDir, @Nonnull File rootDir, @Nonnull File dir) throws IOException {
 		File[] children = dir.listFiles();
 		if (children != null) {
 			for (File child : children) {
@@ -321,24 +332,24 @@ public /*static*/ abstract class IOTools {
 	}
 
 	@SuppressWarnings("RedundantThrows") // keep it consistent
-	public static long crc(byte... arr) throws IOException {
+	public static long crc(@Nonnull byte... arr) throws IOException {
+		@SuppressWarnings("TypeMayBeWeakened") // Android: Call requires API level 34: java.util.zip.Checksum#update
 		CRC32 crc = new CRC32();
 		crc.update(arr);
 		return crc.getValue();
 	}
 
-	public static long crc(File file) throws IOException {
+	public static long crc(@Nonnull File file) throws IOException {
 		CRC32OutputStream crc = new CRC32OutputStream();
 		IOTools.copyStream(new FileInputStream(file), crc, true);
 		return crc.getValue();
 	}
 
-	public static InputStream stream(String string) throws IOException {
+	public static @Nonnull InputStream stream(@Nonnull String string) throws IOException {
 		return new ByteArrayInputStream(string.getBytes("UTF-8"));
 	}
 
-	public static void store(@Nonnull ZipOutputStream zip,
-			@Nonnull File file, @Nullable String comment) throws IOException {
+	public static void store(@Nonnull ZipOutputStream zip, @Nonnull File file, @Nullable String comment) throws IOException {
 		InputStream imageFile = new FileInputStream(file);
 		ZipEntry entry = new ZipEntry(file.getName());
 		entry.setTime(file.lastModified());
@@ -355,8 +366,7 @@ public /*static*/ abstract class IOTools {
 		}
 	}
 
-	public static void store(@Nonnull ZipOutputStream zip,
-			@Nonnull String name, @Nonnull byte[] contents, long epoch, @Nullable String comment) throws IOException {
+	public static void store(@Nonnull ZipOutputStream zip, @Nonnull String name, @Nonnull byte[] contents, long epoch, @Nullable String comment) throws IOException {
 		ZipEntry entry = new ZipEntry(name);
 		entry.setTime(epoch);
 		entry.setMethod(ZipEntry.STORED);
@@ -369,23 +379,20 @@ public /*static*/ abstract class IOTools {
 		zip.closeEntry();
 	}
 
-	protected IOTools() {
-		// static utility class
-	}
-	public static boolean isValidDir(File dir) {
+	public static boolean isValidDir(@Nullable File dir) {
 		return dir != null && dir.isDirectory() && dir.exists();
 	}
-	public static boolean isValidFile(File file) {
+	public static boolean isValidFile(@Nullable File file) {
 		return file != null && file.isFile() && file.exists();
 	}
 
-	public static void writeUTF8BOM(OutputStream out) throws IOException {
+	public static void writeUTF8BOM(@Nonnull OutputStream out) throws IOException {
 		out.write(0xEF);
 		out.write(0xBB);
 		out.write(0xBF);
 	}
 
-	public static FileNotFoundException FileNotFoundException(String message, IOException ex) {
+	public static @Nonnull FileNotFoundException FileNotFoundException(@Nonnull String message, @Nonnull IOException ex) {
 		FileNotFoundException fnf = new FileNotFoundException(message);
 		fnf.initCause(ex);
 		return fnf;
