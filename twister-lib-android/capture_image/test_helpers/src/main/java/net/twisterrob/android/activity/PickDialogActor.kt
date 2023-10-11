@@ -84,8 +84,8 @@ private fun copyToUriExtra(data: Uri, intent: Intent, extraKey: String) {
 	val context = InstrumentationRegistry.getInstrumentation().context
 	try {
 		IOTools.copyStream(
-			context.contentResolver.openInputStream(data),
-			context.contentResolver.openOutputStream(output)
+			context.contentResolver.openInputStream(data) ?: error("Cannot open ${data}"),
+			context.contentResolver.openOutputStream(output) ?: error("Cannot open ${output}"),
 		)
 	} catch (ex: IOException) {
 		throw IllegalStateException("Cannot copy ${data} to ${output}", ex)
