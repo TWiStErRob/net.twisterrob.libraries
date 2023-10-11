@@ -32,7 +32,7 @@ class DecorateLoggingIntegrationTest {
 	fun testSideEffect() = runTest {
 		TestContainerHost(backgroundScope, logger).test(this) {
 			expectInitialState()
-			invokeIntent { sideEffect() }
+			containerHost.sideEffect()
 			expectSideEffect(TestEffect1)
 
 			inOrder(logger) {
@@ -56,7 +56,7 @@ class DecorateLoggingIntegrationTest {
 	fun testNoParams() = runTest {
 		TestContainerHost(backgroundScope, logger).test(this) {
 			expectInitialState()
-			invokeIntent { intentNoParams() }
+			containerHost.intentNoParams()
 			expectSideEffect(TestEffect1)
 
 			inOrder(logger) {
@@ -80,7 +80,7 @@ class DecorateLoggingIntegrationTest {
 	fun testUnusedParams() = runTest {
 		TestContainerHost(backgroundScope, logger).test(this) {
 			expectInitialState()
-			invokeIntent { intentUnusedParams(42, "str") }
+			containerHost.intentUnusedParams(42, "str")
 			expectSideEffect(TestEffect1)
 
 			inOrder(logger) {
@@ -104,7 +104,7 @@ class DecorateLoggingIntegrationTest {
 	fun testIntentWithParams() = runTest {
 		TestContainerHost(backgroundScope, logger).test(this) {
 			expectInitialState()
-			invokeIntent { intentWithParams(42, "str") }
+			containerHost.intentWithParams(42, "str")
 			expectSideEffect(TestEffect1)
 
 			inOrder(logger) {
@@ -128,7 +128,7 @@ class DecorateLoggingIntegrationTest {
 	fun testReduceWithParams() = runTest {
 		TestContainerHost(backgroundScope, logger).test(this) {
 			expectInitialState()
-			invokeIntent { reduceWithParams(42, "str") }
+			containerHost.reduceWithParams(42, "str")
 			expectState(TestState(value = 1))
 
 			inOrder(logger) {
@@ -157,7 +157,7 @@ class DecorateLoggingIntegrationTest {
 	fun testNestedIntent() = runTest {
 		TestContainerHost(backgroundScope, logger).test(this) {
 			expectInitialState()
-			invokeIntent { nestedIntent() }
+			containerHost.nestedIntent()
 			expectSideEffect(TestEffect1)
 			expectSideEffect(TestEffect3)
 			expectSideEffect(TestEffect2)
@@ -194,8 +194,7 @@ class DecorateLoggingIntegrationTest {
 
 	@Test
 	fun testInlineOrbitBlockingIntent() = runTest {
-		val containerHost = TestContainerHost(backgroundScope, logger)
-		containerHost.test(this) {
+		TestContainerHost(backgroundScope, logger).test(this) {
 			expectInitialState()
 			containerHost.inlineOrbit(42)
 			expectState(TestState(value = 42))
@@ -224,9 +223,9 @@ class DecorateLoggingIntegrationTest {
 
 	private data class TestState(val value: Int)
 	private sealed interface TestEffect {
-		object TestEffect1 : TestEffect
-		object TestEffect2 : TestEffect
-		object TestEffect3 : TestEffect
+		data object TestEffect1 : TestEffect
+		data object TestEffect2 : TestEffect
+		data object TestEffect3 : TestEffect
 	}
 
 	private class TestContainerHost(
