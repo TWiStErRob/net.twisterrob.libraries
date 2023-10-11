@@ -91,10 +91,12 @@ public class AllActivitiesDestroyedIdlingResource extends AsyncIdlingResource {
 	}
 
 	@Override public @NonNull String toString() {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.append(": ");
 		if (activities.isEmpty()) {
 			sb.append("No activities");
 		} else {
+			sb.append("\n");
 			for (Activity activity : activities) {
 				sb.append(activity.toString());
 				sb.append(": ");

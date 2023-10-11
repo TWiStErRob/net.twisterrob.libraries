@@ -1,0 +1,23 @@
+plugins {
+	id("net.twisterrob.libraries.android.library")
+	id("com.google.devtools.ksp")
+}
+
+dependencies {
+	compileOnly(libs.slf4j.api)
+
+	api(libs.android.glide4)
+
+	compileOnly(libs.android.svg)
+
+	implementation "net.twisterrob.lib:twister-lib-android-basics"
+	compileOnly "net.twisterrob.lib:twister-lib-core"
+	compileOnly "net.twisterrob.lib:twister-lib-android-annotations"
+	compileOnly "net.twisterrob.lib:twister-lib-android-defs"
+	compileOnly "net.twisterrob.lib:twister-lib-android-stringers"
+
+	compileOnly(libs.androidx.appcompat)
+	compileOnly(libs.androidx.recyclerview)
+
+	ksp(libs.android.glide4.ksp)
+}

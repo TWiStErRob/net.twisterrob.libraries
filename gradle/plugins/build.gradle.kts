@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
 	implementation(libs.plugins.kotlin.asMarkerArtifact())
+	implementation(libs.plugins.ksp.asMarkerArtifact())
 	implementation(libs.plugins.android.asMarkerArtifact())
 	implementation(libs.plugins.twisterrob.quality.asMarkerArtifact())
 	implementation(libs.plugins.twisterrob.android.asMarkerArtifact())

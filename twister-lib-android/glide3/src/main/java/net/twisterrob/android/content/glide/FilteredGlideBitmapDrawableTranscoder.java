@@ -2,15 +2,18 @@ package net.twisterrob.android.content.glide;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.ColorFilter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.*;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawableResource;
 import com.bumptech.glide.load.resource.transcode.ResourceTranscoder;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Copy of {@link com.bumptech.glide.load.resource.transcode.GlideBitmapDrawableTranscoder}

@@ -4,7 +4,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.*;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.target.ViewTarget;
 
 /**
  * Listener which updates the {@link ImageView} to be software rendered,

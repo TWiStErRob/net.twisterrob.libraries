@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.junit.internal.matchers.ThrowableMessageMatcher.*;
@@ -23,7 +24,6 @@ import junit.framework.AssertionFailedError;
 
 import static androidx.test.espresso.Espresso.*;
 import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import net.twisterrob.android.test.junit.*;

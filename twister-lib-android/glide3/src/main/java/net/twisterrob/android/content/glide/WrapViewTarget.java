@@ -6,7 +6,9 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
 import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.*;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.ViewTarget;
 
 public class WrapViewTarget<Z> extends WrappingTarget<Z> {
 	private final ImageView imageView;

@@ -9,6 +9,7 @@ import org.junit.Ignore;
 import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.junit.MatcherAssume.*;
 import static org.junit.Assert.*;
@@ -30,7 +31,6 @@ import androidx.test.filters.SdkSuppress;
 import static androidx.test.core.app.ApplicationProvider.*;
 import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import net.twisterrob.android.test.junit.TestPackageIntentRule;

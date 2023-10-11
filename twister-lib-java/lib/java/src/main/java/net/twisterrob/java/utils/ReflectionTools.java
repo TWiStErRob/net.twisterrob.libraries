@@ -1,6 +1,8 @@
 package net.twisterrob.java.utils;
 
 import java.lang.reflect.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.lang.reflect.Modifier.*;
 
@@ -142,14 +144,16 @@ public class ReflectionTools {
 	 */
 	public static @Nonnull Method findDeclaredMethod(@Nonnull Class<?> clazz,
 			@Nonnull String methodName, @Nonnull Class<?>... parameterTypes) throws NoSuchMethodException {
+		Class<?> current = clazz;
 		do {
 			try {
-				return clazz.getDeclaredMethod(methodName, parameterTypes);
+				return current.getDeclaredMethod(methodName, parameterTypes);
 			} catch (NoSuchMethodException ex) {
-				clazz = clazz.getSuperclass();
+				current = current.getSuperclass();
 			}
-		} while (clazz != null);
-		throw new NoSuchMethodException(methodName);
+		} while (current != null);
+		List<Class<?>> params = Arrays.asList(parameterTypes);
+		throw new NoSuchMethodException("Cannot find " + methodName + params + " on " + clazz);
 	}
 
 	public static @Nullable Method tryFindDeclaredMethod(@Nonnull Class<?> clazz,
@@ -163,13 +167,11 @@ public class ReflectionTools {
 
 	public static <T extends AccessibleObject> T trySetAccessible(T reflected) {
 		try {
-			if (reflected != null) {
-				reflected.setAccessible(true);
-			}
+			ensureAccessible(reflected);
+			return reflected;
 		} catch (Exception ex) {
 			return null;
 		}
-		return reflected;
 	}
 
 	public static <T extends AccessibleObject> T ensureAccessible(T reflected) {

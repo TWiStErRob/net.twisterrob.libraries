@@ -5,6 +5,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 twisterrob-quality = { id = "net.twisterrob.gradle.plugin.quality", version.ref = "twisterrob" }
 twisterrob-android = { id = "net.twisterrob.gradle.plugin.android-app", version.ref = "twisterrob" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 
 [versions]
 project = "1.0"
@@ -16,6 +17,7 @@ twisterrob = "0.16"
 detekt = "1.23.0"
 dependencyAnalysis = "1.22.0"
 kotlin = "1.9.10"
+kotlin-ksp = "1.9.10-1.0.13"
 kotlin-coroutines = "1.7.3"
 
 jsr305 = "3.0.2"
@@ -23,11 +25,13 @@ jbrAnn = "24.0.1"
 slf4j = "1.7.36"
 guava-jre = "27.0.1-jre"
 orbit = "6.0.0"
+okhttp = "4.11.0"
 
 # TODEL SVGWorkarounds on > 1.4
 # TODEL :glide3 consumer.pro on > 1.4
 android-svg = "1.4"
 android-glide3 = "3.8.0"
+android-glide4 = "4.16.0"
 android-guava = "27.0.1-android"
 android-colorpicker = "3.0.1"
 
@@ -99,6 +103,8 @@ orbit-viewModel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orb
 orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
 
 android-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide3" }
+android-glide4 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide4" }
+android-glide4-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "android-glide4" }
 android-svg = { module = "com.caverock:androidsvg", version.ref = "android-svg" }
 android-guava = { module = "com.google.guava:guava", version.ref = "android-guava" }
 android-colorpicker = { module = "com.github.martin-stone:hsv-alpha-color-picker-android", version.ref = "android-colorpicker" }
@@ -148,8 +154,8 @@ androidx-test-espressoIntents = { module = "androidx.test.espresso:espresso-inte
 androidx-test-espressoContrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-test-espresso" }
 androidx-test-espressoWeb = { module = "androidx.test.espresso:espresso-web", version.ref = "androidx-test-espresso" }
 androidx-test-espressoAccessibility = { module = "androidx.test.espresso:espresso-accessibility", version.ref = "androidx-test-espresso" }
-androidx-test-espressoConcurrent = { module = "androidx.test.espresso:espresso-concurrent", version.ref = "androidx-test-espresso" }
-androidx-test-espressoNet = { module = "androidx.test.espresso:espresso-net", version.ref = "androidx-test-espresso" }
+androidx-test-espressoConcurrent = { module = "androidx.test.espresso.idling:idling-concurrent", version.ref = "androidx-test-espresso" }
+androidx-test-espressoNet = { module = "androidx.test.espresso.idling:idling-net", version.ref = "androidx-test-espresso" }
 
 test-android-mockito = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
 test-android-dexmaker = { module = "com.google.dexmaker:dexmaker", version.ref = "test-android-dexmaker" }
@@ -169,6 +175,7 @@ test-mockitoKotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref
 test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }
 test-hamcrest-junit = { module = "org.hamcrest:hamcrest-junit", version.ref = "test-hamcrest" }
 test-shazamcrest = { module = "com.shazam:shazamcrest", version.ref = "test-shazamcrest" }
+test-mockServer = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
 
 deprecated-hamcrestCore = { module = "org.hamcrest:hamcrest-core" }
 deprecated-hamcrestLibrary = { module = "org.hamcrest:hamcrest-library" }

@@ -53,6 +53,7 @@ public class AndroidLoggerFactory implements ILoggerFactory {
 						if (replace == null) {
 							replace = "";
 						}
+						// Note: Properties object loses ordering, so this might be in any order!
 						addReplacement(search, replace);
 					}
 				}

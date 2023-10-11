@@ -18,7 +18,6 @@ import android.graphics.Bitmap.*;
 import android.graphics.drawable.*;
 import android.net.Uri;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.*;
 import androidx.test.core.app.ApplicationProvider;
@@ -41,6 +40,9 @@ import net.twisterrob.java.io.IOTools;
 
 import static net.twisterrob.android.test.automators.AndroidAutomator.*;
 import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
+import static net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap;
+import static net.twisterrob.android.test.espresso.ImageViewMatchers.withDrawable;
+import static net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt;
 import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
 
 /**
@@ -188,11 +190,11 @@ public class CaptureImageActivityActor extends ActivityActor {
 	}
 
 	public void verifyNoImage() {
-		onView(withId(R.id.image)).check(matches(hasBitmap(nullValue())));
+		onView(withId(R.id.image)).check(matches(withBitmap(nullValue())));
 	}
 
 	public void verifyImageColor(Matcher<? super Integer> colorMatcher) {
-		onView(withId(R.id.image)).check(matches(hasBitmap(withPixelAt(0, 0, colorMatcher))));
+		onView(withId(R.id.image)).check(matches(withBitmap(withPixelAt(0, 0, colorMatcher))));
 	}
 
 	// TODO hasDrawable(R.drawable.image_error)
@@ -202,49 +204,11 @@ public class CaptureImageActivityActor extends ActivityActor {
 	);
 
 	public void verifyErrorImage() {
-		onView(withId(R.id.image)).check(matches(hasDrawable(ERROR_DRAWABLE)));
+		onView(withId(R.id.image)).check(matches(withDrawable(ERROR_DRAWABLE)));
 	}
 
 	public void verifyNotErrorImage() {
-		onView(withId(R.id.image)).check(matches(not(hasDrawable(ERROR_DRAWABLE))));
-	}
-
-	@SuppressWarnings("unchecked")
-	private Matcher<View> hasDrawable(Matcher<? super Drawable> drawableMatcher) {
-		return (Matcher<View>)(Matcher<?>)new FeatureMatcher<ImageView, Drawable>(
-				drawableMatcher, "drawable", "drawable") {
-			@Override protected Drawable featureValueOf(ImageView actual) {
-				return actual.getDrawable();
-			}
-		};
-	}
-
-	@SuppressWarnings("unchecked")
-	private static Matcher<View> hasBitmap(final Matcher<? super Bitmap> bitmapMatcher) {
-		return (Matcher<View>)(Matcher<?>)new FeatureMatcher<ImageView, Bitmap>(
-				bitmapMatcher, "bitmap in drawable", "bitmap") {
-			@Override protected Bitmap featureValueOf(ImageView actual) {
-				Drawable drawable = actual.getDrawable();
-				if (drawable == null) {
-					return null;
-				}
-				if (drawable instanceof LayerDrawable) {
-					// In case Glide is animating from thumbnail (0) to main result (1), use result.
-					drawable = ((LayerDrawable)drawable).getDrawable(1);
-				}
-				return ((BitmapDrawable)drawable).getBitmap();
-			}
-		};
-	}
-
-	private static Matcher<Bitmap> withPixelAt(
-			final int x, final int y, Matcher<? super Integer> colorMatcher) {
-		return new FeatureMatcher<Bitmap, Integer>(
-				colorMatcher, "pixel at " + x + ", " + y, "pixel color") {
-			@Override protected Integer featureValueOf(Bitmap actual) {
-				return actual.getPixel(x, y);
-			}
-		};
+		onView(withId(R.id.image)).check(matches(not(withDrawable(ERROR_DRAWABLE))));
 	}
 
 	public void intendExternalChooser(Uri fakeUri) {

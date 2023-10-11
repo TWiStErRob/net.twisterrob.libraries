@@ -4,7 +4,8 @@ import android.graphics.drawable.Drawable;
 
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.*;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
 
 import androidx.annotation.NonNull;
 

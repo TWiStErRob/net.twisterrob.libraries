@@ -1,0 +1,16 @@
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<uses-permission android:name="android.permission.INTERNET" />
+
+	<application
+		android:usesCleartextTraffic="true"
+		>
+
+		<activity
+			android:name="net.twisterrob.android.test.espresso.idle.TestGlideActivity"
+			/>
+
+	</application>
+
+</manifest>

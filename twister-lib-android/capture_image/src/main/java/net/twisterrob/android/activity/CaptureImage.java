@@ -21,26 +21,32 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import com.bumptech.glide.*;
+import com.bumptech.glide.GenericTransitionOptions;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.model.ImageVideoWrapper;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.animation.*;
-import com.bumptech.glide.request.target.*;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.*;
 import androidx.core.app.ActivityCompat;
 
 import net.twisterrob.android.capture_image.R;
-import net.twisterrob.android.content.FileUriExposedException;
-import net.twisterrob.android.utils.tools.CameraTools;
 import net.twisterrob.android.content.CaptureImageFileProvider;
+import net.twisterrob.android.content.FileUriExposedException;
+import net.twisterrob.android.content.glide.WrapViewTarget;
+import net.twisterrob.android.content.glide.pooling.NonPooledBitmap;
+import net.twisterrob.android.utils.tools.CameraTools;
 import net.twisterrob.android.utils.tools.CropTools;
 import net.twisterrob.android.view.ExternalPicker;
-import net.twisterrob.android.content.glide.*;
 import net.twisterrob.android.permissions.PermissionProtectedAction;
 import net.twisterrob.android.utils.concurrent.Callback;
 import net.twisterrob.android.utils.tools.DialogTools;
@@ -385,26 +391,26 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		// Use a special target that will adjust the size of the ImageView to wrap the image (adjustViewBounds).
 		// The selection view's size will match this hence the user can only select part of the image.
 		// Used as listener to know if it's the thumbnail load or not, also needs skipMemoryCache to work
-		ThumbWrapViewTarget<Bitmap> target = new ThumbWrapViewTarget<>(new BitmapImageViewTarget(mImage) {
-			@Override public void setDrawable(Drawable drawable) {
-				if (drawable instanceof TransitionDrawable) {
-					// TODEL see https://github.com/bumptech/glide/issues/943
-					((TransitionDrawable)drawable).setCrossFadeEnabled(false);
-				}
-				super.setDrawable(drawable);
-			}
-		});
+		ThumbWrapViewTarget<Bitmap> target = new ThumbWrapViewTarget<>(new BitmapImageViewTarget(mImage));
 
 		final SelectionStatus oldStatus = mSelection.getSelectionStatus();
 		mSelection.setSelectionStatus(SelectionStatus.FOCUSING);
-		RequestListener<Object, Bitmap> visualFeedbackListener = new RequestListener<Object, Bitmap>() {
-			@Override public boolean onException(Exception e,
-					Object model, Target<Bitmap> target, boolean isFirstResource) {
+		RequestListener<Bitmap> visualFeedbackListener = new RequestListener<Bitmap>() {
+			@Override public boolean onLoadFailed(
+					@Nullable GlideException e,
+					@Nullable Object model,
+					@NonNull Target<Bitmap> target,
+					boolean isFirstResource
+			) {
 				mSelection.setSelectionStatus(SelectionStatus.BLURRY);
 				return false;
 			}
-			@Override public boolean onResourceReady(Bitmap resource,
-					Object model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+			@Override public boolean onResourceReady(
+					@NonNull Bitmap resource,
+					@NonNull Object model,
+					Target<Bitmap> target,
+					@NonNull DataSource dataSource,
+					boolean isFirstResource) {
 				if (oldStatus == SelectionStatus.BLURRY) {
 					mSelection.setSelectionStatus(SelectionStatus.BLURRY);
 				} else {
@@ -414,31 +420,42 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			}
 		};
 		mPreviewHider.setVisibility(View.VISIBLE);
-		GenericRequestBuilder<File, ImageVideoWrapper, Bitmap, Bitmap> image = Glide
-				.with(this)
+		RequestBuilder<Bitmap> image = Glide
+				// FIXME replace this with proper Glide.with calls
+				.with(getApplicationContext())
+				// No matter the format, just a single frame of bitmap.
+				.asBitmap()
+				// Don't use the default pool, single-use bitmap is likely throw-away, prevent OOM.
+				.decode(NonPooledBitmap.class)
 				.load(mSavedFile)
-				.asBitmap() // no matter the format, just a single frame of bitmap
-				.diskCacheStrategy(DiskCacheStrategy.NONE) // no need to cache, it's on disk already
-				.skipMemoryCache(true) // won't ever be loaded again, or if it is, probably contains different bytes
-				//.placeholder(new ColorDrawable(Color.BLACK)) // immediately hide the preview to prevent weird jump
-				.transform(new FitCenter(GlideHelpers.NO_POOL)) // make sure full image is visible
+				// No need to cache, it's on disk already.
+				.diskCacheStrategy(DiskCacheStrategy.NONE)
+				// Won't ever be loaded again, or if it is, probably contains different bytes.
+				.skipMemoryCache(true)
+				// Immediately hide the preview to prevent weird jump.
+				//.placeholder(new ColorDrawable(Color.BLACK))
+				// FIXME REPORT Glide BitmapTransformation uses hardcoded pool, so it'll always be pooled.
+				// Make sure full image is visible.
+				.fitCenter()
 				;
 
-		RequestListener<Object, Bitmap> listener = new MultiRequestListener<>(visualFeedbackListener, target);
 		image
-				.decoder(new NonPoolingImageVideoBitmapDecoder(DecodeFormat.PREFER_ARGB_8888))
-				// don't lose quality (may be disabled to gain memory for crop)
-				// need the special target/listener
+				// Don't lose quality (may be disabled to gain memory for crop),
+				// need the special target/listener.
 				.thumbnail(image
-						.clone() // inherit everything, but load lower quality
-						.listener(target)
-						.decoder(new NonPoolingImageVideoBitmapDecoder(DecodeFormat.PREFER_RGB_565))
+						// Inherit everything, but load lower quality.
+						.clone()
+						.addListener(target)
+						.format(DecodeFormat.PREFER_RGB_565)
 						.sizeMultiplier(0.1f)
-						.animate(android.R.anim.fade_in) // fade thumbnail in (=crossFade from background)
+						// Fade thumbnail in (=crossFade from background):
+						.transition(GenericTransitionOptions.with(android.R.anim.fade_in))
 				)
-				.listener(listener)
+				.addListener(visualFeedbackListener)
+				.addListener(target)
 				.error(R.drawable.image_error)
-				.animate(new BitmapCrossFadeFactory(150)) // fade from thumb to image
+				// Fade from thumb to image:
+				.transition(BitmapTransitionOptions.withCrossFade(150))
 				.into(target)
 		;
 	}
@@ -503,7 +520,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		mSavedFile = null;
 		mSelection.setSelectionStatus(SelectionStatus.NORMAL);
 		mPreview.cancelTakePicture();
-		Glide.clear(mImage);
+		// FIXME replace this with proper Glide.with calls
+		Glide.with(getApplicationContext()).clear(mImage);
 		mImage.setImageDrawable(null); // remove Glide placeholder for the view to be transparent
 		enableControls();
 	}
@@ -675,7 +693,8 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private class CropClickListener implements OnClickListener {
 		@Override public void onClick(View v) {
 			final RectF selection = getPictureRect();
-			Glide.clear(mImage); // free up memory for crop op
+			// FIXME replace this with proper Glide.with calls
+			Glide.with(getApplicationContext()).clear(mImage); // free up memory for crop op
 			if (mSavedFile != null) {
 				StrictMode.ThreadPolicy originalThreadPolicy = StrictMode.allowThreadDiskWrites();
 				try {
@@ -702,28 +721,46 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 		}
 	}
 
-	private static class ThumbWrapViewTarget<Z> extends WrapViewTarget<Z> implements RequestListener<Object, Z> {
+	private static class ThumbWrapViewTarget<Z>
+			extends WrapViewTarget<Z>
+			implements RequestListener<Z>
+	{
 		private boolean isThumbnail;
-		public ThumbWrapViewTarget(ImageViewTarget<? super Z> target) {
+		public ThumbWrapViewTarget(ImageViewTarget<Z> target) {
 			super(target);
 		}
 		@Override public void onLoadStarted(Drawable placeholder) {
 			super.onLoadStarted(placeholder);
 			isThumbnail = false;
 		}
-		@Override public boolean onResourceReady(Z resource, Object model, Target<Z> target,
-				boolean isFromMemoryCache, boolean isFirstResource) {
+
+		@Override public boolean onResourceReady( // RequestListener
+				@NonNull Z resource,
+				@NonNull Object model,
+				Target<Z> target,
+				@NonNull DataSource dataSource,
+				boolean isFirstResource
+		) {
 			this.isThumbnail = isFirstResource;
 			return false; // normal route, just capture arguments
 		}
-		@Override public void onResourceReady(Z resource, GlideAnimation<? super Z> glideAnimation) {
-			super.onResourceReady(resource, glideAnimation);
+
+		@Override public void onResourceReady( // Target
+				@NonNull Z resource,
+				@Nullable Transition<? super Z> transition
+		) {
+			super.onResourceReady(resource, transition);
 			if (isThumbnail) {
-				update(LayoutParams.MATCH_PARENT);
+				update(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			}
 		}
-		@Override public boolean onException(Exception e, Object model, Target<Z> target,
-				boolean isFirstResource) {
+
+		@Override public boolean onLoadFailed( // RequestListener
+				@Nullable GlideException e,
+				@Nullable Object model,
+				@NonNull Target<Z> target,
+				boolean isFirstResource
+		) {
 			return false; // go for onLoadFailed
 		}
 	}
