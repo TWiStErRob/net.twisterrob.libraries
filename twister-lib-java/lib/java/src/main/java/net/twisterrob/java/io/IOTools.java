@@ -92,6 +92,9 @@ public /*static*/ abstract class IOTools {
 		return bytes.toByteArray();
 	}
 
+	/**
+	 * @soft-deprecated Consider using {@link kotlin.io.CloseableKt#use} instead, it handles exceptions better.
+	 */
 	public static void ignorantClose(@Nullable Closeable closeMe) {
 		if (closeMe != null) {
 			try {
@@ -102,6 +105,9 @@ public /*static*/ abstract class IOTools {
 		}
 	}
 
+	/**
+	 * @soft-deprecated Consider using {@link kotlin.io.CloseableKt#use} instead, it handles exceptions better.
+	 */
 	public static void ignorantClose(@Nullable Closeable... closeMes) {
 		if (closeMes == null) {
 			return;
