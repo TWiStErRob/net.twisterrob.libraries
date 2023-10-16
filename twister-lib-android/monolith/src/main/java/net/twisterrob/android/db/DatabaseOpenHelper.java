@@ -131,7 +131,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {
 		LOG.info("Created database: {}", dbToString(db));
 	}
 
-	public void onDestroy(SQLiteDatabase db) {
+	@Override public void onDestroy(SQLiteDatabase db) {
 		LOG.debug("Destroying database: {}", dbToString(db));
 		super.onDestroy(db);
 		if (devMode) {
