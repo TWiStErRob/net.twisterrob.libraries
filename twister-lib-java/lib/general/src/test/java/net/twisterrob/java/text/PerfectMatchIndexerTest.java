@@ -6,7 +6,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public class DirectIndexerTest extends BaseIndexerTest {
+public class PerfectMatchIndexerTest extends BaseIndexerTest {
 	@Before public void setUp() {
 		index = new PerfectMatchIndexer<>();
 	}
