@@ -25,7 +25,7 @@ public class EditAllowingIndexer<T> implements Indexer<T> {
 		return root.match(word, maxDistance);
 	}
 
-	@Override public void add(CharSequence word, T entry) {
+	@Override public void add(@Nonnull CharSequence word, @Nonnull T entry) {
 		word = clean(word.toString());
 		TrieNode<T> curr = root;
 		for (int i = 0; i < word.length(); ++i) {
@@ -35,7 +35,7 @@ public class EditAllowingIndexer<T> implements Indexer<T> {
 		curr.terminals.add(entry);
 	}
 
-	private String clean(String word) {
+	private @Nonnull String clean(@Nonnull String word) {
 		word = word.toLowerCase(Locale.getDefault());
 		return word;
 	}

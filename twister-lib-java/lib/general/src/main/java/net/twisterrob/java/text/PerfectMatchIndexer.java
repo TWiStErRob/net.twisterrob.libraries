@@ -24,7 +24,7 @@ public class PerfectMatchIndexer<T> implements Indexer<T> {
 		return suggestions;
 	}
 
-	@Override public void add(CharSequence word, T entry) {
+	@Override public void add(@Nonnull CharSequence word, @Nonnull T entry) {
 		word = clean(word);
 		Collection<T> wordSuggestions = index.get(word);
 		if (wordSuggestions == null) {
@@ -42,7 +42,7 @@ public class PerfectMatchIndexer<T> implements Indexer<T> {
 		return size;
 	}
 
-	private CharSequence clean(CharSequence word) {
+	private @Nonnull CharSequence clean(@Nonnull CharSequence word) {
 		return word.toString().toLowerCase(Locale.getDefault());
 	}
 }
