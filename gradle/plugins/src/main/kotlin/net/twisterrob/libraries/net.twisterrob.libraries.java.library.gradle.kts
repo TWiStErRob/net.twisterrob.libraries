@@ -23,3 +23,8 @@ dependencies {
 	compileOnly(libs.slf4j.api)
 	testImplementation(project(":internal:test:jvm_unit"))
 }
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}
