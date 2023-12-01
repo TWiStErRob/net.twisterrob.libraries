@@ -86,7 +86,7 @@ dependencyAnalysis {
 			}
 		}
 	}
-	dependencies {
+	structure {
 		bundle("robolectric") {
 			primary("org.robolectric:robolectric")
 			includeGroup("org.robolectric")
