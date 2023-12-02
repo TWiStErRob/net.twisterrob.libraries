@@ -13,5 +13,5 @@ lint {
 	// lint:CannotEnableHidden Follow net.twisterrob.gradle.android.AndroidBuildPlugin.configureLint.
 	// > Issue StopShip was configured with severity fatal in monolith,
 	// > but was not enabled (or was disabled) in library *
-	fatal.add("StopShip")
+	enable += "StopShip"
 }

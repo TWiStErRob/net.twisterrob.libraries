@@ -1,8 +1,10 @@
 package com.bumptech.glide.load.engine
 
+import android.annotation.SuppressLint
 import java.lang.reflect.Field
 
 internal val Engine.engineJobFactory: Engine.EngineJobFactory
+	@SuppressLint("VisibleForTests")
 	get() =
 		try {
 			engineJobFactoryField.get(this) as Engine.EngineJobFactory
