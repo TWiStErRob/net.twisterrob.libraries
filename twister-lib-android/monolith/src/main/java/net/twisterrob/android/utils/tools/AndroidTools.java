@@ -790,6 +790,7 @@ public /*static*/ abstract class AndroidTools {
 
 	/**
 	 * @deprecated use {@link androidx.core.view.WindowInsetsCompat}.
+	 * {@code ViewCompat.getRootWindowInsets(view)?.getInsets(Type.statusBars())?.top} might work API 21+, untested.
 	 * @see <a href="http://blog.raffaeu.com/archive/2015/04/11/android-and-the-transparent-status-bar.aspx">
 	 *     Make the StatusBar transparent</a>
 	 */
