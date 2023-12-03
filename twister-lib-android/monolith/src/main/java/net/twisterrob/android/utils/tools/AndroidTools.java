@@ -318,6 +318,7 @@ public /*static*/ abstract class AndroidTools {
 	/**
 	 * @see android.hardware.Camera#setDisplayOrientation(int)
 	 * @return the display's orientation in 90-increment degrees (0, 90, 180, 270)
+	 * @see #calculateRotation(Context, android.hardware.Camera.CameraInfo)
 	 */
 	@SuppressWarnings("deprecation")
 	public static int calculateDisplayOrientation(Context context, android.hardware.Camera.CameraInfo cameraInfo) {
@@ -337,6 +338,7 @@ public /*static*/ abstract class AndroidTools {
 	/**
 	 * @see android.hardware.Camera.Parameters#setRotation(int)
 	 * @return the camera rotation to use in 90-increment degrees (0, 90, 180, 270)
+	 * @see #calculateDisplayOrientation(Context, android.hardware.Camera.CameraInfo) 
 	 */
 	@SuppressWarnings("deprecation")
 	public static int calculateRotation(Context context, android.hardware.Camera.CameraInfo cameraInfo) {
