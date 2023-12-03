@@ -93,6 +93,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.ListPreference;
@@ -320,8 +321,7 @@ public /*static*/ abstract class AndroidTools {
 	 */
 	@SuppressWarnings("deprecation")
 	public static int calculateDisplayOrientation(Context context, android.hardware.Camera.CameraInfo cameraInfo) {
-		WindowManager windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-		int displayOrientation = windowManager.getDefaultDisplay().getRotation();
+		int displayOrientation = ContextCompat.getDisplayOrDefault(context).getRotation();
 		int degrees = orientationToDegrees(displayOrientation);
 
 		int result;
@@ -340,8 +340,7 @@ public /*static*/ abstract class AndroidTools {
 	 */
 	@SuppressWarnings("deprecation")
 	public static int calculateRotation(Context context, android.hardware.Camera.CameraInfo cameraInfo) {
-		WindowManager windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-		int displayOrientation = windowManager.getDefaultDisplay().getRotation();
+		int displayOrientation = ContextCompat.getDisplayOrDefault(context).getRotation();
 		int degrees = orientationToDegrees(displayOrientation);
 
 		int result;
