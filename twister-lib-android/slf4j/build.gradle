@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
 	compileOnly(libs.androidx.annotation)
+	compileOnly(libs.slf4j2.api)
 	api(libs.slf4j.api)
-	api("org.slf4j:slf4j-api:2.0.9") // STOPSHIP
 }
