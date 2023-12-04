@@ -26,7 +26,6 @@ package org.slf4j.impl;
 
 import org.slf4j.*;
 import org.slf4j.helpers.BasicMarkerFactory;
-import org.slf4j.spi.MarkerFactoryBinder;
 
 /**
  * The binding of {@link MarkerFactory} class with an actual instance of
@@ -34,7 +33,8 @@ import org.slf4j.spi.MarkerFactoryBinder;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public class StaticMarkerBinder implements MarkerFactoryBinder {
+@SuppressWarnings("deprecation") // SLF4J 1.7.36 and 2.0.9 compatible at the same time.
+public class StaticMarkerBinder implements org.slf4j.spi.MarkerFactoryBinder {
 	/**
 	 * The unique instance of this class.
 	 */

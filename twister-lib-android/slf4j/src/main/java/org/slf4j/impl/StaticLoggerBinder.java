@@ -24,7 +24,6 @@
 package org.slf4j.impl;
 
 import org.slf4j.*;
-import org.slf4j.spi.LoggerFactoryBinder;
 
 import net.twisterrob.android.log.AndroidLoggerFactory;
 
@@ -35,7 +34,8 @@ import net.twisterrob.android.log.AndroidLoggerFactory;
  * @author Ceki G&uuml;lc&uuml;
  * @author Thorsten M&ouml;ler
  */
-public class StaticLoggerBinder implements LoggerFactoryBinder {
+@SuppressWarnings("deprecation") // SLF4J 1.7.36 and 2.0.9 compatible at the same time.
+public class StaticLoggerBinder implements org.slf4j.spi.LoggerFactoryBinder {
 	/**
 	 * The unique instance of this class.
 	 */
