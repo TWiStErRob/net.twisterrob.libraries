@@ -2,8 +2,12 @@ plugins {
 	id("net.twisterrob.libraries.android.library")
 }
 
+configurations {
+	debugCompileClasspath.resolutionStrategy.force(libs.slf4j2.api)
+	releaseCompileClasspath.resolutionStrategy.force(libs.slf4j2.api)
+}
+
 dependencies {
 	compileOnly(libs.androidx.annotation)
-	compileOnly(libs.slf4j2.api)
 	api(libs.slf4j.api)
 }
