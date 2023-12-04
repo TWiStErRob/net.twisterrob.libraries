@@ -88,9 +88,13 @@ public class AndroidLoggerFactory implements ILoggerFactory {
 	private AndroidLogger createAndroidLogger(@NonNull String originalName, @NonNull String replacedName) {
 		String tag = forceValidName(replacedName); // fix for bug #173
 		if (!tag.equals(replacedName)) {
-			String message = String.format(Locale.ROOT,
-					"Logger name '%1$s' mapped to '%2$s' is too long (>%4$d), using: %3$s.",
-					originalName, replacedName, tag, TAG_MAX_LENGTH);
+			String message = String.format(
+					Locale.ROOT,
+					originalName.equals(replacedName)
+							? "Logger name '%2$s' is too long (>%4$d), using: %3$s."
+							: "Logger name '%1$s' mapped to '%2$s' is too long (>%4$d), using: %3$s.",
+					originalName, replacedName, tag, TAG_MAX_LENGTH
+			);
 			Log.i(TAG, message);
 		}
 
