@@ -23,6 +23,7 @@ kotlin-coroutines = "1.7.3"
 jsr305 = "3.0.2"
 jbrAnn = "24.0.1"
 slf4j = "1.7.36"
+slf4j2 = "2.0.9"
 guava-jre = "27.0.1-jre"
 orbit = "6.1.0"
 okhttp = "4.11.0"
@@ -95,6 +96,7 @@ annotations-jetbrains = { module = "org.jetbrains:annotations", version.ref = "j
 annotations-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "jsr305" }
 
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j2-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j2" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 guava-jre = { module = "com.google.guava:guava", version.ref = "guava-jre" }
 

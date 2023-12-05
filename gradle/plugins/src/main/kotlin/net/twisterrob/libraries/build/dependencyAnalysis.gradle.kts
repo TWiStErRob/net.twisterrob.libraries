@@ -74,6 +74,12 @@ dependencyAnalysis {
 				)
 			}
 		}
+		project(":slf4j") {
+			onUnusedDependencies {
+				exclude(libs.slf4j.api.get().toString())
+				exclude(libs.slf4j2.api.get().toString())
+			}
+		}
 		project(":internal:test:android_unit") {
 			// > Advice for :internal:test:android_unit
 			// > Dependencies which should be removed or changed to runtime-only:

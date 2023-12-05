@@ -29,7 +29,8 @@ import androidx.annotation.NonNull;
  * @author papp.robert.s@gmail.com
  */
 @SuppressLint("LogConditional") // FIXME consider Log.isLoggable(...) calls
-public class AndroidLogger extends MarkerIgnoringBase {
+@SuppressWarnings("deprecation") // SLF4J 1.7.36 and 2.0.9 compatible at the same time.
+public class AndroidLogger extends org.slf4j.helpers.MarkerIgnoringBase {
 	private static final long serialVersionUID = -1227274521521287937L;
 	private final String tag;
 	private final String originalName;
