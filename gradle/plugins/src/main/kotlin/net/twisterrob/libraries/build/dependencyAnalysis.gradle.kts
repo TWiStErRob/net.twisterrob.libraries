@@ -16,8 +16,6 @@ dependencyAnalysis {
 	}
 	issues {
 		all {
-			// https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/wiki/Customizing-plugin-behavior#ktx-dependencies
-			ignoreKtx(true)
 			onAny {
 				severity("fail")
 			}
@@ -93,6 +91,8 @@ dependencyAnalysis {
 		}
 	}
 	structure {
+		// https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/wiki/Customizing-plugin-behavior#ktx-dependencies
+		ignoreKtx(true)
 		bundle("robolectric") {
 			primary("org.robolectric:robolectric")
 			includeGroup("org.robolectric")
