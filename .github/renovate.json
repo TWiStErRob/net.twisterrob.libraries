@@ -2,5 +2,36 @@
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": [
 		"local>TWiStErRob/renovate-config"
+	],
+	"packageRules": [
+		{
+			"matchPackageNames": ["com.github.bumptech.glide:glide"],
+			"matchCurrentVersion": "3.x",
+			"matchUpdateTypes": ["major"],
+			"enabled": false
+		},
+		{
+			"matchPackagePrefixes": ["org.slf4j:slf4j-"],
+			"matchCurrentVersion": "1.x",
+			"matchUpdateTypes": ["major"],
+			"enabled": false
+		},
+		{
+			"matchPackageNames": [
+				"com.google.guava:guava",
+				"org.codehaus.plexus:plexus-utils",
+				"org.objenesis:objenesis"
+			],
+			"matchPackagePrefixes": [
+				"androidx."
+			],
+			"enabled": false
+		},
+		{
+			"matchPackageNames": [
+				"gradle"
+			],
+			"automerge": false
+		}
 	]
 }
