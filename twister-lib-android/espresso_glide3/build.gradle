@@ -12,8 +12,8 @@ dependencies {
 	implementation(libs.android.glide3)
 	implementation(libs.slf4j.api)
 	implementation(libs.android.guava)
-	// Call to Glide.with(Context) doesn't compile without seeing Glide.with(androidx.Fragment)
-	compileOnly(libs.androidx.fragment)
+	// Call to Glide.with(Context) doesn't compile without seeing Glide.with(support.Fragment)
+	compileOnly(libs.androidx.fragmentSupport)
 
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-glide3"
