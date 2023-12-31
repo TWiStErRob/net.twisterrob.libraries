@@ -20,7 +20,10 @@
 		},
 		{
 			"description": "Keep Mockito v4 versions on v4.",
-			"matchPackagePrefixes": ["org.mockito:"],
+			"matchPackagePrefixes": [
+				"org.mockito:",
+				"org.mockito.kotlin:"
+			],
 			"matchCurrentVersion": "/^4\\./",
 			"matchUpdateTypes": ["major"],
 			"enabled": false
