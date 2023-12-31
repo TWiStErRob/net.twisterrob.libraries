@@ -28,14 +28,14 @@
 		{
 			"description": "Keep Guava versions in sync with Android variant.",
 			"matchPackageNames": ["com.google.guava:guava"],
-			"matchCurrentValue": ".*-android",
-			"allowedVersions": ".*-android"
+			"matchCurrentValue": "/-android$/",
+			"allowedVersions": "/-android$/"
 		},
 		{
 			"description": "Keep Guava versions in sync with JRE variant.",
 			"matchPackageNames": ["com.google.guava:guava"],
-			"matchCurrentValue": ".*-jre",
-			"allowedVersions": ".*-jre"
+			"matchCurrentValue": "/-jre$/",
+			"allowedVersions": "/-jre$/"
 		},
 		{
 			"description": "Keep these for compatibility, unsure exactly where it's used.",
