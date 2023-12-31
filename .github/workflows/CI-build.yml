@@ -25,7 +25,7 @@ jobs:
           distribution: zulu
 
       - name: "Checkout ${{ github.ref }} branch in ${{ github.repository }} repository."
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Build & Verify."
         run: >
