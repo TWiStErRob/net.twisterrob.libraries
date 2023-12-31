@@ -79,7 +79,6 @@ test-mockitoKotlin = "4.1.0"
 test-hamcrest = "2.0.0.0"
 test-shazamcrest = "0.11"
 
-test-android-dexmaker = "1.0"
 test-android-classpath = "1.2.7"
 test-android-robolectric = "4.11.1"
 test-android-plexus = "1.5.15"
@@ -160,8 +159,6 @@ androidx-test-espressoConcurrent = { module = "androidx.test.espresso.idling:idl
 androidx-test-espressoNet = { module = "androidx.test.espresso.idling:idling-net", version.ref = "androidx-test-espresso" }
 
 test-android-mockito = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
-test-android-dexmaker = { module = "com.google.dexmaker:dexmaker", version.ref = "test-android-dexmaker" }
-test-android-dexmaker-mockito = { module = "com.google.dexmaker:dexmaker-mockito", version.ref = "test-android-dexmaker" }
 test-android-classpath = { module = "io.takari.junit:takari-cpsuite", version.ref = "test-android-classpath" }
 test-android-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-android-robolectric" }
 test-android-robolectricMultidex = { module = "org.robolectric:shadows-multidex", version.ref = "test-android-robolectric" }
