@@ -26,7 +26,7 @@ slf4j = "1.7.36"
 slf4j2 = "2.0.10"
 guava-jre = "27.0.1-jre"
 orbit = "6.1.0"
-okhttp = "4.11.0"
+okhttp = "4.12.0"
 
 # TODEL SVGWorkarounds on > 1.4
 # TODEL :glide3 consumer.pro on > 1.4
@@ -34,7 +34,7 @@ android-svg = "1.4"
 android-glide3 = "3.8.0"
 android-glide4 = "4.16.0"
 android-guava = "27.0.1-android"
-android-colorpicker = "3.0.1"
+android-colorpicker = "3.1.0"
 
 androidx-activity = "1.7.2" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-annotation = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/annotation
@@ -80,7 +80,6 @@ test-mockitoKotlin = "4.1.0"
 test-hamcrest = "2.0.0.0"
 test-shazamcrest = "0.11"
 
-test-android-dexmaker = "1.0"
 test-android-classpath = "1.2.7"
 test-android-robolectric = "4.11.1"
 test-android-plexus = "1.5.15"
@@ -162,8 +161,6 @@ androidx-test-espressoConcurrent = { module = "androidx.test.espresso.idling:idl
 androidx-test-espressoNet = { module = "androidx.test.espresso.idling:idling-net", version.ref = "androidx-test-espresso" }
 
 test-android-mockito = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
-test-android-dexmaker = { module = "com.google.dexmaker:dexmaker", version.ref = "test-android-dexmaker" }
-test-android-dexmaker-mockito = { module = "com.google.dexmaker:dexmaker-mockito", version.ref = "test-android-dexmaker" }
 test-android-classpath = { module = "io.takari.junit:takari-cpsuite", version.ref = "test-android-classpath" }
 test-android-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-android-robolectric" }
 test-android-robolectricMultidex = { module = "org.robolectric:shadows-multidex", version.ref = "test-android-robolectric" }
