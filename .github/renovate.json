@@ -1,0 +1,68 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"local>TWiStErRob/renovate-config"
+	],
+	"packageRules": [
+		{
+			"description": "Keep Glide v3 versions on v3, forever.",
+			"matchPackageNames": ["com.github.bumptech.glide:glide"],
+			"matchCurrentVersion": "/^3\\./",
+			"matchUpdateTypes": ["major"],
+			"enabled": false
+		},
+		{
+			"description": "Keep SLF4J v1 versions on v1, forever.",
+			"matchPackagePrefixes": ["org.slf4j:slf4j-"],
+			"matchCurrentVersion": "/^1\\./",
+			"matchUpdateTypes": ["major"],
+			"enabled": false
+		},
+		{
+			"description": "Keep Mockito v4 versions on v4, for now.",
+			"matchPackagePrefixes": [
+				"org.mockito:",
+				"org.mockito.kotlin:"
+			],
+			"matchCurrentVersion": "/^4\\./",
+			"matchUpdateTypes": ["major"],
+			"enabled": false
+		},
+		{
+			"description": "Keep Guava versions in sync with Android variant. Disabled for now, because needs some investigation.",
+			"matchPackageNames": ["com.google.guava:guava"],
+			"matchCurrentValue": "/-android$/",
+			"allowedVersions": "/-android$/",
+			"enabled": false
+		},
+		{
+			"description": "Keep Guava versions in sync with JRE variant. Disabled for now, because needs some investigation.",
+			"matchPackageNames": ["com.google.guava:guava"],
+			"matchCurrentValue": "/-jre$/",
+			"allowedVersions": "/-jre$/",
+			"enabled": false
+		},
+		{
+			"description": "Keep these for compatibility, unsure exactly where it's used.",
+			"matchPackageNames": [
+				"org.codehaus.plexus:plexus-utils",
+				"org.objenesis:objenesis"
+			],
+			"enabled": false
+		},
+		{
+			"description": "Don't update AndroidX packages yet.",
+			"matchPackagePrefixes": [
+				"androidx.",
+				"com.google.android.material:"
+			],
+			"enabled": false
+		},
+		{
+			"description": "Don't auto-merge Gradle versions yet, because this repository is used as git submodule.",
+			"matchPackageNames": ["gradle"],
+			"automerge": false
+		}
+
+	]
+}
