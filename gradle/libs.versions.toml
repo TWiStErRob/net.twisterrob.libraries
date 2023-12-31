@@ -34,7 +34,7 @@ android-svg = "1.4"
 android-glide3 = "3.8.0"
 android-glide4 = "4.16.0"
 android-guava = "27.0.1-android"
-android-colorpicker = "3.0.1"
+android-colorpicker = "3.1.0"
 
 androidx-activity = "1.7.2" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-annotation = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/annotation
