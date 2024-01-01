@@ -83,10 +83,21 @@ dependencyAnalysis {
 			// > Dependencies which should be removed or changed to runtime-only:
 			// > runtimeOnly("androidx.test:core:1.5.0") (was api)
 			onRuntimeOnly {
-				// These dependencies are there to be provided to the consumers, keep them api.
+				// This dependency is there to be provided to the consumers, keep it api.
 				// In particular, this lib contains androidx.test.core.app.ApplicationProvider,
 				// which is the recommended way to get the application Context in Robolectric.
 				exclude(libs.androidx.test.core.get().toString())
+			}
+		}
+		project(":internal:test:android_instrumentation") {
+			// > Advice for :internal:test:android_instrumentation
+			// > Dependencies which should be removed or changed to runtime-only:
+			// > runtimeOnly(libs.androidx.test.runner) (was api)
+			onRuntimeOnly {
+				// This dependency is there to be provided to the consumers, keep it api.
+				// In particular, this lib contains the extensible androidx.test.runner.AndroidJUnitRunner,
+				// and test size filter annotations.
+				exclude(libs.androidx.test.runner.get().toString())
 			}
 		}
 	}
