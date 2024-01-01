@@ -35,6 +35,13 @@
 	<issue id="GradleDependency" severity="ignore">
 		<!-- Known issue, ignore for now until there's Renovate. -->
 	</issue>
+	<issue id="GradleCompatible">
+		<!-- > Dependencies using groupId com.android.support and androidx.* can not be combined but
+		     > found com.android.support:support-fragment:28.0.0 and androidx.test.espresso:espresso-core:3.5.1 incompatible dependencies
+		     Accept it to be able to turn off Jetifier, users will Jetify if necessary.
+		-->
+		<ignore path="*/espresso_glide3/build.gradle" regexp=".*com.android.support:support-fragment:.*androidx..*" />
+	</issue>
 	<issue id="LintBaseline"> 
 		<ignore regexp="(was|were) filtered out because (it is|they are) listed in the baseline file" />
 	</issue>
