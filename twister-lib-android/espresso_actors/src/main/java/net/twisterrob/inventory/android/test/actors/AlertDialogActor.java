@@ -2,15 +2,23 @@ package net.twisterrob.inventory.android.test.actors;
 
 import org.hamcrest.Matcher;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.matchesPattern;
 
 import android.view.View;
 
-import static androidx.test.espresso.Espresso.*;
-import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static net.twisterrob.android.test.espresso.DialogMatchers.*;
+import static net.twisterrob.android.test.espresso.DialogMatchers.assertDialogIsDisplayed;
+import static net.twisterrob.android.test.espresso.DialogMatchers.assertNoDialogIsDisplayed;
+import static net.twisterrob.android.test.espresso.DialogMatchers.assertNoToastIsDisplayed;
+import static net.twisterrob.android.test.espresso.DialogMatchers.clickNeutralInDialog;
+import static net.twisterrob.android.test.espresso.DialogMatchers.isDialogMessage;
+import static net.twisterrob.android.test.espresso.DialogMatchers.isDialogTitle;
+import static net.twisterrob.android.test.espresso.DialogMatchers.isToast;
 
 public class AlertDialogActor {
 	protected static void assertDialogTitle(Matcher<View> matcher) {

@@ -1,6 +1,7 @@
 package net.twisterrob.java.memory;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * This class is based on <a href="http://stackoverflow.com/users/2478930/cheneym">cheneym</a>'s

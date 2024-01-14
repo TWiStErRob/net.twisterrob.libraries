@@ -1,10 +1,13 @@
 package net.twisterrob.test;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.io.FileMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.io.FileMatchers.anExistingDirectory;
 
 public class FolderDiff {
 	private final File[] contents;

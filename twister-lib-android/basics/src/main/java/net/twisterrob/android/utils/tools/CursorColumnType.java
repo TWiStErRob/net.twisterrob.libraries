@@ -1,6 +1,7 @@
 package net.twisterrob.android.utils.tools;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;

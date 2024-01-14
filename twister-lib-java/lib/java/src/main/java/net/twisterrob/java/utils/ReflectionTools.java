@@ -1,14 +1,19 @@
 package net.twisterrob.java.utils;
 
-import java.lang.reflect.*;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.reflect.Modifier.*;
+import static java.lang.reflect.Modifier.isStatic;
 
-import javax.annotation.*;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO refactor get/set to have try* variants
 public class ReflectionTools {

@@ -1,22 +1,32 @@
 package net.twisterrob.android.test.junit;
 
 import java.io.File;
-import java.util.*;
-import java.util.regex.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
-import android.os.Build.*;
-import android.os.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.os.Bundle;
+import android.os.StrictMode;
 import android.os.StrictMode.ThreadPolicy;
 import android.view.View;
 
-import static android.content.pm.PackageManager.*;
+import static android.content.pm.PackageManager.GET_META_DATA;
+import static android.content.pm.PackageManager.NameNotFoundException;
 
-import androidx.annotation.*;
-import androidx.test.espresso.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.FailureHandler;
+import androidx.test.espresso.NoActivityResumedException;
+import androidx.test.espresso.base.BaseLayerModule;
 import androidx.test.espresso.base.DefaultFailureHandler;
 import androidx.test.internal.runner.RunnerArgs;
 

@@ -1,10 +1,14 @@
 package net.twisterrob.java.utils.tostring;
 
-import java.util.*;
+import java.util.Formatter;
+import java.util.Locale;
+import java.util.Stack;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.twisterrob.java.utils.tostring.stringers.DefaultStringer;
 

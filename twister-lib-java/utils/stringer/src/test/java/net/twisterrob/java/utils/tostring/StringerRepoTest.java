@@ -1,14 +1,17 @@
 package net.twisterrob.java.utils.tostring;
 
 import org.hamcrest.Matcher;
-import org.junit.*;
-import org.mockito.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.either;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertSame;
 
-import net.twisterrob.java.utils.tostring.stringers.*;
+import net.twisterrob.java.utils.tostring.stringers.NullStringer;
+import net.twisterrob.java.utils.tostring.stringers.NullTypeStringer;
 
 public class StringerRepoTest {
 	private StringerRepo repo;

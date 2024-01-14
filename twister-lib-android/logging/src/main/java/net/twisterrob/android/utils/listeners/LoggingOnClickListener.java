@@ -1,6 +1,7 @@
 package net.twisterrob.android.utils.listeners;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.view.View;
 

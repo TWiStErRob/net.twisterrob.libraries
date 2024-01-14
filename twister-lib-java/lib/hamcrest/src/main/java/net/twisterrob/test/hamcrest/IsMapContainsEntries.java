@@ -1,8 +1,13 @@
 package net.twisterrob.test.hamcrest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.internal.NullSafety;
 

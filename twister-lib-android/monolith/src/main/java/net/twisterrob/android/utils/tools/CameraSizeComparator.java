@@ -2,7 +2,8 @@ package net.twisterrob.android.utils.tools;
 
 import java.util.Comparator;
 
-import static java.lang.Math.*;
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 @SuppressWarnings("deprecation") 
 /*default*/ class CameraSizeComparator implements Comparator<android.hardware.Camera.Size> {

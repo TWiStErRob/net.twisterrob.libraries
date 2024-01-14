@@ -1,30 +1,43 @@
 package net.twisterrob.android.test.automators;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.junit.MatcherAssume.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.junit.MatcherAssume.assumeThat;
+import static org.junit.Assert.assertTrue;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.annotation.SuppressLint;
 import android.app.UiAutomation;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
-import android.os.Build.*;
+import android.os.Build.VERSION_CODES;
 import android.view.Surface;
 import android.view.accessibility.AccessibilityWindowInfo;
 
-import androidx.annotation.*;
-import androidx.test.uiautomator.*;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.RawRes;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.StringRes;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.BySelector;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
+import androidx.test.uiautomator.Until;
 
-import static androidx.test.platform.app.InstrumentationRegistry.*;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
-import net.twisterrob.android.annotation.*;
+import net.twisterrob.android.annotation.IdResName;
+import net.twisterrob.android.annotation.StringResName;
 import net.twisterrob.android.test.espresso.DialogMatchers;
 
 /**

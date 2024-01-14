@@ -2,12 +2,14 @@ package net.twisterrob.android.utils.tostring.stringers.detailed;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 
 import net.twisterrob.android.annotation.Density;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class BitmapStringer extends Stringer<Bitmap> {
 	@TargetApi(VERSION_CODES.KITKAT)

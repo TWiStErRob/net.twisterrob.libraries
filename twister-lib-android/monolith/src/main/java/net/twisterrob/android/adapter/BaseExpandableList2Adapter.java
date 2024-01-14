@@ -1,9 +1,15 @@
 package net.twisterrob.android.adapter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 @SuppressWarnings("unused")
 public abstract class BaseExpandableList2Adapter<Group, Child, GroupVH, ChildVH>

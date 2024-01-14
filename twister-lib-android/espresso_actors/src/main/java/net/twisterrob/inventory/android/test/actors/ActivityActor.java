@@ -1,7 +1,8 @@
 package net.twisterrob.inventory.android.test.actors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.instanceOf;
 
 import android.app.Activity;
 
@@ -9,14 +10,24 @@ import androidx.annotation.IdRes;
 import androidx.test.espresso.Espresso;
 import androidx.test.runner.lifecycle.Stage;
 
-import static androidx.test.espresso.Espresso.*;
-import static androidx.test.espresso.action.ViewActions.*;
-import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
-import static net.twisterrob.android.test.junit.InstrumentationExtensions.*;
-import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.isActionBarSubTitle;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.isActionBarTitle;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.loopMainThreadUntilIdle;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.onActionBarDescendant;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.onActionMenuItem;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.rotateActivity;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.withMenuItemId;
+import static net.twisterrob.android.test.junit.InstrumentationExtensions.getActivitiesByType;
+import static net.twisterrob.android.test.junit.InstrumentationExtensions.getActivityInStage;
+import static net.twisterrob.android.test.matchers.AndroidMatchers.isFinishing;
+import static net.twisterrob.android.test.matchers.AndroidMatchers.isInStage;
 
 public class ActivityActor {
 	private final Class<? extends Activity> activityClass;

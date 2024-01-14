@@ -1,6 +1,7 @@
 package net.twisterrob.java.model;
 
-import static java.lang.Math.*;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 /**
  * This code is based on <a href="http://osgbwebmaptools.cvs.sourceforge.net/viewvc/osgbwebmaptools/OSGBWebMapTools/OSGBWebMapTools-API/lib/OSGBWebMapTools/GridProjection.js?revision=1.1&view=markup">GridProjection.js</a>.

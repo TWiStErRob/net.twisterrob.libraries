@@ -1,15 +1,25 @@
 package net.twisterrob.android.utils.tools;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.text.TextUtils;
-import android.view.*;
-import android.view.ViewGroup.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.drawerlayout.widget.DrawerLayout;

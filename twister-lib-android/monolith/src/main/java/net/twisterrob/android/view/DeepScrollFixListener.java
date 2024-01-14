@@ -1,7 +1,8 @@
 package net.twisterrob.android.view;
 
 import android.annotation.SuppressLint;
-import android.view.*;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.OnTouchListener;
 
 /**

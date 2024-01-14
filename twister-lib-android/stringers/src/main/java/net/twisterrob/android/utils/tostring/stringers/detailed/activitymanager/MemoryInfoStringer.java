@@ -2,11 +2,13 @@ package net.twisterrob.android.utils.tostring.stringers.detailed.activitymanager
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class MemoryInfoStringer extends Stringer<ActivityManager.MemoryInfo> {
 	@Override public void toString(@NonNull ToStringAppender append, MemoryInfo info) {

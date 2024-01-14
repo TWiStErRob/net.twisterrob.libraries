@@ -1,6 +1,7 @@
 package net.twisterrob.java.text;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 

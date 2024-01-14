@@ -2,7 +2,8 @@ package net.twisterrob.android.test.espresso.idle;
 
 import java.util.HashMap;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 

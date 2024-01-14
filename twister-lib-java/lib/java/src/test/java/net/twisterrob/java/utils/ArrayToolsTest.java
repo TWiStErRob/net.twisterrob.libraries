@@ -1,6 +1,7 @@
 package net.twisterrob.java.utils;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
 

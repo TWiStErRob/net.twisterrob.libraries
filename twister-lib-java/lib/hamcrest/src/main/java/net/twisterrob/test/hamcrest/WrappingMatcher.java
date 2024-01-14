@@ -1,6 +1,7 @@
 package net.twisterrob.test.hamcrest;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 
 public class WrappingMatcher<T> implements Matcher<T> {
 	private final Matcher<T> matcher;

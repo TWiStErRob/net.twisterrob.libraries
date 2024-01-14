@@ -1,10 +1,13 @@
 package net.twisterrob.inventory.android.activity;
 
-import org.junit.*;
-//import org.junit.experimental.categories.Category;
+import org.junit.Rule;
+import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -13,16 +16,16 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 import androidx.annotation.NonNull;
 
-import static androidx.test.core.app.ApplicationProvider.*;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 import net.twisterrob.android.about.R;
 import net.twisterrob.android.activity.AboutActivity;
 import net.twisterrob.android.test.junit.SensibleActivityTestRule;
 import net.twisterrob.android.utils.tools.PackageManagerTools;
 import net.twisterrob.inventory.android.test.actors.AboutActivityActor;
-//import net.twisterrob.inventory.android.test.categories.*;
 
-import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
+import static net.twisterrob.android.test.matchers.AndroidMatchers.containsStringRes;
+import static net.twisterrob.android.test.matchers.AndroidMatchers.stringRes;
 
 //@Category(On.Support.class)
 public class AboutActivityTest {

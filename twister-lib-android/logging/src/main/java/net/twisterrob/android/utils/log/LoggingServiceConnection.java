@@ -1,8 +1,10 @@
 package net.twisterrob.android.utils.log;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import android.content.*;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;

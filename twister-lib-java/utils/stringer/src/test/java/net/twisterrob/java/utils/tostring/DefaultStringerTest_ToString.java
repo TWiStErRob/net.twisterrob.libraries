@@ -6,9 +6,13 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.matchesPattern;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import net.twisterrob.java.utils.tostring.stringers.DefaultStringer;
 

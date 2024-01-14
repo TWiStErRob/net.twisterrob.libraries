@@ -1,6 +1,9 @@
 package net.twisterrob.android.adapter;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.database.DataSetObserver;

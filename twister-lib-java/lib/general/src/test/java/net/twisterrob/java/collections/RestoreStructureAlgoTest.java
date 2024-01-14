@@ -1,11 +1,14 @@
 package net.twisterrob.java.collections;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class RestoreStructureAlgoTest {
 	@Test public void testLevels() {

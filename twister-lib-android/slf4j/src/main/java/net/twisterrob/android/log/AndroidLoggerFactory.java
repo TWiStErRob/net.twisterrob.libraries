@@ -1,8 +1,14 @@
 package net.twisterrob.android.log;
 
-import java.io.*;
-import java.util.*;
-import java.util.concurrent.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.ILoggerFactory;
 
@@ -10,7 +16,8 @@ import android.os.StrictMode;
 import android.os.StrictMode.ThreadPolicy;
 import android.util.Log;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * An implementation of {@link ILoggerFactory} for Android, creating {@link AndroidLogger} instances.

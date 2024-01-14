@@ -1,20 +1,40 @@
 package net.twisterrob.test;
 
-import java.io.*;
-import java.util.*;
-import java.util.zip.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipOutputStream;
 
 import org.hamcrest.Matcher;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.anEmptyMap;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.hasValue;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.sameInstance;
 
 import net.twisterrob.java.io.IOTools;
 
-import static net.twisterrob.test.hamcrest.Matchers.*;
+import static net.twisterrob.test.hamcrest.Matchers.containsEntries;
+import static net.twisterrob.test.hamcrest.Matchers.exactlyOneOf;
+import static net.twisterrob.test.hamcrest.Matchers.zipEntryWithName;
 
 public class ZipDiffTest {
 	private static final Logger LOG = LoggerFactory.getLogger(ZipDiffTest.class);

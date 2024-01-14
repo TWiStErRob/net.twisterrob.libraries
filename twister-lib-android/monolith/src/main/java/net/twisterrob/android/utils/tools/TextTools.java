@@ -6,10 +6,19 @@ import java.util.Locale;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.text.*;
-import android.text.style.*;
+import android.text.Annotation;
+import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 
-import androidx.annotation.*;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import kotlin.collections.CollectionsKt;
 

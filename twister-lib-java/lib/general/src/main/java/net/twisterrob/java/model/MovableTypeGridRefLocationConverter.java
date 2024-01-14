@@ -1,6 +1,7 @@
 package net.twisterrob.java.model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * from http://www.movable-type.co.uk/scripts/latlong-gridref.html

@@ -1,19 +1,29 @@
 package net.twisterrob.android.test.junit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.os.Looper;
 
-import androidx.annotation.*;
+import androidx.annotation.AnyThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.runner.lifecycle.*;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import androidx.test.runner.lifecycle.Stage;
 import kotlin.collections.CollectionsKt;
 
-import static androidx.test.espresso.core.internal.deps.guava.base.Throwables.*;
-import static androidx.test.platform.app.InstrumentationRegistry.*;
+import static androidx.test.espresso.core.internal.deps.guava.base.Throwables.throwIfUnchecked;
+import static androidx.test.platform.app.InstrumentationRegistry.getArguments;
 
 public class InstrumentationExtensions {
 	public static @NonNull Stage getActivityStage(final @NonNull Activity activity) {

@@ -1,6 +1,7 @@
 package net.twisterrob.java.collections;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /** @see <a href="http://stackoverflow.com/a/5475086/253468">How to implement FilteringIterator?</a> */
 public class FilteredIterator<T> implements Iterator<T> {

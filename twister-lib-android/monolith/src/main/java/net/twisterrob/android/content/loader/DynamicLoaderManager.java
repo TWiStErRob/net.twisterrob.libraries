@@ -1,8 +1,12 @@
 package net.twisterrob.android.content.loader;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TreeMap;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.os.Bundle;

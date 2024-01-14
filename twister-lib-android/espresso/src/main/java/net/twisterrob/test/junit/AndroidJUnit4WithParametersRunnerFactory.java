@@ -2,7 +2,8 @@ package net.twisterrob.test.junit;
 
 import org.junit.runner.Runner;
 import org.junit.runners.model.InitializationError;
-import org.junit.runners.parameterized.*;
+import org.junit.runners.parameterized.ParametersRunnerFactory;
+import org.junit.runners.parameterized.TestWithParameters;
 
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;

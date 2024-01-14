@@ -1,10 +1,13 @@
 package net.twisterrob.android.test;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 

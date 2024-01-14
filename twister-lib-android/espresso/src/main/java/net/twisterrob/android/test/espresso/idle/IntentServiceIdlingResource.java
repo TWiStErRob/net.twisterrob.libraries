@@ -1,6 +1,7 @@
 package net.twisterrob.android.test.espresso.idle;
 
-import android.app.*;
+import android.app.ActivityManager;
+import android.app.Service;
 import android.content.Context;
 
 import androidx.test.core.app.ApplicationProvider;

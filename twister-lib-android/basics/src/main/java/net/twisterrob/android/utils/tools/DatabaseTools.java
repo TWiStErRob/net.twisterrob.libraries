@@ -1,16 +1,26 @@
 package net.twisterrob.android.utils.tools;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.database.*;
+import android.database.CrossProcessCursor;
+import android.database.Cursor;
+import android.database.CursorWindow;
+import android.database.CursorWrapper;
+import android.database.DatabaseUtils;
+import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.twisterrob.android.annotation.CursorFieldType;
 

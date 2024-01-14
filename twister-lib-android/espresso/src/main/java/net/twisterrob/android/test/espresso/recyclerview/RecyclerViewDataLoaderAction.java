@@ -15,20 +15,26 @@
 
 package net.twisterrob.android.test.espresso.recyclerview;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-import org.hamcrest.*;
+import org.hamcrest.Matcher;
+import org.hamcrest.StringDescription;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.allOf;
 
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.espresso.*;
+import androidx.test.espresso.PerformException;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.core.internal.deps.guava.base.Optional;
 import androidx.test.espresso.util.HumanReadables;
 
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 import net.twisterrob.android.test.espresso.recyclerview.RecyclerViewProtocol.AdaptedData;
 

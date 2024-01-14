@@ -9,7 +9,8 @@ import android.widget.TextView;
 import net.twisterrob.android.R;
 import net.twisterrob.android.view.RepeatListener;
 
-import static net.twisterrob.android.utils.tools.DialogTools.*;
+import static net.twisterrob.android.utils.tools.DialogTools.PopupCallbacks;
+import static net.twisterrob.android.utils.tools.DialogTools.pickNumber;
 
 // TODO merge with NumberPickerPreference
 public class NumberPickerWidget {

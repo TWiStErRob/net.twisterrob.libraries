@@ -3,7 +3,8 @@ package androidx.fragment.app;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment.SavedState;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class SupportFragmentSavedStateStringer extends Stringer<SavedState> {
 	@Override public String getType(SavedState object) {

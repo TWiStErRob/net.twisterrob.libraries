@@ -1,9 +1,12 @@
 package net.twisterrob.android.test;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
@@ -11,10 +14,14 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build.*;
-import android.os.*;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.os.IBinder;
+import android.os.Looper;
+import android.os.StrictMode;
 
-import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION.SDK_INT;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

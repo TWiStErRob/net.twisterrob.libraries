@@ -2,7 +2,8 @@ package net.twisterrob.android.utils.concurrent;
 
 import androidx.annotation.NonNull;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @SuppressWarnings("rawtypes")
 public class AsyncTaskResultStringer extends Stringer<AsyncTaskResult> {

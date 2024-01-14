@@ -1,9 +1,11 @@
 package net.twisterrob.android.utils.listeners;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.SuppressLint;
-import android.view.*;
+import android.view.MotionEvent;
+import android.view.View;
 
 import net.twisterrob.java.annotations.DebugHelper;
 

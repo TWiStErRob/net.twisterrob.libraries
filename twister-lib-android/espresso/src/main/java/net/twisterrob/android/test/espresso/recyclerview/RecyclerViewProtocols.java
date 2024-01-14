@@ -23,13 +23,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import androidx.recyclerview.widget.*;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 import androidx.test.espresso.core.internal.deps.guava.base.Optional;
-import androidx.test.espresso.core.internal.deps.guava.collect.*;
+import androidx.test.espresso.core.internal.deps.guava.collect.Lists;
+import androidx.test.espresso.core.internal.deps.guava.collect.Range;
 
-import static androidx.test.espresso.core.internal.deps.guava.base.Preconditions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.core.internal.deps.guava.base.Preconditions.checkArgument;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 
 /**
  * Implementations of {@link RecyclerViewProtocol} for standard SDK Widgets.

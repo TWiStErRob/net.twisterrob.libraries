@@ -3,10 +3,12 @@ package net.twisterrob.java.text;
 import java.util.Collection;
 
 import org.hamcrest.Matchers;
-import org.junit.*;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import net.twisterrob.java.text.Indexer.MatchResult;
 

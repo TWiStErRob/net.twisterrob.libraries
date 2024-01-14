@@ -1,7 +1,9 @@
 package net.twisterrob.android.test.junit.internal;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +12,19 @@ import android.app.Instrumentation;
 import android.os.StrictMode;
 import android.os.StrictMode.ThreadPolicy;
 
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static android.os.Build.VERSION_CODES.LOLLIPOP_MR1;
+import static android.os.Build.VERSION_CODES.M;
+import static android.os.Build.VERSION_CODES.N_MR1;
+import static android.os.Build.VERSION_CODES.O;
+import static android.os.Build.VERSION_CODES.P;
 
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
-import dalvik.system.*;
+import dalvik.system.BaseDexClassLoader;
+import dalvik.system.DexFile;
+import dalvik.system.PathClassLoader;
 
 import net.twisterrob.android.test.junit.AndroidJUnitRunner;
 import net.twisterrob.java.utils.ReflectionTools;

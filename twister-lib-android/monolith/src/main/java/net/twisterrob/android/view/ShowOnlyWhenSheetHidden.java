@@ -5,7 +5,8 @@ import android.view.View;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback;
 
-import androidx.annotation.*;
+import androidx.annotation.FloatRange;
+import androidx.annotation.NonNull;
 
 import net.twisterrob.android.annotation.BottomSheetState;
 

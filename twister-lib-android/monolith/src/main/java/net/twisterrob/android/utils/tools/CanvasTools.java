@@ -2,16 +2,26 @@ package net.twisterrob.android.utils.tools;
 
 import java.util.Locale;
 
-import javax.microedition.khronos.egl.*;
+import javax.microedition.khronos.egl.EGL;
+import javax.microedition.khronos.egl.EGL10;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.TargetApi;
-import android.graphics.*;
-import android.opengl.*;
-import android.os.Build.*;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
+import android.opengl.EGL14;
+import android.opengl.GLES10;
+import android.opengl.GLES20;
+import android.opengl.GLU;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class CanvasTools {
 	private static final Logger LOG = LoggerFactory.getLogger(CanvasTools.class);

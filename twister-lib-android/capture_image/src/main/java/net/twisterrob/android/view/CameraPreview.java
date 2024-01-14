@@ -1,19 +1,33 @@
 package net.twisterrob.android.view;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import android.annotation.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build.*;
-import android.os.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.util.AttributeSet;
-import android.view.*;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.*;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.annotation.WorkerThread;
 
 import net.twisterrob.android.utils.tools.AndroidTools;
 

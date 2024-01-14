@@ -2,7 +2,8 @@ package net.twisterrob.android.settings.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.*;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 
 import androidx.preference.DialogPreference;

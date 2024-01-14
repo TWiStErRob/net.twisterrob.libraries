@@ -1,6 +1,7 @@
 package net.twisterrob.java.utils.tostring;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * The generic methods use recursive toString processing, while the Object ones use straight sb.append.

@@ -5,7 +5,8 @@ import androidx.appcompat.widget.Toolbar.SavedState;
 
 import net.twisterrob.android.utils.tostring.stringers.name.ResourceNameStringer;
 import net.twisterrob.java.annotations.DebugHelper;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @DebugHelper
 public class SupportToolbarSavedStateStringer extends Stringer<SavedState> {

@@ -1,9 +1,12 @@
 package net.twisterrob.android.test.junit;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Intent to force a context (i.e. packageName).

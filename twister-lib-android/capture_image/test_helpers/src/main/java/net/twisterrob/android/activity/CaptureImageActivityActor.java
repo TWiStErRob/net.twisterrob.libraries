@@ -1,49 +1,77 @@
 package net.twisterrob.android.activity;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
-import org.hamcrest.*;
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static org.junit.Assume.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeThat;
+import static org.junit.Assume.assumeTrue;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Instrumentation.ActivityResult;
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.*;
-import android.graphics.drawable.*;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.view.View;
 
-import androidx.annotation.*;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.*;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.VerificationMode;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 
-import static androidx.test.espresso.Espresso.*;
-import static androidx.test.espresso.action.ViewActions.*;
-import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.intent.Intents.*;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.Intents.times;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import net.twisterrob.android.capture_image.R;
-import net.twisterrob.android.view.*;
+import net.twisterrob.android.view.CameraPreview;
+import net.twisterrob.android.view.SelectionView;
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
 import net.twisterrob.inventory.android.test.actors.ActivityActor;
 import net.twisterrob.java.io.IOTools;
 
-import static net.twisterrob.android.test.automators.AndroidAutomator.*;
-import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
+import static net.twisterrob.android.test.automators.AndroidAutomator.acceptAnyPermissions;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.loopMainThreadUntilIdle;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.onRoot;
 import static net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap;
 import static net.twisterrob.android.test.espresso.ImageViewMatchers.withDrawable;
 import static net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt;
-import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
+import static net.twisterrob.android.test.matchers.AndroidMatchers.checkIfUnchecked;
+import static net.twisterrob.android.test.matchers.AndroidMatchers.uncheckIfChecked;
 
 /**
  * @see CaptureImage

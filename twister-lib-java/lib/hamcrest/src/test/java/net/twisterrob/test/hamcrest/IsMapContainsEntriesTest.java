@@ -1,15 +1,21 @@
 package net.twisterrob.test.hamcrest;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.anEmptyMap;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertThrows;
 
-import static net.twisterrob.test.hamcrest.Matchers.*;
+import static net.twisterrob.test.hamcrest.Matchers.hasMessage;
 
 public class IsMapContainsEntriesTest {
 

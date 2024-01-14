@@ -1,16 +1,23 @@
 package net.twisterrob.android.test.espresso.idle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-import static org.junit.Assume.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeTrue;
 
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.widget.Toast;
 
 import androidx.test.espresso.IdlingResource.ResourceCallback;
@@ -18,11 +25,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.FlakyTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import static androidx.test.espresso.Espresso.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 
 import net.twisterrob.android.test.espresso.EspressoExtensions;
-import net.twisterrob.android.test.junit.*;
+import net.twisterrob.android.test.junit.InstrumentationExtensions;
+import net.twisterrob.android.test.junit.TestPackageIntentRule;
 import net.twisterrob.inventory.android.test.activity.TestActivity;
 import net.twisterrob.java.exceptions.StackTrace;
 

@@ -2,17 +2,20 @@ package net.twisterrob.android.test.espresso.idle;
 
 import org.hamcrest.Matcher;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.StringDescription.*;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.StringDescription.asString;
 
 import android.app.Activity;
 
 import androidx.test.espresso.IdlingRegistry;
-import androidx.test.runner.lifecycle.*;
+import androidx.test.runner.lifecycle.ActivityLifecycleCallback;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import androidx.test.runner.lifecycle.Stage;
 
 import net.twisterrob.android.test.espresso.EspressoExtensions;
 
-import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.onRoot;
 
 public class ActivityStageIdlingResource extends AsyncIdlingResource {
 	private final ActivityLifecycleCallback callback = new ActivityLifecycleCallback() {

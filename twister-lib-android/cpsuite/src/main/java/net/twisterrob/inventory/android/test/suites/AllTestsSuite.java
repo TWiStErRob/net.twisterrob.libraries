@@ -1,19 +1,27 @@
 package net.twisterrob.inventory.android.test.suites;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.junit.extensions.cpsuite.*;
+import org.junit.extensions.cpsuite.ClassTester;
+import org.junit.extensions.cpsuite.ClassesFinder;
+import org.junit.extensions.cpsuite.ClassesFinderFactory;
+import org.junit.extensions.cpsuite.ClasspathSuite;
+import org.junit.extensions.cpsuite.ClasspathSuiteTester;
+import org.junit.extensions.cpsuite.SuiteType;
 import org.junit.runner.RunWith;
-import org.junit.runners.model.*;
+import org.junit.runners.model.InitializationError;
+import org.junit.runners.model.RunnerBuilder;
 
 import android.annotation.SuppressLint;
 import android.os.Build.VERSION_CODES;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
-import androidx.test.internal.runner.*;
+import androidx.test.internal.runner.ClassPathScanner;
 import androidx.test.internal.runner.ClassPathScanner.AcceptAllFilter;
+import androidx.test.internal.runner.TestLoaderAccess;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 /**

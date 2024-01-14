@@ -1,13 +1,15 @@
 package net.twisterrob.android.utils.log;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build.VERSION_CODES;
 import android.widget.EdgeEffect;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import net.twisterrob.android.utils.wrappers.EdgeEffectWrapper;
 import net.twisterrob.java.annotations.DebugHelper;

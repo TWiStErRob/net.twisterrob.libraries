@@ -1,8 +1,10 @@
 package net.twisterrob.android.view.layout;
 
 import android.annotation.TargetApi;
-import android.os.Build.*;
-import android.view.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import androidx.annotation.NonNull;

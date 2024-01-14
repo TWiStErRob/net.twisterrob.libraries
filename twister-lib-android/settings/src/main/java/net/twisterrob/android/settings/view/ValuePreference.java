@@ -4,7 +4,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build.VERSION_CODES;
-import android.util.*;
+import android.util.AttributeSet;
+import android.util.TypedValue;
 
 import androidx.preference.Preference;
 

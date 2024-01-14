@@ -3,7 +3,8 @@ package net.twisterrob.android.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewParent;
-import android.view.inputmethod.*;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 
 import com.google.android.material.textfield.TextInputLayout;
 

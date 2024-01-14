@@ -1,6 +1,7 @@
 package net.twisterrob.test.hamcrest;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.SelfDescribing;
 
 import net.twisterrob.java.utils.ObjectTools;
 

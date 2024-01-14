@@ -2,7 +2,9 @@ package net.twisterrob.test.hamcrest;
 
 import javax.annotation.Nonnull;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 public class StackTraceMatcher extends TypeSafeDiagnosingMatcher<Throwable> {
 

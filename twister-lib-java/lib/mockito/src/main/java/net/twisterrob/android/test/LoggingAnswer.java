@@ -1,6 +1,8 @@
 package net.twisterrob.android.test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;

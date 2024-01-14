@@ -1,8 +1,11 @@
 package net.twisterrob.android.content.pref;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
-import android.annotation.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
 

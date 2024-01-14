@@ -1,14 +1,50 @@
 package net.twisterrob.android.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 
-import android.annotation.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build.VERSION_CODES;
 
-import static android.content.Intent.*;
+import static android.content.Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT;
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET;
+import static android.content.Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
+import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
+import static android.content.Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY;
+import static android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
+import static android.content.Intent.FLAG_ACTIVITY_NO_HISTORY;
+import static android.content.Intent.FLAG_ACTIVITY_NO_USER_ACTION;
+import static android.content.Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT;
+import static android.content.Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED;
+import static android.content.Intent.FLAG_ACTIVITY_RETAIN_IN_RECENTS;
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_TASK_ON_HOME;
+import static android.content.Intent.FLAG_DEBUG_LOG_RESOLUTION;
+import static android.content.Intent.FLAG_EXCLUDE_STOPPED_PACKAGES;
+import static android.content.Intent.FLAG_FROM_BACKGROUND;
+import static android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_PREFIX_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+import static android.content.Intent.FLAG_INCLUDE_STOPPED_PACKAGES;
+import static android.content.Intent.FLAG_RECEIVER_FOREGROUND;
+import static android.content.Intent.FLAG_RECEIVER_NO_ABORT;
+import static android.content.Intent.FLAG_RECEIVER_REGISTERED_ONLY;
+import static android.content.Intent.FLAG_RECEIVER_REPLACE_PENDING;
 
 import androidx.annotation.IntDef;
 

@@ -1,15 +1,16 @@
 package net.twisterrob.android.utils.tools;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Locale;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import static net.twisterrob.android.utils.tools.CameraSizeHelper.*;
+import static net.twisterrob.android.utils.tools.CameraSizeHelper.s;
 
 @SuppressWarnings("deprecation")
 @RunWith(Parameterized.class)

@@ -1,17 +1,25 @@
 package net.twisterrob.android.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 
-import android.annotation.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.res.Configuration;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.util.DisplayMetrics;
 
-import androidx.annotation.*;
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
 
 import net.twisterrob.java.annotations.DebugHelper;
 

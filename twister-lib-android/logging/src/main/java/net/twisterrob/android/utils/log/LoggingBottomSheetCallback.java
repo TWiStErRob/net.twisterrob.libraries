@@ -1,12 +1,14 @@
 package net.twisterrob.android.utils.log;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.view.View;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback;
 
-import androidx.annotation.*;
+import androidx.annotation.FloatRange;
+import androidx.annotation.NonNull;
 
 import net.twisterrob.android.annotation.BottomSheetState;
 import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;

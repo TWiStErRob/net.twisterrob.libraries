@@ -1,20 +1,27 @@
 package net.twisterrob.android.utils.tools;
 
-import java.io.*;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.zip.ZipFile;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.Cursor;
-import android.graphics.*;
-import android.os.Build.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.ParcelFileDescriptor;
-import android.system.*;
+import android.system.ErrnoException;
+import android.system.OsConstants;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

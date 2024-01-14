@@ -1,14 +1,21 @@
 package net.twisterrob.android.test.espresso.idle;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
 
 import android.app.Activity;
-import android.os.*;
+import android.os.Handler;
+import android.os.Looper;
 
-import static android.os.Build.*;
+import static android.os.Build.VERSION;
+import static android.os.Build.VERSION_CODES;
 
-import androidx.annotation.*;
-import androidx.test.runner.lifecycle.*;
+import androidx.annotation.AnyThread;
+import androidx.annotation.NonNull;
+import androidx.test.runner.lifecycle.ActivityLifecycleCallback;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitor;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import androidx.test.runner.lifecycle.Stage;
 
 import net.twisterrob.android.test.junit.InstrumentationExtensions;
 

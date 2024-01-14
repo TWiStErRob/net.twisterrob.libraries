@@ -1,21 +1,26 @@
 package net.twisterrob.test.mockito;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.function.Consumer;
 
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 import org.mockito.Mock;
 import org.mockito.exceptions.verification.junit.ArgumentsAreDifferent;
 import org.mockito.internal.stubbing.answers.ThrowsException;
-import org.mockito.junit.*;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.quality.Strictness;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import static net.twisterrob.test.hamcrest.Matchers.*;
+import static net.twisterrob.test.hamcrest.Matchers.hasCause;
 
 public class SameFileTest {
 	private static final String DUMMY_PATH = "a/b";

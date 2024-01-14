@@ -2,7 +2,8 @@ package net.twisterrob.android.utils.tools;
 
 import java.util.Locale;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,11 +11,27 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.util.TypedValue;
 
-import static android.util.TypedValue.*;
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
-import androidx.annotation.*;
+import androidx.annotation.AnyRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RawRes;
+import androidx.annotation.StringRes;
 
-import static net.twisterrob.android.AndroidConstants.*;
+import static net.twisterrob.android.AndroidConstants.ANDROID_PACKAGE;
+import static net.twisterrob.android.AndroidConstants.INVALID_RESOURCE_ID;
+import static net.twisterrob.android.AndroidConstants.RES_TYPE_COLOR;
+import static net.twisterrob.android.AndroidConstants.RES_TYPE_DIMEN;
+import static net.twisterrob.android.AndroidConstants.RES_TYPE_DRAWABLE;
+import static net.twisterrob.android.AndroidConstants.RES_TYPE_ID;
+import static net.twisterrob.android.AndroidConstants.RES_TYPE_RAW;
+import static net.twisterrob.android.AndroidConstants.RES_TYPE_STRING;
 
 @SuppressWarnings({"unused", "StaticMethodOnlyUsedInOneClass"})
 public /*static*/ abstract class ResourceTools {

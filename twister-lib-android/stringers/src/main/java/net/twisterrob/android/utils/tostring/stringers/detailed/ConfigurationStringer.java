@@ -2,12 +2,24 @@ package net.twisterrob.android.utils.tostring.stringers.detailed;
 
 import android.annotation.TargetApi;
 import android.content.res.Configuration;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 
-import net.twisterrob.android.annotation.*;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.android.annotation.ConfigurationDensityDpi;
+import net.twisterrob.android.annotation.ConfigurationHardKeyboardHidden;
+import net.twisterrob.android.annotation.ConfigurationKeyboard;
+import net.twisterrob.android.annotation.ConfigurationKeyboardHidden;
+import net.twisterrob.android.annotation.ConfigurationNavigation;
+import net.twisterrob.android.annotation.ConfigurationNavigationHidden;
+import net.twisterrob.android.annotation.ConfigurationOrientation;
+import net.twisterrob.android.annotation.ConfigurationScreenLayout;
+import net.twisterrob.android.annotation.ConfigurationTouchscreen;
+import net.twisterrob.android.annotation.ConfigurationUIMode;
+import net.twisterrob.android.annotation.ViewLayoutDirection;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 /**
  * @see <a href="https://developer.android.com/guide/topics/resources/providing-resources.html#table2">

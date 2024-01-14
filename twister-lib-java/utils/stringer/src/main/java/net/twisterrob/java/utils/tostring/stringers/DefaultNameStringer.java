@@ -3,7 +3,8 @@ package net.twisterrob.java.utils.tostring.stringers;
 import javax.annotation.Nonnull;
 
 import net.twisterrob.java.utils.StringTools;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class DefaultNameStringer extends Stringer<Object> {
 	public static final Stringer<Object> INSTANCE = new DefaultNameStringer();

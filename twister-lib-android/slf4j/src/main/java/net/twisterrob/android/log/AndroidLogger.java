@@ -1,7 +1,8 @@
 package net.twisterrob.android.log;
 
 import org.slf4j.Marker;
-import org.slf4j.helpers.*;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

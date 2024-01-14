@@ -16,12 +16,22 @@
 
 package com.android.debug.hv;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
-import java.net.*;
-import java.util.*;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import android.app.Activity;
@@ -31,7 +41,8 @@ import android.net.TrafficStats;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.*;
+import android.view.View;
+import android.view.ViewDebug;
 
 import androidx.annotation.NonNull;
 

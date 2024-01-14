@@ -8,7 +8,8 @@ import androidx.annotation.NonNull;
 
 import net.twisterrob.android.utils.tools.StringerTools;
 import net.twisterrob.java.annotations.DebugHelper;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @SuppressWarnings("rawtypes")
 @DebugHelper

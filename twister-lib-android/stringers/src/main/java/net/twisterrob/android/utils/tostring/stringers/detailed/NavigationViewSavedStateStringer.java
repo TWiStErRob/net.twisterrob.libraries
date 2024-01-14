@@ -4,7 +4,8 @@ import com.google.android.material.navigation.NavigationView.SavedState;
 
 import androidx.annotation.NonNull;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class NavigationViewSavedStateStringer extends Stringer<SavedState> {
 	@Override public void toString(@NonNull ToStringAppender append, SavedState state) {

@@ -1,16 +1,33 @@
 package com.bumptech.glide.load.engine;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.anEmptyMap;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.hasValue;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import com.bumptech.glide.load.Key;
 import com.bumptech.glide.request.ResourceCallback;
 import com.bumptech.glide.util.Util;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 
 // CONSIDER get rid of twisterrob dependency? and share on Github Glide issues
 

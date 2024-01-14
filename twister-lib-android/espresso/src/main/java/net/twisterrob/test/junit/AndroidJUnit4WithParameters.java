@@ -2,8 +2,11 @@ package net.twisterrob.test.junit;
 
 import org.junit.Test;
 import org.junit.internal.runners.statements.FailOnTimeout;
-import org.junit.runners.model.*;
-import org.junit.runners.parameterized.*;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.InitializationError;
+import org.junit.runners.model.Statement;
+import org.junit.runners.parameterized.BlockJUnit4ClassRunnerWithParameters;
+import org.junit.runners.parameterized.TestWithParameters;
 
 import android.annotation.SuppressLint;
 

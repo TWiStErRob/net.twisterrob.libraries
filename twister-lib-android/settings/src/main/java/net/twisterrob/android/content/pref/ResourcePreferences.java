@@ -1,12 +1,19 @@
 package net.twisterrob.android.content.pref;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
-import androidx.annotation.*;
+import androidx.annotation.ArrayRes;
+import androidx.annotation.BoolRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.IntegerRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 /**
  * I found it really useful to structure my preferences this way:

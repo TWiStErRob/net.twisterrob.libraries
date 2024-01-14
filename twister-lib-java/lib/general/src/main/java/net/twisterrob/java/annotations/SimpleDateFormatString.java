@@ -1,11 +1,16 @@
 package net.twisterrob.java.annotations;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import javax.annotation.*;
-import javax.annotation.meta.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Syntax;
+import javax.annotation.meta.TypeQualifierNickname;
+import javax.annotation.meta.TypeQualifierValidator;
+import javax.annotation.meta.When;
 
 /**
  * This qualifier is used to denote String values that should be a format strings accepted by {@link SimpleDateFormatString}.

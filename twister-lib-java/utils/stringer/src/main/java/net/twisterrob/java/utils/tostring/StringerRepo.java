@@ -1,13 +1,25 @@
 package net.twisterrob.java.utils.tostring;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import net.twisterrob.java.utils.tostring.stringers.*;
+import net.twisterrob.java.utils.tostring.stringers.DefaultStringer;
+import net.twisterrob.java.utils.tostring.stringers.NullStringer;
+import net.twisterrob.java.utils.tostring.stringers.NullTypeStringer;
+import net.twisterrob.java.utils.tostring.stringers.StringStringer;
+import net.twisterrob.java.utils.tostring.stringers.ZipEntryStringer;
 
 public class StringerRepo {
 	private static final Logger LOG = LoggerFactory.getLogger(StringerRepo.class);

@@ -1,11 +1,13 @@
 package net.twisterrob.android.utils.tostring.stringers.detailed;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import androidx.annotation.NonNull;
 import androidx.loader.content.Loader;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @SuppressWarnings({
 		"rawtypes", // Cannot register in AndroidStringerRepo if using Loader<?>.

@@ -3,7 +3,8 @@ package net.twisterrob.java.collections;
 import java.util.Iterator;
 import java.util.concurrent.Callable;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class RestoreStructureAlgo<Container, Item, Result> {
 	public final Result run(@Nonnull Container data) {

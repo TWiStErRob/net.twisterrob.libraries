@@ -1,6 +1,9 @@
 package net.twisterrob.android.activity;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -8,7 +11,8 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 
 import net.twisterrob.android.view.SelectionView.SelectionStatus;
 
-import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.loopMainThreadForAtLeast;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.onRoot;
 
 /**
  * @see CaptureImage

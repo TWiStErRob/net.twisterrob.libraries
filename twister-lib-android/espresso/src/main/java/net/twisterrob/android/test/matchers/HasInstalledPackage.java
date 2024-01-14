@@ -1,8 +1,10 @@
 package net.twisterrob.android.test.matchers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

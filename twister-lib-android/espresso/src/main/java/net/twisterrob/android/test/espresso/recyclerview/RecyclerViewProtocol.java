@@ -19,7 +19,8 @@ package net.twisterrob.android.test.espresso.recyclerview;
 import android.database.Cursor;
 import android.view.View;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.core.internal.deps.guava.base.Optional;
 import androidx.test.espresso.util.HumanReadables;

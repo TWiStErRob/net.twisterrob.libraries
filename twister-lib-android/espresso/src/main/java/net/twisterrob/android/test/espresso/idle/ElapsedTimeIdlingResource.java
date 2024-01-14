@@ -1,6 +1,7 @@
 package net.twisterrob.android.test.espresso.idle;
 
-import android.os.*;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.test.annotation.ExperimentalTestApi;
 import androidx.test.espresso.IdlingRegistry;

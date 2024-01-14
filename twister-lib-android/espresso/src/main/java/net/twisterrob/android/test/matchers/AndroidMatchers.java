@@ -1,45 +1,76 @@
 package net.twisterrob.android.test.matchers;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
-import org.hamcrest.*;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.any;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.Matchers.not;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.*;
-import android.content.*;
+import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.graphics.*;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.drawable.*;
-import android.os.Build.*;
-import android.view.*;
-import android.widget.*;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.view.View;
+import android.view.ViewParent;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.Checkable;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import androidx.annotation.*;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
+import androidx.annotation.StringRes;
 import androidx.preference.Preference;
-import androidx.test.espresso.*;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.runner.lifecycle.Stage;
 
-import static androidx.test.core.app.ApplicationProvider.*;
-import static androidx.test.espresso.action.ViewActions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 
 import net.twisterrob.android.utils.tools.DatabaseTools;
 import net.twisterrob.android.utils.tools.PackageManagerTools;
 import net.twisterrob.java.utils.ReflectionTools;
 import net.twisterrob.test.hamcrest.NamedMatcher;
 
-import static net.twisterrob.android.test.junit.InstrumentationExtensions.*;
-import static net.twisterrob.test.hamcrest.Matchers.*;
+import static net.twisterrob.android.test.junit.InstrumentationExtensions.getActivityStage;
+import static net.twisterrob.test.hamcrest.Matchers.hasConstant;
 
 public class AndroidMatchers {
 	public static @NonNull <T> Matcher<T> nothing() {

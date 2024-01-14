@@ -2,7 +2,8 @@ package net.twisterrob.test.mockito;
 
 import java.io.File;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.mockito.ArgumentMatcher;
 

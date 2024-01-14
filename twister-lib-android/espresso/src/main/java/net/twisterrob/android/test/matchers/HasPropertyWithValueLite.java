@@ -1,11 +1,16 @@
 package net.twisterrob.android.test.matchers;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
-import org.hamcrest.*;
+import org.hamcrest.Condition;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import static org.hamcrest.Condition.*;
-import static org.hamcrest.beans.PropertyUtil.*;
+import static org.hamcrest.Condition.matched;
+import static org.hamcrest.Condition.notMatched;
+import static org.hamcrest.beans.PropertyUtil.NO_ARGUMENTS;
 
 import net.twisterrob.java.utils.ReflectionTools;
 

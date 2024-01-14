@@ -2,12 +2,14 @@ package net.twisterrob.android.utils.tostring.stringers.detailed.activitymanager
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 
 import net.twisterrob.android.annotation.TrimMemoryLevel.Converter;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class RunningAppProcessInfoStringer extends Stringer<ActivityManager.RunningAppProcessInfo> {
 	@Override public void toString(@NonNull ToStringAppender append, RunningAppProcessInfo info) {
