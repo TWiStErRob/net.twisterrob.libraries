@@ -58,7 +58,6 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -495,7 +494,7 @@ public /*static*/ abstract class AndroidTools {
 
 	/**
 	 * Try to execute in parallel if the API level allows.
-	 * @see #executeParallel(AsyncTask, boolean, Object[])
+	 * @see #executeParallel(android.os.AsyncTask, boolean, Object[])
 	 */
 	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
