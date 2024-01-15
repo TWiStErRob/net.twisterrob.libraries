@@ -1,6 +1,7 @@
 package net.twisterrob.android.utils.concurrent;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 class SimpleAsyncTaskHelper {
 	static @Nullable <T> T getSingleOrThrow(@NonNull String type, @Nullable T[] params, boolean allowZeroLength) {

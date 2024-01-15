@@ -1,13 +1,16 @@
 package net.twisterrob.test.hamcrest;
 
-import org.junit.*;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThrows;
 
-import static net.twisterrob.test.hamcrest.Matchers.*;
+import static net.twisterrob.test.hamcrest.Matchers.hasMessage;
 
 public class ConstantMatcherTest {
 

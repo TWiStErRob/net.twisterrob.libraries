@@ -1,6 +1,8 @@
 package net.twisterrob.android.test.matchers;
 
-import org.hamcrest.*;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 
 public class OnceMatcher<T> extends BaseMatcher<T> {
 	private final Matcher<T> matcher;

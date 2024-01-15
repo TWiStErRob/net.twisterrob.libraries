@@ -1,6 +1,7 @@
 package net.twisterrob.android.utils.log;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
@@ -8,7 +9,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.IBinder;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.twisterrob.android.annotation.TrimMemoryLevel;
 import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;

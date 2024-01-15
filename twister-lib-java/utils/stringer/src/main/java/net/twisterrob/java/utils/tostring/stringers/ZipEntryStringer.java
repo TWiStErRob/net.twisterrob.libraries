@@ -4,7 +4,8 @@ import java.util.zip.ZipEntry;
 
 import javax.annotation.Nonnull;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class ZipEntryStringer extends Stringer<ZipEntry> {
 	@Override public void toString(@Nonnull ToStringAppender append, ZipEntry entry) {

@@ -1,7 +1,8 @@
 package net.twisterrob.android.test.junit;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 

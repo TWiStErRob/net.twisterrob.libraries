@@ -1,6 +1,8 @@
 package net.twisterrob.android.utils.tostring.stringers.name;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,9 +10,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
-import static net.twisterrob.android.AndroidConstants.*;
+import static net.twisterrob.android.AndroidConstants.INVALID_RESOURCE_ID;
 
 public class ResourceNameStringer extends Stringer<Integer> {
 	public static /*final*/ Stringer<Integer> INSTANCE;

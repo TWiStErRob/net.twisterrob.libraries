@@ -3,8 +3,10 @@ package net.twisterrob.android.utils.tostring.stringers.name;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import net.twisterrob.java.utils.*;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.ReflectionTools;
+import net.twisterrob.java.utils.StringTools;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class FragmentNameStringer extends Stringer<Fragment> {
 	public static final Stringer<Fragment> INSTANCE = new FragmentNameStringer();

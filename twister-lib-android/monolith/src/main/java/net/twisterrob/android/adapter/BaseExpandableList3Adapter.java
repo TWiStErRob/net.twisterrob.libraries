@@ -1,14 +1,22 @@
 package net.twisterrob.android.adapter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
 
 @SuppressWarnings("unused")

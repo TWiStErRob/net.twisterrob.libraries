@@ -2,16 +2,21 @@ package net.twisterrob.test.junit;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.*;
+import org.junit.AssumptionViolatedException;
+import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.Assert.assertThrows;
 
 import net.twisterrob.java.utils.ConcurrentTools;
 
-import static net.twisterrob.test.hamcrest.Matchers.*;
+import static net.twisterrob.test.hamcrest.Matchers.hasCause;
+import static net.twisterrob.test.hamcrest.Matchers.hasMessage;
 
 public class AssertTest {
 

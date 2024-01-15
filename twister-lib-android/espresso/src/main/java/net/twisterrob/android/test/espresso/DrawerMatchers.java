@@ -1,24 +1,36 @@
 package net.twisterrob.android.test.espresso;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.not;
 
-import android.view.*;
+import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.core.view.*;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.test.espresso.*;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.espresso.util.HumanReadables;
 
-import static androidx.core.view.GravityCompat.*;
-import static androidx.test.espresso.Espresso.*;
-import static androidx.test.espresso.contrib.DrawerMatchers.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.core.view.GravityCompat.END;
+import static androidx.core.view.GravityCompat.START;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.contrib.DrawerMatchers.isClosed;
+import static androidx.test.espresso.contrib.DrawerMatchers.isOpen;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 
 import net.twisterrob.android.annotation.GravityFlag;
 import net.twisterrob.android.test.junit.InstrumentationExtensions;

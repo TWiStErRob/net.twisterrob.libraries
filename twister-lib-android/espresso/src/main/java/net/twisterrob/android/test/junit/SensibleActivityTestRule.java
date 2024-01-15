@@ -5,10 +5,12 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.Intent;
 import android.util.Log;
 
-import androidx.annotation.*;
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.test.espresso.intent.rule.IntentsRule;
 
 import net.twisterrob.android.test.espresso.ScreenshotFailure;

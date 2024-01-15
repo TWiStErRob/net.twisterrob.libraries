@@ -1,10 +1,12 @@
 package net.twisterrob.android.test.espresso;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -15,8 +17,9 @@ import androidx.test.espresso.Espresso;
 import net.twisterrob.android.test.junit.InstrumentationExtensions;
 import net.twisterrob.test.junit.AndroidJUnit4WithParametersRunnerFactory;
 
-import static net.twisterrob.android.test.espresso.DialogMatchers.*;
-import static net.twisterrob.test.junit.Assert.*;
+import static net.twisterrob.android.test.espresso.DialogMatchers.assertDialogIsDisplayed;
+import static net.twisterrob.android.test.espresso.DialogMatchers.assertNoDialogIsDisplayed;
+import static net.twisterrob.test.junit.Assert.assertTimeout;
 
 @RunWith(Parameterized.class)
 @Parameterized.UseParametersRunnerFactory(AndroidJUnit4WithParametersRunnerFactory.class)

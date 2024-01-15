@@ -1,19 +1,32 @@
 package net.twisterrob.android.utils.log;
 
-import java.io.*;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.TargetApi;
-import android.content.*;
+import android.content.ContentProvider;
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.OperationApplicationException;
 import android.content.pm.ProviderInfo;
-import android.content.res.*;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build.VERSION_CODES;
-import android.os.*;
+import android.os.Bundle;
+import android.os.CancellationSignal;
+import android.os.ParcelFileDescriptor;
 
-import androidx.annotation.*;
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;
 import net.twisterrob.android.utils.tools.StringerTools;

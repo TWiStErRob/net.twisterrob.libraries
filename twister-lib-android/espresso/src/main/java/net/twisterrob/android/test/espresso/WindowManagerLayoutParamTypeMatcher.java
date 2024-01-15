@@ -1,6 +1,7 @@
 package net.twisterrob.android.test.espresso;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
 
 import android.os.IBinder;
 import android.view.View;

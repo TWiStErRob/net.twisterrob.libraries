@@ -3,8 +3,10 @@ package androidx.drawerlayout.widget;
 import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout.SavedState;
 
-import net.twisterrob.android.annotation.*;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.android.annotation.GravityFlag;
+import net.twisterrob.android.annotation.LockMode;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class DrawerLayoutStateStringer extends Stringer<SavedState> {
 	@Override public void toString(@NonNull ToStringAppender append, SavedState state) {

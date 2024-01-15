@@ -1,12 +1,15 @@
 package net.twisterrob.android.utils.tostring.stringers.detailed;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import android.os.Build.VERSION_CODES;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @SuppressWarnings({"rawtypes", "deprecation"})
 @RequiresApi(VERSION_CODES.HONEYCOMB)

@@ -1,12 +1,16 @@
 package net.twisterrob.android.settings.view;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build.VERSION_CODES;
-import androidx.preference.*;
 import android.util.AttributeSet;
+
+import androidx.preference.Preference;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
 
 /**
  * A group of preferences that won't ever show up to the user.

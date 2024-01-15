@@ -1,7 +1,9 @@
 package net.twisterrob.android.map;
 
-import android.view.*;
-import android.view.GestureDetector.*;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.MotionEvent;
 
 public class DelegatingOnGestureListener implements OnGestureListener, OnDoubleTapListener {
 	private OnGestureListener m_onGestureListener;

@@ -4,30 +4,36 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
 import org.hamcrest.Matcher;
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.view.*;
+import android.view.Gravity;
+import android.view.View;
 
-import androidx.annotation.*;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.drawerlayout.widget.DrawerLayout.*;
+import androidx.drawerlayout.widget.DrawerLayout.LayoutParams;
+import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.runner.lifecycle.Stage;
 
-import static androidx.test.espresso.matcher.ViewMatchers.*;
-import static androidx.test.espresso.util.TreeIterables.*;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.util.TreeIterables.breadthFirstViewTraversal;
 
 import net.twisterrob.android.annotation.GravityFlag;
-import net.twisterrob.android.test.junit.*;
+import net.twisterrob.android.test.junit.IdlingResourceRule;
+import net.twisterrob.android.test.junit.InstrumentationExtensions;
 import net.twisterrob.android.utils.log.LoggingDrawerListener;
 import net.twisterrob.android.view.ViewProvider;
 import net.twisterrob.java.annotations.DebugHelper;
 
-import static net.twisterrob.android.test.espresso.DrawerMatchers.*;
-import static net.twisterrob.android.test.junit.InstrumentationExtensions.*;
+import static net.twisterrob.android.test.espresso.DrawerMatchers.isDrawerLayout;
+import static net.twisterrob.android.test.junit.InstrumentationExtensions.getAllActivities;
 
 public class DrawerIdlingResource extends AsyncIdlingResource {
 	private static final Logger LOG = LoggerFactory.getLogger(DrawerIdlingResource.class);

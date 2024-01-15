@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager.SavedState;
 
 import net.twisterrob.java.annotations.DebugHelper;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @DebugHelper
 public class LinearLayoutManagerSavedStateStringer extends Stringer<SavedState> {

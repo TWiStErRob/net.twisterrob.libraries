@@ -16,7 +16,8 @@ package net.twisterrob.java.collections;
  * limitations under the License.
  */
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Combines multiple values to form a single composite key. MultiKey can often be used as an alternative to nested maps.

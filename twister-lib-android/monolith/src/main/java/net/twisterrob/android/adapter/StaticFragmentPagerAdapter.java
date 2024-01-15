@@ -1,9 +1,11 @@
 package net.twisterrob.android.adapter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.*;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 @Deprecated @SuppressWarnings("deprecation")
 public class StaticFragmentPagerAdapter extends androidx.fragment.app.FragmentPagerAdapter {

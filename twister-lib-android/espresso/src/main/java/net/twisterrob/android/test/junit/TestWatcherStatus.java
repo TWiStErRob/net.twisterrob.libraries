@@ -4,7 +4,7 @@ import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
 /**
  * Useful for detecting test failure in {@link org.junit.After} methods.

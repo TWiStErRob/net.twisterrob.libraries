@@ -1,27 +1,41 @@
 package net.twisterrob.android.db;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import android.annotation.*;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Environment;
 
-import androidx.annotation.*;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.WorkerThread;
 
-import net.twisterrob.android.utils.tools.*;
+import net.twisterrob.android.utils.tools.DatabaseTools;
+import net.twisterrob.android.utils.tools.IOTools;
 import net.twisterrob.java.annotations.DebugHelper;
 
-import static net.twisterrob.android.utils.tools.DatabaseTools.*;
+import static net.twisterrob.android.utils.tools.DatabaseTools.NO_ARGS;
+import static net.twisterrob.android.utils.tools.DatabaseTools.Pragma;
+import static net.twisterrob.android.utils.tools.DatabaseTools.dbToString;
 
 @RequiresApi(VERSION_CODES.GINGERBREAD_MR1)
 public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {

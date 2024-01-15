@@ -1,22 +1,49 @@
 package net.twisterrob.android.utils.tostring.stringers;
 
 import android.annotation.TargetApi;
-import android.app.*;
+import android.app.ActivityManager;
+import android.app.FragmentManagerStateStringer;
+import android.app.FragmentSavedStateStringer;
+import android.app.FragmentStateStringer;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.location.Address;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.view.AbsSavedState;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SupportToolbarSavedStateStringer;
 import androidx.drawerlayout.widget.DrawerLayoutStateStringer;
-import androidx.fragment.app.*;
-import androidx.recyclerview.widget.*;
+import androidx.fragment.app.SupportBackStackRecordStateStringer;
+import androidx.fragment.app.SupportBackStackStateStringer;
+import androidx.fragment.app.SupportFragmentManagerStateStringer;
+import androidx.fragment.app.SupportFragmentSavedStateStringer;
+import androidx.fragment.app.SupportFragmentStateStringer;
+import androidx.recyclerview.widget.LinearLayoutManagerSavedStateStringer;
+import androidx.recyclerview.widget.RecyclerViewSavedStateStringer;
+import androidx.recyclerview.widget.StaggeredGridLayoutManagerSavedStateStringer;
 
-import net.twisterrob.android.utils.tostring.stringers.detailed.*;
-import net.twisterrob.android.utils.tostring.stringers.detailed.activitymanager.*;
+import net.twisterrob.android.utils.tostring.stringers.detailed.AbsSavedStateStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.AddressStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.AsyncTaskStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.BitmapStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.BundleStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.ConfigurationStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.IntentStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.LabeledIntentStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.LoaderStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.NavigationViewSavedStateStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.PendingIntentStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.SparseArrayStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.SupportBackStackEntryStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.SupportFragmentManagerStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.SupportFragmentStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.SupportLoaderStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.activitymanager.ActivityManagerStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.activitymanager.MemoryInfoStringer;
+import net.twisterrob.android.utils.tostring.stringers.detailed.activitymanager.RunningAppProcessInfoStringer;
 import net.twisterrob.android.utils.tostring.stringers.name.ResourceNameStringer;
 import net.twisterrob.java.utils.tostring.StringerRepo;
 

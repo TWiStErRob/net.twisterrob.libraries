@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 
 import net.twisterrob.java.annotations.DebugHelper;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @DebugHelper
 public class SupportFragmentManagerStringer extends Stringer<FragmentManager> {

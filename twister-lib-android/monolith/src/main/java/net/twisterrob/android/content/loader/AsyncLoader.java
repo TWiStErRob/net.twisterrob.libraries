@@ -2,7 +2,9 @@ package net.twisterrob.android.content.loader;
 
 import android.content.Context;
 
-import androidx.annotation.*;
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
 import androidx.loader.content.AsyncTaskLoader;
 
 /**

@@ -1,6 +1,8 @@
 package net.twisterrob.android.content;
 
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.Locator;
 
 public class NullContentHandler implements ContentHandler {
 	@Override public void setDocumentLocator(Locator locator) {

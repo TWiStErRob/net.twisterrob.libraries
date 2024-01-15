@@ -1,6 +1,7 @@
 package net.twisterrob.android.view;
 
-import android.text.*;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 public class TextWatcherAdapter implements TextWatcher {
 	@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {

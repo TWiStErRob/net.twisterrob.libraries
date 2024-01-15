@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 
 import net.twisterrob.java.utils.ArrayTools;
 import net.twisterrob.java.utils.CollectionTools;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 
 public class SupportFragmentManagerStateStringer extends Stringer<FragmentManagerState> {

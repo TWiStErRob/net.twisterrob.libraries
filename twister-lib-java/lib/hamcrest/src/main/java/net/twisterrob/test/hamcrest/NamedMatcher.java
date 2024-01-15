@@ -1,6 +1,7 @@
 package net.twisterrob.test.hamcrest;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 
 public class NamedMatcher<T> extends WrappingMatcher<T> {
 	private final String name;

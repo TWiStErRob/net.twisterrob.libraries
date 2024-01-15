@@ -3,18 +3,25 @@ package net.twisterrob.android.utils.tools;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.ComponentCallbacks2;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 
-import androidx.annotation.*;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import net.twisterrob.android.annotation.*;
-import net.twisterrob.android.utils.tostring.stringers.name.*;
+import net.twisterrob.android.annotation.IntentFlags;
+import net.twisterrob.android.annotation.TrimMemoryLevel;
+import net.twisterrob.android.annotation.WindowFeature;
+import net.twisterrob.android.utils.tostring.stringers.name.FragmentNameStringer;
+import net.twisterrob.android.utils.tostring.stringers.name.ResourceNameStringer;
 import net.twisterrob.java.annotations.DebugHelper;
 import net.twisterrob.java.utils.StringTools;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.StringerRepo;
+import net.twisterrob.java.utils.tostring.ToStringer;
 import net.twisterrob.java.utils.tostring.stringers.DefaultNameStringer;
 
 public class StringerTools {

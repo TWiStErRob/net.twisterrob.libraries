@@ -4,11 +4,14 @@ import java.io.File;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.database.sqlite.*;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.os.Build.*;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
-import androidx.annotation.*;
+import androidx.annotation.CallSuper;
+import androidx.annotation.RequiresApi;
 
 /**
  * Database Interface for SQLite with some convenience methods for asset scripts.

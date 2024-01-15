@@ -1,12 +1,18 @@
 package net.twisterrob.android.adapter;
 
 import android.annotation.SuppressLint;
-import android.database.*;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.*;
+import android.widget.Filter;
+import android.widget.FilterQueryProvider;
+import android.widget.Filterable;
 
-import androidx.annotation.*;
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**

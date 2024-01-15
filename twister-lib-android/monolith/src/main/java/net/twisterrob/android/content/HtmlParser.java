@@ -2,10 +2,14 @@ package net.twisterrob.android.content;
 
 import java.util.ArrayDeque;
 
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
-import android.text.*;
+import android.text.Editable;
+import android.text.Html;
 import android.text.Html.ImageGetter;
+import android.text.Spanned;
 
 /**
  * @see <a href="http://stackoverflow.com/a/36548274/253468">How to read custom html tag attributes using Android TagHandler</a>

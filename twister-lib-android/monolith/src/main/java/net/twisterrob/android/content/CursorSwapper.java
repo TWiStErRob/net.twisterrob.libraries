@@ -2,7 +2,8 @@ package net.twisterrob.android.content;
 
 import android.database.Cursor;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.loader.app.LoaderManager.LoaderCallbacks;
 import androidx.loader.content.Loader;

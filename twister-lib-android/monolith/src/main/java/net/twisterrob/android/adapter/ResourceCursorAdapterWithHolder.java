@@ -2,9 +2,12 @@ package net.twisterrob.android.adapter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.database.*;
-import android.os.Build.*;
-import android.view.*;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.cursoradapter.widget.ResourceCursorAdapter;

@@ -1,20 +1,26 @@
 package net.twisterrob.android.test.junit;
 
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThrows;
 
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.*;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.NoActivityResumedException;
 import androidx.test.espresso.base.DefaultFailureHandler;
 
 import net.twisterrob.android.test.junit.AndroidJUnitRunner.DetailedFailureHandler;
 import net.twisterrob.inventory.android.test.activity.TestActivity;
 
-import static net.twisterrob.test.hamcrest.Matchers.*;
+import static net.twisterrob.test.hamcrest.Matchers.containsStackTrace;
+import static net.twisterrob.test.hamcrest.Matchers.hasMessage;
+import static net.twisterrob.test.hamcrest.Matchers.stackClass;
+import static net.twisterrob.test.hamcrest.Matchers.stackMethod;
 
 public class DetailedFailureHandlerTest {
 

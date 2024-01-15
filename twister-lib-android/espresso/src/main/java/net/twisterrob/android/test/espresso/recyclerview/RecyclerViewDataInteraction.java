@@ -1,19 +1,26 @@
 package net.twisterrob.android.test.espresso.recyclerview;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.allOf;
 
-import android.view.*;
+import android.view.View;
+import android.view.ViewParent;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import androidx.test.espresso.*;
+import androidx.test.espresso.Root;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.ViewAssertion;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.core.internal.deps.guava.base.Optional;
 import androidx.test.espresso.matcher.RootMatchers;
 
-import static androidx.test.espresso.Espresso.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 
 import net.twisterrob.android.test.espresso.recyclerview.RecyclerViewProtocol.AdaptedData;
 

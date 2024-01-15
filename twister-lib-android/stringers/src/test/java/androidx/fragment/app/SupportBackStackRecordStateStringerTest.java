@@ -2,13 +2,14 @@ package androidx.fragment.app;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 import org.robolectric.annotation.internal.DoNotInstrument;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import android.os.Build;
 
@@ -18,7 +19,8 @@ import androidx.lifecycle.Lifecycle;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import kotlin.collections.CollectionsKt;
 
-import static androidx.fragment.app.testing.FragmentScenario.*;
+import static androidx.fragment.app.testing.FragmentScenario.FragmentAction;
+import static androidx.fragment.app.testing.FragmentScenario.launchInContainer;
 
 import net.twisterrob.android.utils.tools.StringerTools;
 import net.twisterrob.android.utils.tosting.strings.AndroidStringerRepoRule;

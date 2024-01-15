@@ -1,6 +1,7 @@
 package net.twisterrob.android.test.espresso.idle;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import androidx.annotation.MainThread;
 import androidx.test.espresso.IdlingResource;

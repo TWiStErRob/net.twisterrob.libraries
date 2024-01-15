@@ -4,10 +4,10 @@ import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThrows;
 
-import static androidx.test.core.app.ApplicationProvider.*;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 public class HasInstalledPackageTest {
 

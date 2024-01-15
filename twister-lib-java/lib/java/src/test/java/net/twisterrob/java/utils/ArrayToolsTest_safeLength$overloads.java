@@ -2,7 +2,7 @@ package net.twisterrob.java.utils;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ArrayToolsTest_safeLength$overloads {
 	@Test public void testNull() {

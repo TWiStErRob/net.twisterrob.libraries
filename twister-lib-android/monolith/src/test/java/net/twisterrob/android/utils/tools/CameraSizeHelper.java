@@ -1,7 +1,8 @@
 package net.twisterrob.android.utils.tools;
 
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
 
 /** Some idiot made the Size class a non-static inner class of Camera... and there's also no toString on it. */
 @SuppressWarnings("deprecation")

@@ -5,7 +5,8 @@ import org.hamcrest.Matcher;
 import android.view.View;
 
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.*;
+import androidx.test.espresso.FailureHandler;
+import androidx.test.espresso.NoMatchingRootException;
 import androidx.test.espresso.base.DefaultFailureHandler;
 
 /**

@@ -3,11 +3,13 @@ package net.twisterrob.android.utils.tostring.stringers.detailed;
 import android.content.Context;
 import android.content.res.Resources;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.FragmentManager.BackStackEntry;
 
 import net.twisterrob.android.AndroidConstants;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class SupportBackStackEntryStringer extends Stringer<BackStackEntry> {
 	private final Resources resources;

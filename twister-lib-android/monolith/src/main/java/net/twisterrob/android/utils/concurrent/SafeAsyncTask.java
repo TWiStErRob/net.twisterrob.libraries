@@ -1,6 +1,9 @@
 package net.twisterrob.android.utils.concurrent;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.annotation.WorkerThread;
 
 /**
  * {@link android.os.AsyncTask} implementation that separates positive and negative outcome,

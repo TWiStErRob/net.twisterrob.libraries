@@ -4,17 +4,27 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
-import android.content.*;
-import android.content.DialogInterface.*;
-import android.os.Build.*;
-import android.os.*;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.method.LinkMovementMethod;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import androidx.annotation.*;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 
 @SuppressWarnings({"unused", "StaticMethodOnlyUsedInOneClass"})

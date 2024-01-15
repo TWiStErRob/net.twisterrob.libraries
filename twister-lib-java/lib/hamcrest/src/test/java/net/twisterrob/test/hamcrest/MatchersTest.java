@@ -1,18 +1,24 @@
 package net.twisterrob.test.hamcrest;
 
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 import org.junit.rules.TestName;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.junit.MatcherAssume.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.junit.MatcherAssume.assumeThat;
+import static org.junit.Assert.assertThrows;
 
 import net.twisterrob.java.utils.ObjectTools;
 
-import static net.twisterrob.java.utils.ReflectionTools.*;
-import static net.twisterrob.test.hamcrest.Matchers.*;
+import static net.twisterrob.java.utils.ReflectionTools.clearCause;
+import static net.twisterrob.test.hamcrest.Matchers.containsStackTrace;
+import static net.twisterrob.test.hamcrest.Matchers.hasMessage;
+import static net.twisterrob.test.hamcrest.Matchers.hasStackTrace;
+import static net.twisterrob.test.hamcrest.Matchers.hasStackTraceElement;
+import static net.twisterrob.test.hamcrest.Matchers.stackMethod;
 
 public class MatchersTest {
 

@@ -6,7 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import net.twisterrob.android.utils.tools.StringerTools;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class SupportFragmentStringer extends Stringer<Fragment> {
 	@Override public void toString(@NonNull ToStringAppender append, Fragment fragment) {

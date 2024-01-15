@@ -1,13 +1,19 @@
 package net.twisterrob.android.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 
-import androidx.annotation.*;
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
 
 import net.twisterrob.java.annotations.DebugHelper;
 

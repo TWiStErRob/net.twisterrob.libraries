@@ -3,7 +3,8 @@ package net.twisterrob.java.io;
 import java.util.Stack;
 
 import javax.xml.namespace.NamespaceContext;
-import javax.xml.stream.*;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 public class IndentingXMLStreamWriter implements XMLStreamWriter {
 	private final XMLStreamWriter writer;

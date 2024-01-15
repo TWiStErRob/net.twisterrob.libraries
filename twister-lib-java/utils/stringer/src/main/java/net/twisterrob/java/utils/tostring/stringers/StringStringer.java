@@ -2,7 +2,8 @@ package net.twisterrob.java.utils.tostring.stringers;
 
 import javax.annotation.Nonnull;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class StringStringer extends Stringer<String> {
 	@Override public String getType(String object) {

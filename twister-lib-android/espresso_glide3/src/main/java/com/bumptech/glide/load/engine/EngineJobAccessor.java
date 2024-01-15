@@ -7,7 +7,7 @@ import com.bumptech.glide.request.ResourceCallback;
 
 import androidx.annotation.NonNull;
 
-import static net.twisterrob.java.utils.ReflectionTools.*;
+import static net.twisterrob.java.utils.ReflectionTools.get;
 
 final class EngineJobAccessor {
 	private static final Field mCbs = getCallbacksField();

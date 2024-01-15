@@ -2,13 +2,15 @@ package net.twisterrob.android.utils.tostring.stringers.detailed;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 
 import net.twisterrob.android.annotation.IntentFlags;
 import net.twisterrob.java.annotations.DebugHelper;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @DebugHelper
 @TargetApi(VERSION_CODES.JELLY_BEAN)

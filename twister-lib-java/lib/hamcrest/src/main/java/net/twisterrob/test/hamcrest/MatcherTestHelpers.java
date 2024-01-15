@@ -1,6 +1,8 @@
 package net.twisterrob.test.hamcrest;
 
-import org.hamcrest.*;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 
 public class MatcherTestHelpers {
 

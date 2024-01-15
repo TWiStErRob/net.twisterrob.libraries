@@ -1,6 +1,7 @@
 package net.twisterrob.java.collections;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class EmptyIterator<T> implements Iterator<T> {
 	private static final Iterator<?> INSTANCE = new EmptyIterator<>();

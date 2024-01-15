@@ -1,6 +1,8 @@
 package net.twisterrob.java.io;
 
-import java.io.*;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class NonClosableStream extends FilterInputStream {
 	private boolean closeAttempted;

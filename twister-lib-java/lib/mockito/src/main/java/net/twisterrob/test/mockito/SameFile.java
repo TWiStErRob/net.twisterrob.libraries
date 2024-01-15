@@ -1,6 +1,7 @@
 package net.twisterrob.test.mockito;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 import org.mockito.ArgumentMatcher;
 

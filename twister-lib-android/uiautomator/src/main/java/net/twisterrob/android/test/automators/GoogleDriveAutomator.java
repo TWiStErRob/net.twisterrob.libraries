@@ -7,9 +7,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.test.uiautomator.*;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiScrollable;
+import androidx.test.uiautomator.UiSelector;
 
-import static androidx.test.platform.app.InstrumentationRegistry.*;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import net.twisterrob.android.annotation.IdResName;
 

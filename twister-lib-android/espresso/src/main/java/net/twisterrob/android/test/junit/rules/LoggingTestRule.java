@@ -3,7 +3,8 @@ package net.twisterrob.android.test.junit.rules;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoggingTestRule implements TestRule {
 	private static final Logger LOG = LoggerFactory.getLogger(LoggingTestRule.class);

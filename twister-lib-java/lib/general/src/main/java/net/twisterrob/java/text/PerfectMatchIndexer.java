@@ -1,6 +1,10 @@
 package net.twisterrob.java.text;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 

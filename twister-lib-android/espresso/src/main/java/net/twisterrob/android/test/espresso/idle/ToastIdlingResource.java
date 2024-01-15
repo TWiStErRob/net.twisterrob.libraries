@@ -5,13 +5,15 @@ import java.util.List;
 import org.hamcrest.Matcher;
 
 import android.annotation.TargetApi;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.view.View;
 import android.view.View.OnAttachStateChangeListener;
 
 import androidx.test.espresso.Root;
 
-import net.twisterrob.android.test.espresso.*;
+import net.twisterrob.android.test.espresso.DialogMatchers;
+import net.twisterrob.android.test.espresso.EspressoExtensions;
 
 public class ToastIdlingResource extends AsyncIdlingResource {
 	@Override public String getName() {

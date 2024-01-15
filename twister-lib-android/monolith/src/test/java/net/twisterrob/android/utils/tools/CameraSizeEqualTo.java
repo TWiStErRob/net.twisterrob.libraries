@@ -2,7 +2,9 @@ package net.twisterrob.android.utils.tools;
 
 import java.util.Locale;
 
-import org.hamcrest.*;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 
 @SuppressWarnings("deprecation")
 /*default*/ class CameraSizeEqualTo extends BaseMatcher<android.hardware.Camera.Size> {

@@ -1,35 +1,56 @@
 package net.twisterrob.android.test.espresso;
 
-import org.hamcrest.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.StringDescription;
+import org.hamcrest.TypeSafeMatcher;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.is;
 
-import android.view.*;
+import android.view.View;
+import android.view.WindowManager;
 
-import static android.view.WindowManager.LayoutParams.*;
+import static android.view.WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
 
 import androidx.annotation.IdRes;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.*;
-import androidx.test.espresso.util.*;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.NoMatchingRootException;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.PerformException;
+import androidx.test.espresso.Root;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.util.HumanReadables;
+import androidx.test.espresso.util.TreeIterables;
 import androidx.test.runner.lifecycle.Stage;
 
-import static androidx.test.espresso.Espresso.*;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressBack;
-import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static androidx.test.espresso.assertion.ViewAssertions.*;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.core.internal.deps.guava.base.Throwables.throwIfUnchecked;
-import static androidx.test.espresso.matcher.RootMatchers.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
-import static androidx.test.platform.app.InstrumentationRegistry.*;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import net.twisterrob.android.test.espresso.idle.ToastIdlingResource;
 import net.twisterrob.android.utils.tools.ResourceTools;
 
-import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
-import static net.twisterrob.android.test.junit.InstrumentationExtensions.*;
-import static net.twisterrob.android.test.matchers.AndroidMatchers.*;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.getRoots;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.hasRoot;
+import static net.twisterrob.android.test.junit.InstrumentationExtensions.getActivitiesInStage;
+import static net.twisterrob.android.test.junit.InstrumentationExtensions.getAllActivitiesByStage;
+import static net.twisterrob.android.test.matchers.AndroidMatchers.anyView;
 
 public class DialogMatchers {
 	public static final int BUTTON_POSITIVE = android.R.id.button1;

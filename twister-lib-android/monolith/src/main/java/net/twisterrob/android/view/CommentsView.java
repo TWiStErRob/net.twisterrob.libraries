@@ -1,21 +1,27 @@
 package net.twisterrob.android.view;
 
 import java.lang.ref.WeakReference;
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
 
 import android.content.Context;
-import android.os.*;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.*;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import net.twisterrob.android.utils.listeners.AnimationListenerAdapter;
 import net.twisterrob.android.utils.tools.TextTools;
-import net.twisterrob.java.collections.*;
+import net.twisterrob.java.collections.EmptyIterator;
+import net.twisterrob.java.collections.PerpetualIterator;
 
 /**
  * <pre><code>

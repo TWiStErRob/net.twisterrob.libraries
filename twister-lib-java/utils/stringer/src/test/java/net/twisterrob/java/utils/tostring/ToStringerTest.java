@@ -2,10 +2,14 @@ package net.twisterrob.java.utils.tostring;
 
 import javax.annotation.Nonnull;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 public class ToStringerTest {
 	private static final Object PLACEHOLDER = new Object();

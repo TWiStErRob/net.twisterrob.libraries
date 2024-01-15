@@ -1,43 +1,61 @@
 package net.twisterrob.android.test.espresso;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import javax.inject.Provider;
 
-import org.junit.*;
 import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.junit.MatcherAssume.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.junit.MatcherAssume.assumeThat;
+import static org.junit.Assert.assertThrows;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build.VERSION_CODES;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 
-import static android.os.Build.VERSION_CODES.*;
+import static android.os.Build.VERSION_CODES.HONEYCOMB;
 
-import androidx.annotation.*;
-import androidx.test.espresso.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.test.espresso.BaseLayerComponent;
+import androidx.test.espresso.DaggerBaseLayerComponent;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.InjectEventSecurityException;
+import androidx.test.espresso.UiController;
 import androidx.test.espresso.base.InterruptableUiController;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SdkSuppress;
 
-import static androidx.test.core.app.ApplicationProvider.*;
-import static androidx.test.espresso.action.ViewActions.*;
-import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import net.twisterrob.android.test.junit.TestPackageIntentRule;
 import net.twisterrob.test.junit.FlakyTestException;
 
-import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
-import static net.twisterrob.java.utils.ReflectionTools.*;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.onActionMenuItem;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.onActionMenuView;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.withMenuItemId;
+import static net.twisterrob.java.utils.ReflectionTools.ensureAccessible;
+import static net.twisterrob.java.utils.ReflectionTools.findDeclaredField;
 
 @RunWith(AndroidJUnit4.class)
 @SdkSuppress(minSdkVersion = VERSION_CODES.HONEYCOMB)

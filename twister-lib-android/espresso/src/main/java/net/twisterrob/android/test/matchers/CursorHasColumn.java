@@ -1,13 +1,18 @@
 package net.twisterrob.android.test.matchers;
 
-import org.hamcrest.*;
+import org.hamcrest.Condition;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import static org.hamcrest.Condition.*;
+import static org.hamcrest.Condition.matched;
+import static org.hamcrest.Condition.notMatched;
 
 import android.database.Cursor;
 
 import net.twisterrob.android.annotation.CursorFieldType;
-import net.twisterrob.android.utils.tools.*;
+import net.twisterrob.android.utils.tools.CursorColumnType;
+import net.twisterrob.android.utils.tools.DatabaseTools;
 
 public class CursorHasColumn<T> extends TypeSafeDiagnosingMatcher<Cursor> {
 	private final String columnName;

@@ -1,8 +1,10 @@
 package net.twisterrob.java.utils;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.Contract;
 

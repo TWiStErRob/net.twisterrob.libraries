@@ -1,8 +1,10 @@
 package net.twisterrob.java.utils;
 
 import java.io.IOException;
-import java.net.*;
-import java.util.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.Locale;
 
 import javax.annotation.Nullable;
 

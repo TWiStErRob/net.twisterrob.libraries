@@ -1,17 +1,23 @@
 package net.twisterrob.android.test.espresso;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static org.junit.internal.matchers.ThrowableMessageMatcher.*;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.containsStringIgnoringCase;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertThrows;
+import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
 
 import android.widget.Toast;
 
@@ -22,17 +28,25 @@ import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 import junit.framework.AssertionFailedError;
 
-import static androidx.test.espresso.Espresso.*;
-import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import net.twisterrob.android.test.junit.*;
+import net.twisterrob.android.test.junit.InstrumentationExtensions;
+import net.twisterrob.android.test.junit.TestPackageIntentRule;
 import net.twisterrob.inventory.android.test.activity.TestActivity;
 
-import static net.twisterrob.android.test.espresso.DialogMatchers.*;
-import static net.twisterrob.android.test.espresso.DialogMatchersTest.*;
-import static net.twisterrob.android.test.espresso.EspressoExtensions.*;
-import static net.twisterrob.test.junit.Assert.*;
+import static net.twisterrob.android.test.espresso.DialogMatchers.assertNoToastIsDisplayed;
+import static net.twisterrob.android.test.espresso.DialogMatchers.isDialogMessage;
+import static net.twisterrob.android.test.espresso.DialogMatchers.isToast;
+import static net.twisterrob.android.test.espresso.DialogMatchers.waitForToastsToDisappear;
+import static net.twisterrob.android.test.espresso.DialogMatchersTest.DIALOG_TIMEOUT;
+import static net.twisterrob.android.test.espresso.DialogMatchersTest.ESPRESSO_BACKOFF_TIMEOUT;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.loopMainThreadUntilIdle;
+import static net.twisterrob.android.test.espresso.EspressoExtensions.onRoot;
+import static net.twisterrob.test.junit.Assert.assertTimeout;
 
 @RunWith(AndroidJUnit4.class)
 public class DialogMatchersTest_Toast {

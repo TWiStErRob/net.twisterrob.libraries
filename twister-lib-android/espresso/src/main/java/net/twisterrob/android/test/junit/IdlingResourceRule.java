@@ -3,10 +3,12 @@ package net.twisterrob.android.test.junit;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import androidx.annotation.NonNull;
-import androidx.test.espresso.*;
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
 
 public class IdlingResourceRule implements TestRule {
 	private static final Logger LOG = LoggerFactory.getLogger(IdlingResourceRule.class);

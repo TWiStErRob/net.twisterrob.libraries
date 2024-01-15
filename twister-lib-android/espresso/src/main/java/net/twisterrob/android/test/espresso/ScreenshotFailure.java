@@ -1,20 +1,28 @@
 package net.twisterrob.android.test.espresso;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
-import org.junit.runners.model.*;
-import org.slf4j.*;
+import org.junit.runners.model.MultipleFailureException;
+import org.junit.runners.model.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import android.annotation.*;
-import android.app.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.view.View;
 
 import androidx.annotation.NonNull;

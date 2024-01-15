@@ -1,18 +1,28 @@
 package net.twisterrob.android.test.automators;
 
-import android.content.*;
-import android.os.Build.*;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
-import androidx.annotation.*;
-import androidx.test.uiautomator.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
-import static androidx.test.platform.app.InstrumentationRegistry.*;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import net.twisterrob.android.annotation.IdResName;
 import net.twisterrob.android.test.espresso.DialogMatchers;
 import net.twisterrob.android.utils.tools.ResourceTools;
 
-import static net.twisterrob.android.test.automators.UiAutomatorExtensions.*;
+import static net.twisterrob.android.test.automators.UiAutomatorExtensions.externalId;
+import static net.twisterrob.android.test.automators.UiAutomatorExtensions.getCurrentAppPackageName;
+import static net.twisterrob.android.test.automators.UiAutomatorExtensions.getText;
+import static net.twisterrob.android.test.automators.UiAutomatorExtensions.shortClickOn;
+import static net.twisterrob.android.test.automators.UiAutomatorExtensions.waitForAnAppToBeForegrounded;
 
 public class AndroidAutomator {
 

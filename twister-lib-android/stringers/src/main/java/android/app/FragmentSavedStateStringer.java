@@ -2,10 +2,12 @@ package android.app;
 
 import android.os.Build.VERSION_CODES;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import net.twisterrob.java.utils.ReflectionTools;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @RequiresApi(VERSION_CODES.HONEYCOMB_MR2)
 @SuppressWarnings("deprecation")

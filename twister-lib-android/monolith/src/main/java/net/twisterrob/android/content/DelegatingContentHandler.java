@@ -1,8 +1,12 @@
 package net.twisterrob.android.content;
 
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class DelegatingContentHandler implements ContentHandler {
 	private static final NullContentHandler NULL_HANDLER = new NullContentHandler();

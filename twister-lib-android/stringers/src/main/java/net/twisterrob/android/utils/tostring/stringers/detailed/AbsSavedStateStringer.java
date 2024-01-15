@@ -4,7 +4,8 @@ import android.view.AbsSavedState;
 
 import androidx.annotation.NonNull;
 
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 public class AbsSavedStateStringer extends Stringer<AbsSavedState> {
 	@Override public String getType(AbsSavedState object) {

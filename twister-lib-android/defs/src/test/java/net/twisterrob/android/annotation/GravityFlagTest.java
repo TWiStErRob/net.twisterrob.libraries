@@ -1,6 +1,7 @@
 package net.twisterrob.android.annotation;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
@@ -8,10 +9,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.containsString;
 
-import android.annotation.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 import android.view.Gravity;
 

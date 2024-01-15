@@ -1,6 +1,7 @@
 package net.twisterrob.android.utils.tools;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Locale;
 
 @SuppressWarnings("deprecation")
 /*default*/ class CameraSizeLoggingComparator implements Comparator<android.hardware.Camera.Size> {

@@ -1,11 +1,15 @@
 package net.twisterrob.android.db;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.annotation.TargetApi;
 import android.database.Cursor;
-import android.database.sqlite.*;
+import android.database.sqlite.SQLiteCursor;
+import android.database.sqlite.SQLiteCursorDriver;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteQuery;
 import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.RequiresApi;

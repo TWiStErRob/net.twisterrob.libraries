@@ -1,7 +1,8 @@
 package net.twisterrob.android.utils.tools;
 
 import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
 import androidx.core.content.res.ResourcesCompat;

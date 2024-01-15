@@ -1,16 +1,41 @@
 package net.twisterrob.android.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 
-import android.annotation.*;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 import android.view.Gravity;
 
-import static android.view.Gravity.*;
+import static android.view.Gravity.BOTTOM;
+import static android.view.Gravity.CENTER;
+import static android.view.Gravity.CENTER_HORIZONTAL;
+import static android.view.Gravity.CENTER_VERTICAL;
+import static android.view.Gravity.CLIP_HORIZONTAL;
+import static android.view.Gravity.CLIP_VERTICAL;
+import static android.view.Gravity.DISPLAY_CLIP_HORIZONTAL;
+import static android.view.Gravity.DISPLAY_CLIP_VERTICAL;
+import static android.view.Gravity.END;
+import static android.view.Gravity.FILL;
+import static android.view.Gravity.FILL_HORIZONTAL;
+import static android.view.Gravity.FILL_VERTICAL;
+import static android.view.Gravity.HORIZONTAL_GRAVITY_MASK;
+import static android.view.Gravity.LEFT;
+import static android.view.Gravity.NO_GRAVITY;
+import static android.view.Gravity.RIGHT;
+import static android.view.Gravity.START;
+import static android.view.Gravity.TOP;
+import static android.view.Gravity.VERTICAL_GRAVITY_MASK;
 
-import androidx.annotation.*;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 
 import net.twisterrob.java.annotations.DebugHelper;

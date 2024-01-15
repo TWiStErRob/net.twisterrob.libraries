@@ -1,8 +1,11 @@
 package com.bumptech.glide.load.engine;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.slf4j.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bumptech.glide.request.ResourceCallback;
 

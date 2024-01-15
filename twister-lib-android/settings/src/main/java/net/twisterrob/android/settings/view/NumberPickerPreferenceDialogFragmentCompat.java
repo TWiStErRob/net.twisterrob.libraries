@@ -2,12 +2,14 @@ package net.twisterrob.android.settings.view;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
-import net.twisterrob.android.settings.R;
+import android.widget.NumberPicker;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.preference.*;
+import androidx.preference.PreferenceDialogFragmentCompat;
+
+import net.twisterrob.android.settings.R;
 
 public class NumberPickerPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
 

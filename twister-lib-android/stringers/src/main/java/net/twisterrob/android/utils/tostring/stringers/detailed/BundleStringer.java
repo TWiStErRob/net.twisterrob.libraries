@@ -10,7 +10,8 @@ import net.twisterrob.android.utils.tools.BundleTools;
 import net.twisterrob.java.annotations.DebugHelper;
 import net.twisterrob.java.collections.NullsSafeComparator;
 import net.twisterrob.java.utils.CollectionTools;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @DebugHelper
 public class BundleStringer extends Stringer<Bundle> {

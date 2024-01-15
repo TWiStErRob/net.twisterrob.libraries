@@ -1,8 +1,11 @@
 package net.twisterrob.android.utils.concurrent;
 
-import androidx.annotation.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.annotation.WorkerThread;
 
-import static net.twisterrob.android.utils.concurrent.SimpleAsyncTaskHelper.*;
+import static net.twisterrob.android.utils.concurrent.SimpleAsyncTaskHelper.getSingleOrThrow;
 
 /**
  * Combination of {@link SimpleAsyncTask} and {@link SafeAsyncTask}: single parameter input and ability to throw

@@ -3,12 +3,16 @@ package net.twisterrob.android.utils.tostring.stringers.detailed.activitymanager
 import java.util.List;
 
 import android.app.ActivityManager;
-import android.app.ActivityManager.*;
+import android.app.ActivityManager.MemoryInfo;
+import android.app.ActivityManager.ProcessErrorStateInfo;
+import android.app.ActivityManager.RunningAppProcessInfo;
 
 import androidx.annotation.NonNull;
 
-import net.twisterrob.android.annotation.*;
-import net.twisterrob.java.utils.tostring.*;
+import net.twisterrob.android.annotation.Density;
+import net.twisterrob.android.annotation.LockTaskMode;
+import net.twisterrob.java.utils.tostring.Stringer;
+import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 @SuppressWarnings("deprecation")
 public class ActivityManagerStringer extends Stringer<ActivityManager> {

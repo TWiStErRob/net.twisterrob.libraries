@@ -2,8 +2,9 @@ package net.twisterrob.android.wiring;
 
 import android.database.Cursor;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.EditText;
 
 import androidx.annotation.StringRes;
 

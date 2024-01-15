@@ -1,16 +1,18 @@
 package net.twisterrob.android.test.espresso;
 
-import java.lang.AssertionError;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Matcher;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertThrows;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -19,21 +21,26 @@ import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.base.RootViewPicker;
-import junitparams.*;
+import junitparams.JUnitParamsRunner;
+import junitparams.NamedParameters;
+import junitparams.Parameters;
 import junitparams.naming.TestCaseName;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.platform.app.InstrumentationRegistry.*;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
-import net.twisterrob.android.test.junit.*;
+import net.twisterrob.android.test.junit.InstrumentationExtensions;
+import net.twisterrob.android.test.junit.TestPackageIntentRule;
 import net.twisterrob.inventory.android.test.activity.TestActivityCompat;
 
-import static net.twisterrob.android.test.espresso.DialogMatchers.*;
-import static net.twisterrob.test.hamcrest.Matchers.*;
-import static net.twisterrob.test.junit.Assert.*;
+import static net.twisterrob.android.test.espresso.DialogMatchers.assertDialogIsDisplayed;
+import static net.twisterrob.android.test.espresso.DialogMatchers.assertNoDialogIsDisplayed;
+import static net.twisterrob.test.hamcrest.Matchers.containsCause;
+import static net.twisterrob.test.hamcrest.Matchers.hasMessage;
+import static net.twisterrob.test.junit.Assert.assertTimeout;
 
 @RunWith(JUnitParamsRunner.class)
 public class DialogMatchersTest {

@@ -1,23 +1,33 @@
 package net.twisterrob.android.app;
 
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
-import org.slf4j.*;
-import org.slf4j.helpers.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MessageFormatter;
 
-import android.annotation.*;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Build.*;
-import android.os.*;
-import android.os.StrictMode.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.StrictMode;
+import android.os.StrictMode.ThreadPolicy;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.*;
+import androidx.annotation.AnyThread;
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
+import androidx.annotation.XmlRes;
 import androidx.preference.PreferenceManager;
 
 import net.twisterrob.android.AndroidConstants;
