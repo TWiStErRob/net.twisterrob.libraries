@@ -13,7 +13,7 @@ jobs:
       android-api: ${{ matrix.api }}
       timeout-minutes: 60
       script: |
-        ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace connectedCheck
+        ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace connectedCheck mergeAndroidReports
 
     strategy:
       fail-fast: false
