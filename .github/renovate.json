@@ -63,6 +63,5 @@
 			"matchPackageNames": ["gradle"],
 			"automerge": false
 		}
-
 	]
 }
