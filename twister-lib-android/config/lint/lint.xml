@@ -32,9 +32,6 @@
 	<issue id="ObsoleteSdkInt" severity="ignore">
 		<!-- Keeping historical code for documentation purposes for now. -->
 	</issue>
-	<issue id="GradleDependency" severity="ignore">
-		<!-- Known issue, ignore for now until there's Renovate. -->
-	</issue>
 	<issue id="GradleCompatible">
 		<!-- > Dependencies using groupId com.android.support and androidx.* can not be combined but
 		     > found com.android.support:support-fragment:28.0.0 and androidx.test.espresso:espresso-core:3.5.1 incompatible dependencies
