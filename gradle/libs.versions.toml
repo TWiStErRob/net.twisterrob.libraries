@@ -14,7 +14,7 @@ java = "1.8"
 agp = "8.2.2"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.16"
-detekt = "1.23.4"
+detekt = "1.23.5"
 dependencyAnalysis = "1.29.0"
 kotlin = "1.9.22"
 kotlin-ksp = "1.9.22-1.0.17"
