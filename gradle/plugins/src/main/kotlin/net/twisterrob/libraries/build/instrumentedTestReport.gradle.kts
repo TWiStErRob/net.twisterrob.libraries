@@ -13,7 +13,7 @@ apply(plugin = "android-reporting")
 
 afterEvaluate {
 	tasks.named<AndroidReportTask>("mergeAndroidReports").configure {
-		mustRunAfter(dependsOn)
+		mustRunAfter(taskDependencies.getDependencies(this))
 		setDependsOn(emptyList<Task>())
 		doFirst {
 			resultsDirectories.removeIf { !it.exists() }
