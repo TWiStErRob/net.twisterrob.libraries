@@ -1,11 +1,11 @@
 name: "🔨 Build & Verify"
 on:
-  workflow_call
+  workflow_call:
 
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    name: "build"
     timeout-minutes: 30
 
     permissions:
@@ -15,6 +15,11 @@ jobs:
       checks: write
       # github/codeql-action/upload-sarif -> https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/uploading-a-sarif-file-to-github
       security-events: write
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
 
@@ -43,25 +48,30 @@ jobs:
           violationReportHtml
 
       - name: "Upload 'Lint Results HTMLs' artifact."
-        if: success() || failure()
+        if: ${{ success() || failure() }}
         uses: actions/upload-artifact@v4
         with:
           name: 'Lint Results HTMLs'
+          if-no-files-found: error
           path: ${{ github.workspace }}/**/build/reports/lint-results*.html
 
       - name: "Upload 'Lint Merged Results' artifact."
-        if: success() || failure()
+        if: ${{ success() || failure() }}
         uses: actions/upload-artifact@v4
         with:
           name: 'Lint Merged Results'
+          if-no-files-found: error
           path: ${{ github.workspace }}/build/reports/violations.*
 
       - name: "Fail if there are violations."
-        if: success() || failure()
+        if: ${{ success() || failure() }}
+        env:
+          LINT_XML: twister-lib-android/config/lint/lint.xml
+          VIOLATIONS: ${{ github.workspace }}/build/reports/violations.count
         run: |
-          count=$(cat "${{ github.workspace }}/build/reports/violations.count")
+          count=$(cat "${VIOLATIONS}")
           if [[ "$count" != "0" ]]; then
-            echo "::error file=twister-lib-android/config/lint/lint.xml,title=Android Lint::There were $count violations."
+            echo "::error file=${LINT_XML},title=Android Lint::There were ${count} violations."
             exit 1
           else
             echo "No violations found."
@@ -69,39 +79,43 @@ jobs:
           fi
 
       - name: "Upload 'Detekt Results' artifact."
-        if: success() || failure()
+        if: ${{ success() || failure() }}
         uses: actions/upload-artifact@v4
         with:
           name: 'Detekt Results'
+          if-no-files-found: error
           path: |
             ${{ github.workspace }}/**/build/reports/detekt/detekt.*
 
       - name: "Publish 'Code scanning results / detekt' GitHub Code Scanning analysis."
         uses: github/codeql-action/upload-sarif@v3
-        if: success() || failure()
+        if: ${{ success() || failure() }}
         with:
           sarif_file: ${{ github.workspace }}/gradle/plugins/build/reports/detekt/detekt.sarif
 
       - name: "Upload 'Unit Test Results' artifact."
-        if: success() || failure()
+        if: ${{ success() || failure() }}
         uses: actions/upload-artifact@v4
         with:
           name: 'Unit Test Results'
+          if-no-files-found: error
           path: ${{ github.workspace }}/**/build/reports/tests/*/
 
       - name: "Publish 'Unit Results' check suite."
-        if: success() || failure()
+        if: ${{ success() || failure() }}
         uses: EnricoMi/publish-unit-test-result-action@v2
         with:
           check_name: '🔔 Test: Unit Results'
           comment_mode: off
           report_individual_runs: true
+          action_fail_on_inconclusive: true
           test_changes_limit: 0
           junit_files: ${{ github.workspace }}/**/build/test-results/*/TEST-*.xml
 
       - name: "Upload 'Build Health' artifact."
-        if: success() || failure()
+        if: ${{ success() || failure() }}
         uses: actions/upload-artifact@v4
         with:
           name: 'Build Health'
+          if-no-files-found: error
           path: ${{ github.workspace }}/build/reports/dependency-analysis/
