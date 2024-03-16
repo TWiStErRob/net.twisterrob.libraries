@@ -21,9 +21,10 @@ public class AndroidJUnit4WithParametersRunnerFactory implements ParametersRunne
 	public Runner createRunnerForTestWithParameters(TestWithParameters test)
 			throws InitializationError {
 		Instrumentation instr = InstrumentationRegistry.getInstrumentation();
+		@SuppressLint("RestrictedApi") // Need to access internal API, because there's no public one.
 		RunnerArgs runnerArgs = ReflectionTools.get(instr, "mRunnerArgs");
 
-		@SuppressLint("RestrictedApi")
+		@SuppressLint("RestrictedApi") // Need to access internal API, because there's no public one.
 		@SuppressWarnings("deprecation") // will probably revisit soon
 		AndroidRunnerParams runnerParams = new AndroidRunnerParams(
 				instr,

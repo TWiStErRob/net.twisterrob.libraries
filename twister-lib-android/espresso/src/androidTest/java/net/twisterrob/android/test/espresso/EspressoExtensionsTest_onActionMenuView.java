@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.junit.MatcherAssume.assumeThat;
 import static org.junit.Assert.assertThrows;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -146,6 +147,7 @@ public class EspressoExtensionsTest_onActionMenuView {
 		assertThat(activity.itemClicked, is(true));
 	}
 
+	@SuppressLint("UseSdkSuppress") // REPORT test class has SdkSuppress, this is just extra safety.
 	@TargetApi(VERSION_CODES.HONEYCOMB)
 	@RequiresApi(VERSION_CODES.HONEYCOMB)
 	public static class TestActivity extends Activity {

@@ -1,5 +1,8 @@
+@file:SuppressLint("VisibleForTests") // REPORT cannot suppress on @receiver:
+
 package com.bumptech.glide.load.engine
 
+import android.annotation.SuppressLint
 import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 import com.bumptech.glide.Glide
