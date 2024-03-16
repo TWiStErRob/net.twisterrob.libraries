@@ -1,7 +1,7 @@
 name: "CI"
 
 on:
-  push
+  push:
 
 concurrency:
   # See https://github.com/TWiStErRob/github-workflows/blob/main/snippets/cancel-pr-ci-on-push.yml
@@ -13,13 +13,27 @@ jobs:
   validate:
     name: "🦺 Validation"
     uses: TWiStErRob/github-workflows/.github/workflows/validate.yml@94f2ec4f96e146200f801fe7e09310c79cb2d2b3 # v2
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
 
   build:
     name: "🔨 Build & Verify"
     needs: validate
     uses: ./.github/workflows/CI-build.yml
+    permissions:
+      contents: read
+      checks: write
+      security-events: write
+
 
   instrumentation:
     name: "🧪 Instrumentation Tests on" # / API ${{ matrix.api }} will be appended by used workflow.
     needs: validate
     uses: ./.github/workflows/CI-instrumentation.yml
+    permissions:
+      contents: read
+      checks: write
+      statuses: write
