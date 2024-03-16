@@ -22,7 +22,7 @@ jobs:
   build:
     name: "🔨 Build & Verify"
     needs: validate
-    uses: ./.github/workflows/CI-build.yml
+    uses: ./.github/workflows/ci-build.yml
     permissions:
       contents: read
       checks: write
@@ -32,7 +32,7 @@ jobs:
   instrumentation:
     name: "🧪 Instrumentation Tests on" # / API ${{ matrix.api }} will be appended by used workflow.
     needs: validate
-    uses: ./.github/workflows/CI-instrumentation.yml
+    uses: ./.github/workflows/ci-instrumentation.yml
     permissions:
       contents: read
       checks: write
