@@ -77,11 +77,13 @@ fun Settings.includeJava(modulePath: String) {
 	val module = project(modulePath)
 	module.projectDir = file("twister-lib-java").resolve(module.projectDir.relativeTo(rootDir))
 }
+
 fun Settings.includeAndroid(modulePath: String) {
 	include(modulePath)
 	val module = project(modulePath)
 	module.projectDir = file("twister-lib-android").resolve(module.projectDir.relativeTo(rootDir))
 }
+
 fun Settings.includeAndroidWithTestHelpers(modulePath: String) {
 	includeAndroid(modulePath)
 	val testHelpersModulePath = "${modulePath}-test_helpers"
