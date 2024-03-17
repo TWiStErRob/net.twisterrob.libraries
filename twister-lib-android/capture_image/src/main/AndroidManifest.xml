@@ -18,6 +18,7 @@
 			android:screenOrientation="fullUser"
 			tools:ignore="DiscouragedApi"
 			>
+			<!-- lint:DiscouragedApi REPORT false positive, fullUser does not lock fixed orientation. -->
 			<!-- lint:DiscouragedApi Camera activity requires full rotation control for better experience. -->
 		</activity>
 
