@@ -1,6 +1,8 @@
 package net.twisterrob.libraries.build
 
 import com.android.build.api.dsl.AndroidSourceSet
+import com.android.build.gradle.internal.lint.AndroidLintAnalysisTask
+import com.android.build.gradle.internal.lint.LintModelWriterTask
 import net.twisterrob.libraries.build.dsl.android
 import net.twisterrob.libraries.build.dsl.autoNamespace
 
@@ -39,7 +41,13 @@ android {
 						" as it has no sources in ${this@androidTest.srcDirs}"
 				)
 				tasks.configureEach {
+					@Suppress("detekt.MaxLineLength")
 					if (this.name.contains("AndroidTest")) {
+						// Prevent:
+						// > Task :basics:lintReportDebug FAILED
+						// Lint model ...\build\intermediates\android_test_lint_model\debug\generateDebugAndroidTestLintModel does not exist.
+						if (this is LintModelWriterTask) return@configureEach
+						if (this is AndroidLintAnalysisTask) return@configureEach
 						this.enabled = false
 					}
 				}

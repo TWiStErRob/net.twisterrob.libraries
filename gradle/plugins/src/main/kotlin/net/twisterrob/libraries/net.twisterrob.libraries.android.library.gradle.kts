@@ -12,3 +12,10 @@ project.findProject("${project.path}-test_helpers")?.let { testHelpers ->
 		androidTestImplementation(testHelpers)
 	}
 }
+
+afterEvaluate {
+	configurations.named("${android.testBuildType}AndroidTestRuntimeClasspath") {
+		// TODEL https://issuetracker.google.com/issues/330202422
+		resolutionStrategy.force("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
+	}
+}

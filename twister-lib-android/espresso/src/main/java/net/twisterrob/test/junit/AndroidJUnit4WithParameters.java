@@ -36,10 +36,14 @@ import androidx.test.internal.util.AndroidRunnerParams;
  * @see AndroidJUnit4WithParametersRunnerFactory
  */
 public class AndroidJUnit4WithParameters extends BlockJUnit4ClassRunnerWithParameters {
+	@SuppressLint("RestrictedApi") // Need to access internal API, because there's no public one.
 	private final AndroidRunnerParams mAndroidRunnerParams;
 
-	public AndroidJUnit4WithParameters(TestWithParameters test, AndroidRunnerParams runnerParams)
-			throws InitializationError {
+	public AndroidJUnit4WithParameters(
+			TestWithParameters test,
+			@SuppressLint("RestrictedApi") // Need to access internal API, because there's no public one.
+			AndroidRunnerParams runnerParams
+	) throws InitializationError {
 		super(test);
 		mAndroidRunnerParams = runnerParams;
 	}
