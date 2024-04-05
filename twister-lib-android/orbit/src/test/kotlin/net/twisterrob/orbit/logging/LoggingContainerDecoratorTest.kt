@@ -11,6 +11,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Test
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
@@ -38,23 +39,25 @@ class LoggingContainerDecoratorTest {
 			containerHost.testReduce()
 			expectState(TestState(1))
 
-			val transformerStart = captureSingle {
-				verify(mockEvents).intentStarted(capture())
-			}
-			assertEquals("${FQCN}\$testReduce\$1", transformerStart::class.java.name)
+			inOrder(mockEvents) {
+				val transformerStart = captureSingle {
+					verify(mockEvents).intentStarted(capture())
+				}
+				assertEquals("${FQCN}\$testReduce\$1", transformerStart::class.java.name)
 
-			val reducer = captureSingle {
-				verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
-			}
-			assertEquals("${FQCN}\$testReduce\$1\$1", reducer::class.java.name)
+				val reducer = captureSingle {
+					verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
+				}
+				assertEquals("${FQCN}\$testReduce\$1\$1", reducer::class.java.name)
 
-			val transformerEnd = captureSingle {
-				verify(mockEvents).intentFinished(capture())
-			}
-			assertEquals("${FQCN}\$testReduce\$1", transformerEnd::class.java.name)
+				val transformerEnd = captureSingle {
+					verify(mockEvents).intentFinished(capture())
+				}
+				assertEquals("${FQCN}\$testReduce\$1", transformerEnd::class.java.name)
 
-			assertSame(transformerStart, transformerEnd)
-			verifyNoMoreInteractions(mockEvents)
+				assertSame(transformerStart, transformerEnd)
+				verifyNoMoreInteractions()
+			}
 		}
 	}
 
@@ -68,20 +71,22 @@ class LoggingContainerDecoratorTest {
 			containerHost.testSideEffect()
 			expectSideEffect(TestEffect1)
 
-			val transformerStart = captureSingle {
-				verify(mockEvents).intentStarted(capture())
+			inOrder(mockEvents) {
+				val transformerStart = captureSingle {
+					verify(mockEvents).intentStarted(capture())
+				}
+				assertEquals("${FQCN}\$testSideEffect\$1", transformerStart::class.java.name)
+
+				verify(mockEvents).sideEffect(TestEffect1)
+
+				val transformerEnd = captureSingle {
+					verify(mockEvents).intentFinished(capture())
+				}
+				assertEquals("${FQCN}\$testSideEffect\$1", transformerEnd::class.java.name)
+
+				assertSame(transformerStart, transformerEnd)
+				verifyNoMoreInteractions()
 			}
-			assertEquals("${FQCN}\$testSideEffect\$1", transformerStart::class.java.name)
-
-			verify(mockEvents).sideEffect(TestEffect1)
-
-			val transformerEnd = captureSingle {
-				verify(mockEvents).intentFinished(capture())
-			}
-			assertEquals("${FQCN}\$testSideEffect\$1", transformerEnd::class.java.name)
-
-			assertSame(transformerStart, transformerEnd)
-			verifyNoMoreInteractions(mockEvents)
 		}
 	}
 
@@ -95,23 +100,25 @@ class LoggingContainerDecoratorTest {
 			containerHost.testInline()
 			expectState(TestState(1))
 
-			val transformerStart = captureSingle {
-				verify(mockEvents).intentStarted(capture())
-			}
-			assertEquals("${FQCN}\$testInline\$1", transformerStart::class.java.name)
+			inOrder(mockEvents) {
+				val transformerStart = captureSingle {
+					verify(mockEvents).intentStarted(capture())
+				}
+				assertEquals("${FQCN}\$testInline\$1", transformerStart::class.java.name)
 
-			val reducer = captureSingle {
-				verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
-			}
-			assertEquals("${FQCN}\$testInline\$1\$1", reducer::class.java.name)
+				val reducer = captureSingle {
+					verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
+				}
+				assertEquals("${FQCN}\$testInline\$1\$1", reducer::class.java.name)
 
-			val transformerEnd = captureSingle {
-				verify(mockEvents).intentFinished(capture())
-			}
-			assertEquals("${FQCN}\$testInline\$1", transformerEnd::class.java.name)
+				val transformerEnd = captureSingle {
+					verify(mockEvents).intentFinished(capture())
+				}
+				assertEquals("${FQCN}\$testInline\$1", transformerEnd::class.java.name)
 
-			assertSame(transformerStart, transformerEnd)
-			verifyNoMoreInteractions(mockEvents)
+				assertSame(transformerStart, transformerEnd)
+				verifyNoMoreInteractions()
+			}
 		}
 	}
 
