@@ -7,14 +7,15 @@ import net.twisterrob.mockito.captureSingle
 import net.twisterrob.orbit.logging.LoggingContainerDecorator.OrbitEvents
 import net.twisterrob.orbit.logging.LoggingContainerDecoratorTest.TestContainerHost.Companion.FQCN
 import net.twisterrob.orbit.logging.LoggingContainerDecoratorTest.TestEffect.TestEffect1
+import net.twisterrob.orbit.logging.LoggingContainerDecoratorTest.TestEffect.TestEffect2
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Test
+import org.mockito.Mockito.mockingDetails
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
-import org.mockito.kotlin.verifyNoMoreInteractions
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.annotation.OrbitExperimental
@@ -23,6 +24,7 @@ import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.simple.subIntent
 import org.orbitmvi.orbit.test.test
 
 /**
@@ -39,23 +41,25 @@ class LoggingContainerDecoratorTest {
 			containerHost.testReduce()
 			expectState(TestState(1))
 
-			val transformerStart = captureSingle {
-				verify(mockEvents).intentStarted(capture())
-			}
-			assertEquals("${FQCN}\$testReduce\$1", transformerStart::class.java.name)
+			inOrder(mockEvents) {
+				val transformerStart = captureSingle {
+					verify(mockEvents).intentStarted(capture())
+				}
+				assertEquals("${FQCN}\$testReduce\$1", transformerStart::class.java.name)
 
-			val reducer = captureSingle {
-				verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
-			}
-			assertEquals("${FQCN}\$testReduce\$1\$1", reducer::class.java.name)
+				val reducer = captureSingle {
+					verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
+				}
+				assertEquals("${FQCN}\$testReduce\$1\$1", reducer::class.java.name)
 
-			val transformerEnd = captureSingle {
-				verify(mockEvents).intentFinished(capture())
-			}
-			assertEquals("${FQCN}\$testReduce\$1", transformerEnd::class.java.name)
+				val transformerEnd = captureSingle {
+					verify(mockEvents).intentFinished(capture())
+				}
+				assertEquals("${FQCN}\$testReduce\$1", transformerEnd::class.java.name)
 
-			assertSame(transformerStart, transformerEnd)
-			verifyNoMoreInteractions(mockEvents)
+				assertSame(transformerStart, transformerEnd)
+				verifyNoMoreInteractions()
+			}
 		}
 	}
 
@@ -69,20 +73,22 @@ class LoggingContainerDecoratorTest {
 			containerHost.testSideEffect()
 			expectSideEffect(TestEffect1)
 
-			val transformerStart = captureSingle {
-				verify(mockEvents).intentStarted(capture())
+			inOrder(mockEvents) {
+				val transformerStart = captureSingle {
+					verify(mockEvents).intentStarted(capture())
+				}
+				assertEquals("${FQCN}\$testSideEffect\$1", transformerStart::class.java.name)
+
+				verify(mockEvents).sideEffect(TestEffect1)
+
+				val transformerEnd = captureSingle {
+					verify(mockEvents).intentFinished(capture())
+				}
+				assertEquals("${FQCN}\$testSideEffect\$1", transformerEnd::class.java.name)
+
+				assertSame(transformerStart, transformerEnd)
+				verifyNoMoreInteractions()
 			}
-			assertEquals("${FQCN}\$testSideEffect\$1", transformerStart::class.java.name)
-
-			verify(mockEvents).sideEffect(TestEffect1)
-
-			val transformerEnd = captureSingle {
-				verify(mockEvents).intentFinished(capture())
-			}
-			assertEquals("${FQCN}\$testSideEffect\$1", transformerEnd::class.java.name)
-
-			assertSame(transformerStart, transformerEnd)
-			verifyNoMoreInteractions(mockEvents)
 		}
 	}
 
@@ -96,29 +102,94 @@ class LoggingContainerDecoratorTest {
 			containerHost.testInline()
 			expectState(TestState(1))
 
-			val transformerStart = captureSingle {
-				verify(mockEvents).intentStarted(capture())
-			}
-			assertEquals("${FQCN}\$testInline\$1", transformerStart::class.java.name)
+			inOrder(mockEvents) {
+				val transformerStart = captureSingle {
+					verify(mockEvents).intentStarted(capture())
+				}
+				assertEquals("${FQCN}\$testInline\$1", transformerStart::class.java.name)
 
-			val reducer = captureSingle {
-				verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
-			}
-			assertEquals("${FQCN}\$testInline\$1\$1", reducer::class.java.name)
+				val reducer = captureSingle {
+					verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
+				}
+				assertEquals("${FQCN}\$testInline\$1\$1", reducer::class.java.name)
 
-			val transformerEnd = captureSingle {
-				verify(mockEvents).intentFinished(capture())
-			}
-			assertEquals("${FQCN}\$testInline\$1", transformerEnd::class.java.name)
+				val transformerEnd = captureSingle {
+					verify(mockEvents).intentFinished(capture())
+				}
+				assertEquals("${FQCN}\$testInline\$1", transformerEnd::class.java.name)
 
-			assertSame(transformerStart, transformerEnd)
-			verifyNoMoreInteractions(mockEvents)
+				assertSame(transformerStart, transformerEnd)
+				verifyNoMoreInteractions()
+			}
+		}
+	}
+
+	@Test
+	fun testSubIntent() = runTest {
+		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
+		TestContainerHost(backgroundScope, mockEvents).test(this) {
+			expectInitialState()
+			verifyNoInteractions(mockEvents)
+
+			containerHost.testSubIntent()
+			expectSideEffect(TestEffect1)
+			expectSideEffect(TestEffect2)
+
+			val events = listOf(
+				"intentStarted" to "${FQCN}\$testSubIntent\$1",
+				"intentStarted" to "${FQCN}\$testSubIntent\$1\$1",
+				"sideEffect" to TestEffect1::class.java.name,
+				"intentFinished" to "${FQCN}\$testSubIntent\$1\$1",
+				"intentStarted" to "${FQCN}\$testSubIntent\$1\$2",
+				"sideEffect" to TestEffect2::class.java.name,
+				"intentFinished" to "${FQCN}\$testSubIntent\$1\$2",
+				"intentFinished" to "${FQCN}\$testSubIntent\$1",
+			)
+			val calls = mockingDetails(mockEvents)
+				.invocations
+				.map { it.method.name to it.arguments.single() }
+			assertEquals(events, calls.map { it.first to it.second::class.java.name })
+			assertSame(calls.first().second, calls.last().second)
+			assertSame(calls[1].second, calls[3].second)
+			assertSame(calls[4].second, calls[6].second)
+		}
+	}
+
+	@Test
+	fun testSubIntentNested() = runTest {
+		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
+		TestContainerHost(backgroundScope, mockEvents).test(this) {
+			expectInitialState()
+			verifyNoInteractions(mockEvents)
+
+			containerHost.testSubIntentNested()
+			expectSideEffect(TestEffect1)
+			expectSideEffect(TestEffect2)
+
+			val events = listOf(
+				"intentStarted" to "${FQCN}\$testSubIntentNested\$1",
+				"intentStarted" to "${FQCN}\$testSubIntentNested\$1\$1",
+				"sideEffect" to TestEffect1::class.java.name,
+				"intentStarted" to "${FQCN}\$testSubIntentNested\$1\$1\$1",
+				"sideEffect" to TestEffect2::class.java.name,
+				"intentFinished" to "${FQCN}\$testSubIntentNested\$1\$1\$1",
+				"intentFinished" to "${FQCN}\$testSubIntentNested\$1\$1",
+				"intentFinished" to "${FQCN}\$testSubIntentNested\$1",
+			)
+			val calls = mockingDetails(mockEvents)
+				.invocations
+				.map { it.method.name to it.arguments.single() }
+			assertEquals(events, calls.map { it.first to it.second::class.java.name })
+			assertSame(calls.first().second, calls.last().second)
+			assertSame(calls[1].second, calls[6].second)
+			assertSame(calls[3].second, calls[5].second)
 		}
 	}
 
 	private data class TestState(val value: Int)
 	private sealed interface TestEffect {
 		data object TestEffect1 : TestEffect
+		data object TestEffect2 : TestEffect
 	}
 
 	private class TestContainerHost(
@@ -142,11 +213,34 @@ class LoggingContainerDecoratorTest {
 				postSideEffect(TestEffect1)
 			}
 
-		@OptIn(OrbitExperimental::class)
 		fun testInline() {
 			blockingIntent {
 				reduce {
 					state.copy(value = state.value + 1)
+				}
+			}
+		}
+
+		@OptIn(OrbitExperimental::class) 
+		fun testSubIntent() {
+			intent {
+				subIntent {
+					postSideEffect(TestEffect1)
+				}
+				subIntent {
+					postSideEffect(TestEffect2)
+				}
+			}
+		}
+
+		@OptIn(OrbitExperimental::class)
+		fun testSubIntentNested() {
+			intent {
+				subIntent {
+					postSideEffect(TestEffect1)
+					subIntent {
+						postSideEffect(TestEffect2)
+					}
 				}
 			}
 		}
