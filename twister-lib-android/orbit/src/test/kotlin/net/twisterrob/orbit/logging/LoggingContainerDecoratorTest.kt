@@ -17,7 +17,6 @@ import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.verifyNoMoreInteractions
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.annotation.OrbitExperimental
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -142,7 +141,6 @@ class LoggingContainerDecoratorTest {
 				postSideEffect(TestEffect1)
 			}
 
-		@OptIn(OrbitExperimental::class)
 		fun testInline() {
 			blockingIntent {
 				reduce {

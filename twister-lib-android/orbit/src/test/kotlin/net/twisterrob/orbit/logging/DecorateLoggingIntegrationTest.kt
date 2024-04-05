@@ -10,7 +10,6 @@ import org.junit.Test
 import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.annotation.OrbitExperimental
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -276,7 +275,6 @@ class DecorateLoggingIntegrationTest {
 				postSideEffect(TestEffect3)
 			}
 
-		@OptIn(OrbitExperimental::class)
 		fun inlineOrbit(value: Int) {
 			blockingIntent {
 				reduce {
