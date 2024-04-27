@@ -55,7 +55,6 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 				events.sideEffect(it)
 				postSideEffect(it)
 			},
-			getState = ::state,
 			reduce = { reducer ->
 				reduce { oldState ->
 					reducer(oldState).also { newState ->
@@ -64,6 +63,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 				}
 			},
 			subscribedCounter = subscribedCounter,
+			stateFlow = stateFlow,
 		)
 }
 
