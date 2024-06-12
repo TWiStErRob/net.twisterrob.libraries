@@ -6,8 +6,14 @@ import kotlinx.coroutines.test.runTest
 import net.twisterrob.mockito.captureSingle
 import net.twisterrob.orbit.logging.LoggingContainerDecorator.OrbitEvents
 import net.twisterrob.orbit.logging.LoggingContainerDecoratorTest.TestContainerHost.Companion.FQCN
+import net.twisterrob.orbit.logging.LoggingContainerDecoratorTest.TestContainerHost.Companion.matchesInner
+import net.twisterrob.orbit.logging.LoggingContainerDecoratorTest.TestContainerHost.Companion.matchesLambdaOf
 import net.twisterrob.orbit.logging.LoggingContainerDecoratorTest.TestEffect.TestEffect1
 import net.twisterrob.orbit.logging.LoggingContainerDecoratorTest.TestEffect.TestEffect2
+import org.hamcrest.Matcher
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.matchesPattern
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Test
@@ -45,17 +51,17 @@ class LoggingContainerDecoratorTest {
 				val transformerStart = captureSingle {
 					verify(mockEvents).intentStarted(capture())
 				}
-				assertEquals("${FQCN}\$testReduce\$1", transformerStart::class.java.name)
+				assertThat(transformerStart::class.java.name, matchesInner("testReduce\$1"))
 
 				val reducer = captureSingle {
 					verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
 				}
-				assertEquals("${FQCN}\$testReduce\$1\$1", reducer::class.java.name)
+				assertThat(reducer::class.java.name, matchesLambdaOf("testReduce\$1"))
 
 				val transformerEnd = captureSingle {
 					verify(mockEvents).intentFinished(capture())
 				}
-				assertEquals("${FQCN}\$testReduce\$1", transformerEnd::class.java.name)
+				assertThat(transformerEnd::class.java.name, matchesInner("testReduce\$1"))
 
 				assertSame(transformerStart, transformerEnd)
 				verifyNoMoreInteractions()
@@ -77,14 +83,14 @@ class LoggingContainerDecoratorTest {
 				val transformerStart = captureSingle {
 					verify(mockEvents).intentStarted(capture())
 				}
-				assertEquals("${FQCN}\$testSideEffect\$1", transformerStart::class.java.name)
+				assertThat(transformerStart::class.java.name, matchesInner("testSideEffect\$1"))
 
 				verify(mockEvents).sideEffect(TestEffect1)
 
 				val transformerEnd = captureSingle {
 					verify(mockEvents).intentFinished(capture())
 				}
-				assertEquals("${FQCN}\$testSideEffect\$1", transformerEnd::class.java.name)
+				assertThat(transformerEnd::class.java.name, matchesInner("testSideEffect\$1"))
 
 				assertSame(transformerStart, transformerEnd)
 				verifyNoMoreInteractions()
@@ -106,17 +112,17 @@ class LoggingContainerDecoratorTest {
 				val transformerStart = captureSingle {
 					verify(mockEvents).intentStarted(capture())
 				}
-				assertEquals("${FQCN}\$testInline\$1", transformerStart::class.java.name)
+				assertThat(transformerStart::class.java.name, matchesInner("testInline\$1"))
 
 				val reducer = captureSingle {
 					verify(mockEvents).reduce(eq(TestState(0)), capture(), eq(TestState(1)))
 				}
-				assertEquals("${FQCN}\$testInline\$1\$1", reducer::class.java.name)
+				assertThat(reducer::class.java.name, matchesLambdaOf("testInline\$1"))
 
 				val transformerEnd = captureSingle {
 					verify(mockEvents).intentFinished(capture())
 				}
-				assertEquals("${FQCN}\$testInline\$1", transformerEnd::class.java.name)
+				assertThat(transformerEnd::class.java.name, matchesInner("testInline\$1"))
 
 				assertSame(transformerStart, transformerEnd)
 				verifyNoMoreInteractions()
@@ -194,7 +200,7 @@ class LoggingContainerDecoratorTest {
 
 	private class TestContainerHost(
 		scope: CoroutineScope,
-		events: OrbitEvents<TestState, TestEffect>
+		events: OrbitEvents<TestState, TestEffect>,
 	) : ContainerHost<TestState, TestEffect> {
 
 		override val container =
@@ -221,7 +227,7 @@ class LoggingContainerDecoratorTest {
 			}
 		}
 
-		@OptIn(OrbitExperimental::class) 
+		@OptIn(OrbitExperimental::class)
 		fun testSubIntent() {
 			intent {
 				subIntent {
@@ -247,6 +253,14 @@ class LoggingContainerDecoratorTest {
 
 		companion object {
 			val FQCN: String = TestContainerHost::class.java.name
+
+			fun matchesLambdaOf(signature: String): Matcher<String> {
+				val pattern = """${Regex.escape(FQCN)}\$${Regex.escape(signature)}\$\$\QLambda\E\$\d+/0x[0-9a-f]{16}"""
+				return matchesPattern(Regex(pattern).toPattern())
+			}
+
+			fun matchesInner(signature: String): Matcher<String> =
+				equalTo("${FQCN}\$${signature}")
 
 			/**
 			 * @see decorateLogging mimicking the real implementation, but with a mock listener.
