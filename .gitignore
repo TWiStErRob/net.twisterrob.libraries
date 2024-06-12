@@ -5,7 +5,8 @@
 *.iws
 
 # Gradle
-.gradle
+.gradle/
+.kotlin/
 /build/
 /*/build/
 /*/*/build/
