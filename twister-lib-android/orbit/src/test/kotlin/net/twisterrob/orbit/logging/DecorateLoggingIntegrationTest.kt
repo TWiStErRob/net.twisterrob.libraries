@@ -26,7 +26,7 @@ import java.util.regex.Pattern
  * @see LoggingContainerDecorator
  * @see OrbitSlf4jLogger
  */
-@Suppress("LoggingSimilarMessage")
+@Suppress("LoggingSimilarMessage") // Testing log messages.
 class DecorateLoggingIntegrationTest {
 	private val logger: Logger = mock()
 	//private val logger: Logger = spy(org.slf4j.LoggerFactory.getLogger("test")) // If want to see output.

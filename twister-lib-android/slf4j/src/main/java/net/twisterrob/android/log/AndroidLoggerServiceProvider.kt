@@ -1,5 +1,3 @@
-@file:Suppress("ERROR_SUPPRESSION")
-
 package net.twisterrob.android.log
 
 import org.slf4j.ILoggerFactory
@@ -9,7 +7,7 @@ import org.slf4j.helpers.NOPMDCAdapter
 import org.slf4j.spi.MDCAdapter
 import org.slf4j.spi.SLF4JServiceProvider
 
-// TODO revert to earlier state with val/vars https://youtrack.jetbrains.com/issue/KT-6653#focus=Comments-27-6415928.0-0
+// TODO revert to earlier state with val/vars https://youtrack.jetbrains.com/issue/KT-6653#focus=Comments-27-9920359.0-0
 class AndroidLoggerServiceProvider : SLF4JServiceProvider {
 
 	private val requestedApiVersion: String = "2.0.13"

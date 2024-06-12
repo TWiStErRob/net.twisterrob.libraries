@@ -7,6 +7,7 @@ import org.slf4j.spi.MDCAdapter
 	"unused", "MemberVisibilityCanBePrivate", // SLF4J 1.x contract.
 )
 object StaticMDCBinder {
+	// Used by MDC (1.x) as `StaticMDCBinder.getSingleton()`.
 	@JvmStatic
 	val singleton: StaticMDCBinder = this
 

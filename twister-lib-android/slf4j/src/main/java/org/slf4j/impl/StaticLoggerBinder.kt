@@ -3,7 +3,7 @@ package org.slf4j.impl
 import net.twisterrob.android.log.AndroidLoggerFactory
 import org.slf4j.ILoggerFactory
 
-// TODO revert to earlier state with val/vars https://youtrack.jetbrains.com/issue/KT-6653#focus=Comments-27-6415928.0-0
+// TODO revert to earlier state with val/vars https://youtrack.jetbrains.com/issue/KT-6653#focus=Comments-27-9920359.0-0
 @Suppress(
 	"DEPRECATION", // SLF4J 1.7.36 and 2.0.9 compatible at the same time.
 	"unused", // SLF4J 1.x contract.
