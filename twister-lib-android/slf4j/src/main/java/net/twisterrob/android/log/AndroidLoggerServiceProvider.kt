@@ -1,3 +1,5 @@
+@file:Suppress("ERROR_SUPPRESSION")
+
 package net.twisterrob.android.log
 
 import org.slf4j.ILoggerFactory
@@ -7,22 +9,24 @@ import org.slf4j.helpers.NOPMDCAdapter
 import org.slf4j.spi.MDCAdapter
 import org.slf4j.spi.SLF4JServiceProvider
 
-@Suppress(
-	// TODEL https://youtrack.jetbrains.com/issue/KT-6653#focus=Comments-27-6415928.0-0
-	"ABSTRACT_MEMBER_NOT_IMPLEMENTED", "ACCIDENTAL_OVERRIDE", "NOTHING_TO_OVERRIDE",
-)
+// TODO revert to earlier state with val/vars https://youtrack.jetbrains.com/issue/KT-6653#focus=Comments-27-6415928.0-0
 class AndroidLoggerServiceProvider : SLF4JServiceProvider {
 
-	override val requestedApiVersion: String = "2.0.9"
+	private val requestedApiVersion: String = "2.0.13"
+	override fun getRequestedApiVersion(): String =
+		requestedApiVersion
 
-	override lateinit var loggerFactory: ILoggerFactory
-		private set
+	private lateinit var loggerFactory: ILoggerFactory
+	override fun getLoggerFactory(): ILoggerFactory =
+		loggerFactory
 
-	override lateinit var markerFactory: IMarkerFactory
-		private set
+	private lateinit var markerFactory: IMarkerFactory
+	override fun getMarkerFactory(): IMarkerFactory =
+		markerFactory
 
-	override lateinit var mdcAdapter: MDCAdapter
-		private set
+	private lateinit var mdcAdapter: MDCAdapter
+	override fun getMDCAdapter(): MDCAdapter =
+		mdcAdapter
 
 	override fun initialize() {
 		loggerFactory = AndroidLoggerFactory()
