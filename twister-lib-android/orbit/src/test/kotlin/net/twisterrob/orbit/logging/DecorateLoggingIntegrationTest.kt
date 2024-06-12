@@ -7,6 +7,8 @@ import net.twisterrob.orbit.logging.DecorateLoggingIntegrationTest.TestEffect.Te
 import net.twisterrob.orbit.logging.DecorateLoggingIntegrationTest.TestEffect.TestEffect2
 import net.twisterrob.orbit.logging.DecorateLoggingIntegrationTest.TestEffect.TestEffect3
 import org.junit.Test
+import org.mockito.ArgumentMatchers.matches
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
 import org.orbitmvi.orbit.ContainerHost
@@ -17,12 +19,14 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.test.test
 import org.slf4j.Logger
+import java.util.regex.Pattern
 
 /**
  * @see decorateLogging
  * @see LoggingContainerDecorator
  * @see OrbitSlf4jLogger
  */
+@Suppress("LoggingSimilarMessage") // Testing log messages.
 class DecorateLoggingIntegrationTest {
 	private val logger: Logger = mock()
 	//private val logger: Logger = spy(org.slf4j.LoggerFactory.getLogger("test")) // If want to see output.
@@ -137,10 +141,10 @@ class DecorateLoggingIntegrationTest {
 					mapOf("intParam" to 42, "stringParam" to "str"),
 				)
 				verify(logger).trace(
-					"reduced via {}:\n{}\n->\n{}",
-					"DecorateLoggingIntegrationTest\$TestContainerHost\$reduceWithParams\$1\$1",
-					TestState(value = 0),
-					TestState(value = 1),
+					eq("reduced via {}:\n{}\n->\n{}"),
+					matches(lambdaIn("DecorateLoggingIntegrationTest\$TestContainerHost\$reduceWithParams\$1")),
+					eq(TestState(value = 0)),
+					eq(TestState(value = 1)),
 				)
 				verify(logger).trace(
 					"Finished intent: {} with {}",
@@ -205,10 +209,10 @@ class DecorateLoggingIntegrationTest {
 					mapOf("value" to 42),
 				)
 				verify(logger).trace(
-					"reduced via {}:\n{}\n->\n{}",
-					"DecorateLoggingIntegrationTest\$TestContainerHost\$inlineOrbit\$1\$1",
-					TestState(value = 0),
-					TestState(value = 42),
+					eq("reduced via {}:\n{}\n->\n{}"),
+					matches(lambdaIn("DecorateLoggingIntegrationTest\$TestContainerHost\$inlineOrbit\$1")),
+					eq(TestState(value = 0)),
+					eq(TestState(value = 42)),
 				)
 				verify(logger).trace(
 					"Finished intent: {} with {}",
@@ -284,3 +288,6 @@ class DecorateLoggingIntegrationTest {
 		}
 	}
 }
+
+private fun lambdaIn(name: String): Pattern =
+	Regex("""${Regex.escape(name)}\$\$\QLambda\E\$\d+/0x[0-9a-f]{16}""").toPattern()
