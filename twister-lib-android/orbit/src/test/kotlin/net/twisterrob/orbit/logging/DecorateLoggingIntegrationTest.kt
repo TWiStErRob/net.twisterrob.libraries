@@ -13,10 +13,6 @@ import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
-import org.orbitmvi.orbit.syntax.simple.blockingIntent
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.test.test
 import org.slf4j.Logger
 import java.util.regex.Pattern

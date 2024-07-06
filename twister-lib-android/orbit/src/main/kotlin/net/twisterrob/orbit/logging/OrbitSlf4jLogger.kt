@@ -1,8 +1,8 @@
 package net.twisterrob.orbit.logging
 
 import net.twisterrob.orbit.logging.LoggingContainerDecorator.OrbitEvents
-import org.orbitmvi.orbit.syntax.simple.SimpleContext
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
+import org.orbitmvi.orbit.syntax.IntentContext
+import org.orbitmvi.orbit.syntax.Syntax
 import org.slf4j.Logger
 
 internal class OrbitSlf4jLogger<STATE : Any, SIDE_EFFECT : Any>(
@@ -10,20 +10,20 @@ internal class OrbitSlf4jLogger<STATE : Any, SIDE_EFFECT : Any>(
 ) : OrbitEvents<STATE, SIDE_EFFECT> {
 
 	override fun intentStarted(
-		transformer: suspend SimpleSyntax<STATE, SIDE_EFFECT>.() -> Unit
+		transformer: suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit
 	) {
 		log.trace("Starting intent: {} with {}", transformer.lambdaName(), transformer.captures())
 	}
 
 	override fun intentFinished(
-		transformer: suspend SimpleSyntax<STATE, SIDE_EFFECT>.() -> Unit
+		transformer: suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit
 	) {
 		log.trace("Finished intent: {} with {}", transformer.lambdaName(), transformer.captures())
 	}
 
 	override fun reduce(
 		oldState: STATE,
-		reducer: SimpleContext<STATE>.() -> STATE,
+		reducer: IntentContext<STATE>.() -> STATE,
 		newState: STATE
 	) {
 		log.trace("reduced via {}:\n{}\n->\n{}", reducer.lambdaName(), oldState, newState)
