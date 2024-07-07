@@ -5,8 +5,8 @@ import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerDecorator
 import org.orbitmvi.orbit.annotation.OrbitInternal
 import org.orbitmvi.orbit.syntax.ContainerContext
-import org.orbitmvi.orbit.syntax.simple.SimpleContext
-import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
+import org.orbitmvi.orbit.syntax.IntentContext
+import org.orbitmvi.orbit.syntax.Syntax
 
 class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 	override val actual: Container<STATE, SIDE_EFFECT>,
@@ -14,12 +14,12 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 ) : ContainerDecorator<STATE, SIDE_EFFECT> {
 
 	interface OrbitEvents<STATE : Any, SIDE_EFFECT : Any> {
-		fun intentStarted(transformer: suspend SimpleSyntax<STATE, SIDE_EFFECT>.() -> Unit)
-		fun intentFinished(transformer: suspend SimpleSyntax<STATE, SIDE_EFFECT>.() -> Unit)
+		fun intentStarted(transformer: suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit)
+		fun intentFinished(transformer: suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit)
 
 		fun sideEffect(sideEffect: SIDE_EFFECT)
 
-		fun reduce(oldState: STATE, reducer: SimpleContext<STATE>.() -> STATE, newState: STATE)
+		fun reduce(oldState: STATE, reducer: IntentContext<STATE>.() -> STATE, newState: STATE)
 	}
 
 	@OptIn(OrbitInternal::class)
@@ -43,9 +43,9 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 	}
 
 	/**
-	 * @see org.orbitmvi.orbit.syntax.simple.intent
-	 * @see org.orbitmvi.orbit.syntax.simple.blockingIntent
-	 * @see org.orbitmvi.orbit.syntax.simple.reduce
+	 * @see org.orbitmvi.orbit.ContainerHost.intent
+	 * @see org.orbitmvi.orbit.ContainerHost.blockingIntent
+	 * @see org.orbitmvi.orbit.syntax.Syntax.reduce
 	 */
 	@OptIn(OrbitInternal::class)
 	private fun ContainerContext<STATE, SIDE_EFFECT>.logged(): ContainerContext<STATE, SIDE_EFFECT> =
@@ -70,10 +70,11 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 /**
  * The framework's reducer and intent declarations are lambdas inside Orbit's functions.
  * We need to access the captured local variables to get our original reducer and intent lambdas.
+ * These captured variables are kept in consumer ProGuard configuration.
  *
- * @see org.orbitmvi.orbit.syntax.simple.intent
- * @see org.orbitmvi.orbit.syntax.simple.blockingIntent
- * @see org.orbitmvi.orbit.syntax.simple.reduce
+ * @see org.orbitmvi.orbit.ContainerHost.intent
+ * @see org.orbitmvi.orbit.ContainerHost.blockingIntent
+ * @see org.orbitmvi.orbit.syntax.Syntax.reduce
  */
 private fun <T : Function<*>> Function<*>.captured(localName: String): T =
 	this::class
