@@ -22,10 +22,8 @@
 		android:layout_height="wrap_content"
 		android:layout_margin="@dimen/unit_half"
 		android:layout_alignParentEnd="true"
-		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
 		android:layout_toEndOf="@id/about_icon"
-		android:layout_toRightOf="@id/about_icon"
 		android:orientation="vertical"
 		>
 		<TextView
