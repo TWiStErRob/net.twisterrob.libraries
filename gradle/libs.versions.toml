@@ -17,7 +17,7 @@ twisterrob = "0.17"
 detekt = "1.23.6"
 dependencyAnalysis = "1.32.0"
 kotlin = "2.0.0"
-kotlin-ksp = "2.0.0-1.0.22"
+kotlin-ksp = "2.0.0-1.0.23"
 kotlin-coroutines = "1.8.1"
 
 jsr305 = "3.0.2"
