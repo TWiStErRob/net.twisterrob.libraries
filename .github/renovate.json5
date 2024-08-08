@@ -39,9 +39,7 @@
 		},
 		{
 			description: "Keep Guava versions in sync with JRE variant. Disabled for now, because needs some investigation.",
-			matchPackageNames: [
-				"com.google.guava:guava",
-			],
+			matchPackageNames: ["com.google.guava:guava"],
 			matchCurrentValue: "/-jre$/",
 			allowedVersions: "/-jre$/",
 			enabled: false,
@@ -64,9 +62,7 @@
 		},
 		{
 			description: "Don't auto-merge Gradle versions yet, because this repository is used as git submodule.",
-			matchPackageNames: [
-				"gradle",
-			],
+			matchPackageNames: ["gradle"],
 			automerge: false,
 		},
 	],
