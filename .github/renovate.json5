@@ -30,9 +30,7 @@
 		},
 		{
 			description: "Keep Guava versions in sync with Android variant. Disabled for now, because needs some investigation.",
-			matchPackageNames: [
-				"com.google.guava:guava",
-			],
+			matchPackageNames: ["com.google.guava:guava"],
 			matchCurrentValue: "/-android$/",
 			allowedVersions: "/-android$/",
 			enabled: false,
