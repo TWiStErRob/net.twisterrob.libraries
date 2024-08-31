@@ -4,6 +4,10 @@ import net.twisterrob.libraries.build.dsl.libs
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+plugins {
+	id("com.autonomousapps.dependency-analysis")
+}
+
 configurations.configureEach {
 	resolutionStrategy {
 		failOnChangingVersions()
