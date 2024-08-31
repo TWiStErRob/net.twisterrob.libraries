@@ -11,6 +11,24 @@ dependencies {
 	api(libs.androidx.test.junit)
 }
 
+dependencyAnalysis {
+	issues {
+		// Don't report dependencies of this helper project, it exist to provide these dependencies.
+		onUnusedDependencies {
+			severity("ignore")
+		}
+		// > Advice for :internal:test:android_unit
+		// > Dependencies which should be removed or changed to runtime-only:
+		// > runtimeOnly("androidx.test:core:1.5.0") (was api)
+		onRuntimeOnly {
+			// This dependency is there to be provided to the consumers, keep it api.
+			// In particular, this lib contains androidx.test.core.app.ApplicationProvider,
+			// which is the recommended way to get the application Context in Robolectric.
+			exclude(libs.androidx.test.core.get().toString())
+		}
+	}
+}
+
 // This module is meant to be used as testImplementation, running on the JVM,
 // so it doesn't matter what classes it references.
 android.lint.disable.add("InvalidPackage")

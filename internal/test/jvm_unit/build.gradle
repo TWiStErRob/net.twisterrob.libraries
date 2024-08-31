@@ -19,3 +19,12 @@ dependencies {
 	runtimeOnly(libs.slf4j.simple)
 	api(libs.test.params)
 }
+
+dependencyAnalysis {
+	issues {
+		// Don't report dependencies of this helper project, it exist to provide these dependencies.
+		onUnusedDependencies {
+			severity("ignore")
+		}
+	}
+}

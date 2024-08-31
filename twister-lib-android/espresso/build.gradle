@@ -47,3 +47,19 @@ dependencies {
 
 	testImplementation(libs.test.mockito)
 }
+
+dependencyAnalysis {
+	issues {
+		onUnusedDependencies {
+			// These dependencies are there to be provided to the consumers, keep them.
+			exclude(libs.androidx.test.junit.get().toString())
+		}
+		onIncorrectConfiguration {
+			// These dependencies are there to be provided to the consumers, keep them api.
+			exclude(
+					libs.androidx.test.junit.get().toString(),
+					libs.androidx.test.core.get().toString(),
+			)
+		}
+	}
+}

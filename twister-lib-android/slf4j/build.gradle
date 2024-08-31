@@ -11,3 +11,12 @@ dependencies {
 	compileOnly(libs.androidx.annotation)
 	api(libs.slf4j.api)
 }
+
+dependencyAnalysis {
+	issues {
+		onUnusedDependencies {
+			exclude(libs.slf4j.api.get().toString())
+			exclude(libs.slf4j2.api.get().toString())
+		}
+	}
+}

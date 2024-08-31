@@ -42,3 +42,22 @@ dependencies {
 	// UI Automator @SdkSuppress(minSdkVersion = VERSION_CODES.JELLY_BEAN_MR2)
 	api(libs.androidx.test.uiautomator)
 }
+
+dependencyAnalysis {
+	issues {
+		// Don't report dependencies of this helper project, it exist to provide these dependencies.
+		onUnusedDependencies {
+			severity("ignore")
+		}
+
+		// > Advice for :internal:test:android_instrumentation
+		// > Dependencies which should be removed or changed to runtime-only:
+		// > runtimeOnly(libs.androidx.test.runner) (was api)
+		onRuntimeOnly {
+			// This dependency is there to be provided to the consumers, keep it api.
+			// In particular, this lib contains the extensible androidx.test.runner.AndroidJUnitRunner,
+			// and test size filter annotations.
+			exclude(libs.androidx.test.runner.get().toString())
+		}
+	}
+}
