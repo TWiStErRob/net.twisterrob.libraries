@@ -1,8 +1,13 @@
 package net.twisterrob.libraries.build
 
+import net.twisterrob.libraries.build.dsl.dependencyAnalysisSub
 import net.twisterrob.libraries.build.dsl.libs
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+	id("com.autonomousapps.dependency-analysis")
+}
 
 configurations.configureEach {
 	resolutionStrategy {
@@ -58,4 +63,23 @@ afterEvaluate {
 
 tasks.withType<Test>().configureEach test@{
 	systemProperty("org.slf4j.simpleLogger.defaultLogLevel", "trace")
+}
+
+dependencyAnalysisSub {
+	issues {
+		// There are some configuration in root project's issues.all { ... } block. 
+
+		if (project.path.endsWith("-test_helpers")) {
+			onIncorrectConfiguration {
+				exclude(project.path.removeSuffix("-test_helpers"))
+			}
+		}
+		onUnusedDependencies {
+			// Don't report usages of these helper projects,
+			// they'll look like they're unused, but their transitive dependencies are needed.
+			project(":internal:test").subprojects.forEach { project ->
+				exclude(project.path)
+			}
+		}
+	}
 }
