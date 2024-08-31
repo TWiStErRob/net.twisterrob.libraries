@@ -44,8 +44,6 @@ dependencies {
 	androidTestImplementation(libs.androidx.test.junit)
 	androidTestImplementation(libs.test.hamcrest.junit)
 	androidTestRuntimeOnly "net.twisterrob.lib:twister-lib-android-slf4j"
-
-	testImplementation(libs.test.mockito)
 }
 
 dependencyAnalysis {
