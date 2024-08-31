@@ -8,6 +8,4 @@ dependencies {
 	//implementation(libs.test.hamcrest.junit)
 	implementation(libs.test.junit)
 	implementation "net.twisterrob.lib:twister-lib-java"
-
-	testImplementation(libs.test.mockito)
 }
