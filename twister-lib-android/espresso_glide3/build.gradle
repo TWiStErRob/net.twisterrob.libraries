@@ -20,3 +20,12 @@ dependencies {
 	androidTestImplementation(libs.test.mockServer)
 	androidTestRuntimeOnly("net.twisterrob.lib:twister-lib-android-slf4j")
 }
+
+dependencyAnalysis {
+	abi {
+		exclusions {
+			// Internal helper classes.
+			ignoreSubPackage("com.bumptech.glide")
+		}
+	}
+}
