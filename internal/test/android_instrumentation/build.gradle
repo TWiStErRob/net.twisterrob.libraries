@@ -42,3 +42,12 @@ dependencies {
 	// UI Automator @SdkSuppress(minSdkVersion = VERSION_CODES.JELLY_BEAN_MR2)
 	api(libs.androidx.test.uiautomator)
 }
+
+dependencyAnalysis {
+	issues {
+		onUnusedDependencies {
+			// Don't report dependencies of this helper project, it exist to provide these dependencies.
+			severity("ignore")
+		}
+	}
+}
