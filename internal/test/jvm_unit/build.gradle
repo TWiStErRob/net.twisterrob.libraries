@@ -22,8 +22,8 @@ dependencies {
 
 dependencyAnalysis {
 	issues {
-		// Don't report dependencies of this helper project, it exist to provide these dependencies.
 		onUnusedDependencies {
+			// Don't report dependencies of this helper project, it exist to provide these dependencies.
 			severity("ignore")
 		}
 	}
