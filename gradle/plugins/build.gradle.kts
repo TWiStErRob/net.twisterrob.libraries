@@ -9,6 +9,7 @@ dependencies {
 	implementation(libs.plugins.android.asMarkerArtifact())
 	implementation(libs.plugins.twisterrob.quality.asMarkerArtifact())
 	implementation(libs.plugins.twisterrob.android.asMarkerArtifact())
+	implementation(libs.plugins.twisterrob.nagging.asMarkerArtifact())
 	implementation(libs.plugins.dependencyAnalysis.asMarkerArtifact())
 	// TODEL https://github.com/gradle/gradle/issues/15383
 	implementation(files(libs::class.java.superclass.protectionDomain.codeSource.location))
