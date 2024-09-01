@@ -4,6 +4,7 @@ android = { id = "com.android.application", version.ref = "agp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 twisterrob-quality = { id = "net.twisterrob.gradle.plugin.quality", version.ref = "twisterrob" }
+twisterrob-nagging = { id = "net.twisterrob.gradle.plugin.nagging", version.ref = "twisterrob" }
 twisterrob-android = { id = "net.twisterrob.gradle.plugin.android-app", version.ref = "twisterrob" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 
