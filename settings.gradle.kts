@@ -1,3 +1,5 @@
+import net.twisterrob.gradle.doNotNagAbout
+
 rootProject.name = "net-twisterrob-libraries"
 
 // TODO enable when https://issuetracker.google.com/issues/300617088
@@ -86,4 +88,34 @@ fun Settings.includeAndroidWithTestHelpers(modulePath: String) {
 	includeAndroid(testHelpersModulePath)
 	val testHelpersModule = project(testHelpersModulePath)
 	testHelpersModule.projectDir = project(modulePath).projectDir.resolve("test_helpers")
+}
+
+val gradleVersion = GradleVersion.current().version
+
+// TODEL Gradle 8.8 sync in IDEA 2024.1.4 https://youtrack.jetbrains.com/issue/IDEA-353787.
+if ((System.getProperty("idea.version") ?: "") < "2024.3") {
+	doNotNagAbout(
+		"The CopyProcessingSpec.getFileMode() method has been deprecated. " +
+				"This is scheduled to be removed in Gradle 9.0. " +
+				"Please use the getFilePermissions() method instead. " +
+				"Consult the upgrading guide for further information: " +
+				"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#unix_file_permissions_deprecated",
+		// Ideally this would be the following:
+		// "at com.intellij.gradle.toolingExtension.impl.model.resourceFilterModel.GradleResourceFilterModelBuilder.getFilters(GradleResourceFilterModelBuilder.groovy:46)"
+		// but org.gradle.internal.classpath.intercept.DefaultCallSiteDecorator$DecoratingCallSite is using up too many stack frames.
+		"at org.gradle.internal.classpath.InstrumentedGroovyCallsHelper.withEntryPoint(InstrumentedGroovyCallsHelper.java:34)"
+	)
+	doNotNagAbout(
+		"The CopyProcessingSpec.getDirMode() method has been deprecated. " +
+				"This is scheduled to be removed in Gradle 9.0. " +
+				"Please use the getDirPermissions() method instead. " +
+				"Consult the upgrading guide for further information: " +
+				"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#unix_file_permissions_deprecated",
+		// Ideally this would be the following:
+		// "at com.intellij.gradle.toolingExtension.impl.model.resourceFilterModel.GradleResourceFilterModelBuilder.getFilters(GradleResourceFilterModelBuilder.groovy:46)"
+		// but org.gradle.internal.classpath.intercept.DefaultCallSiteDecorator$DecoratingCallSite is using up too many stack frames.
+		"at org.gradle.internal.classpath.InstrumentedGroovyCallsHelper.withEntryPoint(InstrumentedGroovyCallsHelper.java:34)"
+	)
+} else {
+	logger.warn("IDEA version changed, please review hack.")
 }
