@@ -19,7 +19,7 @@ detekt = "1.23.7"
 dependencyAnalysis = "2.0.2"
 kotlin = "2.0.20"
 kotlin-ksp = "2.0.20-1.0.25"
-kotlin-coroutines = "1.8.1"
+kotlin-coroutines = "1.9.0"
 
 jsr305 = "3.0.2"
 jbrAnn = "24.1.0"
