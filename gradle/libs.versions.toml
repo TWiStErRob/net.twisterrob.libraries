@@ -12,7 +12,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 project = "1.0"
 
 java = "1.8"
-agp = "8.7.0"
+agp = "8.7.1"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.17"
 detekt = "1.23.7"
