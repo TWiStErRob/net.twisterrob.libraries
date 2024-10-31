@@ -16,7 +16,7 @@ agp = "8.7.1"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.17"
 detekt = "1.23.7"
-dependencyAnalysis = "2.3.0"
+dependencyAnalysis = "2.4.0"
 kotlin = "2.0.21"
 kotlin-ksp = "2.0.21-1.0.26"
 kotlin-coroutines = "1.9.0"
