@@ -15,8 +15,8 @@ dependencies {
 	implementation(files(libs::class.java.superclass.protectionDomain.codeSource.location))
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-	kotlinOptions {
+kotlin {
+	compilerOptions {
 		allWarningsAsErrors = true
 	}
 }
