@@ -1,3 +1,5 @@
+import net.twisterrob.gradle.doNotNagAbout
+
 rootProject.name = "net-twisterrob-libraries"
 
 // TODO enable when https://issuetracker.google.com/issues/300617088
@@ -87,3 +89,13 @@ fun Settings.includeAndroidWithTestHelpers(modulePath: String) {
 	val testHelpersModule = project(testHelpersModulePath)
 	testHelpersModule.projectDir = project(modulePath).projectDir.resolve("test_helpers")
 }
+
+val gradleVersion = GradleVersion.current().version
+
+doNotNagAbout(
+	"The ProjectDependency.getDependencyProject() method has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#deprecate_get_dependency_project",
+	"at com.autonomousapps.internal.utils.GradleStringsKt.toIdentifier(gradleStrings.kt:203)",
+)
