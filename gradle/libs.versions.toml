@@ -82,7 +82,7 @@ test-hamcrest = "2.0.0.0"
 test-shazamcrest = "0.11"
 
 test-android-classpath = "1.2.7"
-test-android-robolectric = "4.13"
+test-android-robolectric = "4.14"
 test-android-plexus = "1.5.15"
 test-android-objenesis = "2.6"
 
