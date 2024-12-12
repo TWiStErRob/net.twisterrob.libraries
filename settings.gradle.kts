@@ -119,3 +119,11 @@ if ((System.getProperty("idea.version") ?: "") < "2024.3") {
 } else {
 	logger.warn("IDEA version changed, please review hack.")
 }
+
+doNotNagAbout(
+	"The ProjectDependency.getDependencyProject() method has been deprecated. " +
+			"This is scheduled to be removed in Gradle 9.0. " +
+			"Consult the upgrading guide for further information: " +
+			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#deprecate_get_dependency_project",
+	"at com.autonomousapps.internal.utils.GradleStringsKt.toIdentifier(gradleStrings.kt:203)",
+)
