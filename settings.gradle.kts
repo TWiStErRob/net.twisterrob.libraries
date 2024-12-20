@@ -92,6 +92,7 @@ fun Settings.includeAndroidWithTestHelpers(modulePath: String) {
 
 val gradleVersion = GradleVersion.current().version
 
+// TODEL https://github.com/autonomousapps/dependency-analysis-gradle-plugin/issues/1305
 doNotNagAbout(
 	"The ProjectDependency.getDependencyProject() method has been deprecated. " +
 			"This is scheduled to be removed in Gradle 9.0. " +
