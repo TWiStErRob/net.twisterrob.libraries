@@ -31,25 +31,26 @@ import net.twisterrob.java.annotations.DebugHelper;
 })
 @Retention(RetentionPolicy.SOURCE)
 @Target({FIELD, LOCAL_VARIABLE, PARAMETER, METHOD})
+@SuppressWarnings("deprecation") // Most of these levels are not notified since Android 34.
 public @interface TrimMemoryLevel {
 	class Converter {
 		/** @see ComponentCallbacks2 */
 		@DebugHelper
 		public static String toString(@TrimMemoryLevel int level) {
 			switch (level) {
-				case ComponentCallbacks2.TRIM_MEMORY_COMPLETE:
+				case ComponentCallbacks2.TRIM_MEMORY_COMPLETE: // Deprecated
 					return "TRIM_MEMORY_COMPLETE";
-				case ComponentCallbacks2.TRIM_MEMORY_MODERATE:
+				case ComponentCallbacks2.TRIM_MEMORY_MODERATE: // Deprecated
 					return "TRIM_MEMORY_MODERATE";
 				case ComponentCallbacks2.TRIM_MEMORY_BACKGROUND:
 					return "TRIM_MEMORY_BACKGROUND";
 				case ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN:
 					return "TRIM_MEMORY_UI_HIDDEN";
-				case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL:
+				case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL: // Deprecated
 					return "TRIM_MEMORY_RUNNING_CRITICAL";
-				case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW:
+				case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW: // Deprecated
 					return "TRIM_MEMORY_RUNNING_LOW";
-				case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
+				case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE: // Deprecated
 					return "TRIM_MEMORY_RUNNING_MODERATE";
 			}
 			return "trimMemoryLevel::" + level;
