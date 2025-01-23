@@ -22,7 +22,7 @@ kotlin-ksp = "2.1.0-1.0.29"
 kotlin-coroutines = "1.10.1"
 
 jsr305 = "3.0.2"
-jbrAnn = "26.0.1"
+jbrAnn = "26.0.2"
 slf4j = "1.7.36"
 slf4j2 = "2.0.16"
 guava-jre = "27.0.1-jre"
