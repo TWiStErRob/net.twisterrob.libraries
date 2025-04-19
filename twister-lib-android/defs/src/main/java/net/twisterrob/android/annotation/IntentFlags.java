@@ -51,7 +51,8 @@ import androidx.annotation.IntDef;
 import net.twisterrob.java.annotations.DebugHelper;
 
 @SuppressWarnings("deprecation")
-@SuppressLint({"InlinedApi", "UniqueConstants"})
+@SuppressLint("UseRequiresApi")
+// It is revised for L or below only. Newer features are not supported yet.
 @TargetApi(VERSION_CODES.LOLLIPOP)
 @IntDef(flag = true, value = {
 		FLAG_GRANT_READ_URI_PERMISSION,

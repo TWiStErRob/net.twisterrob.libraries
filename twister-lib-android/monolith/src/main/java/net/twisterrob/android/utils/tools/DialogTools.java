@@ -2,7 +2,6 @@ package net.twisterrob.android.utils.tools;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -110,11 +109,10 @@ public class DialogTools {
 				});
 	}
 
-	@TargetApi(VERSION_CODES.HONEYCOMB) // NumberPicker is new in 11
 	public static AlertDialog.Builder pickNumber(@NonNull Context context,
 			@IntRange(from = 0) int initial, @IntRange(from = 0) Integer min, @IntRange(from = 0) Integer max,
 			final @NonNull PopupCallbacks<Integer> callbacks) {
-		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
+		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) { // NumberPicker is new in API 11.
 			final NumberPicker picker = new NumberPicker(context);
 			if (min != null) {
 				picker.setMinValue(min);

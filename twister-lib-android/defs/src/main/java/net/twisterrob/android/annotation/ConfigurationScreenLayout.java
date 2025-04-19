@@ -18,7 +18,7 @@ import androidx.annotation.IntDef;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@SuppressLint({"InlinedApi", "UniqueConstants"})
+@SuppressLint("UniqueConstants")
 @IntDef(value = {
 		Configuration.SCREENLAYOUT_SIZE_MASK,
 		Configuration.SCREENLAYOUT_SIZE_UNDEFINED,
@@ -50,8 +50,8 @@ import net.twisterrob.java.annotations.DebugHelper;
 public @interface ConfigurationScreenLayout {
 	class Converter {
 		private static final int SCREENLAYOUT_COMPAT_NEEDED = 0x10000000;
-		@SuppressWarnings("WrongConstant")
 		@DebugHelper
+		@SuppressLint({"WrongConstant", "InlinedApi"})
 		public static String toString(@ConfigurationScreenLayout int layout) {
 			if (layout == SCREENLAYOUT_UNDEFINED) {
 				return "SCREENLAYOUT_UNDEFINED";

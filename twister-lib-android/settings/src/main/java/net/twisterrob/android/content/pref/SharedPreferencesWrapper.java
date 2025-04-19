@@ -5,11 +5,11 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 /**
  * Base class for creating custom SharedPreferences objects.
@@ -38,7 +38,7 @@ public class SharedPreferencesWrapper implements SharedPreferences {
 		return wrapped.getString(key, defValue);
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@RequiresApi(Build.VERSION_CODES.HONEYCOMB)
 	public @Nullable Set<String> getStringSet(String key, @Nullable Set<String> defValues) {
 		return wrapped.getStringSet(key, defValues);
 	}
@@ -109,7 +109,7 @@ public class SharedPreferencesWrapper implements SharedPreferences {
 			return (E)this;
 		}
 
-		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+		@RequiresApi(Build.VERSION_CODES.HONEYCOMB)
 		public E putStringSet(String key, Set<String> values) {
 			wrapped.putStringSet(key, values);
 			return (E)this;

@@ -19,7 +19,7 @@ import androidx.annotation.IntDef;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@SuppressLint({"InlinedApi", "UniqueConstants"})
+@SuppressLint("UniqueConstants")
 @IntDef(value = {
 		Configuration.UI_MODE_TYPE_MASK,
 		Configuration.UI_MODE_TYPE_UNDEFINED,

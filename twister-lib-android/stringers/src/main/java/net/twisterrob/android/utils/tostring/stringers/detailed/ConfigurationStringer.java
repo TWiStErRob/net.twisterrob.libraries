@@ -1,6 +1,5 @@
 package net.twisterrob.android.utils.tostring.stringers.detailed;
 
-import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -22,10 +21,10 @@ import net.twisterrob.java.utils.tostring.Stringer;
 import net.twisterrob.java.utils.tostring.ToStringAppender;
 
 /**
+ * Supports features up to {@link VERSION_CODES#N}.
  * @see <a href="https://developer.android.com/guide/topics/resources/providing-resources.html#table2">
  *     API Guides > App Resources > Providing Resources > Configuration qualifier names</a>
  */
-@TargetApi(VERSION_CODES.N)
 public class ConfigurationStringer extends Stringer<Configuration> {
 	@SuppressWarnings("deprecation")
 	@Override public void toString(@NonNull ToStringAppender append, Configuration config) {

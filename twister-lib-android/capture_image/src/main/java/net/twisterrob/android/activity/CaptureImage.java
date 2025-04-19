@@ -16,8 +16,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -177,7 +175,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			}
 	);
 
-	@SuppressLint("InlinedApi")
 	private final PermissionProtectedAction pick = new PermissionProtectedAction(
 			this,
 			VERSION.SDK_INT <= VERSION_CODES.P
@@ -261,7 +258,6 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			@Override public void onResume(CameraPreview preview) {
 				cameraControls.setVisibility(View.VISIBLE);
 			}
-			@TargetApi(VERSION_CODES.HONEYCOMB)
 			@Override public void onShutter(CameraPreview preview) {
 				final View flashView = mSelection;
 				if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {

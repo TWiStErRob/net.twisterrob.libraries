@@ -3,13 +3,11 @@ package net.twisterrob.android.utils.tools;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.util.SparseArray;
 
 import net.twisterrob.android.annotation.CursorFieldType;
 
-@SuppressLint("InlinedApi")
 public enum CursorColumnType {
 	String(Cursor.FIELD_TYPE_STRING) {
 		@Override public String getValue(Cursor cursor, int columnIndex) {

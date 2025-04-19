@@ -1,6 +1,5 @@
 package net.twisterrob.android.view.layout;
 
-import android.annotation.TargetApi;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.view.View;
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 /**
  * @see <a href="http://stackoverflow.com/a/29172475/253468">StackOverflow</a>
  */
-@TargetApi(VERSION_CODES.KITKAT)
 public abstract class DoAfterLayout implements OnGlobalLayoutListener {
 	private final View view;
 	protected DoAfterLayout(@NonNull View view) {

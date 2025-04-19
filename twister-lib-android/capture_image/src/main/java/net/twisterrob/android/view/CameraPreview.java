@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -68,11 +67,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 		getHolder().addCallback(this);
 		getHolder().addCallback(thread);
-		initCompat();
-	}
-
-	@TargetApi(VERSION_CODES.HONEYCOMB)
-	private void initCompat() {
 		if (VERSION.SDK_INT < VERSION_CODES.HONEYCOMB) {
 			getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		}

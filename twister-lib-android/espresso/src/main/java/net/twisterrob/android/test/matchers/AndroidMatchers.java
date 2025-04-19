@@ -23,8 +23,6 @@ import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.Matchers.not;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -95,7 +93,6 @@ public class AndroidMatchers {
 	 * This requires the caller to hold the {@link Manifest.permission#QUERY_ALL_PACKAGES} permission.
 	 * Or explicitly list the passed-in package name(s) in the manifest via {@code <queries>}.
 	 */
-	@SuppressLint("InlinedApi")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull Matcher<Context> hasPackageInstalled(@NonNull String packageName) {
 		return new HasInstalledPackage(packageName);
@@ -118,18 +115,15 @@ public class AndroidMatchers {
 		};
 	}
 
-	@SuppressLint("InlinedApi")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull Matcher<Intent> canBeResolved(final Matcher<? super List<ResolveInfo>> resolveInfoMatcher) {
 		return canBeResolved(0, resolveInfoMatcher);
 	}
-	@SuppressLint("InlinedApi")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull Matcher<Intent> canBeResolved(
 			final int flags, final Matcher<? super List<ResolveInfo>> resolveInfoMatcher) {
 		return new FeatureMatcher<Intent, List<ResolveInfo>>(resolveInfoMatcher,
 				"Intent resolves to activities", "resolved activities") {
-			@SuppressLint("InlinedApi")
 			@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 			@Override protected List<ResolveInfo> featureValueOf(Intent intent) {
 				PackageManager pm = getApplicationContext().getPackageManager();
@@ -463,7 +457,6 @@ public class AndroidMatchers {
 
 	public static @NonNull Matcher<View> isItemChecked() {
 		return new TypeSafeDiagnosingMatcher<View>() {
-			@TargetApi(VERSION_CODES.HONEYCOMB)
 			@Override protected boolean matchesSafely(View item, Description mismatchDescription) {
 				ViewParent parent = item.getParent();
 				if (!(parent instanceof AbsListView)) {
@@ -503,7 +496,6 @@ public class AndroidMatchers {
 	public static @NonNull Matcher<View> checkedPosition(Matcher<Integer> positionMatcher) {
 		return (Matcher<View>)(Matcher<?>)new FeatureMatcher<AbsListView, Integer>(
 				positionMatcher, "AbsListView with checked position", "checked position") {
-			@TargetApi(VERSION_CODES.HONEYCOMB)
 			@Override protected Integer featureValueOf(AbsListView actual) {
 				if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
 					return actual.getCheckedItemPosition();

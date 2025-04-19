@@ -9,14 +9,12 @@ import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 
 import androidx.annotation.IntDef;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@SuppressLint("InlinedApi")
 @IntDef(value = {
 		ActivityManager.LOCK_TASK_MODE_NONE,
 		ActivityManager.LOCK_TASK_MODE_LOCKED,

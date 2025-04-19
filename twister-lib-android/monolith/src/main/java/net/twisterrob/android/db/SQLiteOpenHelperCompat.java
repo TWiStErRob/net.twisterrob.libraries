@@ -2,6 +2,7 @@ package net.twisterrob.android.db;
 
 import java.io.File;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -64,6 +65,7 @@ public class SQLiteOpenHelperCompat extends SQLiteOpenHelper {
 	 * New version have this method, but there's a silent unannotated override, this method will be called.
 	 * Lint will see the TargetApi and will happily accept that it'll work for all usages.
 	 */
+	@SuppressLint("UseRequiresApi") // Poly-fill, see JavaDoc.
 	@TargetApi(VERSION_CODES.ICE_CREAM_SANDWICH)
 	/*@Override*/ public String getDatabaseName() {
 		return name;
@@ -118,7 +120,7 @@ public class SQLiteOpenHelperCompat extends SQLiteOpenHelper {
 	}
 
 	/** This is the first interaction with the DB whenever it's being opened. */
-	@TargetApi(VERSION_CODES.JELLY_BEAN)
+	@RequiresApi(VERSION_CODES.JELLY_BEAN)
 	@Override public void onConfigure(SQLiteDatabase db) {
 		// optional override
 	}

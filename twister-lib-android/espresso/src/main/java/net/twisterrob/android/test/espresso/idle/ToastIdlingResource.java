@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hamcrest.Matcher;
 
-import android.annotation.TargetApi;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.view.View;
@@ -44,7 +43,6 @@ public class ToastIdlingResource extends AsyncIdlingResource {
 		return null;
 	}
 
-	@TargetApi(VERSION_CODES.HONEYCOMB_MR1)
 	private final OnAttachStateChangeListener transitionOnDetach = VERSION.SDK_INT < VERSION_CODES.HONEYCOMB_MR1
 			? null : new OnAttachStateChangeListener() {
 		@Override public void onViewAttachedToWindow(View v) {

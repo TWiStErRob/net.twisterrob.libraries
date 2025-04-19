@@ -17,7 +17,6 @@ import androidx.annotation.IntRange;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@SuppressLint("InlinedApi")
 @IntDef(value = {
 		Configuration.DENSITY_DPI_UNDEFINED,
 		// @hide Configuration.DENSITY_DPI_ANY

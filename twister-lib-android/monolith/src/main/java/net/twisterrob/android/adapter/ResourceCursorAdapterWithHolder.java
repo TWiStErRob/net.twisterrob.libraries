@@ -1,6 +1,5 @@
 package net.twisterrob.android.adapter;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -38,7 +37,6 @@ public abstract class ResourceCursorAdapterWithHolder<VH> extends ResourceCursor
 		return view;
 	}
 
-	@TargetApi(VERSION_CODES.KITKAT)
 	@Override public void bindView(@NonNull View view, @NonNull Context context, Cursor cursor) {
 		try {
 			@SuppressWarnings("unchecked")
