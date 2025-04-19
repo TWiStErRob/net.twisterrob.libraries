@@ -41,8 +41,10 @@ import androidx.core.view.GravityCompat;
 import net.twisterrob.java.annotations.DebugHelper;
 import net.twisterrob.java.utils.StringTools;
 
-@SuppressLint("UseRequiresApi")
-// It is revised for L or below only. Newer features are not supported yet.
+@SuppressLint({
+		"UseRequiresApi", // It is revised for L or below only. Newer features are not supported yet.
+		"RtlHardcoded", // Needed to help consumers do lint.checkDependencies.
+})
 @TargetApi(VERSION_CODES.LOLLIPOP)
 @IntDef(flag = true, value = {
 		Gravity.NO_GRAVITY,
