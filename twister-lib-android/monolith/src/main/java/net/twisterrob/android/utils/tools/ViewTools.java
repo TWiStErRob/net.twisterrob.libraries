@@ -3,7 +3,6 @@ package net.twisterrob.android.utils.tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Build.VERSION;
@@ -102,7 +101,6 @@ public /*static*/ abstract class ViewTools {
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static void updateStartMargin(View view, int margin) {
 		ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -113,7 +111,6 @@ public /*static*/ abstract class ViewTools {
 		view.setLayoutParams(params);
 	}
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public static void updateEndMargin(View view, int margin) {
 		ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -143,7 +140,6 @@ public /*static*/ abstract class ViewTools {
 		view.setLayoutParams(params);
 	}
 
-	@TargetApi(VERSION_CODES.ICE_CREAM_SANDWICH)
 	// TOFIX all built-in and support LayoutParams
 	public static void updateGravity(View view, int gravity) {
 		ViewGroup.LayoutParams params = view.getLayoutParams();
@@ -179,7 +175,6 @@ public /*static*/ abstract class ViewTools {
 	}
 
 	@SuppressWarnings("deprecation")
-	@TargetApi(VERSION_CODES.JELLY_BEAN)
 	public static void setBackground(View view, Drawable backgroundDrawable) {
 		if (VERSION_CODES.JELLY_BEAN <= VERSION.SDK_INT) {
 			view.setBackground(backgroundDrawable);

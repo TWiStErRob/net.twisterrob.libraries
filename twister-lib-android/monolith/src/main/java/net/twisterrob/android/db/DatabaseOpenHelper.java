@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.SQLException;
@@ -61,7 +60,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {
 		this.dbName = dbName;
 	}
 
-	@TargetApi(VERSION_CODES.HONEYCOMB)
 	private static CursorFactory createCursorFactory(boolean isDebugBuild) {
 		if (isDebugBuild && VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
 			return new LoggingCursorFactory();
@@ -226,7 +224,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelperCompat {
 	}
 
 	@RequiresApi(VERSION_CODES.FROYO)
-	@TargetApi(VERSION_CODES.JELLY_BEAN)
 	protected void enableForeignKeys(SQLiteDatabase db) {
 		// SQLite 3.6.19 (2009-10-14)
 		// Added support for foreign key constraints. Foreign key constraints are disabled by default.

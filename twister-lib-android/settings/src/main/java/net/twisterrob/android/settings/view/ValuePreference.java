@@ -1,12 +1,12 @@
 package net.twisterrob.android.settings.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
+import androidx.annotation.RequiresApi;
 import androidx.preference.Preference;
 
 /**
@@ -26,7 +26,7 @@ public class ValuePreference extends Preference {
 	public ValuePreference(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
-	@TargetApi(VERSION_CODES.LOLLIPOP)
+	@RequiresApi(VERSION_CODES.LOLLIPOP)
 	public ValuePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 	}

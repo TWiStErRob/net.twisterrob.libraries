@@ -20,7 +20,8 @@ import androidx.core.view.WindowCompat;
 import net.twisterrob.java.annotations.DebugHelper;
 
 @SuppressWarnings("deprecation")
-@SuppressLint({"InlinedApi", "UniqueConstants"})
+@SuppressLint("UseRequiresApi")
+// It is revised for L or below only. Newer features are not supported yet.
 @TargetApi(VERSION_CODES.LOLLIPOP)
 @IntDef(value = {
 		Window.FEATURE_OPTIONS_PANEL,

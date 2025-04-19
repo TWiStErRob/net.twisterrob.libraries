@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
@@ -31,7 +30,6 @@ public class SelectionAdapter<VH extends RecyclerView.ViewHolder> extends Wrappi
 		assert hasStableIds();
 	}
 
-	@TargetApi(VERSION_CODES.HONEYCOMB)
 	@Override public void onBindViewHolder(VH holder, int position) {
 		boolean selected = isSelected(position);
 		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {

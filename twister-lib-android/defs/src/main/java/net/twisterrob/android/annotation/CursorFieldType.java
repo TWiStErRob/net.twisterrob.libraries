@@ -9,6 +9,7 @@ import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.os.Build.VERSION_CODES;
@@ -17,6 +18,7 @@ import androidx.annotation.IntDef;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
+@SuppressLint("UseRequiresApi") // Safe to use on all levels, but meant for API 11+.
 @TargetApi(VERSION_CODES.HONEYCOMB)
 @IntDef(value = {
 		Cursor.FIELD_TYPE_NULL,

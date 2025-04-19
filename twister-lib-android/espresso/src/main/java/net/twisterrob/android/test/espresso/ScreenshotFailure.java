@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.graphics.Bitmap;
@@ -84,11 +83,12 @@ public class ScreenshotFailure implements TestRule {
 	private class ScreenshotStatement extends Statement {
 		private final Statement base;
 		private final Description description;
+
 		public ScreenshotStatement(Statement base, Description description) {
 			this.base = base;
 			this.description = description;
 		}
-		@TargetApi(VERSION_CODES.KITKAT)
+
 		@Override public void evaluate() throws Throwable {
 			long started = System.currentTimeMillis();
 			try {
@@ -114,6 +114,7 @@ public class ScreenshotFailure implements TestRule {
 				throw ex;
 			}
 		}
+
 		private @NonNull String fixFileSystemName(@NonNull String name) {
 			return name.replaceAll("[^a-zA-Z0-9\\-_$!#@+ .,(){}\\[\\]]", "_");
 		}
@@ -131,7 +132,6 @@ public class ScreenshotFailure implements TestRule {
 	 * Ignored <code>com.googlecode.eyesfree.utils.ScreenshotUtils.createScreenshot(getApplicationContext());</code>,
 	 * because it requires {@code  android.permission.READ_FRAME_BUFFER} which is signature level.
 	 */
-	@TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
 	private File takeScreenshot(@NonNull String dirName, @NonNull String shotName) throws IOException {
 		if (VERSION_CODES.JELLY_BEAN_MR1 <= VERSION.SDK_INT) {
 			// androidx.test.uiautomator.UiDevice#takeScreenshot method says @since API 17, so it could be used.

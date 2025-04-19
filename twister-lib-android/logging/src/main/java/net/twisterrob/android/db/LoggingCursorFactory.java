@@ -3,7 +3,6 @@ package net.twisterrob.android.db;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteCursorDriver;
@@ -16,7 +15,6 @@ import androidx.annotation.RequiresApi;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@TargetApi(VERSION_CODES.HONEYCOMB)
 @RequiresApi(VERSION_CODES.HONEYCOMB)
 @DebugHelper
 public final class LoggingCursorFactory implements CursorFactory {

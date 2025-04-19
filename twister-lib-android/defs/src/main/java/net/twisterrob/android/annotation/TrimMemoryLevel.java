@@ -18,7 +18,8 @@ import androidx.annotation.IntDef;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@SuppressLint("InlinedApi")
+@SuppressLint("UseRequiresApi")
+// It is revised for J or below only. Newer features are not supported yet.
 @TargetApi(VERSION_CODES.JELLY_BEAN)
 @IntDef(value = {
 		ComponentCallbacks2.TRIM_MEMORY_COMPLETE,

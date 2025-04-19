@@ -136,7 +136,6 @@ public /*static*/ abstract class AndroidTools {
 		}
 	}
 
-	@SuppressLint("InlinedApi")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public static @NonNull List<Intent> resolveIntents(
 			@NonNull Context context, @NonNull Intent originalIntent, long flags) {
@@ -513,7 +512,6 @@ public /*static*/ abstract class AndroidTools {
 	 */
 	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
-	@TargetApi(VERSION_CODES.HONEYCOMB)
 	public static <Params> void executeParallel(
 			final android.os.AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
 		if (force && VERSION.SDK_INT < VERSION_CODES.DONUT) {
@@ -559,7 +557,6 @@ public /*static*/ abstract class AndroidTools {
 	 */
 	@SuppressWarnings({"varargs", "deprecation"})
 	@SafeVarargs
-	@TargetApi(VERSION_CODES.HONEYCOMB)
 	public static <Params> void executeSerial(
 			final android.os.AsyncTask<Params, ?, ?> task, boolean force, final Params... params) {
 		if (force && VERSION_CODES.DONUT <= VERSION.SDK_INT && VERSION.SDK_INT < VERSION_CODES.HONEYCOMB) {
@@ -756,7 +753,6 @@ public /*static*/ abstract class AndroidTools {
 	 * CONSIDER do something with FLAG_TRANSLUCENT_NAVIGATION as well?
 	 */
 	@SuppressWarnings("deprecation")
-	@TargetApi(VERSION_CODES.KITKAT)
 	private static void setTranslucentStatusBar(@NonNull Window window) {
 		if (VERSION_CODES.KITKAT <= VERSION.SDK_INT) {
 			window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -769,7 +765,6 @@ public /*static*/ abstract class AndroidTools {
 	 */
 	@Deprecated
 	@SuppressWarnings("deprecation")
-	@TargetApi(VERSION_CODES.LOLLIPOP)
 	public static void setTranslucentStatusBar(Window window, @ColorInt int lollipopColor) {
 		if (window == null) {
 			LOG.warn("No window while setting translucent status bar to {}!", lollipopColor, new StackTrace());
@@ -808,7 +803,7 @@ public /*static*/ abstract class AndroidTools {
 	 */
 	@Deprecated
 	@SuppressWarnings("deprecation")
-	@TargetApi(VERSION_CODES.LOLLIPOP)
+	@SuppressLint("InlinedApi") // Supports both sides of API 21.
 	public static void accountForStatusBar(View view) {
 		boolean needsOffset = false;
 		Activity activity = findActivity(view);
@@ -849,7 +844,6 @@ public /*static*/ abstract class AndroidTools {
 		return (Activity)context;
 	}
 
-	@TargetApi(VERSION_CODES.HONEYCOMB)
 	public static void setItemChecked(AdapterView<?> parent, int position, boolean value) {
 		if (parent instanceof ListView) {
 			((ListView)parent).setItemChecked(position, value);
@@ -972,7 +966,6 @@ public /*static*/ abstract class AndroidTools {
 	}
 
 	@SuppressWarnings("deprecation")
-	@TargetApi(VERSION_CODES.N)
 	public static Locale getLocale(Configuration configuration) {
 		if (VERSION.SDK_INT < VERSION_CODES.N) {
 			return configuration.locale;
@@ -982,7 +975,6 @@ public /*static*/ abstract class AndroidTools {
 	}
 
 	@SuppressWarnings("deprecation")
-	@TargetApi(VERSION_CODES.HONEYCOMB_MR2)
 	public static Point getScreenSize(Display display) {
 		Point point = new Point();
 		if (VERSION_CODES.HONEYCOMB_MR2 <= VERSION.SDK_INT) {

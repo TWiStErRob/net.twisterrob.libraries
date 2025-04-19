@@ -39,7 +39,7 @@ public /*static*/ abstract class PackageManagerTools {
 		// static utility class
 	}
 
-	@SuppressLint({"QueryPermissionsNeeded", "InlinedApi"})
+	@SuppressLint("QueryPermissionsNeeded")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	@SuppressWarnings("deprecation")
 	public static @NonNull List<ResolveInfo> queryIntentActivities(
@@ -100,7 +100,7 @@ public /*static*/ abstract class PackageManagerTools {
 	 * Caller must ensure {@code <queries>} is present,
 	 * or that they hold {@link android.Manifest.permission#QUERY_ALL_PACKAGES} permission.
 	 */
-	@SuppressLint({"QueryPermissionsNeeded", "InlinedApi"})
+	@SuppressLint("QueryPermissionsNeeded")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	@SuppressWarnings("deprecation")
 	public static @NonNull List<PackageInfo> getInstalledPackages(

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.annotation.TargetApi;
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -27,6 +26,7 @@ import android.os.ParcelFileDescriptor;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import net.twisterrob.android.utils.log.LoggingDebugProvider.LoggingHelper;
 import net.twisterrob.android.utils.tools.StringerTools;
@@ -121,7 +121,7 @@ public abstract class LoggingContentProvider extends ContentProvider {
 		return super.openTypedAssetFile(uri, mimeTypeFilter, opts, signal);
 	}
 
-	@TargetApi(VERSION_CODES.HONEYCOMB)
+	@RequiresApi(VERSION_CODES.HONEYCOMB)
 	@Override public @NonNull <T> ParcelFileDescriptor openPipeHelper(
 			@NonNull Uri uri,
 			@NonNull String mimeType, 

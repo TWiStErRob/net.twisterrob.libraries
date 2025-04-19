@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import android.annotation.TargetApi;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -19,6 +18,7 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 /**
  * Example provider class for {@code CREATE TABLE MyItem (_id, name, description)}:
@@ -89,7 +89,7 @@ public abstract class SimpleTableContentProvider extends ContentProvider {
 		return true;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@RequiresApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override public synchronized void shutdown() {
 		super.shutdown();
 		database.close();

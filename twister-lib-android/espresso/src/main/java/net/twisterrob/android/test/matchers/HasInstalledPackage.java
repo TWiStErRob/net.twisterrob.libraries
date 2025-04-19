@@ -28,7 +28,6 @@ public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 	/**
 	 * @see AndroidMatchers#hasPackageInstalled(String)
 	 */
-	@SuppressLint("InlinedApi")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	public HasInstalledPackage(String packageName) {
 		this.packageName = packageName;
@@ -38,7 +37,6 @@ public class HasInstalledPackage extends TypeSafeDiagnosingMatcher<Context> {
 		description.appendValue(packageName).appendText(" package installed");
 	}
 
-	@SuppressLint("InlinedApi")
 	@RequiresPermission(Manifest.permission.QUERY_ALL_PACKAGES)
 	@Override protected boolean matchesSafely(Context context, Description mismatchDescription) {
 		PackageManager pm = context.getPackageManager();

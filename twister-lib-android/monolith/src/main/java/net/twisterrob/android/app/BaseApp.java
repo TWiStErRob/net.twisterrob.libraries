@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -249,7 +250,9 @@ public abstract class BaseApp extends android.app.Application {
 	 * Set up StrictMode in a way that doesn't interfere much with development,
 	 * but tries to tell you any violations available in all possible ways (except death).
 	 */
-	@TargetApi(VERSION_CODES.M)
+	@SuppressLint("UseRequiresApi")
+	// It is revised for V or below only. Newer features are not supported yet.
+	@TargetApi(VERSION_CODES.VANILLA_ICE_CREAM)
 	public static void setStrictMode() {
 		if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {
 			return; // StrictMode was added in API 9
@@ -284,11 +287,11 @@ public abstract class BaseApp extends android.app.Application {
 					.detectUnbufferedIo()
 			;
 		}
-//		if (VERSION_CODES.U <= VERSION.SDK_INT) {
-//			threadBuilder = threadBuilder
-//					.detectExplicitGc()
-//			;
-//		}
+		if (VERSION_CODES.UPSIDE_DOWN_CAKE <= VERSION.SDK_INT) {
+			threadBuilder = threadBuilder
+					.detectExplicitGc()
+			;
+		}
 		StrictMode.setThreadPolicy(threadBuilder.build());
 
 		StrictMode.VmPolicy.Builder vmBuilder = new StrictMode.VmPolicy.Builder();
