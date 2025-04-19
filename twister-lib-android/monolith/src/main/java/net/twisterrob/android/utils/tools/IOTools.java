@@ -11,7 +11,6 @@ import java.util.zip.ZipFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.Cursor;
@@ -68,7 +67,6 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 	 * @param closeMe more specific than {@link #ignorantClose(Closeable)} won't throw {@link IncompatibleClassChangeError}
 	 * @see <a href="https://android.googlesource.com/platform/libcore/+/9902f3494c6d983879d8b9cfe6b1f771cfefe703%5E%21/#F7">Finish off AutoCloseable.</a>
 	 */
-	@TargetApi(VERSION_CODES.KITKAT)
 	public static void ignorantClose(@SuppressWarnings("TypeMayBeWeakened") @Nullable ZipFile closeMe) {
 		if (closeMe != null) {
 			try {
@@ -84,7 +82,6 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 	 * @param closeMe more specific than {@link #ignorantClose(Closeable)} won't throw {@link IncompatibleClassChangeError}
 	 * @see <a href="https://github.com/android/platform_frameworks_base/commit/03bd302aebbb77f4f95789a269c8a5463ac5a840">Don't close the database until all references released.</a>
 	 */
-	@TargetApi(VERSION_CODES.JELLY_BEAN)
 	public static void ignorantClose(@SuppressWarnings("TypeMayBeWeakened") @Nullable Cursor closeMe) {
 		if (closeMe != null) {
 			closeMe.close(); // doesn't declare to throw IOException
@@ -99,7 +96,6 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 	 * @see <a href="https://github.com/bumptech/glide/issues/157">ParcelFileDescriptor image loading is broken pre 4.1.1_r1</a>
 	 * @see <a href="https://github.com/android/platform_frameworks_base/commit/e861b423790e5bf2d5a55b096065c6ad0541d5bb">Add Closeable to ParcelFileDescriptor, and always close any incoming PFDs when dumping.</a>
 	 */
-	@TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
 	public static void ignorantClose(@SuppressWarnings("TypeMayBeWeakened") @Nullable ParcelFileDescriptor closeMe) {
 		if (closeMe != null) {
 			try {
@@ -110,7 +106,6 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 		}
 	}
 
-	@TargetApi(VERSION_CODES.KITKAT)
 	public static void closeWithError(@NonNull ParcelFileDescriptor pfd, @NonNull String message) throws IOException {
 		if (VERSION.SDK_INT < VERSION_CODES.KITKAT) {
 			pfd.close();
@@ -119,7 +114,6 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 		}
 	}
 
-	@TargetApi(VERSION_CODES.KITKAT)
 	public static void ignorantCloseWithError(@NonNull ParcelFileDescriptor pfd, @NonNull String message) {
 		try {
 			closeWithError(pfd, message);
@@ -128,7 +122,6 @@ public /*static*/ abstract class IOTools extends net.twisterrob.java.io.IOTools 
 		}
 	}
 
-	@TargetApi(VERSION_CODES.LOLLIPOP)
 	public static boolean isEPIPE(@Nullable Throwable ex) {
 		if (ex == null) {
 			return false;

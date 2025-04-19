@@ -1,11 +1,11 @@
 package android.app;
 
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.os.Build;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import net.twisterrob.java.utils.ArrayTools;
 import net.twisterrob.java.utils.ReflectionTools;
@@ -80,7 +80,7 @@ public class FragmentManagerStateStringer extends Stringer<Object /*FragmentMana
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	@RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	private int setting(String name) throws Settings.SettingNotFoundException {
 		return Settings.Global.getInt(contentResolver, name);
 	}

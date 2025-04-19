@@ -1,6 +1,5 @@
 package net.twisterrob.android.utils.wrappers;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build.VERSION_CODES;
@@ -11,6 +10,9 @@ import androidx.annotation.RequiresApi;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
+/**
+ * Base class to allow easy override of methods for {@link EdgeEffect}.
+ */
 @RequiresApi(VERSION_CODES.ICE_CREAM_SANDWICH)
 @DebugHelper
 public class EdgeEffectWrapper extends EdgeEffect {
@@ -58,22 +60,22 @@ public class EdgeEffectWrapper extends EdgeEffect {
 		return effectImpl.draw(canvas);
 	}
 
-	@TargetApi(VERSION_CODES.LOLLIPOP)
+	@RequiresApi(VERSION_CODES.LOLLIPOP)
 	@Override public int getMaxHeight() {
 		return effectImpl.getMaxHeight();
 	}
 
-	@TargetApi(VERSION_CODES.LOLLIPOP)
+	@RequiresApi(VERSION_CODES.LOLLIPOP)
 	@Override public void setColor(int color) {
 		effectImpl.setColor(color);
 	}
 
-	@TargetApi(VERSION_CODES.LOLLIPOP)
+	@RequiresApi(VERSION_CODES.LOLLIPOP)
 	@Override public int getColor() {
 		return effectImpl.getColor();
 	}
 
-	@TargetApi(VERSION_CODES.LOLLIPOP)
+	@RequiresApi(VERSION_CODES.LOLLIPOP)
 	@Override public void onPull(float deltaDistance, float displacement) {
 		effectImpl.onPull(deltaDistance, displacement);
 	}

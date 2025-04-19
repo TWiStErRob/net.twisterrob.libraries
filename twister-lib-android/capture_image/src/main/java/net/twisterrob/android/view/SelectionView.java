@@ -39,7 +39,6 @@ import net.twisterrob.android.utils.tools.ResourceTools;
 public class SelectionView extends View {
 	private static final Logger LOG = LoggerFactory.getLogger(SelectionView.class);
 
-	@SuppressLint("InlinedApi")
 	private static final int INVALID_POINTER_ID = MotionEvent.INVALID_POINTER_ID;
 
 	private Corners corners;

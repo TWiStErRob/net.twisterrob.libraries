@@ -1,6 +1,5 @@
 package net.twisterrob.android.utils.tostring.stringers;
 
-import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.FragmentManagerStateStringer;
 import android.app.FragmentSavedStateStringer;
@@ -47,7 +46,6 @@ import net.twisterrob.android.utils.tostring.stringers.detailed.activitymanager.
 import net.twisterrob.android.utils.tostring.stringers.name.ResourceNameStringer;
 import net.twisterrob.java.utils.tostring.StringerRepo;
 
-@TargetApi(VERSION_CODES.HONEYCOMB_MR2)
 public class AndroidStringerRepo {
 	public static void init(@NonNull StringerRepo repo, @NonNull Context context) {
 		ResourceNameStringer.INSTANCE = new ResourceNameStringer(context);

@@ -9,14 +9,12 @@ import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 
 import androidx.annotation.IntDef;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@SuppressLint("InlinedApi")
 @IntDef(value = {
 		View.LAYOUT_DIRECTION_RTL,
 		View.LAYOUT_DIRECTION_LTR,

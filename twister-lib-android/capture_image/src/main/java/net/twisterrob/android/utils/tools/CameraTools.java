@@ -2,7 +2,6 @@ package net.twisterrob.android.utils.tools;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build.VERSION;
@@ -41,7 +40,6 @@ public final class CameraTools {
 	}
 
 	@SuppressLint("UnsupportedChromeOsCameraSystemFeature") // REPORT it is checked right before
-	@TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
 	@SuppressWarnings("deprecation")
 	public static boolean canHasCamera(@NonNull Context context) {
 		PackageManager pm = context.getPackageManager();

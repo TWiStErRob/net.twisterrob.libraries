@@ -1,6 +1,5 @@
 package net.twisterrob.android.utils.tostring.stringers.detailed;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -12,8 +11,10 @@ import net.twisterrob.java.annotations.DebugHelper;
 import net.twisterrob.java.utils.tostring.Stringer;
 import net.twisterrob.java.utils.tostring.ToStringAppender;
 
+/**
+ * Supports features up to {@link VERSION_CODES#JELLY_BEAN}.
+ */
 @DebugHelper
-@TargetApi(VERSION_CODES.JELLY_BEAN)
 public class IntentStringer<T extends Intent> extends Stringer<T> {
 	@Override public String getType(T object) {
 		return null;

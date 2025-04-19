@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -244,12 +243,12 @@ public class SystemAnimations {
 	 * @see android.animation.ValueAnimator#sDurationScale
 	 */
 	@SuppressWarnings("JavadocReference")
-	@TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
 	private void preWindowSessionFix() throws IllegalAccessException, InvocationTargetException {
 		if (getWindowSession != null) {
 			if (VERSION_CODES.JELLY_BEAN_MR2 <= VERSION.SDK_INT) {
 				getWindowSession.invoke(null);
 			} else {
+				//noinspection JavaReflectionInvocation see getWindowSession assignment.
 				getWindowSession.invoke(null, Looper.getMainLooper());
 			}
 		}

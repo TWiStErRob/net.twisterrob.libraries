@@ -38,6 +38,7 @@ import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 
@@ -263,8 +264,7 @@ public /*static*/ abstract class ImageTools {
 		return result;
 	}
 
-	@SuppressWarnings("deprecation")
-	@TargetApi(VERSION_CODES.KITKAT)
+	@RequiresApi(VERSION_CODES.KITKAT)
 	private static String getPathKitKat(final Context context, final Uri uri) {
 		if (DocumentsContract.isDocumentUri(context, uri)) { // DocumentProvider
 			if ("com.android.externalstorage.documents".equals(uri.getAuthority())) { // ExternalStorageProvider
@@ -393,19 +393,20 @@ public /*static*/ abstract class ImageTools {
 	 * @param sampleSize {@link BitmapFactory.Options#inSampleSize}, rect will be scaled as necessary
 	 */
 	@SuppressWarnings("deprecation")
+	@SuppressLint("UseRequiresApi") // This method is ready for N usage and below accounting for idiosyncrasies.
 	@TargetApi(VERSION_CODES.N)
 	public static Bitmap crop(File file, Rect rect, int sampleSize) throws IOException {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inPreferredConfig = Config.ARGB_8888;
-		// the following is deprecated and ignored in N, but the below is the default value anyway
+		// The following is deprecated and ignored in N, but the below is the default value anyway.
 		options.inDither = false;
 		options.inSampleSize = sampleSize;
-		// the following is deprecated and ignored in N, but the below is the default value anyway
+		// The following is deprecated and ignored in N, but the below is the default value anyway.
 		options.inPreferQualityOverSpeed = true;
 		return cropRegion(file, rect, options);
 	}
 
-	@TargetApi(VERSION_CODES.GINGERBREAD_MR1)
+	@RequiresApi(VERSION_CODES.GINGERBREAD_MR1)
 	private static Bitmap cropRegion(File file, Rect rect, BitmapFactory.Options options) throws IOException {
 		BitmapRegionDecoder decoder = null;
 		try {

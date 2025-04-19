@@ -1,6 +1,5 @@
 package net.twisterrob.android.utils.tostring.stringers.detailed;
 
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -11,8 +10,10 @@ import net.twisterrob.android.annotation.Density;
 import net.twisterrob.java.utils.tostring.Stringer;
 import net.twisterrob.java.utils.tostring.ToStringAppender;
 
+/**
+ * Supports features up to {@link VERSION_CODES#KITKAT}.
+ */
 public class BitmapStringer extends Stringer<Bitmap> {
-	@TargetApi(VERSION_CODES.KITKAT)
 	@Override public void toString(@NonNull ToStringAppender append, Bitmap object) {
 		append.beginPropertyGroup("size");
 		append.measuredProperty("width", "px", object.getWidth());

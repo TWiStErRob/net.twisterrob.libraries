@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.database.CrossProcessCursor;
 import android.database.Cursor;
 import android.database.CursorWindow;
@@ -351,7 +350,6 @@ public /*static*/ abstract class DatabaseTools {
 	}
 
 	@SuppressWarnings("deprecation")
-	@TargetApi(VERSION_CODES.HONEYCOMB)
 	public static @CursorFieldType int getType(Cursor cursor, int columnIndex) {
 		if (VERSION_CODES.HONEYCOMB <= VERSION.SDK_INT) {
 			//noinspection WrongConstant returns exactly what's needed as per docs

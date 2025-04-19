@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
@@ -212,7 +211,6 @@ public abstract class BaseExpandableList3Adapter<Level1, Level2, Level3, Level1V
 		}
 	}
 
-	@SuppressLint("ViewConstructor")
 	private static class InnerExpandableListView extends ExpandableListView implements OnGroupClickListener {
 		private final ExpandableListView outerList;
 		public InnerExpandableListView(Context context, ExpandableListView outerList) {
@@ -220,7 +218,6 @@ public abstract class BaseExpandableList3Adapter<Level1, Level2, Level3, Level1V
 			this.outerList = outerList;
 			this.setOnGroupClickListener(this);
 		}
-		@SuppressLint("InlinedApi")
 		@Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 			super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(MEASURED_SIZE_MASK, MeasureSpec.AT_MOST));
 		}

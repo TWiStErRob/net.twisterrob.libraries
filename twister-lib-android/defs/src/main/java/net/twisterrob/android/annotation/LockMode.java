@@ -18,7 +18,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@SuppressLint({"InlinedApi", "UniqueConstants"})
+@SuppressLint("UseRequiresApi")
+// It is revised for L or below only. Newer features are not supported yet.
 @TargetApi(VERSION_CODES.LOLLIPOP)
 @IntDef(value = {
 		DrawerLayout.LOCK_MODE_UNDEFINED,

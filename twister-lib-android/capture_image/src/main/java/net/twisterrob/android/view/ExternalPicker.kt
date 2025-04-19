@@ -1,6 +1,5 @@
 package net.twisterrob.android.view
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -21,6 +20,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
 import androidx.appcompat.graphics.drawable.DrawableWrapperCompat
 import androidx.appcompat.widget.PopupMenu
 import net.twisterrob.android.activity.CaptureImage
@@ -74,7 +74,7 @@ class ExternalPicker(
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.KITKAT) // see isPhotoPickerAvailable
+	@RequiresApi(Build.VERSION_CODES.KITKAT) // see isPhotoPickerAvailable
 	private val pickVisualImage = ExplicitAbleActivityResultLauncher(
 		activity,
 		ActivityResultContracts.PickVisualMedia(),

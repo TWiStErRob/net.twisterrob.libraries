@@ -1,5 +1,6 @@
 package net.twisterrob.android.utils.tools;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import net.twisterrob.android.utils.tools.DialogTools.PopupCallbacks;
 @SuppressWarnings("unused")
 public class DialogToolsColor {
 
+	@SuppressLint("UseRequiresApi") // Compatibility utility method.
 	@TargetApi(VERSION_CODES.HONEYCOMB) // ColorPickerView (1.7.0) requires API 11 minimum
 	public static AlertDialog.Builder pickColor(
 			@NonNull Context context,

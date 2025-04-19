@@ -3,11 +3,11 @@ package net.twisterrob.android.settings.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 
+import androidx.annotation.RequiresApi;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
@@ -32,7 +32,7 @@ public class InvisiblePreferences extends PreferenceGroup {
 	public InvisiblePreferences(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
-	@TargetApi(VERSION_CODES.LOLLIPOP)
+	@RequiresApi(VERSION_CODES.LOLLIPOP)
 	public InvisiblePreferences(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 	}

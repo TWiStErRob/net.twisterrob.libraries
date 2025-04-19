@@ -8,7 +8,6 @@ import javax.microedition.khronos.egl.EGL10;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -22,6 +21,7 @@ import android.os.Build.VERSION_CODES;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 public class CanvasTools {
 	private static final Logger LOG = LoggerFactory.getLogger(CanvasTools.class);
@@ -36,7 +36,6 @@ public class CanvasTools {
 		canvas.drawPath(path, paint);
 	}
 
-	@TargetApi(VERSION_CODES.ICE_CREAM_SANDWICH)
 	public static @NonNull Point getMaximumBitmapSize(@Nullable Canvas canvas) {
 		Point point = new Point();
 		if (canvas != null
@@ -84,7 +83,7 @@ public class CanvasTools {
 	 */
 	// throw in finally is not a problem because the flag `failed` protects against suppression 
 	@SuppressWarnings("ThrowFromFinallyBlock")
-	@TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
+	@RequiresApi(VERSION_CODES.JELLY_BEAN_MR1)
 	public static int getMaximumEGL20TextureSize() throws IllegalStateException {
 		android.opengl.EGLDisplay display = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
 		int[] version = new int[2];

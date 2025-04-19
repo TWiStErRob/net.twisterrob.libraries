@@ -23,7 +23,7 @@ import androidx.annotation.IntRange;
 
 import net.twisterrob.java.annotations.DebugHelper;
 
-@SuppressLint({"InlinedApi", "UniqueConstants"})
+@SuppressLint("UniqueConstants")
 @IntDef(value = {
 		Configuration.DENSITY_DPI_UNDEFINED,
 		DisplayMetrics.DENSITY_LOW,
@@ -49,7 +49,8 @@ public @interface Density {
 			FORMAT.setRoundingMode(RoundingMode.HALF_UP);
 		}
 
-		@SuppressWarnings("WrongConstant")
+		@SuppressLint("UseRequiresApi")
+		// It is revised for N or below only. Newer features are not supported yet.
 		@TargetApi(VERSION_CODES.N)
 		@DebugHelper
 		public static String toString(@Density int density) {
@@ -69,7 +70,7 @@ public @interface Density {
 			}
 			return name.toString();
 		}
-		@SuppressLint("SwitchIntDef")
+
 		private static String getName(@Density int state) {
 			switch (state) {
 				case Configuration.DENSITY_DPI_UNDEFINED:
