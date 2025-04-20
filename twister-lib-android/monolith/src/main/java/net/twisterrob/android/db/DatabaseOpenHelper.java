@@ -28,6 +28,7 @@ import android.os.Environment;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.WorkerThread;
 
+import net.twisterrob.android.utils.log.LoggingCursorFactory;
 import net.twisterrob.android.utils.tools.DatabaseTools;
 import net.twisterrob.android.utils.tools.IOTools;
 import net.twisterrob.java.annotations.DebugHelper;
