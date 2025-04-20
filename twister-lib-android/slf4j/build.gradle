@@ -13,5 +13,5 @@ dependencies {
 
 	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
 	// Test with v1 here, and v2 everywhere else (:logging module).
-	androidTestImplementation(libs.slf4j.api)
+	androidTestRuntimeOnly(libs.slf4j.api)
 }

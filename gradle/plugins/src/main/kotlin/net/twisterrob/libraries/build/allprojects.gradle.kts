@@ -70,8 +70,12 @@ dependencyAnalysisSub {
 		// There are some configuration in root project's issues.all { ... } block. 
 
 		if (project.path.endsWith("-test_helpers")) {
+			val targetProject = project.path.removeSuffix("-test_helpers")
 			onIncorrectConfiguration {
-				exclude(project.path.removeSuffix("-test_helpers"))
+				exclude(targetProject)
+			}
+			onUnusedDependencies {
+				exclude(targetProject)
 			}
 		}
 		onUnusedDependencies {
