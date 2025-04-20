@@ -22,9 +22,10 @@ class LoggingCursorFactoryTest {
 				db.execSQL("CREATE TABLE MyTable(col1 TEXT, col2 TEXT);")
 			}
 
-			override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
+			override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+			}
 		}
-		assertEquals(emptyList<String>(), getLogsFor("l_CursorFactory"))
+		assertEquals(emptyList<String>(), getLogsFor("CursorFactory"))
 
 		helper.readableDatabase
 			.query(
@@ -40,9 +41,9 @@ class LoggingCursorFactoryTest {
 
 		assertEquals(
 			listOf(
-				"V/l_CursorFactory: SQLiteQuery: SELECT col1, col2 FROM MyTable WHERE col1 = ?"
+				"V/CursorFactory: SQLiteQuery: SELECT col1, col2 FROM MyTable WHERE col1 = ?"
 			),
-			getLogsFor("l_CursorFactory"),
+			getLogsFor("CursorFactory"),
 		)
 	}
 }
