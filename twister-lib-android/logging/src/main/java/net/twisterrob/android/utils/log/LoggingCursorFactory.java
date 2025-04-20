@@ -1,4 +1,4 @@
-package net.twisterrob.android.db;
+package net.twisterrob.android.utils.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ import net.twisterrob.java.annotations.DebugHelper;
 @RequiresApi(VERSION_CODES.HONEYCOMB)
 @DebugHelper
 public final class LoggingCursorFactory implements CursorFactory {
-	private static final Logger LOG = LoggerFactory.getLogger(LoggingCursorFactory.class);
+	private static final Logger LOG = LoggerFactory.getLogger("CursorFactory");
 
 	@Override public Cursor newCursor(SQLiteDatabase db,
 			SQLiteCursorDriver masterQuery, String editTable, SQLiteQuery query) {

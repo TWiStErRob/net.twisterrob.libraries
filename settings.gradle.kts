@@ -44,7 +44,7 @@ include(":lib:mockito")
 
 includeAndroid(":monolith")
 
-includeAndroid(":slf4j")
+includeAndroidWithTestHelpers(":slf4j")
 includeAndroid(":logging")
 includeAndroid(":stringers")
 

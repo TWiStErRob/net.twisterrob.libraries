@@ -10,4 +10,8 @@ configurations {
 dependencies {
 	compileOnly(libs.androidx.annotation)
 	api(libs.slf4j.api)
+
+	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
+	// Test with v1 here, and v2 everywhere else (:logging module).
+	androidTestRuntimeOnly(libs.slf4j.api)
 }

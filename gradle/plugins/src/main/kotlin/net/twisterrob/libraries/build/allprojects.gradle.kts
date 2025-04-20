@@ -63,6 +63,12 @@ afterEvaluate {
 
 tasks.withType<Test>().configureEach test@{
 	systemProperty("org.slf4j.simpleLogger.defaultLogLevel", "trace")
+	jvmArgs(
+		// Reduce occurrences of warning:
+		// > Java HotSpot(TM) 64-Bit Server VM warning:
+		// > Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+		"-Xshare:off",
+	)
 }
 
 dependencyAnalysisSub {
@@ -70,8 +76,12 @@ dependencyAnalysisSub {
 		// There are some configuration in root project's issues.all { ... } block. 
 
 		if (project.path.endsWith("-test_helpers")) {
+			val targetProject = project.path.removeSuffix("-test_helpers")
 			onIncorrectConfiguration {
-				exclude(project.path.removeSuffix("-test_helpers"))
+				exclude(targetProject)
+			}
+			onUnusedDependencies {
+				exclude(targetProject)
 			}
 		}
 		onUnusedDependencies {

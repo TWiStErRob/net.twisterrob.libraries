@@ -13,4 +13,9 @@ dependencies {
 	compileOnly(libs.androidx.appcompat)
 	compileOnly(libs.androidx.material)
 	compileOnly(libs.androidx.recyclerview)
+
+	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
+	androidTestImplementation "net.twisterrob.lib:twister-lib-android-slf4j"
+	androidTestRuntimeOnly(libs.slf4j2.api)
+	androidTestImplementation "net.twisterrob.lib:twister-lib-android-slf4j-test_helpers"
 }
