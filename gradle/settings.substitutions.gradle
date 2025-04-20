@@ -52,6 +52,7 @@ dependencySubstitution {
 	substitute module("net.twisterrob.lib:twister-lib-android-mad") using project(":mad")
 	substitute module("net.twisterrob.lib:twister-lib-android-permissions") using project(":permissions")
 	substitute module("net.twisterrob.lib:twister-lib-android-slf4j") using project(":slf4j")
+	substitute module("net.twisterrob.lib:twister-lib-android-slf4j-test_helpers") using project(":slf4j-test_helpers")
 	substitute module("net.twisterrob.lib:twister-lib-android-stringers") using project(":stringers")
 	substitute module("net.twisterrob.lib:twister-lib-android-uiautomator") using project(":uiautomator")
 	substitute module("net.twisterrob.lib:twister-lib-android-widgets") using project(":widgets")
