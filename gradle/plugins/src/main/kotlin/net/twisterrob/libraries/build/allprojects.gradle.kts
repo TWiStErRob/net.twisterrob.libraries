@@ -63,6 +63,11 @@ afterEvaluate {
 
 tasks.withType<Test>().configureEach test@{
 	systemProperty("org.slf4j.simpleLogger.defaultLogLevel", "trace")
+	jvmArgs(
+		// Reduce occurrences of warning:
+		// > Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+		"-Xshare:off",
+	)
 }
 
 dependencyAnalysisSub {
