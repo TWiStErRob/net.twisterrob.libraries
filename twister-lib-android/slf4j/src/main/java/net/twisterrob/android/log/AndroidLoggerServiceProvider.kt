@@ -18,17 +18,15 @@ class AndroidLoggerServiceProvider : SLF4JServiceProvider {
 	override fun getLoggerFactory(): ILoggerFactory =
 		loggerFactory
 
-	private lateinit var markerFactory: IMarkerFactory
+	private val markerFactory: IMarkerFactory = BasicMarkerFactory()
 	override fun getMarkerFactory(): IMarkerFactory =
 		markerFactory
 
-	private lateinit var mdcAdapter: MDCAdapter
+	private val mdcAdapter: MDCAdapter = NOPMDCAdapter()
 	override fun getMDCAdapter(): MDCAdapter =
 		mdcAdapter
 
 	override fun initialize() {
 		loggerFactory = AndroidLoggerFactory()
-		markerFactory = BasicMarkerFactory()
-		mdcAdapter = NOPMDCAdapter()
 	}
 }
