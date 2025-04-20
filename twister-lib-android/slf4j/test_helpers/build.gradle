@@ -1,0 +1,7 @@
+plugins {
+	id("net.twisterrob.libraries.android.test-helpers")
+}
+
+dependencies {
+	implementation(libs.kotlin.stdlib)
+}

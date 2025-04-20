@@ -1,6 +1,6 @@
 package net.twisterrob.android.log
 
-internal fun getLogsFor(tag: String, format: String = "tag"): List<String> {
+fun getLogsFor(tag: String, format: String = "tag"): List<String> {
 	// -d: dump and stop, don't block
 	// -b main: app's logs
 	// -v ...: output format
