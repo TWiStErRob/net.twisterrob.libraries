@@ -10,7 +10,7 @@ import org.slf4j.spi.SLF4JServiceProvider
 // TODO revert to earlier state with val/vars https://youtrack.jetbrains.com/issue/KT-6653#focus=Comments-27-9920359.0-0
 class AndroidLoggerServiceProvider : SLF4JServiceProvider {
 
-	private val requestedApiVersion: String = "2.0.13"
+	private val requestedApiVersion: String = "2.0.17"
 	override fun getRequestedApiVersion(): String =
 		requestedApiVersion
 
