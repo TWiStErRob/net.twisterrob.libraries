@@ -37,7 +37,6 @@ class LoggingContainerDecoratorTest {
 	fun testReduce() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testReduce()
@@ -69,7 +68,6 @@ class LoggingContainerDecoratorTest {
 	fun testSideEffect() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSideEffect()
@@ -98,7 +96,6 @@ class LoggingContainerDecoratorTest {
 	fun testInline() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testInline()
@@ -130,7 +127,6 @@ class LoggingContainerDecoratorTest {
 	fun testSubIntent() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSubIntent()
@@ -161,7 +157,6 @@ class LoggingContainerDecoratorTest {
 	fun testSubIntentNested() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSubIntentNested()
