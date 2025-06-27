@@ -280,4 +280,4 @@ class DecorateLoggingIntegrationTest {
 }
 
 private fun lambdaIn(name: String): Pattern =
-	Regex("""${Regex.escape(name)}\$\$\QLambda\E\$\d+/0x[0-9a-f]{16}""").toPattern()
+	Regex("""${Regex.escape(name)}\$\$\QLambda\E(\$\d+)?/0x[0-9a-f]{16}""").toPattern()

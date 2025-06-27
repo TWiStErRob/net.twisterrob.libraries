@@ -76,9 +76,17 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
  * @see org.orbitmvi.orbit.syntax.Syntax.reduce
  */
 private fun <T : Function<*>> Function<*>.captured(localName: String): T =
-	this::class
-		.java
-		.getDeclaredField("\$${localName}")
+	try {
+		when (localName) {
+			"reducer" -> this::class.java.declaredFields.single()
+			else -> this::class.java.getDeclaredField("\$${localName}")
+		}
+	} catch (ex: NoSuchFieldException) {
+		val fields = this::class.java.declaredFields.joinToString { it.toGenericString() }
+		throw NoSuchFieldException("Cannot find captured variable for $localName in ${this::class.java}: $fields")
+			.initCause(ex)
+	}
+		.also { println(it.toGenericString()) }
 		.apply { isAccessible = true }
 		.get(this)
 		.let { @Suppress("UNCHECKED_CAST") (it as T) }
