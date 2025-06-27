@@ -25,6 +25,7 @@ import org.mockito.kotlin.verifyNoInteractions
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.annotation.OrbitExperimental
+import org.orbitmvi.orbit.blockingIntent
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.test.test
 
@@ -36,7 +37,6 @@ class LoggingContainerDecoratorTest {
 	fun testReduce() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testReduce()
@@ -68,7 +68,6 @@ class LoggingContainerDecoratorTest {
 	fun testSideEffect() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSideEffect()
@@ -97,7 +96,6 @@ class LoggingContainerDecoratorTest {
 	fun testInline() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testInline()
@@ -129,7 +127,6 @@ class LoggingContainerDecoratorTest {
 	fun testSubIntent() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSubIntent()
@@ -160,7 +157,6 @@ class LoggingContainerDecoratorTest {
 	fun testSubIntentNested() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
 		TestContainerHost(backgroundScope, mockEvents).test(this) {
-			expectInitialState()
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSubIntentNested()
@@ -250,7 +246,7 @@ class LoggingContainerDecoratorTest {
 			val FQCN: String = TestContainerHost::class.java.name
 
 			fun matchesLambdaOf(signature: String): Matcher<String> {
-				val pattern = """${Regex.escape(FQCN)}\$${Regex.escape(signature)}\$\$\QLambda\E\$\d+/0x[0-9a-f]{16}"""
+				val pattern = """${Regex.escape(FQCN)}\$${Regex.escape(signature)}\$\$\QLambda\E(\$\d+)?/0x[0-9a-f]{16}"""
 				return matchesPattern(Regex(pattern).toPattern())
 			}
 

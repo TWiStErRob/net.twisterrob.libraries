@@ -14,6 +14,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 ) : ContainerDecorator<STATE, SIDE_EFFECT> {
 
 	interface OrbitEvents<STATE : Any, SIDE_EFFECT : Any> {
+
 		fun intentStarted(transformer: suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit)
 		fun intentFinished(transformer: suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit)
 
@@ -23,28 +24,27 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 	}
 
 	@OptIn(OrbitInternal::class)
-	override suspend fun orbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit): Job =
+	override fun orbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit): Job =
 		super.orbit {
 			// Note need to do a double-capture resolution, because there's an intermediate internal function.
 			// It was introduced in Orbit 6.0.0:
 			// https://github.com/orbit-mvi/orbit-mvi/commit/14b9a9fa46fe62891498058065e5857a17a137f7#diff-be051a3776eb5c87c456768a7827d213e917534872f80832e4ab7020d59dc8bb
-			events.intentStarted(orbitIntent.captured<Function<*>>("transformer").captured("transformer"))
+			events.intentStarted(orbitIntent.captured<Function<*>>("\$transformer").captured("\$transformer"))
 			this.logged().orbitIntent()
-			events.intentFinished(orbitIntent.captured<Function<*>>("transformer").captured("transformer"))
+			events.intentFinished(orbitIntent.captured<Function<*>>("\$transformer").captured("\$transformer"))
 		}
 
 	@OptIn(OrbitInternal::class)
 	override suspend fun inlineOrbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit) {
 		super.inlineOrbit {
-			events.intentStarted(orbitIntent.captured("transformer"))
+			events.intentStarted(orbitIntent.captured("\$transformer"))
 			this.logged().orbitIntent()
-			events.intentFinished(orbitIntent.captured("transformer"))
+			events.intentFinished(orbitIntent.captured("\$transformer"))
 		}
 	}
 
 	/**
 	 * @see org.orbitmvi.orbit.ContainerHost.intent
-	 * @see org.orbitmvi.orbit.ContainerHost.blockingIntent
 	 * @see org.orbitmvi.orbit.syntax.Syntax.reduce
 	 */
 	@OptIn(OrbitInternal::class)
@@ -58,7 +58,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 			reduce = { reducer ->
 				reduce { oldState ->
 					reducer(oldState).also { newState ->
-						events.reduce(oldState, reducer.captured("reducer"), newState)
+						events.reduce(oldState, reducer.captured("arg$1"), newState)
 					}
 				}
 			},
@@ -73,13 +73,17 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
  * These captured variables are kept in consumer ProGuard configuration.
  *
  * @see org.orbitmvi.orbit.ContainerHost.intent
- * @see org.orbitmvi.orbit.ContainerHost.blockingIntent
  * @see org.orbitmvi.orbit.syntax.Syntax.reduce
  */
 private fun <T : Function<*>> Function<*>.captured(localName: String): T =
-	this::class
-		.java
-		.getDeclaredField("\$${localName}")
+	try {
+		this::class.java.getDeclaredField(localName)
+	} catch (ex: NoSuchFieldException) {
+		val fields = this::class.java.declaredFields.joinToString { it.toGenericString() }
+		throw NoSuchFieldException("Cannot find captured variable for $localName in ${this::class.java}: $fields")
+			.initCause(ex)
+	}
+		.also { println(it.toGenericString()) }
 		.apply { isAccessible = true }
 		.get(this)
 		.let { @Suppress("UNCHECKED_CAST") (it as T) }
