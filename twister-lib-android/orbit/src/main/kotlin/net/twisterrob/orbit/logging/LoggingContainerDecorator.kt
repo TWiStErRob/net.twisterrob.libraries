@@ -14,6 +14,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 ) : ContainerDecorator<STATE, SIDE_EFFECT> {
 
 	interface OrbitEvents<STATE : Any, SIDE_EFFECT : Any> {
+
 		fun intentStarted(transformer: suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit)
 		fun intentFinished(transformer: suspend Syntax<STATE, SIDE_EFFECT>.() -> Unit)
 
@@ -23,7 +24,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 	}
 
 	@OptIn(OrbitInternal::class)
-	override suspend fun orbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit): Job =
+	override fun orbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit): Job =
 		super.orbit {
 			// Note need to do a double-capture resolution, because there's an intermediate internal function.
 			// It was introduced in Orbit 6.0.0:
@@ -44,7 +45,6 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 
 	/**
 	 * @see org.orbitmvi.orbit.ContainerHost.intent
-	 * @see org.orbitmvi.orbit.ContainerHost.blockingIntent
 	 * @see org.orbitmvi.orbit.syntax.Syntax.reduce
 	 */
 	@OptIn(OrbitInternal::class)
@@ -73,7 +73,6 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
  * These captured variables are kept in consumer ProGuard configuration.
  *
  * @see org.orbitmvi.orbit.ContainerHost.intent
- * @see org.orbitmvi.orbit.ContainerHost.blockingIntent
  * @see org.orbitmvi.orbit.syntax.Syntax.reduce
  */
 private fun <T : Function<*>> Function<*>.captured(localName: String): T =
