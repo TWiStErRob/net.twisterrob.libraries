@@ -6,7 +6,6 @@ plugins {
 dependencies {
 	api(project(":internal:test:jvm_unit"))
 	api(libs.test.android.robolectric)
-	api(libs.test.android.robolectricMultidex)
 	api(libs.androidx.test.core)
 	api(libs.androidx.test.junit)
 }
