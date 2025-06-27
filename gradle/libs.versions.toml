@@ -82,7 +82,7 @@ test-hamcrest = "2.0.0.0"
 test-shazamcrest = "0.11"
 
 test-android-classpath = "1.2.7"
-test-android-robolectric = "4.14.1"
+test-android-robolectric = "4.15.1"
 test-android-plexus = "1.5.15"
 test-android-objenesis = "2.6"
 
@@ -165,7 +165,6 @@ androidx-test-espressoNet = { module = "androidx.test.espresso.idling:idling-net
 test-android-mockito = { module = "org.mockito:mockito-android", version.ref = "test-mockito" }
 test-android-classpath = { module = "io.takari.junit:takari-cpsuite", version.ref = "test-android-classpath" }
 test-android-robolectric = { module = "org.robolectric:robolectric", version.ref = "test-android-robolectric" }
-test-android-robolectricMultidex = { module = "org.robolectric:shadows-multidex", version.ref = "test-android-robolectric" }
 test-android-robolectricPlexus = { module = "org.codehaus.plexus:plexus-utils", version.ref = "test-android-plexus" }
 test-android-objenesis = { module = "org.objenesis:objenesis", version.ref = "test-android-objenesis" }
 
