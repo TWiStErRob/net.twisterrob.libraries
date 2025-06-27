@@ -26,7 +26,7 @@ jbrAnn = "26.0.2"
 slf4j = "1.7.36"
 slf4j2 = "2.0.17"
 guava-jre = "27.0.1-jre"
-orbit = "9.0.0"
+orbit = "10.0.0"
 okhttp = "4.12.0"
 
 # TODEL SVGWorkarounds on > 1.4

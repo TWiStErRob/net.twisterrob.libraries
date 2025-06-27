@@ -1,6 +1,6 @@
 # See net.twisterrob.orbit.logging.LoggingContainerDecoratorKt#captured
--keepclassmembernames class org.orbitmvi.orbit.syntax.Syntax$reduce$* {
-    final kotlin.jvm.functions.Function1 $reducer;
+-keepclassmembernames class org.orbitmvi.orbit.syntax.Syntax$$Lambda/0x* {
+    final kotlin.jvm.functions.Function1 arg$1;
 }
 
 # See net.twisterrob.orbit.logging.LoggingContainerDecoratorKt#captured
