@@ -29,17 +29,17 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 			// Note need to do a double-capture resolution, because there's an intermediate internal function.
 			// It was introduced in Orbit 6.0.0:
 			// https://github.com/orbit-mvi/orbit-mvi/commit/14b9a9fa46fe62891498058065e5857a17a137f7#diff-be051a3776eb5c87c456768a7827d213e917534872f80832e4ab7020d59dc8bb
-			events.intentStarted(orbitIntent.captured<Function<*>>("transformer").captured("transformer"))
+			events.intentStarted(orbitIntent.captured<Function<*>>("\$transformer").captured("\$transformer"))
 			this.logged().orbitIntent()
-			events.intentFinished(orbitIntent.captured<Function<*>>("transformer").captured("transformer"))
+			events.intentFinished(orbitIntent.captured<Function<*>>("\$transformer").captured("\$transformer"))
 		}
 
 	@OptIn(OrbitInternal::class)
 	override suspend fun inlineOrbit(orbitIntent: suspend ContainerContext<STATE, SIDE_EFFECT>.() -> Unit) {
 		super.inlineOrbit {
-			events.intentStarted(orbitIntent.captured("transformer"))
+			events.intentStarted(orbitIntent.captured("\$transformer"))
 			this.logged().orbitIntent()
-			events.intentFinished(orbitIntent.captured("transformer"))
+			events.intentFinished(orbitIntent.captured("\$transformer"))
 		}
 	}
 
@@ -58,7 +58,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 			reduce = { reducer ->
 				reduce { oldState ->
 					reducer(oldState).also { newState ->
-						events.reduce(oldState, reducer.captured("reducer"), newState)
+						events.reduce(oldState, reducer.captured("arg$1"), newState)
 					}
 				}
 			},
@@ -77,10 +77,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
  */
 private fun <T : Function<*>> Function<*>.captured(localName: String): T =
 	try {
-		when (localName) {
-			"reducer" -> this::class.java.declaredFields.single()
-			else -> this::class.java.getDeclaredField("\$${localName}")
-		}
+		this::class.java.getDeclaredField(localName)
 	} catch (ex: NoSuchFieldException) {
 		val fields = this::class.java.declaredFields.joinToString { it.toGenericString() }
 		throw NoSuchFieldException("Cannot find captured variable for $localName in ${this::class.java}: $fields")
