@@ -25,6 +25,7 @@ import org.mockito.kotlin.verifyNoInteractions
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.annotation.OrbitExperimental
+import org.orbitmvi.orbit.blockingIntent
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.test.test
 
