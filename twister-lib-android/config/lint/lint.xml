@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <lint>
+
 	<issue id="UnusedResources">
 		<!-- Not used, but can't do anything about it :) -->
 		<!-- ../../build.gradle: The resource R.bool.in_prod appears to be unused
@@ -14,27 +15,39 @@
 		<ignore path="src/main/res/values/strings_about.xml" />
 		<ignore regexp="R\.(.+)\.menu_widget_(.+)" />
 	</issue>
+
 	<issue id="DuplicateStrings">
 		<!-- Ignore duplicate strings in .gradle\caches\transforms-2\files-2.1\...\res\values-*\*.xml (Gradle 6.7) -->
 		<ignore path="*/caches/transforms-2/files-*" />
 		<!-- Ignore duplicate strings in .gradle/caches/transforms-3/<hash>/transformed/<artifact-version>/res/values-*/*.xml (Gradle 7.6) -->
 		<ignore path="*/caches/transforms-3/*/transformed/*" />
 	</issue>
+
 	<issue id="StringFormatTrivial" severity="ignore">
 		<!-- Don't care, they are usually error formatting. -->
 	</issue>
+
 	<issue id="UnknownNullness" severity="ignore">
 		<!-- too many to fix yet -->
 	</issue>
+
 	<issue id="SyntheticAccessor" severity="ignore">
 		<!-- too many to fix yet -->
 	</issue>
+
+	<issue id="MemberExtensionConflict">
+		<!-- TODEL AGP 8.12 https://issuetracker.google.com/issues/427761232 -->
+		<ignore regexp="`.*?` is defined both as a member in class `kotlin\.collections\..*?` and an extension in package `kotlin\.collections`\." />
+	</issue>
+
 	<issue id="ObsoleteSdkInt" severity="ignore">
 		<!-- Keeping historical code for documentation purposes for now. -->
 	</issue>
+
 	<issue id="GradleDependency" severity="ignore">
 		<!-- Known issue, ignore for now until there's Renovate. -->
 	</issue>
+
 	<issue id="GradleCompatible">
 		<!-- > Dependencies using groupId com.android.support and androidx.* can not be combined but
 		     > found com.android.support:support-fragment:28.0.0 and androidx.test.espresso:espresso-core:3.5.1 incompatible dependencies
@@ -42,15 +55,18 @@
 		-->
 		<ignore path="*/espresso_glide3/build.gradle" regexp=".*com.android.support:support-fragment:.*androidx..*" />
 	</issue>
+
 	<issue id="UseTomlInstead" severity="ignore">
 		<!--
 			It is how project dependencies are designed at the moment.
 			Should use typesafe project accessors, but first need to get rid of included builds.
 		-->
 	</issue>
+
 	<issue id="LintBaseline"> 
 		<ignore regexp="(was|were) filtered out because (it is|they are) listed in the baseline file" />
 	</issue>
+
 	<issue id="InvalidPackage">
 		<!--
 			These are coming from :internal:test:android_instrumentation
@@ -59,4 +75,5 @@
 		-->
 		<ignore regexp="Invalid package reference in org.mockito:mockito-core; not included in Android: `java.lang.instrument`. Referenced from `org.mockito.internal.creation.bytebuddy.InlineBytecodeGenerator`." />
 	</issue>
+
 </lint>
