@@ -2,8 +2,8 @@ package net.twisterrob.libraries.build
 
 import net.twisterrob.libraries.build.dsl.dependencyAnalysisSub
 import net.twisterrob.libraries.build.dsl.libs
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
+import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
 plugins {
 	id("com.autonomousapps.dependency-analysis")
@@ -34,19 +34,25 @@ tasks.withType<JavaCompile>().configureEach javac@{
 	this@javac.options.compilerArgs = this@javac.options.compilerArgs + listOf(
 		// Enable all warnings the compiler knows.
 		"-Xlint:all",
-		// warning: [options] source value 8 is obsolete and will be removed in a future release
-		// warning: [options] target value 8 is obsolete and will be removed in a future release
-		"-Xlint:-options",
 		// Fail build when any warning pops up.
 		"-Werror",
 	)
 }
 
-tasks.withType<KotlinCompile>().configureEach kotlin@{
+plugins.withId("org.jetbrains.kotlin.jvm") {
+	configure<KotlinBaseExtension>(KotlinBaseExtension::configureKotlin)
+}
+plugins.withId("org.jetbrains.kotlin.android") {
+	configure<KotlinBaseExtension>(KotlinBaseExtension::configureKotlin)
+}
+fun KotlinBaseExtension.configureKotlin() {
+	this as HasConfigurableKotlinCompilerOptions<*>
 	compilerOptions {
-		allWarningsAsErrors.set(true)
-		jvmTarget.set(JvmTarget.fromTarget(libs.versions.java.get()))
+		allWarningsAsErrors = true
 		freeCompilerArgs.add("-Xcontext-receivers")
+	}
+	jvmToolchain {
+		languageVersion = libs.versions.java.map(JavaLanguageVersion::of)
 	}
 }
 

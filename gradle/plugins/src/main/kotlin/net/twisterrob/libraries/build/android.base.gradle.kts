@@ -5,7 +5,6 @@ import com.android.build.gradle.internal.lint.AndroidLintAnalysisTask
 import com.android.build.gradle.internal.lint.LintModelWriterTask
 import net.twisterrob.libraries.build.dsl.android
 import net.twisterrob.libraries.build.dsl.autoNamespace
-import net.twisterrob.libraries.build.dsl.libs
 
 repositories {
 	google()
@@ -33,10 +32,6 @@ android {
 		checkAllWarnings = true
 		lintConfig = rootDir.resolve("twister-lib-android/config/lint/lint.xml")
 		baseline = rootDir.resolve("twister-lib-android/config/lint/lint-baseline-${project.name}.xml")
-	}
-	compileOptions {
-		sourceCompatibility = libs.versions.java.map(JavaVersion::toVersion).get()
-		targetCompatibility = libs.versions.java.map(JavaVersion::toVersion).get()
 	}
 	afterEvaluate {
 		sourceSets.named("androidTest").configure androidTest@{
