@@ -42,6 +42,12 @@
 		-->
 		<ignore path="*/espresso_glide3/build.gradle" regexp=".*com.android.support:support-fragment:.*androidx..*" />
 	</issue>
+	<issue id="UseTomlInstead" severity="ignore">
+		<!--
+			It is how project dependencies are designed at the moment.
+			Should use typesafe project accessors, but first need to get rid of included builds.
+		-->
+	</issue>
 	<issue id="LintBaseline"> 
 		<ignore regexp="(was|were) filtered out because (it is|they are) listed in the baseline file" />
 	</issue>
