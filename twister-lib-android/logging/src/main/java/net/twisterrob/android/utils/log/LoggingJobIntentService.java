@@ -23,6 +23,7 @@ import net.twisterrob.java.annotations.DebugHelper;
 public class LoggingJobIntentService extends androidx.core.app.JobIntentService {
 	private static final Logger LOG = LoggerFactory.getLogger("JobIntentService");
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingJobIntentService() {
 		log("<ctor>");
 	}
