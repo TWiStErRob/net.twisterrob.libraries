@@ -34,6 +34,9 @@ tasks.withType<JavaCompile>().configureEach javac@{
 	this@javac.options.compilerArgs = this@javac.options.compilerArgs + listOf(
 		// Enable all warnings the compiler knows.
 		"-Xlint:all",
+		// warning: [options] source value 8 is obsolete and will be removed in a future release
+		// warning: [options] target value 8 is obsolete and will be removed in a future release
+		"-Xlint:-options",
 		// Fail build when any warning pops up.
 		"-Werror",
 	)
