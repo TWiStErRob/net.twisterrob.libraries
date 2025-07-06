@@ -23,16 +23,6 @@
 			enabled: false,
 		},
 		{
-			description: "Keep Mockito v4 versions on v4, for now.",
-			matchPackageNames: [
-				"org.mockito:*",
-				"org.mockito.kotlin:*",
-			],
-			matchCurrentVersion: "/^4\\./",
-			matchUpdateTypes: ["major"],
-			enabled: false,
-		},
-		{
 			description: "Keep Guava versions in sync with Android variant. Disabled for now, because needs some investigation.",
 			matchPackageNames: [
 				"com.google.guava:guava",
