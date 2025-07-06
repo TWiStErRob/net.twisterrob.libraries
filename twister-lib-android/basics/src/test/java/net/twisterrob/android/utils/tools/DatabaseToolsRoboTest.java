@@ -32,15 +32,9 @@ public class DatabaseToolsRoboTest {
 		String result = DatabaseTools.dbToString(db);
 
 		// Even though Robolectric has a hardcoded version:
-		// https://github.com/robolectric/robolectric/blob/robolectric-4.10.3/dependencies.gradle#L39
-		// On CI the version is still different.
-		if (SystemUtils.IS_OS_WINDOWS) {
-			assertEquals("v0(1)::3.8.7@" + dbFile.getAbsolutePath(), result);
-		} else {
-			// The source says 3.8.7: https://bitbucket.org/almworks/sqlite4java/src/master/
-			// Not sure where this other version comes from.
-			assertEquals("v0(1)::3.32.2@" + dbFile.getAbsolutePath(), result);
-		}
+		// https://github.com/robolectric/robolectric/blob/robolectric-4.15.1/gradle/libs.versions.toml#L99
+		// When running tests the version is still different (probably comes from JDK?).
+		assertEquals("v0(1)::3.32.2@" + dbFile.getAbsolutePath(), result);
 	}
 
 	@Test
