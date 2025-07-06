@@ -73,9 +73,8 @@ androidx-test-uiautomator = "2.3.0-alpha04" # https://developer.android.com/jetp
 test-junit = "4.13.2"
 test-params = "1.1.1"
 test-gwen = "1.0.2"
-# TODO replace mockito-inline with mockito-core when 5.x
-test-mockito = "4.11.0"
-test-mockitoKotlin = "4.1.0"
+test-mockito = "5.18.0"
+test-mockitoKotlin = "5.4.0"
 # Use this instead of 1.3
 # If `hamcrest-1.3` appears in the dependency list, check if it's excluded from all usages.
 test-hamcrest = "2.0.0.0"
@@ -171,7 +170,7 @@ test-android-objenesis = { module = "org.objenesis:objenesis", version.ref = "te
 test-junit = { module = "junit:junit", version.ref = "test-junit" }
 test-params = { module = "pl.pragmatists:JUnitParams", version.ref = "test-params" }
 test-gwen = { module = "com.shazam:gwen", version.ref = "test-gwen" }
-test-mockito = { module = "org.mockito:mockito-inline", version.ref = "test-mockito" }
+test-mockito = { module = "org.mockito:mockito-core", version.ref = "test-mockito" }
 test-mockitoKotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "test-mockitoKotlin" }
 
 test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }
