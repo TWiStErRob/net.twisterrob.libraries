@@ -1,6 +1,6 @@
 package net.twisterrob.java.utils.tostring;
 
-public class IndentLevel {
+public final class IndentLevel {
 	private int level;
 	public IndentLevel() {
 		reset();
