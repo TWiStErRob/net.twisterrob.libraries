@@ -14,9 +14,7 @@ dependencies {
 
 	androidTestImplementation(project(":internal:test:android_instrumentation"))
 	androidTestImplementation(libs.orbit.test)
-	androidTestImplementation(libs.test.junit)
 	androidTestImplementation(libs.test.mockitoKotlin)
-	androidTestRuntimeOnly(libs.test.android.mockito)
 	coreLibraryDesugaring(libs.android.desugar)
 }
 

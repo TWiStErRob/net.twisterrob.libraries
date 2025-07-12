@@ -7,7 +7,7 @@ dependencies {
 	api(libs.test.params)
 	api "net.twisterrob.lib:twister-lib-hamcrest"
 	api "net.twisterrob.lib:twister-lib-mockito"
-	api(libs.test.android.mockito)
+	runtimeOnly(libs.test.android.mockito)
 	api "net.twisterrob.lib:twister-lib-junit4"
 	api "net.twisterrob.lib:twister-lib-test"
 	api(libs.test.hamcrest.junit)
