@@ -1,5 +1,6 @@
 # See net.twisterrob.orbit.logging.LoggingContainerDecoratorKt#captured
--keepclassmembernames class org.orbitmvi.orbit.syntax.Syntax$$Lambda/0x* {
+# It actually should match Syntax$$Lambda/0x..., but `/` is not a valid character in proguard syntax.
+-keepclassmembernames class org.orbitmvi.orbit.syntax.Syntax$$Lambda?0x* {
     final kotlin.jvm.functions.Function1 arg$1;
 }
 

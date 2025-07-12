@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <lint>
+
 	<issue id="UnknownNullness" severity="ignore">
 		<!-- too many to fix yet -->
 	</issue>
+
 	<issue id="SyntheticAccessor" severity="ignore">
 		<!-- too many to fix yet -->
 	</issue>
+
 	<issue id="LintBaseline">
 		<ignore regexp="(was|were) filtered out because (it is|they are) listed in the baseline file" />
 	</issue>
+
+	<issue id="UseTomlInstead" severity="ignore">
+		<!--
+			It is how project dependencies are designed at the moment.
+			Should use typesafe project accessors, but first need to get rid of included builds.
+		-->
+	</issue>
+
 </lint>
