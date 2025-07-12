@@ -12,11 +12,11 @@ dependencies {
 	testImplementation(libs.test.mockitoKotlin)
 	testRuntimeOnly(libs.slf4j.simple)
 
-	androidTestImplementation "net.twisterrob.lib:twister-lib-android-espresso"
+	androidTestImplementation(project(":internal:test:android_instrumentation"))
 	androidTestImplementation(libs.orbit.test)
 	androidTestImplementation(libs.test.junit)
 	androidTestImplementation(libs.test.mockitoKotlin)
-	androidTestImplementation(libs.test.android.mockito)
+	androidTestRuntimeOnly(libs.test.android.mockito)
 	coreLibraryDesugaring(libs.android.desugar)
 }
 
