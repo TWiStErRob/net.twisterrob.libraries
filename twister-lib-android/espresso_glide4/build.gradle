@@ -19,3 +19,14 @@ dependencies {
 	androidTestRuntimeOnly("net.twisterrob.lib:twister-lib-android-slf4j")
 	kspAndroidTest(libs.android.glide4.ksp)
 }
+
+android {
+	defaultConfig {
+		// Override minSdk to allow OkHttp 5.x to be used.
+		// If this causes a problem, pivot to tools:overrideLibrary="okhttp.okhttp3".
+		// > uses-sdk:minSdkVersion 19 cannot be smaller than version 21 declared in library
+		// > [com.squareup.okhttp3:okhttp-android:5.1.0] ...\transformed\okhttp-release\AndroidManifest.xml
+		// > as the library might be using APIs not available in 19
+		minSdk = 21
+	}
+}
