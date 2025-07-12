@@ -70,8 +70,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 	companion object {
 		private val isAndroid: Boolean =
 			try {
-				Class.forName("android.os.Build")
-				true
+				android.os.Build.VERSION.SDK_INT != 0
 			} catch (_: ClassNotFoundException) {
 				false
 			}
