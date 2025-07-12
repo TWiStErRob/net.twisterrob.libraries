@@ -2,6 +2,7 @@ package net.twisterrob.java.utils;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Locale;
@@ -60,8 +61,8 @@ public final class StringTools {
 		String url = CollectionTools.coalesce(urls);
 		if (url != null) {
 			try {
-				return new URL(url);
-			} catch (MalformedURLException ex) {
+				return URI.create(url).toURL();
+			} catch (IllegalArgumentException | MalformedURLException ex) {
 				throw new IOException(String.format(Locale.ROOT, "Cannot associate %s Url: %s", type, url), ex);
 			}
 		}
@@ -84,6 +85,7 @@ public final class StringTools {
 	}
 
 	/** Inverse of {@link Locale#toString()}. */
+	@SuppressWarnings("deprecation") // Too complicated to fix at the moment without knowing where it is used.
 	public static Locale toLocale(String localeToString) {
 		if (localeToString == null) {
 			return Locale.ROOT;

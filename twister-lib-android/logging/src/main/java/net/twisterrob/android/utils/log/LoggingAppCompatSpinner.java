@@ -22,23 +22,27 @@ public class LoggingAppCompatSpinner extends AppCompatSpinner {
 
 	protected @Nullable LoggingDebugProvider debugInfoProvider;
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingAppCompatSpinner(@NonNull Context context) {
 		super(logCtor(context, context));
 		log("ctor", context);
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingAppCompatSpinner(@NonNull Context context, int mode) {
 		super(logCtor(context, context, mode),
 				mode);
 		log("ctor", context, mode);
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingAppCompatSpinner(@NonNull Context context, @Nullable AttributeSet attrs) {
 		super(logCtor(context, context, attrs),
 				attrs);
 		log("ctor", context, attrs);
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingAppCompatSpinner(@NonNull Context context, @Nullable AttributeSet attrs,
 			int defStyleAttr) {
 		super(logCtor(context, context, attrs, defStyleAttr),
@@ -46,6 +50,7 @@ public class LoggingAppCompatSpinner extends AppCompatSpinner {
 		log("ctor", context, attrs, defStyleAttr);
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingAppCompatSpinner(@NonNull Context context, @Nullable AttributeSet attrs,
 			int defStyleAttr, int mode) {
 		super(logCtor(context, context, attrs, defStyleAttr, mode),
@@ -53,6 +58,7 @@ public class LoggingAppCompatSpinner extends AppCompatSpinner {
 		log("ctor", context, attrs, defStyleAttr, mode);
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingAppCompatSpinner(@NonNull Context context, @Nullable AttributeSet attrs,
 			int defStyleAttr, int mode, Resources.Theme popupTheme) {
 		super(logCtor(context, context, attrs, defStyleAttr, mode, popupTheme),

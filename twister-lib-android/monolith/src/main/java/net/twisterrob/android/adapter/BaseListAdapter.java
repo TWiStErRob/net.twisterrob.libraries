@@ -61,7 +61,7 @@ public abstract class BaseListAdapter<T, VH> extends BaseAdapter implements Filt
 		return m_items.subList(m_hasDefaultItem? 1 : 0, m_items.size());
 	}
 
-	public void setItems(Collection<T> items) {
+	public final void setItems(Collection<T> items) {
 		int prefixSize = m_hasDefaultItem? 1 : 0;
 		int size = items == null? 0 : items.size();
 		ArrayList<T> newItems = new ArrayList<>(prefixSize + size);

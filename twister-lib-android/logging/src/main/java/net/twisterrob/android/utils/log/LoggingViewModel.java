@@ -14,11 +14,13 @@ import net.twisterrob.android.utils.tools.StringerTools;
 public class LoggingViewModel extends ViewModel {
 	private static final Logger LOG = LoggerFactory.getLogger("ViewModel");
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingViewModel() {
 		super();
 		log("<ctor>");
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingViewModel(@NonNull Closeable... closeables) {
 		super(closeables);
 		log("<ctor>", (Object)closeables);

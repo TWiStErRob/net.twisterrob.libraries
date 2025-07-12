@@ -23,11 +23,13 @@ public class LoggingIntentService extends android.app.IntentService {
 	private static final Logger LOG = LoggerFactory.getLogger("IntentService");
 	private final String name;
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingIntentService(String name) {
 		super(name);
 		this.name = name;
 		log("<ctor>");
 	}
+
 	@Override public void setIntentRedelivery(boolean enabled) {
 		log("setIntentRedelivery", enabled);
 		super.setIntentRedelivery(enabled);

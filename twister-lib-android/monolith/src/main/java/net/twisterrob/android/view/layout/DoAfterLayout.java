@@ -16,6 +16,7 @@ public abstract class DoAfterLayout implements OnGlobalLayoutListener {
 	protected DoAfterLayout(@NonNull View view) {
 		this(view, false);
 	}
+	@SuppressWarnings("this-escape") // The object is readily constructed when onLayout is called.
 	protected DoAfterLayout(@NonNull View view, boolean allowImmediate) {
 		this.view = view;
 		if (allowImmediate && !view.isLayoutRequested()

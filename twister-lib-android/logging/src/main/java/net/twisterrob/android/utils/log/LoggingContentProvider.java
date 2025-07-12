@@ -37,6 +37,7 @@ public abstract class LoggingContentProvider extends ContentProvider {
 
 	private static final Logger LOG = LoggerFactory.getLogger("ContentProvider");
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingContentProvider() {
 		log("ctor");
 	}

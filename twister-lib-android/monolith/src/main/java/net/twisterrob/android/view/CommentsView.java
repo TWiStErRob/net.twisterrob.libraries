@@ -52,14 +52,17 @@ public class CommentsView extends AppCompatTextView {
 	private final AlphaAnimation fadeIn = new AlphaAnimation(0, 1);
 	private final AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
 
+	@SuppressWarnings("this-escape") // This is how Views are designed, they're usually safe.
 	public CommentsView(Context context) {
 		super(context);
 		init();
 	}
+	@SuppressWarnings("this-escape") // This is how Views are designed, they're usually safe.
 	public CommentsView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
+	@SuppressWarnings("this-escape") // This is how Views are designed, they're usually safe.
 	public CommentsView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		init();

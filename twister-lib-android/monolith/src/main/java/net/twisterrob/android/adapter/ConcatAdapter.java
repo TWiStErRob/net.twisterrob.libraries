@@ -18,7 +18,10 @@ public class ConcatAdapter extends Adapter<ViewHolder> {
 	private final Adapter<? extends ViewHolder>[] mWrappedAdapters;
 	private final SparseArray<Adapter<? extends ViewHolder>> mViewTypes = new SparseArray<>();
 
-	@SuppressWarnings("varargs")
+	@SuppressWarnings({
+			"varargs",
+			"this-escape", // This is how Adapter is designed.
+	})
 	@SafeVarargs
 	public ConcatAdapter(Adapter<? extends ViewHolder>... mWrappedAdapters) {
 		this.mWrappedAdapters = mWrappedAdapters;

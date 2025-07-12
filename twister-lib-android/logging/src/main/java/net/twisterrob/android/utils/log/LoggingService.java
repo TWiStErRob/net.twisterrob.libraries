@@ -22,9 +22,11 @@ import net.twisterrob.java.annotations.DebugHelper;
 public class LoggingService extends Service {
 	private static final Logger LOG = LoggerFactory.getLogger("Service");
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingService() {
 		log("<ctor>");
 	}
+
 	@Override public void onCreate() {
 		log("onCreate");
 		super.onCreate();
