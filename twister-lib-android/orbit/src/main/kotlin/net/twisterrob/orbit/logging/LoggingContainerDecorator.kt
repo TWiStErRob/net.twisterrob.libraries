@@ -58,13 +58,24 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 			reduce = { reducer ->
 				reduce { oldState ->
 					reducer(oldState).also { newState ->
-						events.reduce(oldState, reducer.captured("arg$1"), newState)
+						val reducerName = if (isAndroid) "f$0" else "arg$1"
+						events.reduce(oldState, reducer.captured(reducerName), newState)
 					}
 				}
 			},
 			subscribedCounter = subscribedCounter,
 			stateFlow = stateFlow,
 		)
+
+	companion object {
+		private val isAndroid: Boolean =
+			try {
+				Class.forName("android.os.Build")
+				true
+			} catch (_: ClassNotFoundException) {
+				false
+			}
+	}
 }
 
 /**
