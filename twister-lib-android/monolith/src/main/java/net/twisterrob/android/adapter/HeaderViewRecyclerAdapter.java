@@ -56,7 +56,10 @@ public class HeaderViewRecyclerAdapter extends WrappingAdapter<RecyclerView.View
 	 * Construct a new header view recycler adapter
 	 * @param adapter The underlying adapter to wrap
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked",
+			"this-escape", // This is how WrappingAdapter is designed.
+	})
 	public HeaderViewRecyclerAdapter(@NonNull RecyclerView.Adapter<? extends RecyclerView.ViewHolder> adapter) {
 		mDataObserver = new HeaderFooterAwareNotifyingObserver();
 		setWrappedAdapter((RecyclerView.Adapter<ViewHolder>)adapter);

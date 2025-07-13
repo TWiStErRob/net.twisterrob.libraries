@@ -39,7 +39,7 @@ public class StringerRepo {
 	}
 
 	/** Visible for testing only. */
-	public void initDefaults() {
+	public final void initDefaults() {
 		register(String.class, new StringStringer());
 		register(ZipEntry.class, new ZipEntryStringer());
 	}
@@ -57,7 +57,7 @@ public class StringerRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> void register(@Nonnull String className, @Nonnull Stringer<?> stringer) {
+	public final <T> void register(@Nonnull String className, @Nonnull Stringer<?> stringer) {
 		try {
 			Class<T> clazz = (Class<T>)Class.forName(className);
 			Stringer<? super T> typedStringer = (Stringer<? super T>)stringer;
@@ -69,7 +69,7 @@ public class StringerRepo {
 		}
 	}
 
-	public <T> void register(@Nonnull Class<T> clazz, @Nonnull Stringer<? super T> stringer) {
+	public final <T> void register(@Nonnull Class<T> clazz, @Nonnull Stringer<? super T> stringer) {
 		//noinspection ConstantConditions
 		if (stringer == null) {
 			throw new IllegalArgumentException("Stringer must not be null.");

@@ -143,6 +143,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	private ToggleButton mBtnFlash;
 	private ExternalPicker mExternalPicker;
 
+	@SuppressWarnings("this-escape") // This is how registerForActivityResult is designed.
 	private final PermissionProtectedAction restartPreview = new PermissionProtectedAction(
 			this,
 			new String[] {Manifest.permission.CAMERA},
@@ -175,6 +176,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			}
 	);
 
+	@SuppressWarnings("this-escape") // This is how registerForActivityResult is designed.
 	private final PermissionProtectedAction pick = new PermissionProtectedAction(
 			this,
 			VERSION.SDK_INT <= VERSION_CODES.P

@@ -54,6 +54,7 @@ public abstract class BaseApp extends android.app.Application {
 	private ResourcePreferences prefs;
 	private int preferencesResource;
 
+	@SuppressWarnings("this-escape") // Design choice, at this point we're pretty much readily constructed.
 	public BaseApp(boolean debugMode, @XmlRes int preferences) {
 		this();
 		init(debugMode, preferences);

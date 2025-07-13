@@ -23,9 +23,11 @@ public class ElapsedTimeIdlingResource extends AsyncIdlingResource {
 	public ElapsedTimeIdlingResource() {
 		handler = new Handler(Looper.getMainLooper());
 	}
-	public ElapsedTimeIdlingResource(long waitingTime) {
-		handler = new Handler(Looper.getMainLooper());
-		startWaiting(waitingTime);
+
+	public static ElapsedTimeIdlingResource start(long waitingTime) {
+		ElapsedTimeIdlingResource resource = new ElapsedTimeIdlingResource();
+		resource.startWaiting(waitingTime);
+		return resource;
 	}
 
 	@Override public String getName() {

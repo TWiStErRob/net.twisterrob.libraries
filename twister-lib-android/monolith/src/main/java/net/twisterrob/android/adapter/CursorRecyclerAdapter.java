@@ -45,6 +45,8 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 	public CursorRecyclerAdapter(@Nullable Cursor cursor) {
 		this(cursor, 0);
 	}
+
+	@SuppressWarnings("this-escape") // This is how Adapter is designed.
 	public CursorRecyclerAdapter(@Nullable Cursor cursor, int flags) {
 		setHasStableIds(true);
 		init(cursor, flags);

@@ -61,6 +61,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	private @Nullable CameraHolder cameraHolder = null;
 	private @NonNull CameraPreviewListeners listeners = new CameraPreviewListeners();
 
+	@SuppressWarnings("this-escape") // There's no easy way to avoid this, self-observing object.
 	public CameraPreview(Context context, AttributeSet attributeset) {
 		super(context, attributeset);
 		LOG.trace("CameraPreview");

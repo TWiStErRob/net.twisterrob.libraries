@@ -63,16 +63,19 @@ public class SelectionView extends View {
 
 	private int mActivePointerId = INVALID_POINTER_ID;
 
+	@SuppressWarnings("this-escape") // This is how Views are designed, they're usually safe.
 	public SelectionView(Context context) {
 		super(context);
 		init();
 	}
 
+	@SuppressWarnings("this-escape") // This is how Views are designed, they're usually safe.
 	public SelectionView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
 
+	@SuppressWarnings("this-escape") // This is how Views are designed, they're usually safe.
 	public SelectionView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init();

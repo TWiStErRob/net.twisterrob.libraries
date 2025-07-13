@@ -33,6 +33,7 @@ public class NumberPickerPreference extends DialogPreference {
 				R.style.Preference_DialogPreference_NumberPickerPreference);
 	}
 
+	@SuppressWarnings("this-escape") // setSummaryProvider is safe as there can be no listeners registered at this point.
 	public NumberPickerPreference(Context context, AttributeSet attrs, int defStyleAttr,
 			int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);

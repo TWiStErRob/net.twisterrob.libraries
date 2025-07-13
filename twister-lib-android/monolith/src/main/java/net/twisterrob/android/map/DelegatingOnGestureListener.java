@@ -31,11 +31,11 @@ public class DelegatingOnGestureListener implements OnGestureListener, OnDoubleT
 	}
 
 	public DelegatingOnGestureListener(OnGestureListener onGestureListener, OnDoubleTapListener onDoubleTapListener) {
-		setOnGesureListener(onGestureListener);
+		setOnGestureListener(onGestureListener);
 		setOnDoubleTapListener(onDoubleTapListener);
 	}
 
-	public void setOnGesureListener(OnGestureListener onGestureListener) {
+	public final void setOnGestureListener(OnGestureListener onGestureListener) {
 		if (onGestureListener != null) {
 			this.m_onGestureListener = onGestureListener;
 		} else {
@@ -43,7 +43,7 @@ public class DelegatingOnGestureListener implements OnGestureListener, OnDoubleT
 		}
 	}
 
-	public void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener) {
+	public final void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener) {
 		if (onDoubleTapListener != null) {
 			this.m_onDoubleTapListener = onDoubleTapListener;
 		} else {

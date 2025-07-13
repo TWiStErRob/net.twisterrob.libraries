@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class EmptyAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
+	@SuppressWarnings("this-escape") // This is how Adapter is designed.
 	public EmptyAdapter() {
 		setHasStableIds(true);
 	}

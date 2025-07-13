@@ -13,6 +13,8 @@ public abstract class WrappingAdapter<VH extends RecyclerView.ViewHolder> extend
 	protected WrappingAdapter() {
 		// child must call setWrappedAdapter after it's initialization
 	}
+
+	@SuppressWarnings("this-escape") // This is how WrappingAdapter is designed.
 	public WrappingAdapter(@NonNull RecyclerView.Adapter<VH> wrapped) {
 		setWrappedAdapter(wrapped);
 	}

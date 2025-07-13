@@ -16,6 +16,7 @@ public class DelegatingContentHandler implements ContentHandler {
 	public DelegatingContentHandler() {
 		this(NULL_HANDLER);
 	}
+
 	public DelegatingContentHandler(ContentHandler handler) {
 		setWrapped(handler);
 	}
@@ -26,7 +27,7 @@ public class DelegatingContentHandler implements ContentHandler {
 	public @Nullable ContentHandler getWrapped() {
 		return hasWrapped()? wrapped : null;
 	}
-	public void setWrapped(@Nullable ContentHandler handler) {
+	public final void setWrapped(@Nullable ContentHandler handler) {
 		wrapped = handler != null? handler : NULL_HANDLER;
 	}
 

@@ -63,7 +63,8 @@ public class BottomMarginAdjuster extends BottomSheetCallback {
 			offset = offset / ratio;
 		}
 		int height = Math.min(behavior.getPeekHeight(), bottomSheet.getHeight());
-		height *= 1 + Math.min(0, offset); // slideOffset is negative so this is really "1 - offset"
+		// slideOffset is negative so this is really "1 - offset"
+		height = (int) (height * (1 + Math.min(0, offset)));
 		LOG.trace("slideOffset={}, offset={}, sheet={}, peek={}, ratio={}, margin={}",
 				slideOffset, offset, bottomSheet.getHeight(), behavior.getPeekHeight(), ratio, height);
 		params.bottomMargin = height;
