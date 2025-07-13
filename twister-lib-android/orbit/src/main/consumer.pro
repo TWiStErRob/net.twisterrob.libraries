@@ -3,6 +3,11 @@
 -keepclassmembernames class org.orbitmvi.orbit.syntax.Syntax$$Lambda?0x* {
     final kotlin.jvm.functions.Function1 arg$1;
 }
+# This class is generated during dexing (probably by D8) to compile Syntax::reduce$lambda$0.
+#noinspection ShrinkerUnresolvedReference
+-keepclassmembernames class org.orbitmvi.orbit.syntax.Syntax$$ExternalSyntheticLambda0 {
+    final kotlin.jvm.functions.Function1 f$0;
+}
 
 # See net.twisterrob.orbit.logging.LoggingContainerDecoratorKt#captured
 -keepclassmembernames class org.orbitmvi.orbit.ContainerHost$intent$* {
