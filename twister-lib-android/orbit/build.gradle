@@ -8,8 +8,19 @@ dependencies {
 	api(libs.kotlin.coroutinesCore) // TODEL https://github.com/orbit-mvi/orbit-mvi/issues/177
 
 	testImplementation(libs.orbit.test)
-	testImplementation(libs.kotlin.coroutinesTest) // TODEL https://github.com/orbit-mvi/orbit-mvi/issues/177
 	testImplementation(libs.test.junit)
 	testImplementation(libs.test.mockitoKotlin)
 	testRuntimeOnly(libs.slf4j.simple)
+
+	androidTestImplementation(project(":internal:test:android_instrumentation"))
+	androidTestImplementation(libs.orbit.test)
+	androidTestImplementation(libs.test.mockitoKotlin)
+	coreLibraryDesugaring(libs.android.desugar)
+}
+
+android {
+	compileOptions {
+		// Required for androidTest because Mockito uses Java 11 Stream APIs.
+		coreLibraryDesugaringEnabled = true
+	}
 }
