@@ -247,7 +247,7 @@ class LoggingContainerDecoratorTest {
 			val FQCN: String = TestContainerHost::class.java.name
 
 			fun matchesLambdaOf(signature: String): Matcher<String> {
-				val pattern = """${Regex.escape(FQCN)}\$${Regex.escape(signature)}\$\$\QExternalSyntheticLambda0\E\d+"""
+				val pattern = """${Regex.escape(FQCN)}\$${Regex.escape(signature)}\$\$\QExternalSyntheticLambda\E\d+"""
 				return matchesPattern(Regex(pattern).toPattern())
 			}
 
