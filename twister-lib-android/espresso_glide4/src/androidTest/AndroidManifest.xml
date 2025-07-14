@@ -1,7 +1,17 @@
 <manifest
-	xmlns:android="http://schemas.android.com/apk/res/android">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	>
 
 	<uses-permission android:name="android.permission.INTERNET" />
+
+	<!--
+		Override minSdk to allow OkHttp 5.x to be used.
+		> uses-sdk:minSdkVersion 19 cannot be smaller than version 21 declared in library
+		> [com.squareup.okhttp3:okhttp-android:5.1.0] ...\transformed\okhttp-release\AndroidManifest.xml
+		> as the library might be using APIs not available in 19
+	-->
+	<uses-sdk tools:overrideLibrary="okhttp.okhttp3" />
 
 	<application
 		android:usesCleartextTraffic="true"
