@@ -73,5 +73,12 @@
 			],
 			automerge: false,
 		},
+		{
+			description: "Don't deal with Gradle for a while, Renovate has a 3GB memory limit, Gradle uses more, probably with Kotlin daemon.",
+			matchPackageNames: [
+				"gradle",
+			],
+			enabled: false,
+		},
 	],
 }
