@@ -23,7 +23,7 @@ android {
 	namespace = project.autoNamespace
 	compileSdk = 35
 	defaultConfig {
-		minSdk = 19
+		minSdk = 21
 	}
 	buildFeatures {
 		buildConfig = false
