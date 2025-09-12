@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import com.bumptech.glide.load.engine.executor.GlideExecutor
 import java.lang.reflect.Field
 
+@Suppress("EXPOSED_PACKAGE_PRIVATE_TYPE_FROM_INTERNAL_WARNING")
 internal var Engine.EngineJobFactory.sourceUnlimitedExecutorHack: GlideExecutor
 	@SuppressLint("VisibleForTests")
 	get() = sourceUnlimitedExecutor

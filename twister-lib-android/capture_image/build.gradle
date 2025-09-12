@@ -23,3 +23,10 @@ dependencies {
 // REPORT disabled here, because it's not possible to suppress in manifest.
 // lint:RtlEnabled is disabled because this module supports RTL, but does not mandate it.
 android.lint.disable.add("RtlEnabled")
+
+// TODEL https://github.com/bumptech/glide/issues/5601
+tasks
+		.named { it == "compileDebugAndroidTestKotlin" }
+		.configureEach { org.jetbrains.kotlin.gradle.tasks.KotlinCompile task ->
+			task.compilerOptions.freeCompilerArgs.add("-Xwarning-level=EXPOSED_PACKAGE_PRIVATE_TYPE_FROM_INTERNAL_WARNING:disabled")
+		}
