@@ -12,17 +12,17 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 project = "1.0"
 
 java = "11"
-agp = "8.11.1"
+agp = "8.13.0"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.18"
 detekt = "1.23.8"
-dependencyAnalysis = "2.17.0"
-kotlin = "2.1.21"
-kotlin-ksp = "2.1.21-2.0.2"
+dependencyAnalysis = "3.0.4"
+kotlin = "2.2.20"
+kotlin-ksp = "2.2.20-2.0.3"
 kotlin-coroutines = "1.10.2"
 
 jsr305 = "3.0.2"
-jbrAnn = "26.0.2"
+jbrAnn = "26.0.2-1"
 slf4j = "1.7.36"
 slf4j2 = "2.0.17"
 guava-jre = "27.0.1-jre"
@@ -82,7 +82,7 @@ test-hamcrest = "2.0.0.0"
 test-shazamcrest = "0.11"
 
 test-android-classpath = "1.2.7"
-test-android-robolectric = "4.15.1"
+test-android-robolectric = "4.16"
 test-android-plexus = "1.5.15"
 test-android-objenesis = "2.6"
 

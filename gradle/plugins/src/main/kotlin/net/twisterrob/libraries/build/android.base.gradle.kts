@@ -1,9 +1,10 @@
 package net.twisterrob.libraries.build
 
 import com.android.build.api.dsl.AndroidSourceSet
-import com.android.build.gradle.internal.lint.AndroidLintAnalysisTask
-import com.android.build.gradle.internal.lint.LintModelWriterTask
+import com.android.build.api.dsl.TestedExtension
+import com.android.build.api.variant.HasAndroidTestBuilder
 import net.twisterrob.libraries.build.dsl.android
+import net.twisterrob.libraries.build.dsl.androidComponents
 import net.twisterrob.libraries.build.dsl.autoNamespace
 
 repositories {
@@ -22,7 +23,7 @@ android {
 	namespace = project.autoNamespace
 	compileSdk = 35
 	defaultConfig {
-		minSdk = 19
+		minSdk = 21
 	}
 	buildFeatures {
 		buildConfig = false
@@ -33,25 +34,20 @@ android {
 		lintConfig = rootDir.resolve("twister-lib-android/config/lint/lint.xml")
 		baseline = rootDir.resolve("twister-lib-android/config/lint/lint-baseline-${project.name}.xml")
 	}
-	afterEvaluate {
-		sourceSets.named("androidTest").configure androidTest@{
-			if (this@androidTest.javaSources.isEmpty && this@androidTest.kotlinSources.isEmpty) {
-				logger.info(
-					"Disabling AndroidTest tasks in ${project.path}" +
-						" as it has no sources in ${this@androidTest.srcDirs}"
-				)
-				tasks.configureEach {
-					@Suppress("detekt.MaxLineLength")
-					if (this.name.contains("AndroidTest")) {
-						// Prevent:
-						// > Task :basics:lintReportDebug FAILED
-						// Lint model ...\build\intermediates\android_test_lint_model\debug\generateDebugAndroidTestLintModel does not exist.
-						if (this is LintModelWriterTask) return@configureEach
-						if (this is AndroidLintAnalysisTask) return@configureEach
-						this.enabled = false
-					}
-				}
-			}
+}
+
+androidComponents {
+	val testBuildType = (android as? TestedExtension)?.testBuildType
+	beforeVariants {
+		if (it.buildType != testBuildType) return@beforeVariants
+		if (it !is HasAndroidTestBuilder) return@beforeVariants
+		val androidTest = android.sourceSets.named("androidTest").get()
+		if (androidTest.javaSources.isEmpty && androidTest.kotlinSources.isEmpty) {
+			logger.info(
+				"Disabling ${it.name} androidTest variant in ${project.path}" +
+						" as it has no sources in ${androidTest.srcDirs}"
+			)
+			it.androidTest.enable = false
 		}
 	}
 }

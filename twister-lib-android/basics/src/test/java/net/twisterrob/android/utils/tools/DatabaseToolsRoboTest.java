@@ -3,7 +3,6 @@ package net.twisterrob.android.utils.tools;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -18,7 +17,7 @@ import android.os.Build;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
-@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
+@Config(sdk = Build.VERSION_CODES.M)
 public class DatabaseToolsRoboTest {
 
 	@Rule
@@ -33,7 +32,7 @@ public class DatabaseToolsRoboTest {
 
 		// Even though Robolectric has a hardcoded version:
 		// https://github.com/robolectric/robolectric/blob/robolectric-4.15.1/gradle/libs.versions.toml#L99
-		// When running tests the version is still different (probably comes from JDK?).
+		// When running tests the version is still different (probably comes from Android SDK?).
 		assertEquals("v0(1)::3.32.2@" + dbFile.getAbsolutePath(), result);
 	}
 

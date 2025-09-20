@@ -3,6 +3,7 @@ package com.bumptech.glide.load.engine
 import android.annotation.SuppressLint
 import java.lang.reflect.Field
 
+@Suppress("EXPOSED_PACKAGE_PRIVATE_TYPE_FROM_INTERNAL_WARNING")
 internal val Engine.engineJobFactory: Engine.EngineJobFactory
 	@SuppressLint("VisibleForTests")
 	get() =

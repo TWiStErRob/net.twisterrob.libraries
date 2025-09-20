@@ -49,7 +49,28 @@ fun KotlinBaseExtension.configureKotlin() {
 	this as HasConfigurableKotlinCompilerOptions<*>
 	compilerOptions {
 		allWarningsAsErrors = true
-		freeCompilerArgs.add("-Xcontext-receivers")
+
+		// Kotlin 2.0: Add @ConsistentCopyVisibility to all data classes.
+		// See https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-consistent-copy-visibility/
+		freeCompilerArgs.add("-Xconsistent-data-class-copy-visibility")
+
+		// Kotlin 2.1: Add warning IDs so they can be investigated/suppressed easier.
+		// See https://youtrack.jetbrains.com/issue/KT-8087
+		freeCompilerArgs.add("-Xrender-internal-diagnostic-names")
+
+		// Kotlin 2.2: Enable context parameters whenever possible.
+		// See https://kotlinlang.org/docs/context-parameters.html
+		freeCompilerArgs.add("-Xcontext-parameters")
+
+		// Kotlin 2.2: Opt in to future behavior.
+		// > [ANNOTATION_WILL_BE_APPLIED_ALSO_TO_PROPERTY_OR_FIELD]
+		// > This annotation is currently applied to the value parameter only,
+		// > but in the future it will also be applied to property.
+		// > - To opt in to applying to both value parameter and property,
+		// >   add '-Xannotation-default-target=param-property' to your compiler arguments.
+		// > - To keep applying to the value parameter only, use the '@param:' annotation target.
+		// See https://kotlinlang.org/docs/whatsnew22.html#new-defaulting-rules-for-use-site-annotation-targets
+		freeCompilerArgs.add("-Xannotation-default-target=param-property")
 	}
 	jvmToolchain {
 		languageVersion = libs.versions.java.map(JavaLanguageVersion::of)
