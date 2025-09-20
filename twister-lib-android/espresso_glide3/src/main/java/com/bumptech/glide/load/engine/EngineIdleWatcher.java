@@ -21,6 +21,7 @@ public class EngineIdleWatcher implements EngineExternalLifecycle.PhaseCallbacks
 
 	private boolean logEvents = false;
 
+	@SuppressWarnings("this-escape") // Hacky-hack-hack, so yeah.
 	public EngineIdleWatcher(Engine engine) {
 		lifecycle = new EngineExternalLifecycle(engine, this);
 	}

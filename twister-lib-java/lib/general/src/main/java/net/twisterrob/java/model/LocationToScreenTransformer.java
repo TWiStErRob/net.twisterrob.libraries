@@ -1,6 +1,6 @@
 package net.twisterrob.java.model;
 
-public class LocationToScreenTransformer {
+public final class LocationToScreenTransformer {
 	private double minLat;
 	private double maxLat;
 	private double scaleY;
@@ -41,7 +41,7 @@ public class LocationToScreenTransformer {
 		alignY = (height - lat2Screen(maxLat)) / 2; // center vertically
 	}
 
-	protected void reset() {
+	private void reset() {
 		minLat = Double.POSITIVE_INFINITY;
 		maxLat = Double.NEGATIVE_INFINITY;
 		minLon = Double.POSITIVE_INFINITY;
@@ -49,7 +49,7 @@ public class LocationToScreenTransformer {
 		resetTransform();
 	}
 
-	protected void resetTransform() {
+	private void resetTransform() {
 		scaleX = scaleY = 1;
 		alignX = alignY = 0;
 	}

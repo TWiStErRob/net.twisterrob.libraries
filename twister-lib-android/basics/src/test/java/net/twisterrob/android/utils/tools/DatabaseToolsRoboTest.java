@@ -30,6 +30,9 @@ public class DatabaseToolsRoboTest {
 
 		String result = DatabaseTools.dbToString(db);
 
+		// Even though Robolectric has a hardcoded version:
+		// https://github.com/robolectric/robolectric/blob/robolectric-4.15.1/gradle/libs.versions.toml#L99
+		// When running tests the version is still different (probably comes from Android SDK?).
 		assertEquals("v0(1)::3.32.2@" + dbFile.getAbsolutePath(), result);
 	}
 

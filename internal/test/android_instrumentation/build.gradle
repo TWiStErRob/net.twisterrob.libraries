@@ -51,3 +51,8 @@ dependencyAnalysis {
 		}
 	}
 }
+
+// This module is meant to be used as androidTestImplementation, running on the device.
+// Mockito started referencing non-existent classes, but I think they're handling it internally.
+// TODO more specific exclusions?
+android.lint.disable.add("InvalidPackage")

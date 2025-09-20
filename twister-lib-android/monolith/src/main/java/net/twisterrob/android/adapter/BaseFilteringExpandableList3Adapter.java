@@ -12,6 +12,7 @@ public abstract class BaseFilteringExpandableList3Adapter<Level1, Level2, Level3
 	List<Level1> m_filteredGroups;
 	Map<Level1, List<Level2>> m_filteredChildren;
 
+	@SuppressWarnings("this-escape") // Self-observing adapter, design choice, can't do much with it.
 	public BaseFilteringExpandableList3Adapter(final Context context, ExpandableListView outerList,
 			Map<Level1, ? extends Map<Level2, ? extends List<Level3>>> data) {
 		super(context, outerList, data);

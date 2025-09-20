@@ -35,11 +35,13 @@ public class LoggingFragment extends Fragment {
 
 	protected LoggingDebugProvider debugInfoProvider;
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingFragment() {
 		super();
 		log("ctor");
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	@ContentView
 	public LoggingFragment(@LayoutRes int contentLayoutId) {
 		super(contentLayoutId);
