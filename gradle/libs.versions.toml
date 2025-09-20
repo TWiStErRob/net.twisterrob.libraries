@@ -75,7 +75,7 @@ test-junit = "4.13.2"
 test-params = "1.1.1"
 test-gwen = "1.0.2"
 test-mockito = "5.20.0"
-test-mockitoKotlin = "5.4.0"
+test-mockitoKotlin = "6.0.0"
 # Use this instead of 1.3
 # If `hamcrest-1.3` appears in the dependency list, check if it's excluded from all usages.
 test-hamcrest = "2.0.0.0"
