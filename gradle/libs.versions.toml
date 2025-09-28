@@ -178,7 +178,7 @@ test-mockitoKotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref
 test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }
 test-hamcrest-junit = { module = "org.hamcrest:hamcrest-junit", version.ref = "test-hamcrest" }
 test-shazamcrest = { module = "com.shazam:shazamcrest", version.ref = "test-shazamcrest" }
-test-mockServer = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
+test-mockServerJUnit4 = { module = "com.squareup.okhttp3:mockwebserver3-junit4", version.ref = "okhttp" }
 
 deprecated-hamcrestCore = { module = "org.hamcrest:hamcrest-core" }
 deprecated-hamcrestLibrary = { module = "org.hamcrest:hamcrest-library" }

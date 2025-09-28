@@ -13,12 +13,13 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import mockwebserver3.MockWebServer
+import mockwebserver3.junit4.MockWebServerRule
 import net.twisterrob.android.content.glide.logging.LoggingListener
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withColor
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withDrawable
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt
-import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.Rule
@@ -30,7 +31,9 @@ abstract class BaseGlideIdlingRuleTest(
 	@get:Rule val glide: TestRule
 ) {
 	@get:Rule val testName = TestName()
-	@get:Rule val server = MockWebServer()
+	@get:Rule val mockServerRule = MockWebServerRule()
+	private val server: MockWebServer get() = mockServerRule.server
+
 
 	@Test(timeout = 5_000)
 	fun testIdleWhenNothingIsHappening() {
