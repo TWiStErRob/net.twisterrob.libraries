@@ -63,7 +63,7 @@ public final class CollectionTools {
 	 * @throws IllegalArgumentException if the map is not empty
 	 * @since 1.6
 	 */
-	public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
+	public static <E> Set<E> newSetFromMap(@Nonnull Map<E, Boolean> map) {
 		if (map.isEmpty()) {
 			return new SetFromMap<>(map);
 		}
@@ -105,10 +105,14 @@ public final class CollectionTools {
 		private static final long serialVersionUID = 2454657854757543876L;
 
 		// must named as it, to pass serialization compatibility test.
+		@SuppressWarnings("serial") // Constructor makes sure it's serializable.
 		private final Map<E, Boolean> m;
 		private transient Set<E> backingSet;
 
-		SetFromMap(final Map<E, Boolean> map) {
+		SetFromMap(final @Nonnull Map<E, Boolean> map) {
+			if (!(map instanceof Serializable)) {
+				throw new IllegalArgumentException("Only instanceof Serializable maps are supported, received " + map.getClass());
+			}
 			m = map;
 			backingSet = map.keySet();
 		}

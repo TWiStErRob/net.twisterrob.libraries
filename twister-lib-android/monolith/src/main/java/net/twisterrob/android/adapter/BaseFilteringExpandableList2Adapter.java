@@ -13,6 +13,7 @@ public abstract class BaseFilteringExpandableList2Adapter<Group, Child, GroupVH,
 	List<Group> m_filteredGroups;
 	Map<Group, List<Child>> m_filteredChildren;
 
+	@SuppressWarnings("this-escape") // Self-observing adapter, design choice, can't do much with it.
 	public BaseFilteringExpandableList2Adapter(final Context context, final Collection<Group> groups,
 			final Map<Group, ? extends List<Child>> children) {
 		super(context, groups, children);

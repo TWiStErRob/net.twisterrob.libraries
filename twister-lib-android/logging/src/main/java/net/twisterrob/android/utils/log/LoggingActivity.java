@@ -48,11 +48,13 @@ public class LoggingActivity extends AppCompatActivity {
 		globalLogOnCreateView = log;
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	public LoggingActivity() {
 		super();
 		log("ctor");
 	}
 
+	@SuppressWarnings("this-escape") // Taking the risk on account of this being debug code.
 	@ContentView
 	public LoggingActivity(@LayoutRes int contentLayoutId) {
 		super(contentLayoutId);

@@ -28,6 +28,7 @@ public abstract class BaseExpandableList3Adapter<Level1, Level2, Level3, Level1V
 	private final Map<Level1, ? extends Map<Level2, ? extends List<Level3>>> m_data;
 	private final ExpandableListView m_outerList;
 
+	@SuppressWarnings("this-escape") // Original design choice for createChildrenMap().
 	public BaseExpandableList3Adapter(Context context, ExpandableListView outerList,
 			Map<Level1, ? extends Map<Level2, ? extends List<Level3>>> data) {
 		this.m_context = context;
@@ -43,6 +44,9 @@ public abstract class BaseExpandableList3Adapter<Level1, Level2, Level3, Level1V
 		refreshData();
 	}
 
+	/**
+	 * Warning: make sure {@code this} is not used in this method, as might be not fully initialized yet.
+	 */
 	protected Map<Level1, List<Level2>> createChildrenMap() {
 		return new HashMap<>();
 	}

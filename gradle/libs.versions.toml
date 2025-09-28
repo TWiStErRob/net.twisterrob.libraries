@@ -11,18 +11,18 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 [versions]
 project = "1.0"
 
-java = "1.8"
-agp = "8.11.1"
+java = "11"
+agp = "8.13.0"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.18"
 detekt = "1.23.8"
-dependencyAnalysis = "2.17.0"
-kotlin = "2.1.21"
-kotlin-ksp = "2.1.21-2.0.2"
+dependencyAnalysis = "3.0.4"
+kotlin = "2.2.20"
+kotlin-ksp = "2.2.20-2.0.3"
 kotlin-coroutines = "1.10.2"
 
 jsr305 = "3.0.2"
-jbrAnn = "26.0.2"
+jbrAnn = "26.0.2-1"
 slf4j = "1.7.36"
 slf4j2 = "2.0.17"
 guava-jre = "27.0.1-jre"
@@ -36,6 +36,7 @@ android-glide3 = "3.8.0"
 android-glide4 = "4.16.0"
 android-guava = "27.0.1-android"
 android-colorpicker = "3.1.0"
+android-desugar = "2.1.5"
 
 androidx-activity = "1.7.2" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-annotation = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/annotation
@@ -73,16 +74,15 @@ androidx-test-uiautomator = "2.3.0-alpha04" # https://developer.android.com/jetp
 test-junit = "4.13.2"
 test-params = "1.1.1"
 test-gwen = "1.0.2"
-# TODO replace mockito-inline with mockito-core when 5.x
-test-mockito = "4.11.0"
-test-mockitoKotlin = "4.1.0"
+test-mockito = "5.20.0"
+test-mockitoKotlin = "6.0.0"
 # Use this instead of 1.3
 # If `hamcrest-1.3` appears in the dependency list, check if it's excluded from all usages.
 test-hamcrest = "2.0.0.0"
 test-shazamcrest = "0.11"
 
 test-android-classpath = "1.2.7"
-test-android-robolectric = "4.15.1"
+test-android-robolectric = "4.16"
 test-android-plexus = "1.5.15"
 test-android-objenesis = "2.6"
 
@@ -106,6 +106,7 @@ orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
 orbit-viewModel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbit" }
 orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
 
+android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugar" }
 android-glide3 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide3" }
 android-glide4 = { module = "com.github.bumptech.glide:glide", version.ref = "android-glide4" }
 android-glide4-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "android-glide4" }
@@ -171,7 +172,7 @@ test-android-objenesis = { module = "org.objenesis:objenesis", version.ref = "te
 test-junit = { module = "junit:junit", version.ref = "test-junit" }
 test-params = { module = "pl.pragmatists:JUnitParams", version.ref = "test-params" }
 test-gwen = { module = "com.shazam:gwen", version.ref = "test-gwen" }
-test-mockito = { module = "org.mockito:mockito-inline", version.ref = "test-mockito" }
+test-mockito = { module = "org.mockito:mockito-core", version.ref = "test-mockito" }
 test-mockitoKotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "test-mockitoKotlin" }
 
 test-hamcrest = { module = "org.hamcrest:java-hamcrest", version.ref = "test-hamcrest" }

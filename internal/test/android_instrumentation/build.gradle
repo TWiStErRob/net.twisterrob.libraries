@@ -7,7 +7,7 @@ dependencies {
 	api(libs.test.params)
 	api "net.twisterrob.lib:twister-lib-hamcrest"
 	api "net.twisterrob.lib:twister-lib-mockito"
-	api(libs.test.android.mockito)
+	runtimeOnly(libs.test.android.mockito)
 	api "net.twisterrob.lib:twister-lib-junit4"
 	api "net.twisterrob.lib:twister-lib-test"
 	api(libs.test.hamcrest.junit)
@@ -51,3 +51,8 @@ dependencyAnalysis {
 		}
 	}
 }
+
+// This module is meant to be used as androidTestImplementation, running on the device.
+// Mockito started referencing non-existent classes, but I think they're handling it internally.
+// TODO more specific exclusions?
+android.lint.disable.add("InvalidPackage")
