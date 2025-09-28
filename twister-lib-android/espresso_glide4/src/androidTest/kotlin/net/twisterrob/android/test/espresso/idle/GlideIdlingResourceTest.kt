@@ -10,8 +10,9 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import mockwebserver3.MockWebServer
+import mockwebserver3.junit4.MockWebServerRule
 import net.twisterrob.android.content.glide.logging.LoggingListener
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -29,7 +30,9 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 class GlideIdlingResourceTest {
 
-	@get:Rule val server = MockWebServer()
+	@get:Rule val mockServerRule = MockWebServerRule()
+	private val server: MockWebServer get() = mockServerRule.server
+
 	@get:Rule val resetter = GlideResetRule()
 	@get:Rule val testName = TestName()
 

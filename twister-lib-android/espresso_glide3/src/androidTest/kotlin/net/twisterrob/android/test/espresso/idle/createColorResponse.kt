@@ -2,12 +2,14 @@ package net.twisterrob.android.test.espresso.idle
 
 import android.graphics.Bitmap
 import androidx.annotation.ColorInt
-import okhttp3.mockwebserver.MockResponse
+import mockwebserver3.MockResponse
 import okio.Buffer
 import org.junit.Assert.assertEquals
 
 fun createColorResponse(color: Int): MockResponse =
-	MockResponse().setBody(createPNGResponse(createColorImage(color)))
+	MockResponse.Builder()
+		.body(createPNGResponse(createColorImage(color)))
+		.build()
 
 private fun createPNGResponse(bitmap: Bitmap): Buffer =
 	Buffer().apply {

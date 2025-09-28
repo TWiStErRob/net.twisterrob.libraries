@@ -10,11 +10,12 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import mockwebserver3.MockWebServer
+import mockwebserver3.junit4.MockWebServerRule
 import net.twisterrob.android.content.glide.LoggingListener
 import net.twisterrob.android.content.glide.MultiRequestListener
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withBitmap
 import net.twisterrob.android.test.espresso.ImageViewMatchers.withPixelAt
-import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.nullValue
 import org.junit.Assert.assertEquals
@@ -33,7 +34,8 @@ import java.util.concurrent.TimeUnit
  */
 class GlideResetterTest {
 
-	@get:Rule val server = MockWebServer()
+	@get:Rule val mockServerRule = MockWebServerRule()
+	private val server: MockWebServer get() = mockServerRule.server
 
 	@Before fun setup() {
 		// Sadly this has to work by itself, using production code to prove itself. :(
