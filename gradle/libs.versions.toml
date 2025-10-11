@@ -33,7 +33,7 @@ okhttp = "5.2.1"
 # TODEL :glide3 consumer.pro on > 1.4
 android-svg = "1.4"
 android-glide3 = "3.8.0"
-android-glide4 = "4.16.0"
+android-glide4 = "5.0.5"
 android-guava = "27.0.1-android"
 android-colorpicker = "3.1.0"
 android-desugar = "2.1.5"
