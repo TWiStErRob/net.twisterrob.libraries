@@ -17,7 +17,7 @@ agp = "8.13.0"
 twisterrob = "0.18"
 detekt = "1.23.8"
 dependencyAnalysis = "3.2.0"
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kotlin-ksp = "2.3.0"
 kotlin-coroutines = "1.10.2"
 
