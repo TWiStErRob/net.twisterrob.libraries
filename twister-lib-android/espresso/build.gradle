@@ -52,9 +52,9 @@ dependencyAnalysis {
 	issues {
 		onUnusedDependencies {
 			// These dependencies are there to be provided to the consumers, keep them.
-			exclude(libs.androidx.test.junit.get().toString())
+			exclude(libs.androidx.test.junit)
 			// REPORT This dependency is actually used, but only via static imports.
-			exclude(libs.test.mockito.get().toString())
+			exclude(libs.test.mockito)
 		}
 	}
 }
