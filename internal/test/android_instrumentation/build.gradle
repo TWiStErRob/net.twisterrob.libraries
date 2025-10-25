@@ -17,7 +17,7 @@ dependencies {
 		exclude group: 'org.json', module: 'json'
 	}
 	// Android JUnit Runner
-	api(libs.androidx.test.runner)
+	runtimeOnly(libs.androidx.test.runner)
 	api(libs.androidx.test.junit)
 	api(libs.androidx.test.rules)
 
