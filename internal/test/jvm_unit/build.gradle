@@ -26,5 +26,9 @@ dependencyAnalysis {
 			// Don't report dependencies of this helper project, it exist to provide these dependencies.
 			severity("ignore")
 		}
+		onRuntimeOnly {
+			// It is the main artifact exposed from this module.
+			exclude(libs.test.junit)
+		}
 	}
 }

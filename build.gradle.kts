@@ -16,6 +16,9 @@ tasks.named("build") {
 
 // `gradlew buildHealth` or `gradle :some:module:projectHealth`
 dependencyAnalysis {
+	reporting {
+		printBuildHealth(true)
+	}
 	issues {
 		all {
 			onAny {
@@ -26,15 +29,15 @@ dependencyAnalysis {
 			}
 			onIncorrectConfiguration {
 				// R8 needs the annotations to be on the runtime classpath too.
-				exclude(libs.annotations.jsr305.get().toString())
+				exclude(libs.annotations.jsr305)
 			}
 			onCompileOnly {
 				// REPORT javac needs @Contract to be on the compile classpath with -Wall.
-				exclude(libs.annotations.jetbrains.get().toString())
+				exclude(libs.annotations.jetbrains)
 			}
 			onUnusedDependencies {
 				// R8 needs the annotations to be on the runtime classpath too.
-				exclude(libs.annotations.jsr305.get().toString())
+				exclude(libs.annotations.jsr305)
 			}
 		}
 	}
