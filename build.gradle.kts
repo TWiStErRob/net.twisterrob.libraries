@@ -16,6 +16,9 @@ tasks.named("build") {
 
 // `gradlew buildHealth` or `gradle :some:module:projectHealth`
 dependencyAnalysis {
+	reporting {
+		printBuildHealth(true)
+	}
 	issues {
 		all {
 			onAny {
