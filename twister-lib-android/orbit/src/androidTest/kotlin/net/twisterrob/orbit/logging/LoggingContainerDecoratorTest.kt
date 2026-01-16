@@ -28,7 +28,6 @@ import org.orbitmvi.orbit.annotation.OrbitExperimental
 import org.orbitmvi.orbit.blockingIntent
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.test.test
-import kotlin.jvm.java
 
 /**
  * @see LoggingContainerDecorator
