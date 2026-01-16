@@ -29,7 +29,7 @@
 			],
 			matchCurrentValue: "/-android$/",
 			allowedVersions: "/-android$/",
-			dependencyDashboardApproval: true
+			dependencyDashboardApproval: true,
 		},
 		{
 			description: "Keep Guava versions in sync with JRE variant. Disabled for now, because needs some investigation.",
