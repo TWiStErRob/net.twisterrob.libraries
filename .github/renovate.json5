@@ -29,7 +29,7 @@
 			],
 			matchCurrentValue: "/-android$/",
 			allowedVersions: "/-android$/",
-			enabled: false,
+			dependencyDashboardApproval: true,
 		},
 		{
 			description: "Keep Guava versions in sync with JRE variant. Disabled for now, because needs some investigation.",
@@ -38,7 +38,7 @@
 			],
 			matchCurrentValue: "/-jre$/",
 			allowedVersions: "/-jre$/",
-			enabled: false,
+			dependencyDashboardApproval: true,
 		},
 		{
 			description: "Keep these for compatibility, unsure exactly where it's used.",
@@ -46,7 +46,7 @@
 				"org.codehaus.plexus:plexus-utils",
 				"org.objenesis:objenesis",
 			],
-			enabled: false,
+			dependencyDashboardApproval: true,
 		},
 		{
 			description: "Don't update AndroidX packages yet.",
@@ -54,7 +54,7 @@
 				"androidx.*",
 				"com.google.android.material:*",
 			],
-			enabled: false,
+			dependencyDashboardApproval: true,
 		},
 		{
 			description: "Don't auto-merge Gradle versions yet, because this repository is used as git submodule.",
@@ -68,7 +68,7 @@
 			matchPackageNames: [
 				"gradle",
 			],
-			enabled: false,
+			dependencyDashboardApproval: true,
 		},
 	],
 }
