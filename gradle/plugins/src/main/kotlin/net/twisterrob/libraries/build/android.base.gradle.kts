@@ -21,7 +21,7 @@ dependencies {
 
 android {
 	namespace = project.autoNamespace
-	compileSdk = 35
+	compileSdk = 36
 	defaultConfig {
 		minSdk = 21
 	}
