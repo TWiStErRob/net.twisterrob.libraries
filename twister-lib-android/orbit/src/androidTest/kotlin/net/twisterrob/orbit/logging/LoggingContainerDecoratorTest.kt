@@ -27,7 +27,7 @@ import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.annotation.OrbitExperimental
 import org.orbitmvi.orbit.blockingIntent
 import org.orbitmvi.orbit.container
-import org.orbitmvi.orbit.test.test
+import org.orbitmvi.orbit.test.testWithInternalState
 
 /**
  * @see LoggingContainerDecorator
@@ -36,7 +36,7 @@ class LoggingContainerDecoratorTest {
 	@Test
 	fun testReduce() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
-		TestContainerHost(backgroundScope, mockEvents).test(this) {
+		TestContainerHost(backgroundScope, mockEvents).testWithInternalState(this) {
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testReduce()
@@ -67,7 +67,7 @@ class LoggingContainerDecoratorTest {
 	@Test
 	fun testSideEffect() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
-		TestContainerHost(backgroundScope, mockEvents).test(this) {
+		TestContainerHost(backgroundScope, mockEvents).testWithInternalState(this) {
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSideEffect()
@@ -95,7 +95,7 @@ class LoggingContainerDecoratorTest {
 	@Test
 	fun testInline() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
-		TestContainerHost(backgroundScope, mockEvents).test(this) {
+		TestContainerHost(backgroundScope, mockEvents).testWithInternalState(this) {
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testInline()
@@ -126,7 +126,7 @@ class LoggingContainerDecoratorTest {
 	@Test
 	fun testSubIntent() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
-		TestContainerHost(backgroundScope, mockEvents).test(this) {
+		TestContainerHost(backgroundScope, mockEvents).testWithInternalState(this) {
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSubIntent()
@@ -156,7 +156,7 @@ class LoggingContainerDecoratorTest {
 	@Test
 	fun testSubIntentNested() = runTest {
 		val mockEvents: OrbitEvents<TestState, TestEffect> = mock()
-		TestContainerHost(backgroundScope, mockEvents).test(this) {
+		TestContainerHost(backgroundScope, mockEvents).testWithInternalState(this) {
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testSubIntentNested()
