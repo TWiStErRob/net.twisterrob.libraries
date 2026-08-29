@@ -20,4 +20,12 @@ dependencies {
 	compileOnly(libs.androidx.recyclerview)
 
 	ksp(libs.android.glide4.ksp)
+	coreLibraryDesugaring(libs.android.desugar)
+}
+
+android {
+	compileOptions {
+		// Required for androidTest because Glide 5 uses Java 8 Functional APIs (Supplier).
+		coreLibraryDesugaringEnabled = true
+	}
 }
