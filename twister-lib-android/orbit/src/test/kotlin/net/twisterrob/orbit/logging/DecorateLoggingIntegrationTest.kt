@@ -124,7 +124,7 @@ class DecorateLoggingIntegrationTest {
 	fun testReduceWithParams() = runTest {
 		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.reduceWithParams(42, "str")
-			expectState(TestState(value = 1))
+			expectInternalState(TestState(value = 1))
 
 			inOrder(logger) {
 				verify(logger).trace(
@@ -190,7 +190,7 @@ class DecorateLoggingIntegrationTest {
 	fun testInlineOrbitBlockingIntent() = runTest {
 		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.inlineOrbit(42)
-			expectState(TestState(value = 42))
+			expectInternalState(TestState(value = 42))
 
 			inOrder(logger) {
 				verify(logger).trace(

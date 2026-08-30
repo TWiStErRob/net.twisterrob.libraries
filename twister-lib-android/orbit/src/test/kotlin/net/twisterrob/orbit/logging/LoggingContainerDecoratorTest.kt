@@ -40,7 +40,7 @@ class LoggingContainerDecoratorTest {
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testReduce()
-			expectState(TestState(1))
+			expectInternalState(TestState(1))
 
 			inOrder(mockEvents) {
 				val transformerStart = captureSingle {
@@ -99,7 +99,7 @@ class LoggingContainerDecoratorTest {
 			verifyNoInteractions(mockEvents)
 
 			containerHost.testInline()
-			expectState(TestState(1))
+			expectInternalState(TestState(1))
 
 			inOrder(mockEvents) {
 				val transformerStart = captureSingle {
