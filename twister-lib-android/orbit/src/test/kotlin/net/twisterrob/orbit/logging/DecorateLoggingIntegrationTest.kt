@@ -11,9 +11,9 @@ import org.mockito.ArgumentMatchers.matches
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
-import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.OrbitContainerHost
 import org.orbitmvi.orbit.blockingIntent
-import org.orbitmvi.orbit.container
+import org.orbitmvi.orbit.orbitContainer
 import org.orbitmvi.orbit.test.testWithInternalState
 import org.slf4j.Logger
 import java.util.regex.Pattern
@@ -224,10 +224,10 @@ class DecorateLoggingIntegrationTest {
 	private class TestContainerHost(
 		scope: CoroutineScope,
 		logger: Logger
-	) : ContainerHost<TestState, TestEffect> {
+	) : OrbitContainerHost<TestState, TestState, TestEffect> {
 
 		override val container =
-			scope.container<TestState, TestEffect>(TestState(value = 0))
+			scope.orbitContainer<TestState, TestEffect>(TestState(value = 0))
 				.decorateLogging(logger)
 
 		fun sideEffect(): Job =

@@ -22,11 +22,10 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verifyNoInteractions
-import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.annotation.OrbitExperimental
+import org.orbitmvi.orbit.OrbitContainer
+import org.orbitmvi.orbit.OrbitContainerHost
 import org.orbitmvi.orbit.blockingIntent
-import org.orbitmvi.orbit.container
+import org.orbitmvi.orbit.orbitContainer
 import org.orbitmvi.orbit.test.testWithInternalState
 
 /**
@@ -192,10 +191,10 @@ class LoggingContainerDecoratorTest {
 	private class TestContainerHost(
 		scope: CoroutineScope,
 		events: OrbitEvents<TestState, TestEffect>,
-	) : ContainerHost<TestState, TestEffect> {
+	) : OrbitContainerHost<TestState, TestState, TestEffect> {
 
 		override val container =
-			scope.container<TestState, TestEffect>(TestState(0))
+			scope.orbitContainer<TestState, TestEffect>(TestState(0))
 				.decorateForTest(events)
 
 		fun testReduce(): Job =
@@ -218,7 +217,6 @@ class LoggingContainerDecoratorTest {
 			}
 		}
 
-		@OptIn(OrbitExperimental::class)
 		fun testSubIntent() {
 			intent {
 				subIntent {
@@ -230,7 +228,6 @@ class LoggingContainerDecoratorTest {
 			}
 		}
 
-		@OptIn(OrbitExperimental::class)
 		fun testSubIntentNested() {
 			intent {
 				subIntent {
@@ -256,7 +253,9 @@ class LoggingContainerDecoratorTest {
 			/**
 			 * @see decorateLogging mimicking the real implementation, but with a mock listener.
 			 */
-			private fun <S : Any, SE : Any> Container<S, SE>.decorateForTest(events: OrbitEvents<S, SE>): Container<S, SE> =
+			private fun <S : Any, SE : Any> OrbitContainer<S, S, SE>.decorateForTest(
+				events: OrbitEvents<S, SE>,
+			): OrbitContainer<S, S, SE> =
 				LoggingContainerDecorator(this, events)
 		}
 	}
