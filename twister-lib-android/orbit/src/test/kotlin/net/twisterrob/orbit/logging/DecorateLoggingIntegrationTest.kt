@@ -11,10 +11,10 @@ import org.mockito.ArgumentMatchers.matches
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.inOrder
 import org.mockito.kotlin.mock
-import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.OrbitContainerHost
 import org.orbitmvi.orbit.blockingIntent
-import org.orbitmvi.orbit.container
-import org.orbitmvi.orbit.test.test
+import org.orbitmvi.orbit.orbitContainer
+import org.orbitmvi.orbit.test.testWithInternalState
 import org.slf4j.Logger
 import java.util.regex.Pattern
 
@@ -30,7 +30,7 @@ class DecorateLoggingIntegrationTest {
 
 	@Test
 	fun testSideEffect() = runTest {
-		TestContainerHost(backgroundScope, logger).test(this) {
+		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.sideEffect()
 			expectSideEffect(TestEffect1)
 
@@ -53,7 +53,7 @@ class DecorateLoggingIntegrationTest {
 
 	@Test
 	fun testNoParams() = runTest {
-		TestContainerHost(backgroundScope, logger).test(this) {
+		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.intentNoParams()
 			expectSideEffect(TestEffect1)
 
@@ -76,7 +76,7 @@ class DecorateLoggingIntegrationTest {
 
 	@Test
 	fun testUnusedParams() = runTest {
-		TestContainerHost(backgroundScope, logger).test(this) {
+		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.intentUnusedParams(42, "str")
 			expectSideEffect(TestEffect1)
 
@@ -99,7 +99,7 @@ class DecorateLoggingIntegrationTest {
 
 	@Test
 	fun testIntentWithParams() = runTest {
-		TestContainerHost(backgroundScope, logger).test(this) {
+		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.intentWithParams(42, "str")
 			expectSideEffect(TestEffect1)
 
@@ -122,9 +122,9 @@ class DecorateLoggingIntegrationTest {
 
 	@Test
 	fun testReduceWithParams() = runTest {
-		TestContainerHost(backgroundScope, logger).test(this) {
+		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.reduceWithParams(42, "str")
-			expectState(TestState(value = 1))
+			expectInternalState(TestState(value = 1))
 
 			inOrder(logger) {
 				verify(logger).trace(
@@ -150,7 +150,7 @@ class DecorateLoggingIntegrationTest {
 
 	@Test
 	fun testNestedIntent() = runTest {
-		TestContainerHost(backgroundScope, logger).test(this) {
+		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.nestedIntent()
 			expectSideEffect(TestEffect1)
 			expectSideEffect(TestEffect3)
@@ -188,9 +188,9 @@ class DecorateLoggingIntegrationTest {
 
 	@Test
 	fun testInlineOrbitBlockingIntent() = runTest {
-		TestContainerHost(backgroundScope, logger).test(this) {
+		TestContainerHost(backgroundScope, logger).testWithInternalState(this) {
 			containerHost.inlineOrbit(42)
-			expectState(TestState(value = 42))
+			expectInternalState(TestState(value = 42))
 
 			inOrder(logger) {
 				verify(logger).trace(
@@ -224,10 +224,10 @@ class DecorateLoggingIntegrationTest {
 	private class TestContainerHost(
 		scope: CoroutineScope,
 		logger: Logger
-	) : ContainerHost<TestState, TestEffect> {
+	) : OrbitContainerHost<TestState, TestState, TestEffect> {
 
 		override val container =
-			scope.container<TestState, TestEffect>(TestState(value = 0))
+			scope.orbitContainer<TestState, TestEffect>(TestState(value = 0))
 				.decorateLogging(logger)
 
 		fun sideEffect(): Job =

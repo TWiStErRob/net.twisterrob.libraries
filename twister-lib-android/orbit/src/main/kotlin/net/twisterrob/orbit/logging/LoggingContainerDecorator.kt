@@ -1,17 +1,17 @@
 package net.twisterrob.orbit.logging
 
 import kotlinx.coroutines.Job
-import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.ContainerDecorator
+import org.orbitmvi.orbit.OrbitContainer
+import org.orbitmvi.orbit.OrbitContainerDecorator
 import org.orbitmvi.orbit.annotation.OrbitInternal
 import org.orbitmvi.orbit.syntax.ContainerContext
 import org.orbitmvi.orbit.syntax.IntentContext
 import org.orbitmvi.orbit.syntax.Syntax
 
 class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
-	override val actual: Container<STATE, SIDE_EFFECT>,
+	override val actual: OrbitContainer<STATE, STATE, SIDE_EFFECT>,
 	private val events: OrbitEvents<STATE, SIDE_EFFECT>,
-) : ContainerDecorator<STATE, SIDE_EFFECT> {
+) : OrbitContainerDecorator<STATE, STATE, SIDE_EFFECT> {
 
 	interface OrbitEvents<STATE : Any, SIDE_EFFECT : Any> {
 
@@ -44,7 +44,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
 	}
 
 	/**
-	 * @see org.orbitmvi.orbit.ContainerHost.intent
+	 * @see org.orbitmvi.orbit.OrbitContainerHost.intent
 	 * @see org.orbitmvi.orbit.syntax.Syntax.reduce
 	 */
 	@OptIn(OrbitInternal::class)
@@ -82,7 +82,7 @@ class LoggingContainerDecorator<STATE : Any, SIDE_EFFECT : Any>(
  * We need to access the captured local variables to get our original reducer and intent lambdas.
  * These captured variables are kept in consumer ProGuard configuration.
  *
- * @see org.orbitmvi.orbit.ContainerHost.intent
+ * @see org.orbitmvi.orbit.OrbitContainerHost.intent
  * @see org.orbitmvi.orbit.syntax.Syntax.reduce
  */
 private fun <T : Function<*>> Function<*>.captured(localName: String): T =
