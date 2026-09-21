@@ -1,7 +1,7 @@
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android = { id = "com.android.application", version.ref = "agp" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+detekt = { id = "dev.detekt", version.ref = "detekt" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 twisterrob-quality = { id = "net.twisterrob.gradle.plugin.quality", version.ref = "twisterrob" }
 twisterrob-nagging = { id = "net.twisterrob.gradle.plugin.nagging", version.ref = "twisterrob" }
@@ -15,7 +15,7 @@ java = "11"
 agp = "8.13.2"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.20"
-detekt = "1.23.8"
+detekt = "2.0.0-alpha.6"
 dependencyAnalysis = "3.19.1"
 kotlin = "2.3.21"
 kotlin-ksp = "2.3.12"

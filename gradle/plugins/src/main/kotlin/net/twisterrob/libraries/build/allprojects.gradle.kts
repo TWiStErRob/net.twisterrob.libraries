@@ -30,8 +30,8 @@ configurations.configureEach {
 	}
 }
 
-tasks.withType<JavaCompile>().configureEach javac@{
-	this@javac.options.compilerArgs = this@javac.options.compilerArgs + listOf(
+tasks.withType<JavaCompile>().configureEach {
+	this.options.compilerArgs = this.options.compilerArgs + listOf(
 		// Enable all warnings the compiler knows.
 		"-Xlint:all",
 		// Fail build when any warning pops up.
@@ -45,7 +45,7 @@ plugins.withId("org.jetbrains.kotlin.jvm") {
 plugins.withId("org.jetbrains.kotlin.android") {
 	configure<KotlinBaseExtension>(KotlinBaseExtension::configureKotlin)
 }
-fun KotlinBaseExtension.configureKotlin() {
+private fun KotlinBaseExtension.configureKotlin() {
 	this as HasConfigurableKotlinCompilerOptions<*>
 	compilerOptions {
 		allWarningsAsErrors = true
@@ -80,7 +80,7 @@ fun KotlinBaseExtension.configureKotlin() {
 afterEvaluate {
 	// Have to apply it later, otherwise Test.javaVersion locks in value,
 	// before JavaBasePlugin has a chance to set up the convention.
-	tasks.withType<Test>().configureEach test@{
+	tasks.withType<Test>().configureEach {
 		if (javaVersion.isCompatibleWith(JavaVersion.VERSION_1_9)
 			&& !javaVersion.isCompatibleWith(JavaVersion.VERSION_17)
 		) { // 9 <= Java < 17
@@ -91,7 +91,7 @@ afterEvaluate {
 	}
 }
 
-tasks.withType<Test>().configureEach test@{
+tasks.withType<Test>().configureEach {
 	systemProperty("org.slf4j.simpleLogger.defaultLogLevel", "trace")
 	jvmArgs(
 		// Reduce occurrences of warning:
@@ -103,7 +103,7 @@ tasks.withType<Test>().configureEach test@{
 
 dependencyAnalysisSub {
 	issues {
-		// There are some configuration in root project's issues.all { ... } block. 
+		// There are some configuration in root project's issues.all { ... } block.
 
 		if (project.path.endsWith("-test_helpers")) {
 			val targetProject = project.path.removeSuffix("-test_helpers")
