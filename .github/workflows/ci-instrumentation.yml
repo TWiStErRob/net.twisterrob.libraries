@@ -21,13 +21,9 @@ jobs:
           || test_exit=$?
 
         ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace \
-          :test_report:createAggregatedTestReport \
+          :internal:test:aggregated_report:createAggregatedTestReport \
           -x connectedDebugAndroidTest \
           -x testDebugUnitTest
-
-        # The reusable workflow uploads merged artifacts only from this root directory.
-        mkdir -p build/androidTest-results
-        cp -R test_report/build/reports/tests/aggregated-test-report build/androidTest-results/
 
         exit "${test_exit}"
 

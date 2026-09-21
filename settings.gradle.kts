@@ -25,11 +25,10 @@ dependencyResolutionManagement {
 
 include(":internal")
 include(":internal:test")
+include(":internal:test:aggregated_report")
 include(":internal:test:jvm_unit")
 include(":internal:test:android_unit")
 include(":internal:test:android_instrumentation")
-
-include(":test_report")
 
 // Note: the container project is already relocated, any subprojects will be resolved relative to it.
 includeJava(":utils")
