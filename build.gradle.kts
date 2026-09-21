@@ -1,6 +1,5 @@
 plugins {
 	id("net.twisterrob.libraries.root")
-	id("net.twisterrob.libraries.build.instrumentedTestReport")
 	id("com.autonomousapps.dependency-analysis")
 }
 
