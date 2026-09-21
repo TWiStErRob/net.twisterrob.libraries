@@ -32,8 +32,10 @@ tasks.withType<ValidatePlugins>().configureEach {
 }
 
 detekt {
+	buildUponDefaultConfig = true
 	allRules = true
 	parallel = true
+	config.from("../../config/detekt/detekt.yml")
 }
 
 fun Provider<PluginDependency>.asMarkerArtifact(): Provider<String> = map {
