@@ -8,6 +8,6 @@ plugins {
 
 project.findProject("${project.path}-test_helpers")?.let { testHelpers ->
 	dependencies {
-		androidTestImplementation(testHelpers)
+		androidTestImplementation(project(testHelpers.path))
 	}
 }
