@@ -12,6 +12,7 @@ repositories {
 	mavenCentral()
 }
 
+@Suppress("detekt.StringLiteralDuplication")
 dependencies {
 	// Need to use ""() notation, because neither library, nor application plugin applied on this convention.
 	"implementation"(platform("net.twisterrob.libraries.build:platform-libs"))
@@ -38,6 +39,7 @@ android {
 
 androidComponents {
 	val testBuildType = (android as? TestedExtension)?.testBuildType
+	@Suppress("detekt.LabeledExpression")
 	beforeVariants {
 		if (it.buildType != testBuildType) return@beforeVariants
 		if (it !is HasAndroidTestBuilder) return@beforeVariants
@@ -52,8 +54,8 @@ androidComponents {
 	}
 }
 
-tasks.withType<JavaCompile>().configureEach javac@{
-	this@javac.options.compilerArgs = this@javac.options.compilerArgs + listOf(
+tasks.withType<JavaCompile>().configureEach {
+	this.options.compilerArgs = this.options.compilerArgs + listOf(
 		// Google's compilers emit some weird stuff (espresso, dagger, etc.)
 		// warning: [classfile] MethodParameters attribute introduced in version 52.0 class files
 		// is ignored in version 51.0 class files
