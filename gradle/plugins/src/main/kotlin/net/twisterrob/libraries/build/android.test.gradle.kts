@@ -11,6 +11,8 @@ android {
 	defaultConfig {
 		multiDexEnabled = true
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+		// Work around https://issuetracker.google.com/issues/563732801 until AGP reports ignored tests as skipped.
+		testInstrumentationRunnerArguments["notAnnotation"] = "org.junit.Ignore"
 	}
 }
 
