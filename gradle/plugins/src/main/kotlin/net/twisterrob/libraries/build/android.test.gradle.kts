@@ -36,8 +36,6 @@ if (!enableAdditionalTestOutput) {
 	@Suppress("DEPRECATION")
 	tasks.withType<com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask>()
 		.configureEach {
-			additionalTestOutputDir.set(
-				project.layout.buildDirectory.dir("tmp/disabledAdditionalTestOutput/${name}")
-			)
+			additionalTestOutputDir = project.layout.buildDirectory.dir("tmp/disabledAdditionalTestOutput/${name}")
 		}
 }
