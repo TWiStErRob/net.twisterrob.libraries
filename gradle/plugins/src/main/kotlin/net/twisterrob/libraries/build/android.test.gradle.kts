@@ -30,8 +30,7 @@ android {
  * UTP's broken device-output collection. Remove this when AGP handles both the disabled option and
  * API 21 path resolution correctly.
  */
-val enableAdditionalTestOutput = ProjectOptions(providers)
-	.get(BooleanOption.ENABLE_ADDITIONAL_ANDROID_TEST_OUTPUT)
+val enableAdditionalTestOutput = ProjectOptions(providers).get(BooleanOption.ENABLE_ADDITIONAL_ANDROID_TEST_OUTPUT)
 if (!enableAdditionalTestOutput) {
 	@Suppress("DEPRECATION")
 	tasks.withType<com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask>()
