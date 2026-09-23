@@ -30,7 +30,7 @@ android {
 // TODEL https://github.com/TWiStErRob/github-workflows/issues/98
 // Temporary workaround: the reusable workflow only uploads merged reports from this directory.
 tasks.withType<TestReportTask>().named { it == "createAggregatedTestReport" }.configureEach {
-	testReport.set(rootProject.layout.buildDirectory.dir("androidTest-results"))
+	testReport = rootProject.layout.buildDirectory.dir("androidTest-results")
 }
 
 repositories {
