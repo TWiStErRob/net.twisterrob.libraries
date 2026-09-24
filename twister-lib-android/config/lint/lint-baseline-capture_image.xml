@@ -2,61 +2,6 @@
 <issues format="6" by="lint 9.4.1" type="baseline" client="gradle" dependencies="false" name="AGP (9.4.1)" variant="all" version="9.4.1">
 
     <issue
-        id="ThreadConstraint"
-        message="Condition must run from `@WorkerThread`, while branches must run from `@{Main,Ui}Thread`"
-        errorLine1="    if (callback.onFocus(success)) {"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/net/twisterrob/android/view/CameraPreview.java"
-            line="298"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="ThreadConstraint"
-        message="Statement must run from `@{Main,Ui}Thread`, incompatible with earlier code that must run from `@WorkerThread`"
-        errorLine1="      flipSelection();"
-        errorLine2="      ~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/net/twisterrob/android/activity/CaptureImage.java"
-            line="696"
-            column="7"/>
-    </issue>
-
-    <issue
-        id="ThreadConstraint"
-        message="Condition must run from `@WorkerThread`, while branches must run from `@{Main,Ui}Thread`"
-        errorLine1="     if (doCrop(selection)) {"
-        errorLine2="         ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/net/twisterrob/android/activity/CaptureImage.java"
-            line="731"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="ThreadConstraint"
-        message="Statement must run from `@{Main,Ui}Thread`, incompatible with earlier code that must run from `@WorkerThread`"
-        errorLine1="      flipSelection();"
-        errorLine2="      ~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/net/twisterrob/android/activity/CaptureImage.java"
-            line="741"
-            column="7"/>
-    </issue>
-
-    <issue
-        id="ThreadConstraint"
-        message="Condition must run from `@WorkerThread`, while branches must run from `@{Main,Ui}Thread`"
-        errorLine1="      if (doCrop(selection)) {"
-        errorLine2="          ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/net/twisterrob/android/activity/CaptureImage.java"
-            line="742"
-            column="11"/>
-    </issue>
-
-    <issue
         id="ConvertToWebp"
         message="One or more images in this project can be converted to the WebP format which typically results in smaller file sizes, even for lossless conversion">
         <location

@@ -16,6 +16,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -691,6 +692,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 			disableControls();
 			if (mSavedFile == null) {
 				if (!take(new Callback<byte[]>() {
+					@SuppressLint("ThreadConstraint") // TODO
 					@Override public void call(@Nullable byte[] data) {
 						doSave(data);
 						flipSelection();
@@ -721,6 +723,7 @@ public class CaptureImage extends ComponentActivity implements ActivityCompat.On
 	}
 
 	private class CropClickListener implements OnClickListener {
+		@SuppressLint("ThreadConstraint") // TODO
 		@Override public void onClick(View v) {
 			final RectF selection = getPictureRect();
 			// FIXME replace this with proper Glide.with calls
