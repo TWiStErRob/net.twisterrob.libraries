@@ -4,7 +4,6 @@ android = { id = "com.android.application", version.ref = "agp" }
 detekt = { id = "dev.detekt", version.ref = "detekt" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 twisterrob-quality = { id = "net.twisterrob.gradle.plugin.quality", version.ref = "twisterrob" }
-twisterrob-nagging = { id = "net.twisterrob.gradle.plugin.nagging", version.ref = "twisterrob" }
 twisterrob-android = { id = "net.twisterrob.gradle.plugin.android-app", version.ref = "twisterrob" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 
@@ -12,12 +11,12 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 project = "1.0"
 
 java = "11"
-agp = "8.13.2"
+agp = "9.4.1"
 # https://github.com/TWiStErRob/net.twisterrob.gradle/releases
 twisterrob = "0.20"
 detekt = "2.0.0-alpha.6"
 dependencyAnalysis = "3.19.1"
-kotlin = "2.3.21"
+kotlin = "2.4.20"
 kotlin-ksp = "2.3.12"
 kotlin-coroutines = "1.11.0"
 

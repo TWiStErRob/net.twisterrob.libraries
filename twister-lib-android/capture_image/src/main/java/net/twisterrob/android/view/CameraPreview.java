@@ -294,6 +294,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 			return;
 		}
 		android.hardware.Camera.AutoFocusCallback cameraCallback = new android.hardware.Camera.AutoFocusCallback() {
+			@SuppressLint("ThreadConstraint") // TODO
 			@Override public void onAutoFocus(boolean success, android.hardware.Camera camera) {
 				if (callback.onFocus(success)) {
 					takePicture(callback, false);

@@ -23,13 +23,13 @@ dependencies {
 android {
 	namespace = project.autoNamespace
 	compileSdk = 37
-	defaultConfig {
+	defaultConfig.apply {
 		minSdk = 21
 	}
-	buildFeatures {
+	buildFeatures.apply {
 		buildConfig = false
 	}
-	lint {
+	lint.apply {
 		warningsAsErrors = true
 		checkAllWarnings = true
 		lintConfig = rootDir.resolve("twister-lib-android/config/lint/lint.xml")

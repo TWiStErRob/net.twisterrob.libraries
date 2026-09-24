@@ -1,5 +1,3 @@
-import net.twisterrob.gradle.doNotNagAbout
-
 rootProject.name = "net-twisterrob-libraries"
 
 // TODO enable when https://issuetracker.google.com/issues/300617088
@@ -25,6 +23,7 @@ dependencyResolutionManagement {
 
 include(":internal")
 include(":internal:test")
+include(":internal:test:aggregated_report")
 include(":internal:test:jvm_unit")
 include(":internal:test:android_unit")
 include(":internal:test:android_instrumentation")
@@ -90,17 +89,3 @@ fun Settings.includeAndroidWithTestHelpers(modulePath: String) {
 	val testHelpersModule = project(testHelpersModulePath)
 	testHelpersModule.projectDir = project(modulePath).projectDir.resolve("test_helpers")
 }
-
-val gradleVersion: String = GradleVersion.current().version
-
-// TODEL Gradle 8.14 vs AGP 8.9 https://issuetracker.google.com/issues/408334529
-@Suppress("detekt.MaxLineLength")
-doNotNagAbout(
-	"Retrieving attribute with a null key. " +
-			"This behavior has been deprecated. " +
-			"This will fail with an error in Gradle 10. " +
-			"Don't request attributes from attribute containers using null keys. " +
-			"Consult the upgrading guide for further information: " +
-			"https://docs.gradle.org/${gradleVersion}/userguide/upgrading_version_8.html#null-attribute-lookup",
-	"at com.android.build.gradle.internal.ide.dependencies.ArtifactUtils.isAndroidProjectDependency(ArtifactUtils.kt:539)",
-)

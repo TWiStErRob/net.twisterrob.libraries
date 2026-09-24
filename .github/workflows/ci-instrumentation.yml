@@ -15,7 +15,19 @@ jobs:
       java-version: 21
       # language=bash
       script: |
-        ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace connectedCheck :mergeAndroidReports
+        # Work around https://issuetracker.google.com/issues/563732801 on the flashless emulator.
+        test_exit=0
+        ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace \
+          -Pandroid.testInstrumentationRunnerArguments.notClass=net.twisterrob.android.activity.CaptureImageTest_Flash \
+          connectedCheck \
+          || test_exit=$?
+
+        ./gradlew --no-daemon --no-configuration-cache --no-build-cache --continue --stacktrace \
+          :internal:test:aggregated_report:createAggregatedTestReport \
+          -x connectedDebugAndroidTest \
+          -x testDebugUnitTest
+
+        exit "${test_exit}"
 
     permissions:
       contents: read
